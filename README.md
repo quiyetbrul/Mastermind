@@ -7,7 +7,6 @@
   - [Technologies](#technologies)
   - [Others](#others)
 - [Setup and Run](#setup-and-run)
-- [Walkthrough](#walkthrough)
 - [Features](#features)
 - [Development](#development)
 - [Installation](#installation)
