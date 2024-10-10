@@ -9,7 +9,7 @@
 #include <unistd.h>
 #endif
 
-void clearScreen() {
+void ClearScreen() {
 #ifdef _WIN32
   system("cls");
 #else
@@ -17,7 +17,7 @@ void clearScreen() {
 #endif
 }
 
-void closeTerminal() {
+void CloseTerminal() {
 #ifdef _WIN32
   // Close terminal on Windows
   ExitProcess(0);
@@ -27,7 +27,7 @@ void closeTerminal() {
 #endif
 }
 
-void setTerminalSize(const int &width, const int &height) {
+void SetTerminalSize(const int &width, const int &height) {
 #ifdef _WIN32
   HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
   if (hOut == INVALID_HANDLE_VALUE) {
@@ -67,7 +67,7 @@ void setTerminalSize(const int &width, const int &height) {
 #endif
 }
 
-void setTerminalTitle(const std::string &title) {
+void SetTerminalTitle(const std::string &title) {
 #ifdef _WIN32
   SetConsoleTitle(title.c_str());
 #else

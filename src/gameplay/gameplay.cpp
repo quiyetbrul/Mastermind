@@ -21,7 +21,7 @@ void Gameplay::Start() {
     break;
   case 3:
     Goodbye();
-    closeTerminal();
+    CloseTerminal();
     break;
   }
 }
@@ -30,6 +30,6 @@ void Gameplay::Game() {
   std::vector<int> secretCode;
   srand(time(0));
   for (int i = 0; i < kSecretCodeLength; i++) {
-    secretCode.push_back(gen_random(kMinSecretCode, kMaxSecretCodeDigit));
+    secretCode.push_back(GenRandom(kMinSecretCode, kMaxSecretCodeDigit));
   }
 }

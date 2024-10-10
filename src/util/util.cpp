@@ -4,11 +4,11 @@
 #include <iostream>
 
 // TODO: use API to generate random number
-int gen_random(const int &min, const int &max) {
+int GenRandom(const int &min, const int &max) {
   return rand() % (max - min + 1) + min;
 }
 
-int inputInteger(std::string prompt, int startRange, int endRange) {
+int InputInteger(std::string prompt, int startRange, int endRange) {
   int input;
   do {
     std::cout << prompt;

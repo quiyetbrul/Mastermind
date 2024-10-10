@@ -11,16 +11,16 @@
 #define ANSI_COLOR_CYAN "\x1b[36m"
 #define ANSI_COLOR_RESET "\x1b[0m"
 
-void clearScreen();
+void ClearScreen();
 
-void closeTerminal();
+void CloseTerminal();
 
-void setTerminalSize(const int &width, const int &height);
+void SetTerminalSize(const int &width, const int &height);
 
-void setTerminalTitle(const std::string &title);
+void SetTerminalTitle(const std::string &title);
 
-int gen_random(const int &min, const int &max);
+int GenRandom(const int &min, const int &max);
 
-int inputInteger(std::string prompt, int startRange, int endRange);
+int InputInteger(std::string prompt, int startRange, int endRange);
 
 #endif // UTIL_H_

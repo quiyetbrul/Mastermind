@@ -10,8 +10,8 @@ const int TERMINAL_HEIGHT = 24;
  * @return Returns 0 when execution is successful
  */
 int main() {
-  setTerminalSize(TERMINAL_WIDTH, TERMINAL_HEIGHT);
-  setTerminalTitle("Mastermind Game by Quiyet Brul");
+  SetTerminalSize(TERMINAL_WIDTH, TERMINAL_HEIGHT);
+  SetTerminalTitle("Mastermind Game by Quiyet Brul");
 
   Gameplay gameplay;
   gameplay.Start();
