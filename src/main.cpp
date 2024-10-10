@@ -1,6 +1,4 @@
-#include <iostream>
-
-#include "gameplay.cpp"
+#include "gameplay.h"
 
 int main() {
     gameplay();
