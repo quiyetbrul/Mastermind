@@ -14,7 +14,7 @@ int main() {
   setTerminalTitle("Mastermind Game by Quiyet Brul");
 
   Gameplay gameplay;
-  gameplay.gameplay();
+  gameplay.Start();
 
   return 0;
 }

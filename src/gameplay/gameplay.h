@@ -1,12 +1,14 @@
-#ifndef __GAMEPLAY_H__
-#define __GAMEPLAY_H__
+#ifndef GAMEPLAY_H_
+#define GAMEPLAY_H_
 
 class Gameplay {
 public:
-  void gameplay();
+  Gameplay();
+
+  void Start();
 
 private:
-  void game();
+  void Game();
 };
 
-#endif // __GAMEPLAY_H__
+#endif // GAMEPLAY_H_

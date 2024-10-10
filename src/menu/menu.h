@@ -1,11 +1,11 @@
-#ifndef __MENU_H__
-#define __MENU_H__
+#ifndef MENU_H_
+#define MENU_H_
 
-int menu();
-void instructions();
-void title();
-void congratulations();
-void tryAgain();
-void goodbye();
+int Menu();
+void Instructions();
+void Title();
+void Congratulations();
+void TryAgain();
+void Goodbye();
 
-#endif // __MENU_H__
+#endif // MENU_H_

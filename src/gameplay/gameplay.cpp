@@ -5,30 +5,31 @@
 #include "../menu/menu.h"
 #include "../util/util.h"
 
-const int MIN_SECRET_CODE = 0;
-const int MAX_SECRET_CODE = 7;
-const int SECRET_CODE_LENGTH = 4;
+const int kMinSecretCode = 0;
+const int kMaxSecretCodeDigit = 7;
+const int kSecretCodeLength = 4;
 
-void Gameplay::gameplay() {
-  int menuChoice = menu();
+void Gameplay::Start() {
+  int menuChoice = Menu();
   switch (menuChoice) {
-    game();
+    Game();
   case 1:
     break;
   case 2:
-    instructions();
+    Instructions();
+    // TODO: Add a prompt to go back to the main menu
     break;
   case 3:
-    goodbye();
+    Goodbye();
     closeTerminal();
     break;
   }
 }
 
-void Gameplay::game() {
+void Gameplay::Game() {
   std::vector<int> secretCode;
   srand(time(0));
-  for (int i = 0; i < SECRET_CODE_LENGTH; i++) {
-    secretCode.push_back(gen_random(MIN_SECRET_CODE, MAX_SECRET_CODE));
+  for (int i = 0; i < kSecretCodeLength; i++) {
+    secretCode.push_back(gen_random(kMinSecretCode, kMaxSecretCodeDigit));
   }
 }

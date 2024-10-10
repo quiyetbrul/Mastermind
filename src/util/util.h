@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef UTIL_H_
+#define UTIL_H_
 
 #include <string>
 
@@ -23,4 +23,4 @@ int gen_random(const int &min, const int &max);
 
 int inputInteger(std::string prompt, int startRange, int endRange);
 
-#endif // UTIL_H
+#endif // UTIL_H_
