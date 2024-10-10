@@ -9,7 +9,6 @@ int Menu() {
   std::cout << "1. Play\n";
   std::cout << "2. Instructions\n";
   std::cout << "3. Exit\n";
-  std::cout << "Enter your choice: ";
   int choice = InputInteger("Enter your choice: ", 1, 3);
   return choice;
 }

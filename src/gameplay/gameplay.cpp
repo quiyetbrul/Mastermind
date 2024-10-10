@@ -9,6 +9,8 @@ const int kMinSecretCode = 0;
 const int kMaxSecretCodeDigit = 7;
 const int kSecretCodeLength = 4;
 
+Gameplay::Gameplay() {}
+
 void Gameplay::Start() {
   int menuChoice = Menu();
   switch (menuChoice) {

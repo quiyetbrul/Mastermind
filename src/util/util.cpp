@@ -8,7 +8,8 @@ int GenRandom(const int &min, const int &max) {
   return rand() % (max - min + 1) + min;
 }
 
-int InputInteger(std::string prompt, int startRange, int endRange) {
+int InputInteger(const std::string prompt, const int &startRange,
+                 const int &endRange) {
   int input;
   do {
     std::cout << prompt;

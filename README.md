@@ -30,6 +30,7 @@ Whether you're looking for a quick mental workout or a fun way to pass the time.
 ### Others
 
 - [ASCIIDecorator](https://marketplace.visualstudio.com/items?itemName=helixquar.asciidecorator)
+- [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
 - [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
 - [Random Integer Generator](https://www.random.org/clients/http/api/)
 
