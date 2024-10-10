@@ -10,7 +10,6 @@ const int TERMINAL_HEIGHT = 24;
  * @return Returns 0 when execution is successful
  */
 int main() {
-  // Set terminal title
   setTerminalSize(TERMINAL_WIDTH, TERMINAL_HEIGHT);
   setTerminalTitle("Mastermind Game by Quiyet Brul");
 
