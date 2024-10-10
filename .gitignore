@@ -49,6 +49,9 @@ CTestTestfile.cmake
 _deps
 build/*
 
+### Cache ###
+**/.cache/*
+
 ### CMake Patch ###
 # External projects
 *-prefix/
@@ -60,6 +63,7 @@ build/*
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/*.code-snippets
+.DS_Store
 
 # Local History for Visual Studio Code
 .history/
