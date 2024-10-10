@@ -1,6 +1,6 @@
-#ifndef GAMEPLAY_H
-#define GAMEPLAY_H
+#ifndef __GAMEPLAY_H__
+#define __GAMEPLAY_H__
 
 void gameplay();
 
-#endif // GAMEPLAY_H
+#endif // __GAMEPLAY_H__

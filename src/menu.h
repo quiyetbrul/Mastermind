@@ -1,9 +1,9 @@
-#ifndef MENU_H
-#define MENU_H
+#ifndef __MENU_H__
+#define __MENU_H__
 
 void title();
 void congratulations();
 void tryAgain();
 void goodbye();
 
-#endif // MENU_H
+#endif // __MENU_H__
