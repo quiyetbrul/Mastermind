@@ -19,8 +19,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(${PROJECT_NAME}
                                 src/main.cpp
-                                src/gameplay.cpp
-                                src/menu.cpp)
+                                src/Gameplay/gameplay.cpp
+                                src/Menu/menu.cpp
+                                src/Util/util.cpp
+                                )
 
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME}
