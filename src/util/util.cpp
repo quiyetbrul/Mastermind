@@ -3,23 +3,9 @@
 #include <cstdlib>
 #include <iostream>
 
-void clearScreen() {
-#ifdef _WIN32
-  system("cls");
-#else
-  system("clear");
-#endif
-}
+// TODO: separate OS specific code
 
-void closeTerminal() {
-#ifdef _WIN32
-  // Close terminal on Windows
-  ExitProcess(0);
-#else
-  // Close terminal on Unix-like systems
-  exit(0);
-#endif
-}
+
 
 // TODO: use API to generate random number
 int gen_random(const int &min, const int &max) {

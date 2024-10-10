@@ -15,6 +15,10 @@ void clearScreen();
 
 void closeTerminal();
 
+void setTerminalSize(const int &width, const int &height);
+
+void setTerminalTitle(const std::string &title);
+
 int gen_random(const int &min, const int &max);
 
 int inputInteger(std::string prompt, int startRange, int endRange);
