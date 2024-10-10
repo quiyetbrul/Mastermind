@@ -3,10 +3,6 @@
 #include <cstdlib>
 #include <iostream>
 
-// TODO: separate OS specific code
-
-
-
 // TODO: use API to generate random number
 int gen_random(const int &min, const int &max) {
   return rand() % (max - min + 1) + min;
