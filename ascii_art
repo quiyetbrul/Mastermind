@@ -45,7 +45,7 @@ void TryAgain() {
 
 void Goodbye() {
   ClearScreen();
-  std::cout << ANSI_COLOR_MAGENTA;
+  std::cout << ANSI_COLOR_BLUE;
   std::cout << " ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗\n";
   std::cout << "██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔════╝\n";
   std::cout << "██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗\n";
