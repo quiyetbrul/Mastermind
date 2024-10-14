@@ -13,7 +13,7 @@ const int kTerminalHeight = 24;
 #define ANSI_COLOR_YELLOW "\x1b[33m"
 #define ANSI_COLOR_BLUE "\x1b[34m"
 #define ANSI_RESET "\x1b[0m"
-#define ANSI_BLINK = "\x1b[5m"
+#define ANSI_BLINK "\x1b[5m"
 
 const int kMinSecretCode = 0;
 const int kMaxSecretCodeDigit = 7;

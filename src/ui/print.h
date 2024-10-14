@@ -1,5 +1,8 @@
 // clang-format off
 
+#ifndef PRINT_H_
+#define PRINT_H_
+
 #include "../util/util.h"
 
 #include <iostream>
@@ -26,7 +29,6 @@ inline void Title() {
 inline void Congratulations() {
   ClearScreen();
   std::cout << ANSI_COLOR_GREEN << ANSI_BLINK;
-  std::cout << "HELLO";
   std::cout << " ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗\n";
   std::cout << "██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝\n";
   std::cout << "██║     ██║   ██║██╔██╗ ██║██║  ███╗██████╔╝███████║   ██║   ██║   ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗\n";
@@ -59,3 +61,5 @@ inline void Goodbye() {
   std::cout << " ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝\n\n";
   std::cout << ANSI_RESET;
 }
+
+#endif // PRINT_H_
