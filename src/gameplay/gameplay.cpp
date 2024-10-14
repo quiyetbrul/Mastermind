@@ -28,19 +28,14 @@ void Gameplay::Start() {
 void Gameplay::Game() {
   Title();
 
-  std::string secret_code = std::to_string(
-      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
+  std::string secret_code =
+      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit);
   std::cout << secret_code << std::endl;
   int life = 10;
-  // TODO: ask whether this is a an option while in game
-  // or leaving previous guesses visible on the screen suffices
-  std::unordered_map<int, std::vector<int>> guess_history;
   int i = 0;
 
-  std::vector<int> secret_code_count{kSecretCodeLength, 0};
-  for (const auto &i : secret_code) {
-    secret_code_count[i]++;
-  }
+  // TODO: ask whether history is a an option while in game
+  // or leaving previous guesses visible on the screen suffices
 
   while (life > 0) {
     std::string user_guess = InputGuess("Enter your guess: ");

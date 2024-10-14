@@ -12,7 +12,7 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
 }
 
 // Function to generate a random number using Random.org API
-int GenRandom(const int &generate, const int &min, const int &max) {
+std::string GenRandom(const int &generate, const int &min, const int &max) {
   CURL *curl;
   CURLcode res;
   std::string read_buffer;
@@ -31,7 +31,7 @@ int GenRandom(const int &generate, const int &min, const int &max) {
 
     if (res == CURLE_OK) {
       try {
-        return std::stoi(read_buffer);
+        return read_buffer;
       } catch (const std::exception &e) {
         std::cerr << "Failed to parse random number: " << e.what() << std::endl;
       }
@@ -42,7 +42,11 @@ int GenRandom(const int &generate, const int &min, const int &max) {
   }
 
   // Fallback to local random number generation
-  return rand() % (max - min + 1) + min;
+  std::string random_number = "";
+  for (int i = 0; i < generate; i++) {
+    random_number += std::to_string(rand() % (max - min + 1) + min);
+  }
+  return random_number;
 }
 
 int InputInteger(const std::string prompt, const int &start_range,
