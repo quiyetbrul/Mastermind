@@ -20,7 +20,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(${PROJECT_NAME}
                                 src/main.cpp
                                 src/gameplay/gameplay.cpp
-                                src/menu/menu.cpp
+                                src/ui/menu.cpp
                                 src/util/util.cpp
                                 src/util/util_os.cpp
                                 )
