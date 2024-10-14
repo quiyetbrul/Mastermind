@@ -1,15 +1,16 @@
 #ifndef GAMEPLAY_H_
 #define GAMEPLAY_H_
 
-#include <vector>
+#include <string>
 
 class Gameplay {
 public:
   Gameplay();
 
   void Start();
-  std::string GiveFeedback(const std::vector<int> &secretCode,
-                    const std::vector<int> &userGuess);
+
+  std::string GiveFeedback(const std::string &secretCode,
+                           const std::string &guesses);
 
 private:
   void Game();

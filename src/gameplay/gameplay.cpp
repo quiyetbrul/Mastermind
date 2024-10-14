@@ -6,10 +6,6 @@
 #include "../ui/print.h"
 #include "../util/util.h"
 
-const int kMinSecretCode = 0;
-const int kMaxSecretCodeDigit = 7;
-const int kSecretCodeLength = 4;
-
 Gameplay::Gameplay() {}
 
 void Gameplay::Start() {
@@ -31,50 +27,44 @@ void Gameplay::Start() {
 
 void Gameplay::Game() {
   Title();
-  std::vector<int> secretCode{0, 1, 3, 5};
-  // TODO: uncomment this to generate a random secret code
-  // for (int i = 0; i < kSecretCodeLength; i++) {
-  //   secretCode.push_back(GenRandom(kMinSecretCode, kMaxSecretCodeDigit));
-  // }
-  // for (const auto &i : secretCode) {
-  //   std::cout << i;
-  // }
-  // std::cout << std::endl;
+
+  std::string secretCode = "";
+  for (int i = 0; i < kSecretCodeLength; i++) {
+    secretCode +=
+        std::to_string(GenRandom(kMinSecretCodeDigit, kMaxSecretCodeDigit));
+  }
+  std::cout << secretCode << std::endl;
   int life = 10;
+  // TODO: ask whether this is a an option while in game
+  // or leaving previous guesses visible on the screen suffices
   std::unordered_map<int, std::vector<int>> guessHistory;
   int i = 0;
 
-  while (true) {
-    // todo input validation for user input of 4 digits
-    // length
-    // isdigit
-    // each digit is between 0 and 7
-    std::string userGuess;
-    std::cout << "enter your guess: ";
-    std::cin >> userGuess;
+  std::vector<int> secretCodeCount{kSecretCodeLength, 0};
+  for (const auto &i : secretCode) {
+    secretCodeCount[i]++;
+  }
 
-    // separate the user input into a vector of integers
-    std::vector<int> userGuessVector;
-    for (int i = 0; i < kSecretCodeLength; i++) {
-      userGuessVector.push_back(userGuess[i] - '0');
-    }
+  while (life > 0) {
+    std::string userGuess = InputGuess("Enter your guess: ");
 
-    guessHistory[i++] = userGuessVector;
-
-    std::cout << "player guessed: " << userGuess << std::endl;
-
-    if (userGuessVector == secretCode) {
+    if (userGuess == secretCode) {
       Congratulations();
-      PlayAgain();
-    } else if (life > 0) {
-      std::cout << GiveFeedback(secretCode, userGuessVector) << std::endl;
-      life--;
-    } else {
       break;
+    } else {
+      // TODO: make this a function
+      // maybe make it look better
+      for (const auto &i : userGuess) {
+        std::cout << i << "  ";
+      }
+      std::cout << GiveFeedback(secretCode, userGuess) << std::endl;
+      --life;
+    }
+    if (life == 0) {
+      TryAgain();
     }
   }
 
-  TryAgain();
   PlayAgain();
 }
 
@@ -88,46 +78,48 @@ void Gameplay::PlayAgain() {
   }
 }
 
-// TODO: should probably be public and return a string instead of printing
-// for testing
-std::string Gameplay::GiveFeedback(const std::vector<int> &secretCode,
-                                   const std::vector<int> &guesses) {
+std::string Gameplay::GiveFeedback(const std::string &secretCode,
+                                   const std::string &guesses) {
   int correctPosition = 0;
   int correctDigit = 0;
 
+  // Vectors to keep track of unmatched digits
+  std::vector<bool> matchedSecret(kSecretCodeLength, false);
+  std::vector<bool> matchedGuess(kSecretCodeLength, false);
+
+  // Count correct positions
   for (int i = 0; i < kSecretCodeLength; i++) {
     if (guesses[i] == secretCode[i]) {
       correctPosition++;
+      matchedSecret[i] = true;
+      matchedGuess[i] = true;
     }
   }
 
-  // TODO: just pass this as a parameter
-  std::unordered_map<int, int> secretCodeCount;
-  for (const auto &i : secretCode) {
-    secretCodeCount[i]++;
-  }
-
-  for (const auto &i : guesses) {
-    if (secretCodeCount.find(i) != secretCodeCount.end() &&
-        secretCodeCount[i] > 0) {
-      correctDigit++;
-      secretCodeCount[i]--;
+  // Count correct digits
+  for (int i = 0; i < kSecretCodeLength; i++) {
+    if (!matchedGuess[i]) {
+      for (int j = 0; j < kSecretCodeLength; j++) {
+        if (!matchedSecret[j] && guesses[i] == secretCode[j]) {
+          correctDigit++;
+          matchedSecret[j] = true;
+          break;
+        }
+      }
     }
   }
 
-  std::string feedback =
-      std::string(ANSI_COLOR_RED) + "No correct digit\n" + ANSI_COLOR_RESET;
   if (correctPosition == 0 && correctDigit == 0) {
-    return feedback;
+    return std::string(ANSI_COLOR_RED) + "No correct digit\n" + ANSI_RESET;
   }
 
-  feedback = "";
+  std::string feedback = "";
   for (int i = 0; i < correctPosition; i++) {
-    feedback += std::string(ANSI_COLOR_GREEN) + "X" + ANSI_COLOR_RESET;
+    feedback += std::string(ANSI_COLOR_GREEN) + "X" + ANSI_RESET;
   }
 
-  for (int i = 0; i < correctDigit - correctPosition; i++) {
-    feedback += std::string(ANSI_COLOR_YELLOW) + "O" + ANSI_COLOR_RESET;
+  for (int i = 0; i < correctDigit; i++) {
+    feedback += std::string(ANSI_COLOR_YELLOW) + "O" + ANSI_RESET;
   }
 
   return feedback;

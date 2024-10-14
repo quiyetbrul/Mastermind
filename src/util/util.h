@@ -15,7 +15,7 @@ const int kTerminalHeight = 24;
 #define ANSI_RESET "\x1b[0m"
 #define ANSI_BLINK "\x1b[5m"
 
-const int kMinSecretCode = 0;
+const int kMinSecretCodeDigit = 0;
 const int kMaxSecretCodeDigit = 7;
 const int kSecretCodeLength = 4;
 

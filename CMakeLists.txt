@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(mastermind)
 
+# Add the include directory for jsoncpp
+# Change this to the location of your jsoncpp installation
+include_directories(/opt/homebrew/opt/jsoncpp/include)
+
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -24,6 +28,11 @@ add_executable(${PROJECT_NAME}
                                 src/util/util.cpp
                                 src/util/util_os.cpp
                                 )
+
+# Find and link libcurl
+find_package(CURL REQUIRED)
+target_include_directories(mastermind PRIVATE ${CURL_INCLUDE_DIRS})
+target_link_libraries(mastermind PRIVATE ${CURL_LIBRARIES})
 
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME}
