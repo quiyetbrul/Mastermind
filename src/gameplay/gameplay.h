@@ -8,11 +8,11 @@ public:
   Gameplay();
 
   void Start();
+  std::string GiveFeedback(const std::vector<int> &secretCode,
+                    const std::vector<int> &userGuess);
 
 private:
   void Game();
-  void GiveFeedback(const std::vector<int> &secretCode,
-                    const std::vector<int> &userGuess);
   void PlayAgain();
 };
 

@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-#include "../menu/menu.h"
+#include "../ui/menu.h"
+#include "../ui/print.h"
 #include "../util/util.h"
 
 const int kMinSecretCode = 0;
@@ -29,6 +30,7 @@ void Gameplay::Start() {
 }
 
 void Gameplay::Game() {
+  Title();
   std::vector<int> secretCode{0, 1, 3, 5};
   // TODO: uncomment this to generate a random secret code
   // for (int i = 0; i < kSecretCodeLength; i++) {
@@ -65,7 +67,7 @@ void Gameplay::Game() {
       Congratulations();
       PlayAgain();
     } else if (life > 0) {
-      GiveFeedback(secretCode, userGuessVector);
+      std::cout << GiveFeedback(secretCode, userGuessVector) << std::endl;
       life--;
     } else {
       break;
@@ -86,8 +88,10 @@ void Gameplay::PlayAgain() {
   }
 }
 
-void Gameplay::GiveFeedback(const std::vector<int> &secretCode,
-                            const std::vector<int> &guesses) {
+// TODO: should probably be public and return a string instead of printing
+// for testing
+std::string Gameplay::GiveFeedback(const std::vector<int> &secretCode,
+                                   const std::vector<int> &guesses) {
   int correctPosition = 0;
   int correctDigit = 0;
 
@@ -111,13 +115,13 @@ void Gameplay::GiveFeedback(const std::vector<int> &secretCode,
     }
   }
 
+  std::string feedback =
+      std::string(ANSI_COLOR_RED) + "No correct digit\n" + ANSI_COLOR_RESET;
   if (correctPosition == 0 && correctDigit == 0) {
-    std::cout << ANSI_COLOR_RED << "No correct digit" << std::endl
-              << ANSI_COLOR_RESET;
-    return;
+    return feedback;
   }
 
-  std::string feedback;
+  feedback = "";
   for (int i = 0; i < correctPosition; i++) {
     feedback += std::string(ANSI_COLOR_GREEN) + "X" + ANSI_COLOR_RESET;
   }
@@ -126,5 +130,5 @@ void Gameplay::GiveFeedback(const std::vector<int> &secretCode,
     feedback += std::string(ANSI_COLOR_YELLOW) + "O" + ANSI_COLOR_RESET;
   }
 
-  std::cout << feedback << std::endl;
+  return feedback;
 }
