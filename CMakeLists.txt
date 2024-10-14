@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(mastermind)
 
-# Add the include directory for jsoncpp
-# Change this to the location of your jsoncpp installation
-include_directories(/opt/homebrew/opt/jsoncpp/include)
-
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
