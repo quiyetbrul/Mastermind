@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <curl/curl.h>
 #include <iostream>
-#include <json/json.h>
 
 // Helper function to write the response data
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
@@ -13,57 +12,52 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
 }
 
 // Function to generate a random number using Random.org API
-int GenRandom(const int &min, const int &max) {
+int GenRandom(const int &generate, const int &min, const int &max) {
   CURL *curl;
   CURLcode res;
-  std::string readBuffer;
+  std::string read_buffer;
 
   curl = curl_easy_init();
   if (curl) {
     std::string url =
-        "https://www.random.org/integers/?num=1&min=" + std::to_string(min) +
-        "&max=" + std::to_string(max) + "&col=1&base=10&format=plain&rnd=new";
+        "https://www.random.org/integers/?num=" + std::to_string(generate) +
+        "&min=" + std::to_string(min) + "&max=" + std::to_string(max) +
+        "&col=1&base=10&format=plain&rnd=new";
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &read_buffer);
     res = curl_easy_perform(curl);
     curl_easy_cleanup(curl);
 
-    if (res != CURLE_OK) {
+    if (res == CURLE_OK) {
+      try {
+        return std::stoi(read_buffer);
+      } catch (const std::exception &e) {
+        std::cerr << "Failed to parse random number: " << e.what() << std::endl;
+      }
+    } else {
       std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res)
                 << std::endl;
-      return rand() % (max - min + 1) +
-             min; // Fallback to local random number generation
-    }
-
-    // Parse the response
-    try {
-      int randomNumber = std::stoi(readBuffer);
-      return randomNumber;
-    } catch (const std::exception &e) {
-      std::cerr << "Failed to parse random number: " << e.what() << std::endl;
-      return rand() % (max - min + 1) +
-             min; // Fallback to local random number generation
     }
   }
 
-  return rand() % (max - min + 1) +
-         min; // Fallback to local random number generation
+  // Fallback to local random number generation
+  return rand() % (max - min + 1) + min;
 }
 
-int InputInteger(const std::string prompt, const int &startRange,
-                 const int &endRange) {
+int InputInteger(const std::string prompt, const int &start_range,
+                 const int &end_range) {
   int input;
   do {
     std::cout << prompt;
     try {
       std::cin >> input;
-      if (std::cin.fail() || input < startRange || input > endRange) {
+      if (std::cin.fail() || input < start_range || input > end_range) {
         std::cin.clear(); // clear the error flag
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
                         '\n'); // discard invalid input
         std::cout << "Invalid input. Please enter a valid input between "
-                  << startRange << " and " << endRange << std::endl;
+                  << start_range << " and " << end_range << std::endl;
       } else
         break;
     } catch (std::invalid_argument &e) {
