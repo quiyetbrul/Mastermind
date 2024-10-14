@@ -9,7 +9,7 @@ public:
 
   void Start();
 
-  std::string GiveFeedback(const std::string &secretCode,
+  std::string GiveFeedback(const std::string &secret_code,
                            const std::string &guesses);
 
 private:

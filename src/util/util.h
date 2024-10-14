@@ -30,10 +30,10 @@ void SetTerminalSize(const int &width = kTerminalWidth,
 
 void SetTerminalTitle(const std::string &title);
 
-int GenRandom(const int &min, const int &max);
+int GenRandom(const int &generate, const int &min, const int &max);
 
-int InputInteger(const std::string prompt, const int &startRange,
-                 const int &endRange);
+int InputInteger(const std::string prompt, const int &start_range,
+                 const int &end_range);
 
 char InputChar(const std::string &prompt, const char &yes, const char &no);
 

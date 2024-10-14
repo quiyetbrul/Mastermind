@@ -30,17 +30,17 @@ void CloseTerminal() {
 
 void SetTerminalSize(const int &width, const int &height) {
 #ifdef _WIN32
-  HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-  if (hOut == INVALID_HANDLE_VALUE) {
+  HANDLE h_out = GetStdHandle(STD_OUTPUT_HANDLE);
+  if (h_out == INVALID_HANDLE_VALUE) {
     std::cerr << "Error getting handle" << std::endl;
     return;
   }
 
   // Set the screen buffer size
-  COORD newSize;
-  newSize.X = width;
-  newSize.Y = height;
-  if (!SetConsoleScreenBufferSize(hOut, newSize)) {
+  COORD new_size;
+  new_size.X = width;
+  new_size.Y = height;
+  if (!SetConsoleScreenBufferSize(h_out, new_size)) {
     std::cerr << "Error setting screen buffer size" << std::endl;
     return;
   }
@@ -51,7 +51,7 @@ void SetTerminalSize(const int &width, const int &height) {
   rect.Top = 0;
   rect.Right = width - 1;
   rect.Bottom = height - 1;
-  if (!SetConsoleWindowInfo(hOut, TRUE, &rect)) {
+  if (!SetConsoleWindowInfo(h_out, TRUE, &rect)) {
     std::cerr << "Error setting window size" << std::endl;
     return;
   }
