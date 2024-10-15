@@ -1,6 +1,7 @@
 #include "gameplay.h"
 
 #include <iostream>
+#include <string>
 
 #include "../ui/menu.h"
 #include "../ui/print.h"
@@ -9,7 +10,7 @@
 Gameplay::Gameplay() {}
 
 void Gameplay::Start() {
-  int menu_choice = Menu();
+  int menu_choice = MainMenu();
   switch (menu_choice) {
   case 1:
     Game();
@@ -26,6 +27,18 @@ void Gameplay::Start() {
 }
 
 void Gameplay::Game() {
+  int player_choice = PlayerMenu();
+  switch (player_choice) {
+  case 1:
+    SinglePlayer();
+    break;
+  case 2:
+    MultiPlayer();
+    break;
+  }
+}
+
+void Gameplay::SinglePlayer() {
   Title();
 
   std::string secret_code =
@@ -60,6 +73,11 @@ void Gameplay::Game() {
   PlayAgain();
 }
 
+void Gameplay::MultiPlayer() {
+  std::cout << "Multiplayer" << std::endl;
+  PlayAgain();
+}
+
 void Gameplay::PlayAgain() {
   char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
   if (play_again == 'y') {
@@ -78,26 +96,24 @@ std::string Gameplay::GiveFeedback(const std::string &secret_code,
   // Vectors to keep track of unmatched digits
   std::vector<bool> matched_secret(kSecretCodeLength, false);
   std::vector<bool> matched_guess(kSecretCodeLength, false);
+  std::array<int, 10> secret_count = {0};
 
-  // Count correct positions
+  // First pass: mark exact matches and count remaining digits in secret_code
   for (int i = 0; i < kSecretCodeLength; i++) {
     if (guesses[i] == secret_code[i]) {
       correct_position++;
       matched_secret[i] = true;
       matched_guess[i] = true;
+    } else {
+      secret_count[secret_code[i] - '0']++;
     }
   }
 
-  // Count correct digits
+  // Second pass: count correct digits in wrong positions
   for (int i = 0; i < kSecretCodeLength; i++) {
-    if (!matched_guess[i]) {
-      for (int j = 0; j < kSecretCodeLength; j++) {
-        if (!matched_secret[j] && guesses[i] == secret_code[j]) {
-          correct_digit++;
-          matched_secret[j] = true;
-          break;
-        }
-      }
+    if (!matched_guess[i] && secret_count[guesses[i] - '0'] > 0) {
+      correct_digit++;
+      secret_count[guesses[i] - '0']--;
     }
   }
 

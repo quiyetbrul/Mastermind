@@ -14,6 +14,8 @@ public:
 
 private:
   void Game();
+  void SinglePlayer();
+  void MultiPlayer();
   void PlayAgain();
 };
 
