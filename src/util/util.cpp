@@ -1,53 +1,6 @@
 #include "util.h"
 
-#include <cstdlib>
-#include <curl/curl.h>
 #include <iostream>
-
-// Helper function to write the response data
-static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
-                            void *userp) {
-  ((std::string *)userp)->append((char *)contents, size * nmemb);
-  return size * nmemb;
-}
-
-// Function to generate a random number using Random.org API
-std::string GenRandom(const int &generate, const int &min, const int &max) {
-  CURL *curl;
-  CURLcode res;
-  std::string read_buffer;
-
-  curl = curl_easy_init();
-  if (curl) {
-    std::string url =
-        "https://www.random.org/integers/?num=" + std::to_string(generate) +
-        "&min=" + std::to_string(min) + "&max=" + std::to_string(max) +
-        "&col=1&base=10&format=plain&rnd=new";
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &read_buffer);
-    res = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
-
-    if (res == CURLE_OK) {
-      try {
-        return read_buffer;
-      } catch (const std::exception &e) {
-        std::cerr << "Failed to parse random number: " << e.what() << std::endl;
-      }
-    } else {
-      std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res)
-                << std::endl;
-    }
-  }
-
-  // Fallback to local random number generation
-  std::string random_number = "";
-  for (int i = 0; i < generate; i++) {
-    random_number += std::to_string(rand() % (max - min + 1) + min);
-  }
-  return random_number;
-}
 
 int InputInteger(const std::string prompt, const int &start_range,
                  const int &end_range) {
