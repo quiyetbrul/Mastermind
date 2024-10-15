@@ -18,7 +18,8 @@ int PlayerMenu() {
   Title();
   std::cout << "1. Single Player\n";
   std::cout << "2. Multi Player\n";
-  int choice = InputInteger("Enter your choice: ", 1, 2);
+  std::cout << "3. Against Computer\n";
+  int choice = InputInteger("Enter your choice: ", 1, 3);
   return choice;
 }
 
