@@ -1,0 +1,28 @@
+[
+    {
+        "player_name": "kobe",
+        "player_password": "blackmamba",
+        "secret_number_one": "2345",
+        "life_one": 8,
+        "score_one": 0,
+        "guess_history_one": [
+            "1234",
+            "4567"
+        ],
+        "guess_feedback_one": [
+            "OOO",
+            "OO"
+        ],
+        "secret_number_two": "1234",
+        "life_two": 8,
+        "score_two": 0,
+        "guess_history_two": [
+            "2345",
+            "4567"
+        ],
+        "guess_feedback_two": [
+            "OOO",
+            "O"
+        ]
+    }
+]

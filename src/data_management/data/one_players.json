@@ -1,0 +1,17 @@
+[
+    {
+        "player_name": "cr7",
+        "player_password": "123456",
+        "life": 8,
+        "score": 0,
+        "secret_number": "2345",
+        "guess_history": [
+            "1234",
+            "4567"
+        ],
+        "guess_feedback": [
+            "OOO",
+            "OO"
+        ]
+    }
+]
