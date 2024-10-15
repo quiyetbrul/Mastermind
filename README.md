@@ -26,6 +26,7 @@ Whether you're looking for a quick mental workout or a fun way to pass the time.
 - [CMake](https://cmake.org/)
 - Enet -- soon!
 - [SonarCloud](https://sonarcloud.io/)
+- [cURL](https://curl.se/libcurl/c/)
 
 ### Others
 
