@@ -21,7 +21,8 @@ add_executable(${PROJECT_NAME}
                                 src/main.cpp
                                 src/gameplay/gameplay.cpp
                                 src/ui/menu.cpp
-                                src/util/util.cpp
+                                src/util/input_validation.cpp
+                                src/util/random_integers.cpp
                                 src/util/util_os.cpp
                                 )
 
