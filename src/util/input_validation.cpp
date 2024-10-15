@@ -45,31 +45,3 @@ char InputChar(const std::string &prompt, const char &yes, const char &no) {
   } while (true);
   return input;
 }
-
-std::string InputGuess(const std::string &prompt) {
-  std::string input;
-  while (true) {
-    std::cout << prompt;
-    std::cin >> input;
-
-    if (input.length() != kSecretCodeLength) {
-      std::cout << "Input must be exactly " << kSecretCodeLength
-                << " digits long." << std::endl;
-      continue;
-    }
-
-    bool valid = true;
-    for (char c : input) {
-      if (!isdigit(c) || c < '0' || c > '7') {
-        std::cout << "Each digit must be between 0 and 7." << std::endl;
-        valid = false;
-        break;
-      }
-    }
-
-    if (valid) {
-      break;
-    }
-  }
-  return input;
-}

@@ -38,6 +38,4 @@ int InputInteger(const std::string prompt, const int &start_range,
 
 char InputChar(const std::string &prompt, const char &yes, const char &no);
 
-std::string InputGuess(const std::string &prompt);
-
 #endif // UTIL_H_

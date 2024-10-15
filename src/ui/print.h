@@ -8,7 +8,7 @@
 #include <iostream>
 
 inline void Title() {
-  ClearScreen();
+  // ClearScreen();
   // TODO: get terminal width dynamically
   std::cout << "                                      _ _ _ ____ _    ____ ____ _  _ ____     ___ ____\n";
   std::cout << "                                      | | | |___ |    |    |  | |\\/| |___      |  |  |\n";
@@ -27,7 +27,7 @@ inline void Title() {
 }
 
 inline void Congratulations() {
-  ClearScreen();
+  // ClearScreen();
   std::cout << ANSI_COLOR_GREEN << ANSI_BLINK;
   std::cout << " ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗\n";
   std::cout << "██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝\n";
@@ -39,7 +39,7 @@ inline void Congratulations() {
 }
 
 inline void TryAgain() {
-  ClearScreen();
+  // ClearScreen();
   std::cout << ANSI_COLOR_RED;
   std::cout << "                            ████████╗██████╗ ██╗   ██╗      █████╗  ██████╗  █████╗ ██╗███╗   ██╗\n";
   std::cout << "                            ╚══██╔══╝██╔══██╗╚██╗ ██╔╝     ██╔══██╗██╔════╝ ██╔══██╗██║████╗  ██║\n";
@@ -51,7 +51,7 @@ inline void TryAgain() {
 }
 
 inline void Goodbye() {
-  ClearScreen();
+  // ClearScreen();
   std::cout << ANSI_COLOR_BLUE;
   std::cout << "                                    ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗\n";
   std::cout << "                                   ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔════╝\n";
