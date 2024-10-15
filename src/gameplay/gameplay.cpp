@@ -17,7 +17,9 @@ void Gameplay::Start() {
     break;
   case 2:
     Instructions();
-    // TODO: Add a prompt to go back to the main menu
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();
+    Start();
     break;
   case 3:
     Goodbye();
