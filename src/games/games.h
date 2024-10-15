@@ -9,28 +9,32 @@ public:
   Games();
 
   // Single player constructor
-  Games(int player_one_life, int player_one_score_,
+  Games(std::string game_name_, std::string game_password_,
+        int player_one_life, int player_one_score_,
         std::string player_one_secret_code,
         std::vector<std::pair<std::string, std::string>> player_one_guesses_);
 
   // Multiplayer constructor
-    Games(int player_one_life, int player_one_score_,
-            std::string player_one_secret_code,
-            std::vector<std::pair<std::string, std::string>> player_one_guesses_,
-            int player_two_life, int player_two_score_,
-            std::string player_two_secret_code,
-            std::vector<std::pair<std::string, std::string>> player_two_guesses_);
+  Games(std::string game_name_, std::string game_password_,
+        int player_one_life, int player_one_score_,
+        std::string player_one_secret_code,
+        std::vector<std::pair<std::string, std::string>> player_one_guesses_,
+        int player_two_life, int player_two_score_,
+        std::string player_two_secret_code,
+        std::vector<std::pair<std::string, std::string>> player_two_guesses_);
+
+  // will call JSON file to save game
+  void CreateAccount(bool is_single_player);
 
 private:
-  std::string player_one_name_;
-  std::string player_one_password_;
+  std::string game_name_;
+  std::string game_password_;
+
   int player_one_life_ = 0;
   int player_one_score_ = 0;
   std::vector<std::pair<std::string, std::string>> player_one_guesses_;
   std::string player_one_secret_code_;
 
-  std::string player_two_name_;
-  std::string player_two_password_;
   int player_two_life_ = 0;
   int player_two_score_ = 0;
   std::vector<std::pair<std::string, std::string>> player_two_guesses_;
