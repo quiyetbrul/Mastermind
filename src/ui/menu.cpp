@@ -5,12 +5,20 @@
 
 #include <iostream>
 
-int Menu() {
+int MainMenu() {
   Title();
   std::cout << "1. Play\n";
   std::cout << "2. Instructions\n";
   std::cout << "3. Exit\n";
   int choice = InputInteger("Enter your choice: ", 1, 3);
+  return choice;
+}
+
+int PlayerMenu() {
+  Title();
+  std::cout << "1. Single Player\n";
+  std::cout << "2. Multi Player\n";
+  int choice = InputInteger("Enter your choice: ", 1, 2);
   return choice;
 }
 
