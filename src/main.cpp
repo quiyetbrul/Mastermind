@@ -7,8 +7,6 @@
  * @return Returns 0 when execution is successful
  */
 int main() {
-  srand(time(0));
-
   SetTerminalSize();
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
 
