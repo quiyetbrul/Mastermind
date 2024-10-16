@@ -13,7 +13,7 @@ void Gameplay::Start() {
   int menu_choice = MainMenu();
   switch (menu_choice) {
   case 1:
-    Game();
+    GameMenu();
     break;
   case 2:
     Instructions();
@@ -28,7 +28,7 @@ void Gameplay::Start() {
   }
 }
 
-void Gameplay::Game() {
+void Gameplay::GameMenu() {
   // TODO: play as guest or register/login
   int player_choice = PlayerMenu();
   switch (player_choice) {
@@ -36,10 +36,7 @@ void Gameplay::Game() {
     SinglePlayer();
     break;
   case 2:
-    MultiPlayer();
-    break;
-  case 3:
-    AgainstComputer();
+    ComputerCodebreaker();
     break;
   }
 }
@@ -57,7 +54,7 @@ void Gameplay::SinglePlayer() {
   int life = 10;
   int i = 0;
 
-  std::vector<std::pair<std::string, std::string>> guesses;
+  std::vector<std::pair<std::string, std::string>> user_guess_history;
 
   while (life > 0) {
     std::string user_guess = InputGuess("Enter your guess: ");
@@ -68,10 +65,11 @@ void Gameplay::SinglePlayer() {
     if (user_guess == secret_code) {
       Congratulations();
       break;
-    } else {
-      CheckGuess(user_guess, secret_code, guesses, life);
     }
-    if (life == 0) {
+    std::string feedback = GiveFeedback(secret_code, user_guess);
+    user_guess_history.push_back(std::make_pair(user_guess, feedback));
+    PrintGuesses(user_guess_history);
+    if (--life == 0) {
       TryAgain();
       std::cout << secret_code << std::endl;
     }
@@ -80,63 +78,41 @@ void Gameplay::SinglePlayer() {
   PlayAgain();
 }
 
-void Gameplay::MultiPlayer() {
+void Gameplay::ComputerCodebreaker() {
+  // TODO: implement donald knuth's 5-guess algo
+
   Title();
 
-  int player_one_life = 10;
-  int player_two_life = 10;
-
-  std::string player_one_name = InputString("Enter player one name: ");
-  std::string Player_two_name = InputString("Enter player two name: ");
-
-  std::cout << "Computer is deciding who goes first..." << std::endl;
-  std::string player_one_secret_code =
+  std::string secret_code =
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit);
-  std::string player_two_secret_code =
-      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit);
-  bool is_player_one = RandomNumber(0, 1);
-  std::cout << (is_player_one ? player_one_name : Player_two_name)
-            << " goes first!" << std::endl;
+  // TODO: remove cout
+  // std::cout << secret_code << std::endl;
+  int life = 10;
+  int i = 0;
 
-  std::vector<std::pair<std::string, std::string>> player_one_guesses;
-  std::vector<std::pair<std::string, std::string>> player_two_guesses;
-  while (player_one_life > 0 && player_two_life > 0) {
-    if (is_player_one) {
-      std::string player_one_user_guess = InputGuess("Enter your guess: ");
-      if (player_one_user_guess == player_one_secret_code) {
-        Congratulations();
-        break;
-      } else {
-        CheckGuess(player_one_user_guess, player_one_secret_code,
-                   player_one_guesses, player_one_life);
-      }
-      is_player_one = false;
-    } else {
-      std::string player_two_user_guess = InputGuess("Enter your guess: ");
-      if (player_two_user_guess == player_two_secret_code) {
-        Congratulations();
-        break;
-      } else {
-        CheckGuess(player_two_user_guess, player_two_secret_code,
-                   player_two_guesses, player_two_life);
-      }
-      is_player_one = true;
+  std::vector<std::pair<std::string, std::string>> computer_guess_history;
+
+  while (life > 0) {
+    // TODO: it'll be the 5-guess algo
+    std::string computer_guess = "";
+    PrintGuesses(computer_guess_history);
+    if (computer_guess == secret_code) {
+      Congratulations();
+      break;
+    }
+    if (--life == 0) {
+      TryAgain();
+      std::cout << secret_code << std::endl;
     }
   }
 
-  std::cout << "Both lost!" << std::endl;
-
   PlayAgain();
-}
-
-void Gameplay::AgainstComputer() {
-  // TODO: implement donald knuth's 5-guess algo
 }
 
 void Gameplay::PlayAgain() {
   char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
   if (play_again == 'y') {
-    Game();
+    GameMenu();
   } else {
     // TODO: maybe we just exit out of program?
     Start();
@@ -188,17 +164,16 @@ std::string Gameplay::GiveFeedback(const std::string &secret_code,
   return feedback;
 }
 
-void Gameplay::CheckGuess(
-    const std::string &user_guess, const std::string &secret_code,
-    std::vector<std::pair<std::string, std::string>> &guesses, int &life) {
-  // TODO: clear screen
+bool Gameplay::PrintGuesses(
+    std::vector<std::pair<std::string, std::string>> &guesses) {
+  Title();
   for (const auto &i : guesses) {
-    std::cout << i.first << "  " << i.second << std::endl;
+    for (const auto &c : i.first) {
+      std::cout << c << " ";
+    }
+    std::cout << "   " << i.second << std::endl;
   }
-  std::string feedback = GiveFeedback(secret_code, user_guess);
-  std::cout << user_guess << "  " << feedback << std::endl;
-  guesses.push_back(std::make_pair(user_guess, feedback));
-  --life;
+  return false;
 }
 
 std::string Gameplay::InputString(const std::string &prompt) {

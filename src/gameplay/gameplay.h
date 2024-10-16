@@ -16,19 +16,16 @@ private:
   // TODO: saved games
   // std::unordered_map</*name+password*/std::string, Games games> saved_games_;
 
-  void Game();
+  void GameMenu();
   void SinglePlayer();
-  void MultiPlayer();
-  void AgainstComputer();
+  void ComputerCodebreaker();
   void PlayAgain();
 
   // TODO: print how many guesses guesser took
 
   std::string InputGuess(const std::string &prompt);
   std::string InputString(const std::string &prompt);
-  void CheckGuess(const std::string &user_guess, const std::string &secret_code,
-                  std::vector<std::pair<std::string, std::string>> &guesses,
-                  int &life);
+  bool PrintGuesses(std::vector<std::pair<std::string, std::string>> &guesses);
 };
 
 #endif // GAMEPLAY_H_
