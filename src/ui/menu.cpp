@@ -8,9 +8,11 @@
 int MainMenu() {
   Title();
   std::cout << "1. Play\n";
-  std::cout << "2. Instructions\n";
-  std::cout << "3. Exit\n";
-  int choice = InputInteger("Enter your choice: ", 1, 3);
+  std::cout << "2. Load Game\n";
+  std::cout << "3. Scoreboard\n";
+  std::cout << "4. Instructions\n";
+  std::cout << "5. Exit\n";
+  int choice = InputInteger("Enter your choice: ", 1, 5);
   return choice;
 }
 

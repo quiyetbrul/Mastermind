@@ -16,12 +16,20 @@ void Gameplay::Start() {
     GameMenu();
     break;
   case 2:
+    // LoadGame();
+    std::cout << "Load Game under construction" << std::endl;
+    break;
+  case 3:
+    // Scoreboard();
+    std::cout << "Scoreboard under construction" << std::endl;
+    break;
+  case 4:
     Instructions();
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::cin.get();
     Start();
     break;
-  case 3:
+  case 5:
     Goodbye();
     CloseTerminal();
     break;
