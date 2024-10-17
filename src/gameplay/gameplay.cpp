@@ -1,13 +1,12 @@
 #include "gameplay.h"
 
+#include <chrono>
 #include <iostream>
 #include <string>
 
 #include "../ui/menu.h"
 #include "../ui/print.h"
 #include "../util/util.h"
-
-Gameplay::Gameplay() {}
 
 void Gameplay::Start() {
   int menu_choice = MainMenu();
@@ -58,29 +57,27 @@ void Gameplay::SinglePlayer() {
   std::string secret_code =
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit);
   // TODO: remove cout
-  // std::cout << secret_code << std::endl;
-  int life = 10;
+  std::cout << secret_code << std::endl;
+  int life = kLifeStart;
   int i = 0;
 
   std::vector<std::pair<std::string, std::string>> user_guess_history;
 
   while (life > 0) {
     std::string user_guess = InputGuess("Enter your guess: ");
-
-    // TODO: if user_guess == "/save"
-    // implement save func then return to main menu
-
+    if (user_guess == "/save") {
+      SaveGame();
+    }
     if (user_guess == secret_code) {
       Congratulations();
+      std::cout << secret_code << std::endl;
+      // TODO: save score
       break;
     }
     std::string feedback = GiveFeedback(secret_code, user_guess);
     user_guess_history.push_back(std::make_pair(user_guess, feedback));
     PrintGuesses(user_guess_history);
-    if (--life == 0) {
-      TryAgain();
-      std::cout << secret_code << std::endl;
-    }
+    CheckGameOver(life, secret_code);
   }
 
   PlayAgain();
@@ -103,11 +100,14 @@ void Gameplay::ComputerCodebreaker() {
   while (life > 0) {
     // TODO: it'll be the 5-guess algo
     std::string computer_guess = "";
-    PrintGuesses(computer_guess_history);
     if (computer_guess == secret_code) {
       Congratulations();
+      std::cout << secret_code << std::endl;
       break;
     }
+    std::string feedback = GiveFeedback(secret_code, computer_guess);
+    computer_guess_history.push_back(std::make_pair(computer_guess, feedback));
+    PrintGuesses(computer_guess_history);
     if (--life == 0) {
       TryAgain();
       std::cout << secret_code << std::endl;
@@ -117,6 +117,44 @@ void Gameplay::ComputerCodebreaker() {
   PlayAgain();
 }
 
+// TODO: add parameters to save game
+void Gameplay::SaveGame() {
+  // TODO:
+  /*
+   * 1. Check saved_games_ length.
+   * 2. If length is <3, then save the game.
+   * 3. If length is >=3, then ask user to overwrite a game or not.
+   *   - It will overwrite the oldest game.
+   * 4. Create a Games object, save to saved_games_, and update JSON
+   * 5. Return to Start()
+   */
+
+  Games game; // TODO: add parameters to save game
+  if (saved_games_.size() < 3) {
+    std::cout << "Save Game under construction" << std::endl;
+  } else {
+    // TODO: ask user to overwrite a game or not
+    char overwrite =
+        InputChar("Do you want to overwrite a game? (y/n): ", 'y', 'n');
+    if (overwrite == 'y') {
+      OverwriteGame(game);
+    }
+  }
+  Start();
+}
+
+void Gameplay::OverwriteGame(Games game) {
+  std::chrono::system_clock::time_point new_time =
+      std::chrono::system_clock::now();
+  for (auto &i : saved_games_) {
+    if (i.first < new_time) {
+      saved_games_.erase(i.first);
+      saved_games_.insert({new_time, game});
+      break;
+    }
+  }
+}
+
 void Gameplay::PlayAgain() {
   char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
   if (play_again == 'y') {
@@ -124,6 +162,13 @@ void Gameplay::PlayAgain() {
   } else {
     // TODO: maybe we just exit out of program?
     Start();
+  }
+}
+
+void Gameplay::CheckGameOver(int &life, const std::string &secret_code) {
+  if (--life == 0) {
+    TryAgain();
+    std::cout << secret_code << std::endl;
   }
 }
 
@@ -182,13 +227,6 @@ bool Gameplay::PrintGuesses(
     std::cout << "   " << i.second << std::endl;
   }
   return false;
-}
-
-std::string Gameplay::InputString(const std::string &prompt) {
-  std::cout << prompt;
-  std::string input;
-  std::cin >> input;
-  return input;
 }
 
 std::string Gameplay::InputGuess(const std::string &prompt) {

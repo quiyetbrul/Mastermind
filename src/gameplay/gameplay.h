@@ -1,11 +1,15 @@
 #ifndef GAMEPLAY_H_
 #define GAMEPLAY_H_
 
+#include "../games/games.h"
+
+#include <chrono>
 #include <string>
+#include <unordered_map>
 
 class Gameplay {
 public:
-  Gameplay();
+  Gameplay(){};
 
   void Start();
 
@@ -13,18 +17,18 @@ public:
                            const std::string &guesses);
 
 private:
-  // TODO: saved games
-  // std::unordered_map</*name+password*/std::string, Games games> saved_games_;
+  const int kLifeStart = 10;
+  static std::unordered_map<std::chrono::system_clock::time_point, Games>
+      saved_games_;
 
   void GameMenu();
   void SinglePlayer();
   void ComputerCodebreaker();
+  void SaveGame();
+  void OverwriteGame(Games game);
   void PlayAgain();
-
-  // TODO: print how many guesses guesser took
-
+  void CheckGameOver(int &life, const std::string &secret_code);
   std::string InputGuess(const std::string &prompt);
-  std::string InputString(const std::string &prompt);
   bool PrintGuesses(std::vector<std::pair<std::string, std::string>> &guesses);
 };
 
