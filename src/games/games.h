@@ -6,41 +6,48 @@
 
 class Games {
 public:
-  Games();
+  Games(){};
 
-  // Single player constructor
-  Games(std::string game_name_, std::string game_password_,
-        int player_one_life, int player_one_score_,
-        std::string player_one_secret_code,
-        std::vector<std::pair<std::string, std::string>> player_one_guesses_);
+  Games(std::string game_name_, std::string game_password_)
+      : game_name_(game_name_), game_password_(game_password_) {}
 
-  // Multiplayer constructor
-  Games(std::string game_name_, std::string game_password_,
-        int player_one_life, int player_one_score_,
-        std::string player_one_secret_code,
-        std::vector<std::pair<std::string, std::string>> player_one_guesses_,
-        int player_two_life, int player_two_score_,
-        std::string player_two_secret_code,
-        std::vector<std::pair<std::string, std::string>> player_two_guesses_);
+  Games(std::string game_name_, std::string game_password_, int player_one_life,
+        int player_one_score_, std::string player_one_secret_code_,
+        std::vector<std::pair<std::string, std::string>> player_one_guesses_)
+      : game_name_(game_name_), game_password_(game_password_),
+        player_one_life_(player_one_life), player_one_score_(player_one_score_),
+        player_one_secret_code_(player_one_secret_code_),
+        player_one_guesses_(player_one_guesses_) {}
 
-  // will call JSON file to save game
-  void CreateAccount(bool is_single_player);
+  // getters
+  std::string GetGameSaveTime() const;
+  std::string GetGameName() const;
+  std::string GetGamePassword() const;
+  int GetPlayerOneLife() const;
+  int GetPlayerOneScore() const;
+  std::string GetPlayerOneSecretCode() const;
+  std::vector<std::pair<std::string, std::string>> GetPlayerOneGuesses() const;
+
+  // setters
+  void SetGameSaveTime(const std::string &game_save_time);
+  void SetGameName(const std::string &game_name);
+  void SetGamePassword(const std::string &game_password);
+  void SetPlayerOneLife(const int &player_one_life);
+  void SetPlayerOneScore(const int &player_one_score);
+  void SetPlayerOneSecretCode(const std::string &player_one_secret_code);
+  void
+  SetPlayerOneGuesses(const std::vector<std::pair<std::string, std::string>>
+                          &player_one_guesses);
 
 private:
   std::string game_name_;
   std::string game_password_;
+  // TODO: add date and time
 
   int player_one_life_ = 0;
   int player_one_score_ = 0;
   std::vector<std::pair<std::string, std::string>> player_one_guesses_;
   std::string player_one_secret_code_;
-
-  int player_two_life_ = 0;
-  int player_two_score_ = 0;
-  std::vector<std::pair<std::string, std::string>> player_two_guesses_;
-  std::string player_two_secret_code_;
-
-  // TODO: getters/setters
 };
 
 #endif // GAMES_H_
