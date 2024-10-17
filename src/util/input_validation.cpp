@@ -24,6 +24,13 @@ int InputInteger(const std::string prompt, const int &start_range,
   return input;
 }
 
+std::string InputString(const std::string &prompt) {
+  std::cout << prompt;
+  std::string input;
+  std::cin >> input;
+  return input;
+}
+
 char InputChar(const std::string &prompt, const char &yes, const char &no) {
   char input;
   do {
