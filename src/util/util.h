@@ -33,6 +33,8 @@ void SetTerminalTitle(const std::string &title);
 std::string GenRandom(const int &generate, const int &min, const int &max);
 int RandomNumber(const int &min, const int &max);
 
+std::string InputString(const std::string &prompt);
+
 int InputInteger(const std::string prompt, const int &start_range,
                  const int &end_range);
 
