@@ -46,6 +46,7 @@ private:
 
   int player_one_life_ = 0;
   int player_one_score_ = 0;
+  // TODO: turn into array instead of vector
   std::vector<std::pair<std::string, std::string>> player_one_guesses_;
   std::string player_one_secret_code_;
 };

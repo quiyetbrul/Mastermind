@@ -36,7 +36,6 @@ void Gameplay::Start() {
 }
 
 void Gameplay::GameMenu() {
-  // TODO: play as guest or register/login
   int player_choice = PlayerMenu();
   switch (player_choice) {
   case 1:
@@ -59,7 +58,6 @@ void Gameplay::SinglePlayer() {
   // TODO: remove cout
   std::cout << secret_code << std::endl;
   int life = kLifeStart;
-  int i = 0;
 
   std::vector<std::pair<std::string, std::string>> user_guess_history;
 
@@ -93,7 +91,6 @@ void Gameplay::ComputerCodebreaker() {
   // TODO: remove cout
   // std::cout << secret_code << std::endl;
   int life = 10;
-  int i = 0;
 
   std::vector<std::pair<std::string, std::string>> computer_guess_history;
 
@@ -217,7 +214,7 @@ std::string Gameplay::GiveFeedback(const std::string &secret_code,
   return feedback;
 }
 
-bool Gameplay::PrintGuesses(
+void Gameplay::PrintGuesses(
     std::vector<std::pair<std::string, std::string>> &guesses) {
   Title();
   for (const auto &i : guesses) {
@@ -226,7 +223,6 @@ bool Gameplay::PrintGuesses(
     }
     std::cout << "   " << i.second << std::endl;
   }
-  return false;
 }
 
 std::string Gameplay::InputGuess(const std::string &prompt) {

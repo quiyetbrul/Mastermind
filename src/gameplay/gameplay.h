@@ -29,7 +29,7 @@ private:
   void PlayAgain();
   void CheckGameOver(int &life, const std::string &secret_code);
   std::string InputGuess(const std::string &prompt);
-  bool PrintGuesses(std::vector<std::pair<std::string, std::string>> &guesses);
+  void PrintGuesses(std::vector<std::pair<std::string, std::string>> &guesses);
 };
 
 #endif // GAMEPLAY_H_
