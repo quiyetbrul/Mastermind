@@ -8,6 +8,8 @@
 #include "../util/util.h"
 
 std::vector<Games> Gameplay::saved_games_;
+const int Gameplay::kLifeStart;
+const int Gameplay::save_limit_;
 
 void Gameplay::Start() {
   int menu_choice = MainMenu();
