@@ -4,11 +4,14 @@
 #include <string>
 #include <vector>
 
+#include "../player/player.h"
+
 class Games {
 public:
   Games(){};
 
-  Games(std::string game_name_, std::string game_password_)
+  Games(std::string game_name_, std::string game_password_,
+        const Player &player)
       : game_name_(game_name_), game_password_(game_password_) {}
 
   Games(std::string game_name_, std::string game_password_, int player_one_life,
@@ -42,7 +45,6 @@ public:
 private:
   std::string game_name_;
   std::string game_password_;
-  // TODO: add date and time
 
   int player_one_life_ = 0;
   int player_one_score_ = 0;

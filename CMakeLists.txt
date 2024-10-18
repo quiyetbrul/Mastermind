@@ -20,7 +20,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_executable(${PROJECT_NAME}
                                 src/main.cpp
                                 src/gameplay/gameplay.cpp
+                                src/games/games.cpp
                                 src/ui/menu.cpp
+                                src/player/player.cpp
                                 src/util/input_validation.cpp
                                 src/util/random_integers.cpp
                                 src/util/util_os.cpp

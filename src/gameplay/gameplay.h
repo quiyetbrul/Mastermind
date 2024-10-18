@@ -1,11 +1,10 @@
 #ifndef GAMEPLAY_H_
 #define GAMEPLAY_H_
 
-#include "../games/games.h"
-
-#include <chrono>
 #include <string>
-#include <unordered_map>
+#include <vector>
+
+#include "../games/games.h"
 
 class Gameplay {
 public:
@@ -18,18 +17,19 @@ public:
 
 private:
   const int kLifeStart = 10;
-  static std::unordered_map<std::chrono::system_clock::time_point, Games>
-      saved_games_;
+  const int save_limit_ = 3;
+  static std::vector<Games> saved_games_;
 
   void GameMenu();
   void SinglePlayer();
   void ComputerCodebreaker();
-  void SaveGame();
-  void OverwriteGame(Games game);
+  void SaveGame(const Player &player);
+  void OverwriteGame(const Games &game);
   void PlayAgain();
   void CheckGameOver(int &life, const std::string &secret_code);
   std::string InputGuess(const std::string &prompt);
-  void PrintGuesses(std::vector<std::pair<std::string, std::string>> &guesses);
+  void
+  PrintGuesses(const std::vector<std::pair<std::string, std::string>> &guesses);
 };
 
 #endif // GAMEPLAY_H_

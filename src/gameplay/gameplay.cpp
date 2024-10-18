@@ -1,12 +1,13 @@
 #include "gameplay.h"
 
-#include <chrono>
 #include <iostream>
 #include <string>
 
 #include "../ui/menu.h"
 #include "../ui/print.h"
 #include "../util/util.h"
+
+std::vector<Games> Gameplay::saved_games_;
 
 void Gameplay::Start() {
   int menu_choice = MainMenu();
@@ -47,35 +48,36 @@ void Gameplay::GameMenu() {
   }
 }
 
-// TODO: need to add menu for when player wants to be codemaster
-// computer can either use actual algo to solve the code or use GenRandom 10x
-// can use minmax?
 void Gameplay::SinglePlayer() {
   Title();
 
-  std::string secret_code =
-      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit);
-  // TODO: remove cout
-  std::cout << secret_code << std::endl;
-  int life = kLifeStart;
-
   std::vector<std::pair<std::string, std::string>> user_guess_history;
+  Player player_one_;
+  player_one_.SetSecretCode(
+      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
+  player_one_.SetGuesses(user_guess_history);
 
-  while (life > 0) {
+  // TODO: DRY this up
+  while (player_one_.GetLife() > 0) {
     std::string user_guess = InputGuess("Enter your guess: ");
-    if (user_guess == "/save") {
-      SaveGame();
+    std::string_view view_input = user_guess;
+    if (view_input == "/save") {
+      SaveGame(player_one_);
     }
-    if (user_guess == secret_code) {
+    if (user_guess == player_one_.GetSecretCode()) {
       Congratulations();
-      std::cout << secret_code << std::endl;
-      // TODO: save score
+      std::cout << player_one_.GetSecretCode() << std::endl;
+      // TODO: update scoreboard
       break;
     }
-    std::string feedback = GiveFeedback(secret_code, user_guess);
-    user_guess_history.push_back(std::make_pair(user_guess, feedback));
-    PrintGuesses(user_guess_history);
-    CheckGameOver(life, secret_code);
+    player_one_.AddGuess(user_guess,
+                         GiveFeedback(player_one_.GetSecretCode(), user_guess));
+    PrintGuesses(player_one_.GetGuesses());
+    player_one_.DecrementLife();
+    if (player_one_.GetLife() == 0) {
+      TryAgain();
+      std::cout << player_one_.GetSecretCode() << std::endl;
+    }
   }
 
   PlayAgain();
@@ -86,70 +88,64 @@ void Gameplay::ComputerCodebreaker() {
 
   Title();
 
-  std::string secret_code =
-      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit);
-  // TODO: remove cout
-  // std::cout << secret_code << std::endl;
-  int life = 10;
+  std::vector<std::pair<std::string, std::string>> user_guess_history;
+  Player player_computer;
+  player_computer.SetSecretCode(
+      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
+  player_computer.SetGuesses(user_guess_history);
 
   std::vector<std::pair<std::string, std::string>> computer_guess_history;
 
-  while (life > 0) {
+  while (player_computer.GetLife() > 0) {
     // TODO: it'll be the 5-guess algo
     std::string computer_guess = "";
-    if (computer_guess == secret_code) {
+    if (computer_guess == player_computer.GetSecretCode()) {
       Congratulations();
-      std::cout << secret_code << std::endl;
+      std::cout << player_computer.GetSecretCode() << std::endl;
       break;
     }
-    std::string feedback = GiveFeedback(secret_code, computer_guess);
-    computer_guess_history.push_back(std::make_pair(computer_guess, feedback));
-    PrintGuesses(computer_guess_history);
-    if (--life == 0) {
+    player_computer.AddGuess(
+        computer_guess,
+        GiveFeedback(player_computer.GetSecretCode(), computer_guess));
+    PrintGuesses(player_computer.GetGuesses());
+    player_computer.DecrementLife();
+    if (player_computer.GetLife() == 0) {
       TryAgain();
-      std::cout << secret_code << std::endl;
+      std::cout << player_computer.GetSecretCode() << std::endl;
     }
   }
 
   PlayAgain();
 }
 
-// TODO: add parameters to save game
-void Gameplay::SaveGame() {
-  // TODO:
-  /*
-   * 1. Check saved_games_ length.
-   * 2. If length is <3, then save the game.
-   * 3. If length is >=3, then ask user to overwrite a game or not.
-   *   - It will overwrite the oldest game.
-   * 4. Create a Games object, save to saved_games_, and update JSON
-   * 5. Return to Start()
-   */
+void Gameplay::SaveGame(const Player &player) {
+  std::string game_name = InputString("Enter the name of the game: ");
+  std::string password = InputString("Enter a password for the game: ");
+  Games game(game_name, password, player);
 
-  Games game; // TODO: add parameters to save game
-  if (saved_games_.size() < 3) {
-    std::cout << "Save Game under construction" << std::endl;
-  } else {
-    // TODO: ask user to overwrite a game or not
+  if (saved_games_.size() >= save_limit_) {
+    std::cout << "Only " << save_limit_ << " games can be saved at a time."
+              << std::endl;
     char overwrite =
         InputChar("Do you want to overwrite a game? (y/n): ", 'y', 'n');
     if (overwrite == 'y') {
       OverwriteGame(game);
     }
+  } else {
+    saved_games_.push_back(game);
   }
+  // TODO: update record of saved games
   Start();
 }
 
-void Gameplay::OverwriteGame(Games game) {
-  std::chrono::system_clock::time_point new_time =
-      std::chrono::system_clock::now();
-  for (auto &i : saved_games_) {
-    if (i.first < new_time) {
-      saved_games_.erase(i.first);
-      saved_games_.insert({new_time, game});
-      break;
-    }
+void Gameplay::OverwriteGame(const Games &game) {
+  // find the game to overwrite
+  for (int i = 0; i < saved_games_.size(); i++) {
+    std::cout << i << ". " << saved_games_[i].GetGameName() << std::endl;
   }
+  int to_overwrite = InputInteger(
+      "Enter the number of the game to overwrite: ", 0, saved_games_.size());
+  saved_games_[to_overwrite] = game;
 }
 
 void Gameplay::PlayAgain() {
@@ -215,7 +211,7 @@ std::string Gameplay::GiveFeedback(const std::string &secret_code,
 }
 
 void Gameplay::PrintGuesses(
-    std::vector<std::pair<std::string, std::string>> &guesses) {
+    const std::vector<std::pair<std::string, std::string>> &guesses) {
   Title();
   for (const auto &i : guesses) {
     for (const auto &c : i.first) {
