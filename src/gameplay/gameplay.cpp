@@ -6,6 +6,7 @@
 #include "../ui/menu.h"
 #include "../ui/print.h"
 #include "../util/util.h"
+#include "codebreaker/codebreaker.h"
 
 std::vector<Games> Gameplay::saved_games_;
 const int Gameplay::kLifeStart;
@@ -54,31 +55,31 @@ void Gameplay::SinglePlayer() {
   Title();
 
   std::vector<std::pair<std::string, std::string>> user_guess_history;
-  Player player_one_;
-  player_one_.SetSecretCode(
+  Player player_one;
+  player_one.SetSecretCode(
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
-  player_one_.SetGuesses(user_guess_history);
+  player_one.SetGuesses(user_guess_history);
 
   // TODO: DRY this up
-  while (player_one_.GetLife() > 0) {
+  while (player_one.GetLife() > 0) {
     std::string user_guess = InputGuess("Enter your guess: ");
     std::string_view view_input = user_guess;
     if (view_input == "/save") {
-      SaveGame(player_one_);
+      SaveGame(player_one);
     }
-    if (user_guess == player_one_.GetSecretCode()) {
+    if (user_guess == player_one.GetSecretCode()) {
       Congratulations();
-      std::cout << player_one_.GetSecretCode() << std::endl;
+      std::cout << player_one.GetSecretCode() << std::endl;
       // TODO: update scoreboard
       break;
     }
-    player_one_.AddGuess(user_guess,
-                         GiveFeedback(player_one_.GetSecretCode(), user_guess));
-    PrintGuesses(player_one_.GetGuesses());
-    player_one_.DecrementLife();
-    if (player_one_.GetLife() == 0) {
+    player_one.AddGuess(user_guess,
+                        GiveFeedback(player_one.GetSecretCode(), user_guess));
+    PrintGuesses(player_one.GetGuesses());
+    player_one.DecrementLife();
+    if (player_one.GetLife() == 0) {
       TryAgain();
-      std::cout << player_one_.GetSecretCode() << std::endl;
+      std::cout << player_one.GetSecretCode() << std::endl;
     }
   }
 
@@ -86,31 +87,34 @@ void Gameplay::SinglePlayer() {
 }
 
 void Gameplay::ComputerCodebreaker() {
-  // TODO: implement donald knuth's 5-guess algo
-
   Title();
 
-  std::vector<std::pair<std::string, std::string>> user_guess_history;
+  std::vector<std::pair<std::string, std::string>> computer_guess_history;
   Player player_computer;
   player_computer.SetSecretCode(
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
-  player_computer.SetGuesses(user_guess_history);
+  player_computer.SetGuesses(computer_guess_history);
 
-  std::vector<std::pair<std::string, std::string>> computer_guess_history;
+  Codebreaker computer(kSecretCodeLength, kMinSecretCodeDigit,
+                       kMaxSecretCodeDigit);
 
   while (player_computer.GetLife() > 0) {
-    // TODO: it'll be the 5-guess algo
-    std::string computer_guess = "";
+    std::string computer_guess =
+        computer.MakeGuess(); // Use MakeGuess to get a guess
+    std::string feedback =
+        GiveFeedback(player_computer.GetSecretCode(), computer_guess);
+    computer.ReceiveFeedback(feedback); // Update Codebreaker with the feedback
+
     if (computer_guess == player_computer.GetSecretCode()) {
       Congratulations();
       std::cout << player_computer.GetSecretCode() << std::endl;
       break;
     }
-    player_computer.AddGuess(
-        computer_guess,
-        GiveFeedback(player_computer.GetSecretCode(), computer_guess));
+
+    player_computer.AddGuess(computer_guess, feedback);
     PrintGuesses(player_computer.GetGuesses());
     player_computer.DecrementLife();
+
     if (player_computer.GetLife() == 0) {
       TryAgain();
       std::cout << player_computer.GetSecretCode() << std::endl;
@@ -120,6 +124,7 @@ void Gameplay::ComputerCodebreaker() {
   PlayAgain();
 }
 
+// TODO: add record
 void Gameplay::SaveGame(const Player &player) {
   std::string game_name = InputString("Enter the name of the game: ");
   std::string password = InputString("Enter a password for the game: ");
@@ -140,10 +145,18 @@ void Gameplay::SaveGame(const Player &player) {
   Start();
 }
 
+// TODO: this is menu
+// update record
 void Gameplay::OverwriteGame(const Games &game) {
-  // find the game to overwrite
   for (int i = 0; i < saved_games_.size(); i++) {
     std::cout << i << ". " << saved_games_[i].GetGameName() << std::endl;
+    std::cout << "\tLife: " << saved_games_[i].GetPlayer().GetLife() << std::endl;
+    std::cout << "\tLast guess: "
+              << saved_games_[i].GetPlayer().GetGuesses().back().first
+              << std::endl;
+    std::cout << "\tLast feedback: "
+              << saved_games_[i].GetPlayer().GetGuesses().back().second
+              << std::endl;
   }
   int to_overwrite = InputInteger(
       "Enter the number of the game to overwrite: ", 0, saved_games_.size());
