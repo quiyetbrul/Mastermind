@@ -17,6 +17,7 @@ public:
   // getters
   std::string GetGameName() const;
   std::string GetGamePassword() const;
+  Player GetPlayer() const;
 
   // setters
   void SetGameName(const std::string &game_name);
