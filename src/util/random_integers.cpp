@@ -53,7 +53,7 @@ std::vector<int> GenRandom(const int &generate, const int &min,
   std::vector<int> random_number;
   std::string read_buffer;
 
-      curl = CurlManager::Instance().GetCurlHandle();
+  curl = CurlManager::Instance().GetCurlHandle();
   if (curl) {
     std::string url =
         "https://www.random.org/integers/?num=" + std::to_string(generate) +
@@ -74,7 +74,7 @@ std::vector<int> GenRandom(const int &generate, const int &min,
         read_buffer.erase(
             std::remove(read_buffer.begin(), read_buffer.end(), '\n'),
             read_buffer.end());
-        for(const auto &i : read_buffer) {
+        for (const auto &i : read_buffer) {
           random_number.push_back(i - '0');
         }
         return random_number;
