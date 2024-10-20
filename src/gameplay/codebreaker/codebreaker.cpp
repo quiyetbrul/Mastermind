@@ -55,6 +55,7 @@ void Codebreaker::removeCode(const std::vector<int> &guess) {
   if (guess.empty()) {
     return;
   }
+  // TODO: create a function to remove a code from the set
   int index;
   for (auto it = combinations_.begin(); it != combinations_.end(); it++) {
     index = std::distance(combinations_.begin(),
