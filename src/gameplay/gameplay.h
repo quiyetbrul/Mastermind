@@ -12,8 +12,7 @@ public:
 
   void Start();
 
-  std::string GiveFeedback(const std::string &secret_code,
-                           const std::string &guesses);
+  std::string GiveFeedback(std::vector<int> guess, std::vector<int> code);
 
 private:
   static const int kLifeStart = 10;
@@ -27,9 +26,9 @@ private:
   void OverwriteGame(const Games &game);
   void PlayAgain();
   void CheckGameOver(int &life, const std::string &secret_code);
-  std::string InputGuess(const std::string &prompt);
-  void
-  PrintGuesses(const std::vector<std::pair<std::string, std::string>> &guesses);
+  std::vector<int> InputGuess(const std::string &prompt);
+  void PrintGuesses(
+      const std::vector<std::pair<std::vector<int>, std::string>> &guesses);
 };
 
 #endif // GAMEPLAY_H_

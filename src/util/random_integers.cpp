@@ -46,12 +46,14 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
 }
 
 // Function to generate random numbers using Random.org API
-std::string GenRandom(const int &generate, const int &min, const int &max) {
+std::vector<int> GenRandom(const int &generate, const int &min,
+                           const int &max) {
   CURL *curl;
   CURLcode res;
+  std::vector<int> random_number;
   std::string read_buffer;
 
-  curl = CurlManager::Instance().GetCurlHandle();
+      curl = CurlManager::Instance().GetCurlHandle();
   if (curl) {
     std::string url =
         "https://www.random.org/integers/?num=" + std::to_string(generate) +
@@ -72,7 +74,10 @@ std::string GenRandom(const int &generate, const int &min, const int &max) {
         read_buffer.erase(
             std::remove(read_buffer.begin(), read_buffer.end(), '\n'),
             read_buffer.end());
-        return read_buffer;
+        for(const auto &i : read_buffer) {
+          random_number.push_back(i - '0');
+        }
+        return random_number;
       }
     } else {
       std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res)
@@ -82,10 +87,8 @@ std::string GenRandom(const int &generate, const int &min, const int &max) {
     std::cerr << "curl_easy_init() failed" << std::endl;
   }
 
-  // Fallback to local random number generation
-  std::string random_number;
   for (int i = 0; i < generate; i++) {
-    random_number += std::to_string(RandomNumber(min, max));
+    random_number.push_back(RandomNumber(min, max));
   }
   return random_number;
 }

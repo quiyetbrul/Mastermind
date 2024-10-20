@@ -30,7 +30,7 @@ void SetTerminalSize(const int &width = kTerminalWidth,
 
 void SetTerminalTitle(const std::string &title);
 
-std::string GenRandom(const int &generate, const int &min, const int &max);
+std::vector<int> GenRandom(const int &generate, const int &min, const int &max);
 int RandomNumber(const int &min, const int &max);
 
 std::string InputString(const std::string &prompt);

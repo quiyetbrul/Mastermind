@@ -54,7 +54,7 @@ void Gameplay::GameMenu() {
 void Gameplay::SinglePlayer() {
   Title();
 
-  std::vector<std::pair<std::string, std::string>> user_guess_history;
+  std::vector<std::pair<std::vector<int>, std::string>> user_guess_history;
   Player player_one;
   player_one.SetSecretCode(
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
@@ -62,14 +62,14 @@ void Gameplay::SinglePlayer() {
 
   // TODO: DRY this up
   while (player_one.GetLife() > 0) {
-    std::string user_guess = InputGuess("Enter your guess: ");
-    std::string_view view_input = user_guess;
-    if (view_input == "/save") {
-      SaveGame(player_one);
-    }
+    std::vector<int> user_guess = InputGuess("Enter your guess: ");
+
     if (user_guess == player_one.GetSecretCode()) {
       Congratulations();
-      std::cout << player_one.GetSecretCode() << std::endl;
+      for (const auto &i : player_one.GetSecretCode()) {
+        std::cout << i << " ";
+      }
+      std::cout << std::endl;
       // TODO: update scoreboard
       break;
     }
@@ -79,7 +79,10 @@ void Gameplay::SinglePlayer() {
     player_one.DecrementLife();
     if (player_one.GetLife() == 0) {
       TryAgain();
-      std::cout << player_one.GetSecretCode() << std::endl;
+      for (const auto &i : player_one.GetSecretCode()) {
+        std::cout << i << " ";
+      }
+      std::cout << std::endl;
     }
   }
 
@@ -89,7 +92,7 @@ void Gameplay::SinglePlayer() {
 void Gameplay::ComputerCodebreaker() {
   Title();
 
-  std::vector<std::pair<std::string, std::string>> computer_guess_history;
+  std::vector<std::pair<std::vector<int>, std::string>> computer_guess_history;
   Player player_computer;
   player_computer.SetSecretCode(
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
@@ -97,28 +100,32 @@ void Gameplay::ComputerCodebreaker() {
 
   Codebreaker computer(kSecretCodeLength, kMinSecretCodeDigit,
                        kMaxSecretCodeDigit);
+  std::vector<int> computer_guess = {0, 0, 1, 1};
 
   while (player_computer.GetLife() > 0) {
-    std::string computer_guess =
-        computer.MakeGuess(); // Use MakeGuess to get a guess
-    std::string feedback =
-        GiveFeedback(player_computer.GetSecretCode(), computer_guess);
-    computer.ReceiveFeedback(feedback); // Update Codebreaker with the feedback
-
+    computer.removeCode(computer_guess); // Remove the guess from the set
     if (computer_guess == player_computer.GetSecretCode()) {
       Congratulations();
-      std::cout << player_computer.GetSecretCode() << std::endl;
+      for (const auto &i : player_computer.GetSecretCode()) {
+        std::cout << i << " ";
+      }
+      std::cout << std::endl;
       break;
     }
-
+    std::string feedback =
+        GiveFeedback(player_computer.GetSecretCode(), computer_guess);
     player_computer.AddGuess(computer_guess, feedback);
     PrintGuesses(player_computer.GetGuesses());
     player_computer.DecrementLife();
-
     if (player_computer.GetLife() == 0) {
       TryAgain();
-      std::cout << player_computer.GetSecretCode() << std::endl;
+      for (const auto &i : player_computer.GetSecretCode()) {
+        std::cout << i << " ";
+      }
+      std::cout << std::endl;
     }
+    computer.pruneCodes(computer_guess, feedback); // Prune the set of codes
+    computer_guess = computer.MakeGuess(); // Use MakeGuess to get a guess
   }
 
   PlayAgain();
@@ -148,16 +155,17 @@ void Gameplay::SaveGame(const Player &player) {
 // TODO: this is menu
 // update record
 void Gameplay::OverwriteGame(const Games &game) {
-  for (int i = 0; i < saved_games_.size(); i++) {
-    std::cout << i << ". " << saved_games_[i].GetGameName() << std::endl;
-    std::cout << "\tLife: " << saved_games_[i].GetPlayer().GetLife() << std::endl;
-    std::cout << "\tLast guess: "
-              << saved_games_[i].GetPlayer().GetGuesses().back().first
-              << std::endl;
-    std::cout << "\tLast feedback: "
-              << saved_games_[i].GetPlayer().GetGuesses().back().second
-              << std::endl;
-  }
+  // for (int i = 0; i < saved_games_.size(); i++) {
+  //   std::cout << i << ". " << saved_games_[i].GetGameName() << std::endl;
+  //   std::cout << "\tLife: " << saved_games_[i].GetPlayer().GetLife()
+  //             << std::endl;
+  //   std::cout << "\tLast guess: "
+  //             << saved_games_[i].GetPlayer().GetGuesses().back().first
+  //             << std::endl;
+  //   std::cout << "\tLast feedback: "
+  //             << saved_games_[i].GetPlayer().GetGuesses().back().second
+  //             << std::endl;
+  // }
   int to_overwrite = InputInteger(
       "Enter the number of the game to overwrite: ", 0, saved_games_.size());
   saved_games_[to_overwrite] = game;
@@ -180,53 +188,43 @@ void Gameplay::CheckGameOver(int &life, const std::string &secret_code) {
   }
 }
 
-std::string Gameplay::GiveFeedback(const std::string &secret_code,
-                                   const std::string &guesses) {
-  int correct_position = 0;
-  int correct_digit = 0;
+std::string Gameplay::GiveFeedback(std::vector<int> guess,
+                                   std::vector<int> code) {
 
-  // Vectors to keep track of unmatched digits
-  std::vector<bool> matched_secret(kSecretCodeLength, false);
-  std::vector<bool> matched_guess(kSecretCodeLength, false);
-  std::array<int, 10> secret_count = {0};
+  std::string result; // Stores the result of checking the guess
 
-  // First pass: mark exact matches and count remaining digits in secret_code
-  for (int i = 0; i < kSecretCodeLength; i++) {
-    if (guesses[i] == secret_code[i]) {
-      correct_position++;
-      matched_secret[i] = true;
-      matched_guess[i] = true;
-    } else {
-      secret_count[secret_code[i] - '0']++;
+  // Check for exact matches (colored pegs)
+  for (int i = 0; i < kSecretCodeLength; ++i) {
+
+    if (guess[i] == code[i]) { // If the guess matches the code at this position
+      result.append("B");      // Append "B" for a black (colored) peg
+      guess[i] *= -1;          // Mark this position as processed
+      code[i] *= -1;           // Mark this position as processed
     }
   }
 
-  // Second pass: count correct digits in wrong positions
-  for (int i = 0; i < kSecretCodeLength; i++) {
-    if (!matched_guess[i] && secret_count[guesses[i] - '0'] > 0) {
-      correct_digit++;
-      secret_count[guesses[i] - '0']--;
+  // Check for white pegs (correct color but wrong position)
+  for (int i = 0; i < kSecretCodeLength; ++i) {
+
+    if (code[i] > 0) { // If the code element hasn't been processed
+
+      std::vector<int>::iterator it = find(guess.begin(), guess.end(), code[i]);
+      int index;
+      if (it != guess.end()) { // If the color is found in the guess
+
+        index =
+            distance(guess.begin(), it); // Get the index of the matching guess
+        result.append("W");              // Append "W" for a white peg
+        guess[index] *= -1;              // Mark the guess as processed
+      }
     }
   }
 
-  if (correct_position == 0 && correct_digit == 0) {
-    return std::string(ANSI_COLOR_RED) + "No correct digit" + ANSI_RESET;
-  }
-
-  std::string feedback = "";
-  for (int i = 0; i < correct_position; i++) {
-    feedback += std::string(ANSI_COLOR_GREEN) + "B" + ANSI_RESET;
-  }
-
-  for (int i = 0; i < correct_digit; i++) {
-    feedback += std::string(ANSI_COLOR_YELLOW) + "W" + ANSI_RESET;
-  }
-
-  return feedback;
+  return result; // Return the result string (e.g., "BWW")
 }
 
 void Gameplay::PrintGuesses(
-    const std::vector<std::pair<std::string, std::string>> &guesses) {
+    const std::vector<std::pair<std::vector<int>, std::string>> &guesses) {
   Title();
   for (const auto &i : guesses) {
     for (const auto &c : i.first) {
@@ -236,7 +234,7 @@ void Gameplay::PrintGuesses(
   }
 }
 
-std::string Gameplay::InputGuess(const std::string &prompt) {
+std::vector<int> Gameplay::InputGuess(const std::string &prompt) {
   std::string input;
   while (true) {
     std::cout << prompt;
@@ -246,6 +244,7 @@ std::string Gameplay::InputGuess(const std::string &prompt) {
     // by avoiding copying the string
     std::string_view view_input = input;
     if (view_input == "/save") {
+      // SaveGame(player);
       break;
     }
 
@@ -268,5 +267,11 @@ std::string Gameplay::InputGuess(const std::string &prompt) {
       break;
     }
   }
-  return input;
+  std::vector<int> result;
+
+  for (char c : input) {
+    result.push_back(c - '0');
+  }
+
+  return result;
 }
