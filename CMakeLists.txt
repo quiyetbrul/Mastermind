@@ -1,5 +1,4 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
-
 project(mastermind)
 
 # Set C++ standard
@@ -17,6 +16,15 @@ endif()
 # Export compile commands for completion engines (optional)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Include directories
+include_directories(src)
+include_directories(src/ui)
+include_directories(src/util)
+include_directories(src/gameplay)
+include_directories(src/games)
+include_directories(src/player)
+
+# Add executable
 add_executable(${PROJECT_NAME}
                                 src/main.cpp
                                 src/gameplay/gameplay.cpp

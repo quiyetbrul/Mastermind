@@ -3,10 +3,11 @@
 #include <iostream>
 #include <string>
 
-#include "../ui/menu.h"
-#include "../ui/print.h"
-#include "../util/util.h"
-#include "codebreaker/codebreaker.h"
+#include "gameplay/codebreaker/codebreaker.h"
+#include "util/gameplay_util.h"
+#include "ui/menu.h"
+#include "ui/print.h"
+#include "util/util.h"
 
 std::vector<Games> Gameplay::saved_games_;
 const int Gameplay::kLifeStart;
@@ -103,7 +104,7 @@ void Gameplay::ComputerCodebreaker() {
   std::vector<int> computer_guess = {0, 0, 1, 1};
 
   while (player_computer.GetLife() > 0) {
-    computer.removeCode(computer_guess); // Remove the guess from the set
+    computer.RemoveCode(computer_guess); // Remove the guess from the set
     if (computer_guess == player_computer.GetSecretCode()) {
       Congratulations();
       for (const auto &i : player_computer.GetSecretCode()) {
@@ -124,51 +125,11 @@ void Gameplay::ComputerCodebreaker() {
       }
       std::cout << std::endl;
     }
-    computer.pruneCodes(computer_guess, feedback); // Prune the set of codes
+    computer.PruneCodes(computer_guess, feedback); // Prune the set of codes
     computer_guess = computer.MakeGuess(); // Use MakeGuess to get a guess
   }
 
   PlayAgain();
-}
-
-// TODO: add record
-void Gameplay::SaveGame(const Player &player) {
-  std::string game_name = InputString("Enter the name of the game: ");
-  std::string password = InputString("Enter a password for the game: ");
-  Games game(game_name, password, player);
-
-  if (saved_games_.size() >= save_limit_) {
-    std::cout << "Only " << save_limit_ << " games can be saved at a time."
-              << std::endl;
-    char overwrite =
-        InputChar("Do you want to overwrite a game? (y/n): ", 'y', 'n');
-    if (overwrite == 'y') {
-      OverwriteGame(game);
-    }
-  } else {
-    saved_games_.push_back(game);
-  }
-  // TODO: update record of saved games
-  Start();
-}
-
-// TODO: this is menu
-// update record
-void Gameplay::OverwriteGame(const Games &game) {
-  // for (int i = 0; i < saved_games_.size(); i++) {
-  //   std::cout << i << ". " << saved_games_[i].GetGameName() << std::endl;
-  //   std::cout << "\tLife: " << saved_games_[i].GetPlayer().GetLife()
-  //             << std::endl;
-  //   std::cout << "\tLast guess: "
-  //             << saved_games_[i].GetPlayer().GetGuesses().back().first
-  //             << std::endl;
-  //   std::cout << "\tLast feedback: "
-  //             << saved_games_[i].GetPlayer().GetGuesses().back().second
-  //             << std::endl;
-  // }
-  int to_overwrite = InputInteger(
-      "Enter the number of the game to overwrite: ", 0, saved_games_.size());
-  saved_games_[to_overwrite] = game;
 }
 
 void Gameplay::PlayAgain() {
@@ -186,41 +147,6 @@ void Gameplay::CheckGameOver(int &life, const std::string &secret_code) {
     TryAgain();
     std::cout << secret_code << std::endl;
   }
-}
-
-std::string Gameplay::GiveFeedback(std::vector<int> guess,
-                                   std::vector<int> code) {
-
-  std::string result; // Stores the result of checking the guess
-
-  // Check for exact matches (colored pegs)
-  for (int i = 0; i < kSecretCodeLength; ++i) {
-
-    if (guess[i] == code[i]) { // If the guess matches the code at this position
-      result.append("B");      // Append "B" for a black (colored) peg
-      guess[i] *= -1;          // Mark this position as processed
-      code[i] *= -1;           // Mark this position as processed
-    }
-  }
-
-  // Check for white pegs (correct color but wrong position)
-  for (int i = 0; i < kSecretCodeLength; ++i) {
-
-    if (code[i] > 0) { // If the code element hasn't been processed
-
-      std::vector<int>::iterator it = find(guess.begin(), guess.end(), code[i]);
-      int index;
-      if (it != guess.end()) { // If the color is found in the guess
-
-        index =
-            distance(guess.begin(), it); // Get the index of the matching guess
-        result.append("W");              // Append "W" for a white peg
-        guess[index] *= -1;              // Mark the guess as processed
-      }
-    }
-  }
-
-  return result; // Return the result string (e.g., "BWW")
 }
 
 void Gameplay::PrintGuesses(

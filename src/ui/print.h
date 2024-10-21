@@ -3,9 +3,9 @@
 #ifndef PRINT_H_
 #define PRINT_H_
 
-#include "../util/util.h"
-
 #include <iostream>
+
+#include "util.h"
 
 inline void Title() {
   ClearScreen();

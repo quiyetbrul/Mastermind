@@ -4,15 +4,13 @@
 #include <string>
 #include <vector>
 
-#include "../games/games.h"
+#include "games/games.h"
 
 class Gameplay {
 public:
   Gameplay(){};
 
   void Start();
-
-  std::string GiveFeedback(std::vector<int> guess, std::vector<int> code);
 
 private:
   static const int kLifeStart = 10;
@@ -22,8 +20,6 @@ private:
   void GameMenu();
   void SinglePlayer();
   void ComputerCodebreaker();
-  void SaveGame(const Player &player);
-  void OverwriteGame(const Games &game);
   void PlayAgain();
   void CheckGameOver(int &life, const std::string &secret_code);
   std::vector<int> InputGuess(const std::string &prompt);

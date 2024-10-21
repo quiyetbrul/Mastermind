@@ -1,9 +1,9 @@
 #include "menu.h"
 
-#include "../ui/menu.h"
-#include "../ui/print.h"
-
 #include <iostream>
+
+#include "ui/menu.h"
+#include "ui/print.h"
 
 int MainMenu() {
   Title();

@@ -1,12 +1,13 @@
 #include "util.h"
 
-#include <algorithm>
 #include <curl/curl.h>
 #include <iostream>
 #include <random>
 #include <string>
+#include <sstream>
 
 // Singleton CURL manager class
+// FOLLOWED EXAMPLE FROM https://terminalroot.com/using-curl-with-cpp/
 class CurlManager {
 public:
   static CurlManager &Instance() {
@@ -71,11 +72,12 @@ std::vector<int> GenRandom(const int &generate, const int &min,
       if (http_code == 503) {
         std::cerr << "Server is busy (503 Service Unavailable)" << std::endl;
       } else {
-        read_buffer.erase(
-            std::remove(read_buffer.begin(), read_buffer.end(), '\n'),
-            read_buffer.end());
-        for (const auto &i : read_buffer) {
-          random_number.push_back(i - '0');
+        std::istringstream iss(read_buffer);
+        std::string line;
+        while (std::getline(iss, line)) {
+          if (!line.empty()) {
+            random_number.push_back(std::stoi(line));
+          }
         }
         return random_number;
       }

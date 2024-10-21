@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "../player/player.h"
+#include "player/player.h"
 
 class Games {
 public:
