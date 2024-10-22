@@ -16,31 +16,23 @@ endif()
 # Export compile commands for completion engines (optional)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Include directories
-include_directories(src)
-include_directories(src/ui)
-include_directories(src/util)
-include_directories(src/gameplay)
-include_directories(src/games)
-include_directories(src/player)
+# Include subdirectories
+add_subdirectory(src/gameplay)
+add_subdirectory(src/games)
+add_subdirectory(src/player)
+add_subdirectory(src/ui)
+add_subdirectory(src/util)
 
 # Add executable
-add_executable(${PROJECT_NAME}
-                                src/main.cpp
-                                src/gameplay/gameplay.cpp
-                                src/gameplay/codebreaker/codebreaker.cpp
-                                src/games/games.cpp
-                                src/ui/menu.cpp
-                                src/player/player.cpp
-                                src/util/input_validation.cpp
-                                src/util/random_integers.cpp
-                                src/util/util_os.cpp
-                                )
+add_executable(${PROJECT_NAME} src/main.cpp)
+
+# Link subdirectory libraries
+target_link_libraries(${PROJECT_NAME} PRIVATE gameplay games player ui util)
 
 # Find and link libcurl
 find_package(CURL REQUIRED)
-target_include_directories(mastermind PRIVATE ${CURL_INCLUDE_DIRS})
-target_link_libraries(mastermind PRIVATE ${CURL_LIBRARIES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
 
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME}
