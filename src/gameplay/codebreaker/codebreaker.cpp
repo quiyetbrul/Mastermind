@@ -3,7 +3,7 @@
 #include <climits>
 #include <string>
 
-#include "util/gameplay_util.h"
+#include "gameplay/util/gameplay_util.h"
 
 // Constructor
 Codebreaker::Codebreaker(int code_length, int min_digit, int max_digit)

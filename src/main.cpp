@@ -1,5 +1,5 @@
 #include "gameplay/gameplay.h"
-#include "util.h"
+#include "util/util.h"
 
 /**
  * @brief A Mastermind game clone in C++
