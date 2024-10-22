@@ -24,7 +24,7 @@ add_subdirectory(src/player)
 add_subdirectory(src/ui)
 add_subdirectory(src/util)
 
-add_definitions(-DSCORES_FILE_PATH=\"${CMAKE_SOURCE_DIR}/src/data/scoreboard.csv\"
+add_definitions(-DSCORES_FILE_PATH=\"${CMAKE_SOURCE_DIR}/src/data/scoreboard.csv\")
 
 # Add executable
 add_executable(${PROJECT_NAME} src/main.cpp)
