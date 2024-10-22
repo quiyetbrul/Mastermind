@@ -1,3 +1,7 @@
-#include <iostream>
+// #include "json_handler.h"
 
-class JSONHandler {};
+// void JSONHandler::SaveGame(const Games &game) {}
+
+// void OverwriteGame(const Games &game);
+
+// std::vector<Games> JSONHandler::LoadGame() { return std::vector<Games>(); }

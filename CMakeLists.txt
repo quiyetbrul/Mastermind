@@ -17,6 +17,7 @@ endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Include subdirectories
+add_subdirectory(src/data_management)
 add_subdirectory(src/gameplay)
 add_subdirectory(src/games)
 add_subdirectory(src/player)
@@ -27,7 +28,13 @@ add_subdirectory(src/util)
 add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Link subdirectory libraries
-target_link_libraries(${PROJECT_NAME} PRIVATE gameplay games player ui util)
+target_link_libraries(${PROJECT_NAME} PRIVATE
+                                    data_management
+                                    gameplay
+                                    games
+                                    player
+                                    ui
+                                    util)
 
 # Find and link libcurl
 find_package(CURL REQUIRED)

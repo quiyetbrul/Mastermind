@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "ui/print.h"
-#include "util.h"
+#include "util/util.h"
 
 void PlayGameLoop(Player &player, Codebreaker *computer,
                   std::vector<int> initial_guess) {
@@ -18,6 +18,7 @@ void PlayGameLoop(Player &player, Codebreaker *computer,
     if (guess == player.GetSecretCode()) {
       Congratulations();
       PrintCode(player.GetSecretCode());
+      player.SetWinner(true);
       break;
     }
 
@@ -29,6 +30,7 @@ void PlayGameLoop(Player &player, Codebreaker *computer,
     if (player.GetLife() == 0) {
       TryAgain();
       PrintCode(player.GetSecretCode());
+      player.SetWinner(false);
       break;
     }
 
