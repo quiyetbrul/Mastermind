@@ -1,7 +1,7 @@
 #ifndef SINGLE_PLAYER_H_
 #define SINGLE_PLAYER_H_
 
-#include "../../../player/player.h"
+#include "player/player.h"
 
 class SinglePlayer {
 public:
