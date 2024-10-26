@@ -13,8 +13,6 @@ void SinglePlayer::Start() {
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
   player.SetGuesses(user_guess_history);
 
-  PrintCode(player.GetSecretCode());
-
   PlayGameLoop(player);
   if (player.IsWinner()) {
     CSVHandler csv_handler("src/data_management/data/scoreboard.csv");

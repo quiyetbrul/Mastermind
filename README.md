@@ -41,6 +41,8 @@ Whether you're looking for a quick mental workout or a fun way to pass the time.
 
 ### Activity Diagram
 
+#### TODO: WIP Activity Diagram
+
 ```mermaid
 graph TD
     A[Display Main Menu] --> B[User Chooses Option]
@@ -63,6 +65,8 @@ graph TD
 ```
 
 ### Class Diagram
+
+#### TODO: WIP Class Diagram
 
 ```mermaid
 classDiagram

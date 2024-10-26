@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+// TODO: get string input, validate, and convert to integer
+// rename GetIntegerInput
 int InputInteger(const std::string prompt, const int &start_range,
                  const int &end_range) {
   int input;

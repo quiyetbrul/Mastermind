@@ -77,20 +77,12 @@ void Codebreaker::RemoveCode(std::vector<std::vector<int>> &set,
 
 void Codebreaker::PruneCodes(const std::vector<int> &guess,
                              const std::string &feedback) {
-  int index;
-  auto it = candidate_solutions_.begin();
-
-  // Iterate through the set of codes
-  while (it != candidate_solutions_.end()) {
-    index = distance(candidate_solutions_.begin(), it);
-
-    // If the code's response doesn't match the expected response, remove it
-    if (feedback != GiveFeedback(guess, candidate_solutions_[index])) {
-      it = candidate_solutions_.erase(candidate_solutions_.begin() + index);
-    } else {
-      it++; // Move to the next code
-    }
-  }
+  candidate_solutions_.erase(
+      std::remove_if(candidate_solutions_.begin(), candidate_solutions_.end(),
+                     [&](const std::vector<int> &code) {
+                       return feedback != GiveFeedback(guess, code);
+                     }),
+      candidate_solutions_.end());
 }
 
 std::vector<std::vector<int>> Codebreaker::Minimax() {

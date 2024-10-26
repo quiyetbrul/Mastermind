@@ -13,6 +13,7 @@ void PlayGameLoop(Player &player, Codebreaker *computer,
 
     if (!computer) {
       guess = InputGuess("Enter your guess: ");
+      // TODO: memoize the guess
     }
 
     if (guess == player.GetSecretCode()) {
@@ -55,10 +56,9 @@ std::string GiveFeedback(std::vector<int> guess, std::vector<int> code) {
   }
 
   // Check for white pegs (correct color but wrong position)
-  for (int &code_element : code) {
+  for (const int &code_element : code) {
     if (code_element > 0) { // If the code element hasn't been processed
       auto it = std::find(guess.begin(), guess.end(), code_element);
-
       if (it != guess.end()) { // If the color is found in the guess
         result.append("W");    // Append "W" for a white peg
         *it *= -1;             // Mark the guess as processed
