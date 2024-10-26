@@ -41,6 +41,8 @@ Whether you're looking for a quick mental workout or a fun way to pass the time.
 
 ### Activity Diagram
 
+NOTE: If you don't have Mermaid viewer, view the diagram here. TODO: Add link to diagram.
+
 #### TODO: WIP Activity Diagram
 
 ```mermaid
@@ -66,6 +68,8 @@ graph TD
 
 ### Class Diagram
 
+NOTE: If you don't have Mermaid viewer, view the diagram here. TODO: Add link to diagram.
+
 #### TODO: WIP Class Diagram
 
 ```mermaid
@@ -84,13 +88,6 @@ classDiagram
         -Player player
     }
 
-    class Menu {
-        +int MainMenu()
-        +int PlayerMenu()
-        +void Instructions()
-    }
-
-    Gameplay --> Menu
     Gameplay --> ComputerPlayer
 end
 ```
