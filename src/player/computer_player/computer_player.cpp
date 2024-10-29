@@ -1,6 +1,6 @@
 #include "computer_player.h"
 
-#include "gameplay/codebreaker/codebreaker.h"
+#include "player/computer_player/codebreaker/codebreaker.h"
 #include "gameplay/util/gameplay_util.h"
 #include "ui/print.h"
 #include "util/util.h"

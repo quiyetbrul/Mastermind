@@ -4,8 +4,8 @@
 #include <string>
 #include <thread>
 
-#include "computer_player/computer_player.h"
-#include "human_player/single_player/single_player.h"
+#include "player/computer_player/computer_player.h"
+#include "player/single_player/single_player.h"
 #include "ui/menu.h"
 #include "ui/print.h"
 #include "util/util.h"

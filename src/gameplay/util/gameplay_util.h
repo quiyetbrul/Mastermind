@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "gameplay/codebreaker/codebreaker.h"
+#include "player/computer_player/codebreaker/codebreaker.h"
 #include "player/player.h"
 
 void PlayGameLoop(Player &player, Codebreaker *computer = nullptr,

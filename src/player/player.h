@@ -5,8 +5,6 @@
 #include <utility>
 #include <vector>
 
-// TODO: single_player and multiplayer should inherit from Player
-// Player Factory Method Pattern
 class Player {
 public:
   Player() {
@@ -36,7 +34,8 @@ public:
   void SetLife(const int &life);
   void SetScore(const int &score);
   void SetSecretCode(const std::vector<int> &secret_code);
-  void SetGuesses(std::vector<std::pair<std::vector<int>, std::string>> &guesses);
+  void
+  SetGuesses(std::vector<std::pair<std::vector<int>, std::string>> &guesses);
   void SetWinner(const bool &is_winner);
 
 private:
