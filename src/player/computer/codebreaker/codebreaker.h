@@ -1,5 +1,5 @@
-#ifndef CODEBREAKER_H_
-#define CODEBREAKER_H_
+#ifndef PLAYER_COMPUTER_CODEBREAKER_H_
+#define PLAYER_COMPUTER_CODEBREAKER_H_
 
 #include <map>
 #include <string>
@@ -35,4 +35,4 @@ private:
   int GetMinScore(const std::map<std::vector<int>, int> &score);
 };
 
-#endif // CODEBREAKER_H_
+#endif // PLAYER_COMPUTER_CODEBREAKER_H_

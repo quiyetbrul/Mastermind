@@ -1,5 +1,5 @@
-#ifndef SINGLE_H_
-#define SINGLE_H_
+#ifndef SINGLE_SINGLE_H_
+#define SINGLE_SINGLE_H_
 
 #include "player/player.h"
 
@@ -12,4 +12,4 @@ public:
 };
 } // namespace player
 
-#endif // SINGLE_H_
+#endif // SINGLE_SINGLE_H_

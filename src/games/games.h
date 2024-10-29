@@ -1,5 +1,5 @@
-#ifndef GAMES_H_
-#define GAMES_H_
+#ifndef GAMES_GAMES_H_
+#define GAMES_GAMES_H_
 
 #include <string>
 
@@ -29,4 +29,4 @@ private:
   player::Player player_;
 };
 
-#endif // GAMES_H_
+#endif // GAMES_GAMES_H_

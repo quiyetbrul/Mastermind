@@ -1,5 +1,5 @@
-#ifndef CSV_HANDLER_H_
-#define CSV_HANDLER_H_
+#ifndef DATA_MANAGEMENT_CSV_HANDLER_H_
+#define DATA_MANAGEMENT_CSV_HANDLER_H_
 
 #include <string>
 
@@ -30,4 +30,4 @@ public:
     void AddScore(const std::string &name, const int &score);
   };
 
-#endif // CSV_HANDLER_H_
+#endif // DATA_MANAGEMENT_CSV_HANDLER_H_

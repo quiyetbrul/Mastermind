@@ -1,5 +1,5 @@
-#ifndef COMPUTER_H_
-#define COMPUTER_H_
+#ifndef PLAYER_COMPUTER_H_
+#define PLAYER_COMPUTER_H_
 
 #include "player/player.h"
 
@@ -12,4 +12,4 @@ public:
 };
 } // namespace player
 
-#endif // COMPUTER_H_
+#endif // PLAYER_COMPUTER_H_

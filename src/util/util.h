@@ -1,5 +1,5 @@
-#ifndef UTIL_H_
-#define UTIL_H_
+#ifndef UTIL_UTIL_H_
+#define UTIL_UTIL_H_
 
 #include <string>
 
@@ -40,4 +40,4 @@ int InputInteger(const std::string prompt, const int &start_range,
 
 char InputChar(const std::string &prompt, const char &yes, const char &no);
 
-#endif // UTIL_H_
+#endif // UTIL_UTIL_H_

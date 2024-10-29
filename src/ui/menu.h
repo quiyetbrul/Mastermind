@@ -1,8 +1,8 @@
-#ifndef MENU_H_
-#define MENU_H_
+#ifndef UI_MENU_H_
+#define UI_MENU_H_
 
 int MainMenu();
 int PlayerMenu();
 void Instructions();
 
-#endif // MENU_H_
+#endif // UI_MENU_H_

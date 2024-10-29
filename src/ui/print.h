@@ -1,7 +1,7 @@
 // clang-format off
 
-#ifndef PRINT_H_
-#define PRINT_H_
+#ifndef UI_PRINT_H_
+#define UI_PRINT_H_
 
 #include <iostream>
 
@@ -62,4 +62,4 @@ inline void Goodbye() {
   std::cout << ANSI_RESET;
 }
 
-#endif // PRINT_H_
+#endif // UI_PRINT_H_

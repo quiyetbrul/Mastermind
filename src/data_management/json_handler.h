@@ -1,5 +1,5 @@
-// #ifndef JSON_HANDLER_H_
-// #define JSON_HANDLER_H_
+// #ifndef DATA_MANAGEMENT_JSON_HANDLER_H_
+// #define DATA_MANAGEMENT_JSON_HANDLER_H_
 
 // #include <string>
 
@@ -21,4 +21,4 @@
 //   void OverwriteGame(const Games &game);
 // };
 
-// #endif // JSON_HANDLER_H_
+// #endif // DATA_MANAGEMENT_JSON_HANDLER_H_

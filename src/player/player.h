@@ -1,5 +1,5 @@
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#ifndef PLAYER_PLAYER_H_
+#define PLAYER_PLAYER_H_
 
 #include <string>
 #include <utility>
@@ -60,4 +60,4 @@ private:
 };
 } // namespace player
 
-#endif // PLAYER_H_
+#endif // PLAYER_PLAYER_H_

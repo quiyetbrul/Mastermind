@@ -1,5 +1,5 @@
-#ifndef GAMEPLAY_H_
-#define GAMEPLAY_H_
+#ifndef GAMEPLAY_GAMEPLAY_H_
+#define GAMEPLAY_GAMEPLAY_H_
 
 #include <vector>
 
@@ -20,4 +20,4 @@ private:
   void PlayAgain();
 };
 
-#endif // GAMEPLAY_H_
+#endif // GAMEPLAY_GAMEPLAY_H_
