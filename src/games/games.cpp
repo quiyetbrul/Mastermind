@@ -5,7 +5,7 @@ std::string Games::GetGameName() const { return game_name_; }
 
 std::string Games::GetGamePassword() const { return game_password_; }
 
-Player Games::GetPlayer() const { return player_; }
+player::Player Games::GetPlayer() const { return player_; }
 
 void Games::SetGameName(const std::string &game_name) {
   game_name_ = game_name;

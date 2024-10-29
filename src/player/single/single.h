@@ -3,14 +3,13 @@
 
 #include "player/player.h"
 
-class SinglePlayer {
+namespace player {
+class Single : public Player {
 public:
-  SinglePlayer(){};
+  Single(){};
 
   void Start();
-
-private:
-  Player player;
 };
+} // namespace player
 
 #endif // SINGLE_H_

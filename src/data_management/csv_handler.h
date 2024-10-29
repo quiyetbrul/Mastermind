@@ -13,7 +13,7 @@ public:
 
   void SetFileName(const std::string &file_name);
 
-  void SaveScore(const Player &player);
+  void SaveScore(const player::Player &player);
 
   std::vector<std::pair<std::string, int>> GetScores() const;
 

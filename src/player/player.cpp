@@ -1,5 +1,75 @@
 #include "player.h"
 
+#include "ui/print.h"
+#include "util/util.h"
+
+namespace player {
+
+void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
+  std::vector<int> guess = initial_guess;
+
+  while (GetLife() > 0) {
+
+    if (!computer) {
+      guess = InputGuess("Enter your guess: ");
+      // TODO: memoize the guess
+    }
+
+    if (guess == GetSecretCode()) {
+      Congratulations();
+      PrintCode(GetSecretCode());
+      SetWinner(true);
+      break;
+    }
+
+    std::string feedback = GiveFeedback(GetSecretCode(), guess);
+    AddGuess(guess, feedback);
+    PrintGuesses(GetGuesses());
+    DecrementLife();
+
+    if (GetLife() == 0) {
+      TryAgain();
+      PrintCode(GetSecretCode());
+      SetWinner(false);
+      break;
+    }
+
+    if (computer) {
+      computer->RemoveCode(guess);           // Remove the guess from the set
+      computer->PruneCodes(guess, feedback); // Prune the set of codes
+      guess = computer->MakeGuess();         // Use MakeGuess to get a guess
+    }
+  }
+}
+
+std::vector<int> Player::InputGuess(const std::string &prompt) {
+  std::string input;
+  while (true) {
+    std::cout << prompt;
+    std::cin >> input;
+
+    if (input.length() != kSecretCodeLength) {
+      std::cout << "Input must be exactly " << kSecretCodeLength
+                << " digits long." << std::endl;
+      continue;
+    }
+
+    if (!std::all_of(input.begin(), input.end(),
+                     [](char c) { return c >= '0' && c <= '7'; })) {
+      std::cout << "Each digit must be between 0 and 7." << std::endl;
+      continue;
+    }
+
+    break;
+  }
+
+  std::vector<int> result(input.begin(), input.end());
+  std::transform(result.begin(), result.end(), result.begin(),
+                 [](char c) { return c - '0'; });
+
+  return result;
+}
+
 void Player::DecrementLife() { --life_; }
 
 void Player::DecrementScore() { --score_; }
@@ -40,3 +110,4 @@ void Player::SetGuesses(
 }
 
 void Player::SetWinner(const bool &is_winner) { is_winner_ = is_winner; };
+} // namespace player

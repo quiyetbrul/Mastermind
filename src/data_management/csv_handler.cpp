@@ -40,7 +40,7 @@ void CSVHandler::SetFileName(const std::string &file_name) {
   file_name_ = file_name;
 }
 
-void CSVHandler::SaveScore(const Player &player) {
+void CSVHandler::SaveScore(const player::Player &player) {
   if (saved_scores_.size() > kScoreLimit &&
       player.GetScore() > saved_scores_.back().second) {
     saved_scores_.pop_back();

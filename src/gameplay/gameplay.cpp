@@ -47,10 +47,10 @@ void Gameplay::Start() {
 void Gameplay::GameMenu() {
   int player_choice = PlayerMenu();
   if (player_choice == 1) {
-    SinglePlayer single_player;
+    player::Single single_player;
     single_player.Start();
   } else if (player_choice == 2) {
-    ComputerPlayer computer_player;
+    player::Computer computer_player;
     computer_player.Start();
   }
   PlayAgain();

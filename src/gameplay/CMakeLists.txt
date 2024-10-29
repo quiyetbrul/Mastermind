@@ -1,6 +1,5 @@
 set(GAMEPLAY_SOURCES
     gameplay.cpp
-    util/gameplay_util.cpp
 )
 
 add_library(gameplay ${GAMEPLAY_SOURCES})

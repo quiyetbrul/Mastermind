@@ -5,6 +5,9 @@
 #include <utility>
 #include <vector>
 
+#include "player/computer/codebreaker/codebreaker.h"
+
+namespace player {
 class Player {
 public:
   Player() {
@@ -38,6 +41,10 @@ public:
   SetGuesses(std::vector<std::pair<std::vector<int>, std::string>> &guesses);
   void SetWinner(const bool &is_winner);
 
+protected:
+  void GameLoop(Codebreaker *computer = nullptr,
+                std::vector<int> initial_guess = {});
+
 private:
   static const int kLifeStart = 10;
   std::string name_;
@@ -48,6 +55,9 @@ private:
 
   // TODO: Change to std::map
   std::vector<std::pair<std::vector<int>, std::string>> guesses_;
+
+  std::vector<int> InputGuess(const std::string &prompt);
 };
+} // namespace player
 
 #endif // PLAYER_H_

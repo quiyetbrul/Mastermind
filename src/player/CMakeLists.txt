@@ -3,6 +3,7 @@ set(PLAYER_SOURCES
     computer/codebreaker/codebreaker.cpp
     computer/computer.cpp
     single/single.cpp
+    util/util.cpp
 )
 
 add_library(player ${PLAYER_SOURCES})
