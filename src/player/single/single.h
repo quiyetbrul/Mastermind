@@ -1,5 +1,5 @@
-#ifndef SINGLE_PLAYER_H_
-#define SINGLE_PLAYER_H_
+#ifndef SINGLE_H_
+#define SINGLE_H_
 
 #include "player/player.h"
 
@@ -13,4 +13,4 @@ private:
   Player player;
 };
 
-#endif // SINGLE_PLAYER_H_
+#endif // SINGLE_H_

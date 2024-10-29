@@ -1,5 +1,5 @@
-#ifndef COMPUTER_PLAYER_H_
-#define COMPUTER_PLAYER_H_
+#ifndef COMPUTER_H_
+#define COMPUTER_H_
 
 #include "player/player.h"
 
@@ -13,4 +13,4 @@ private:
   Player player;
 };
 
-#endif // COMPUTER_PLAYER_H_
+#endif // COMPUTER_H_
