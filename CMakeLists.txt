@@ -8,9 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 # Enable debug symbols by default
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug
-        CACHE STRING
-            "Choose the type of build (Debug or Release)" FORCE)
+    set(CMAKE_BUILD_TYPE Debug CACHE STRING "Choose the type of build (Debug or Release)" FORCE)
 endif()
 
 # Export compile commands for completion engines (optional)
@@ -24,6 +22,7 @@ add_subdirectory(src/player)
 add_subdirectory(src/ui)
 add_subdirectory(src/util)
 
+# Define preprocessor macro for scores file path
 add_definitions(-DSCORES_FILE_PATH=\"${CMAKE_SOURCE_DIR}/src/data/scoreboard.csv\")
 
 # Add executable
@@ -31,34 +30,42 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Link subdirectory libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
-                                    data_management
-                                    gameplay
-                                    games
-                                    player
-                                    ui
-                                    util)
+    data_management
+    gameplay
+    games
+    player
+    ui
+    util
+)
 
-# Find and link libcurl
-find_package(CURL REQUIRED)
-target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
+# Fetch and link libcurl
+include(FetchContent)
+
+message(STATUS "Fetching libcurl")
+FetchContent_Declare(
+    curl
+    GIT_REPOSITORY https://github.com/curl/curl.git
+    GIT_TAG curl-7_80_0
+)
+
+# Prevent building the curl executable
+set(BUILD_CURL_EXE OFF CACHE BOOL "Do not build the curl executable")
+
+# Make curl available
+FetchContent_MakeAvailable(curl)
+
+# Include directories and link the libraries
+target_include_directories(${PROJECT_NAME} PRIVATE ${curl_SOURCE_DIR})
+target_link_libraries(${PROJECT_NAME} PRIVATE curl)
 
 # Using INSTALL_RPATH_USE_LINK_PATH
-set_target_properties(${PROJECT_NAME}
-    PROPERTIES
-        INSTALL_RPATH_USE_LINK_PATH TRUE)
+set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 # Set executable RPATH
-set_target_properties(${PROJECT_NAME}
-    PROPERTIES
-        INSTALL_RPATH
-            "${CMAKE_INSTALL_PREFIX}/lib"
-)
+set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 # Set executable install location
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 
 # Set install location for resources
-install(DIRECTORY assets
-    DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME}"
-)
+install(DIRECTORY assets DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME}")
