@@ -1,6 +1,8 @@
 #ifndef UTIL_UTIL_H_
 #define UTIL_UTIL_H_
 
+#include <functional>
+#include <iostream>
 #include <string>
 
 // TODO: move to definitions file
@@ -31,6 +33,16 @@ void SetTerminalTitle(const std::string &title);
 
 std::vector<int> GenRandom(const int &generate, const int &min, const int &max);
 int RandomNumber(const int &min, const int &max);
+
+// TODO: think where this should be. UI maybe? it deals with menus
+inline void ReturnTo(const std::string &where,
+                     const std::function<void()> &function) {
+  std::cout << "Press enter key to return to " << where << std::endl;
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  std::cin.get();
+  std::cin.clear();
+  function();
+}
 
 std::string InputString(const std::string &prompt);
 

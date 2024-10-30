@@ -11,10 +11,6 @@
 #include "ui/print.h"
 #include "util/util.h"
 
-std::vector<Games> Gameplay::saved_games_;
-const int Gameplay::kLifeStart;
-const int Gameplay::save_limit_;
-
 void Gameplay::Start() {
   int menu_choice = MainMenu();
   switch (menu_choice) {
@@ -23,22 +19,16 @@ void Gameplay::Start() {
     break;
   case 2:
     std::cout << "Load Game under construction" << std::endl;
-    // pause for 1 second
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    Start();
+    ReturnTo("Main Menu", [this]() { Start(); });
     break;
   case 3:
     // TODO: PRINT SCORE ASCII ART
     game_data::Scoreboard::GetInstance().PrintScores();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cin.get();
-    Start();
+    ReturnTo("Main Menu", [this]() { Start(); });
     break;
   case 4:
     Instructions();
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cin.get();
-    Start();
+    ReturnTo("Main Menu", [this]() { Start(); });
     break;
   case 5:
     Goodbye();
@@ -56,15 +46,11 @@ void Gameplay::GameMenu() {
     player::Computer computer_player;
     computer_player.Start();
   }
+  // TODO: maybe just have user enter and return to Start()
   PlayAgain();
 }
 
 void Gameplay::PlayAgain() {
   char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
-  if (play_again == 'y') {
-    GameMenu();
-  } else {
-    // TODO: maybe we just exit out of program?
-    Start();
-  }
+  play_again == 'y' ? GameMenu() : Start();
 }

@@ -1,10 +1,6 @@
 #ifndef GAMEPLAY_GAMEPLAY_H_
 #define GAMEPLAY_GAMEPLAY_H_
 
-#include <vector>
-
-#include "games/games.h"
-
 class Gameplay {
 public:
   Gameplay(){};
@@ -12,10 +8,6 @@ public:
   void Start();
 
 private:
-  static const int kLifeStart = 10;
-  static const int save_limit_ = 3;
-  static std::vector<Games> saved_games_;
-
   void GameMenu();
   void PlayAgain();
 };
