@@ -17,13 +17,11 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Include subdirectories
 add_subdirectory(src/data_management)
 add_subdirectory(src/gameplay)
+add_subdirectory(src/game_data)
 add_subdirectory(src/games)
 add_subdirectory(src/player)
 add_subdirectory(src/ui)
 add_subdirectory(src/util)
-
-# Define preprocessor macro for scores file path
-add_definitions(-DSCORES_FILE_PATH=\"${CMAKE_SOURCE_DIR}/src/data/scoreboard.csv\")
 
 # Add executable
 add_executable(${PROJECT_NAME} src/main.cpp)
@@ -32,6 +30,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE
     data_management
     gameplay
+    game_data
     games
     player
     ui

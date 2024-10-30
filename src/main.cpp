@@ -10,8 +10,6 @@ int main() {
   SetTerminalSize();
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
 
-  // TODO: CSVHandler and JSONHandler should be singleton
-  // these instances will be passed to the gameplay
   Gameplay gameplay;
   gameplay.Start();
 

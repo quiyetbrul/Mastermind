@@ -26,7 +26,6 @@ public:
   int GetScore() const;
   std::vector<int> GetSecretCode() const;
   std::map<std::vector<int>, std::string> GetGuesses() const;
-  bool IsWinner() const;
 
   // setters
   void SetName(const std::string &name);
@@ -34,7 +33,6 @@ public:
   void SetScore(const int &score);
   void SetSecretCode(const std::vector<int> &secret_code);
   void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
-  void SetWinner(const bool &is_winner);
 
 protected:
   void GameLoop(Codebreaker *computer = nullptr,
@@ -45,7 +43,6 @@ private:
   std::string name_;
   int life_ = kLifeStart;
   int score_ = 0;
-  bool is_winner_ = false;
   std::vector<int> secret_code_;
   std::string feedback_;
   // TODO: change to std::unordered_map and add hash function

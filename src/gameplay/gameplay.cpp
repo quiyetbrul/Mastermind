@@ -4,6 +4,7 @@
 #include <string>
 #include <thread>
 
+#include "game_data/scoreboard/scoreboard.h"
 #include "player/computer/computer.h"
 #include "player/single/single.h"
 #include "ui/menu.h"
@@ -27,8 +28,10 @@ void Gameplay::Start() {
     Start();
     break;
   case 3:
-    std::cout << "Scoreboard under construction" << std::endl;
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    // TODO: PRINT SCORE ASCII ART
+    game_data::Scoreboard::GetInstance().PrintScores();
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    std::cin.get();
     Start();
     break;
   case 4:

@@ -8,7 +8,7 @@
 #include "util/util.h"
 
 inline void Title() {
-  ClearScreen();
+//   ClearScreen();
   // TODO: get terminal width dynamically
   std::cout << "                                      _ _ _ ____ _    ____ ____ _  _ ____     ___ ____\n";
   std::cout << "                                      | | | |___ |    |    |  | |\\/| |___      |  |  |\n";

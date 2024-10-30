@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include "game_data/scoreboard/scoreboard.h"
 #include "ui/print.h"
 #include "util/util.h"
 
@@ -17,7 +18,10 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
       Congratulations();
       SetScore(GetLife());
       PrintCode(GetSecretCode());
-      SetWinner(true);
+      if (!computer) {
+        SetName(InputString("Enter your name: "));
+        game_data::Scoreboard::GetInstance().SaveScore(*this);
+      }
       break;
     }
 
@@ -35,7 +39,6 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
     if (GetLife() == 0) {
       TryAgain();
       PrintCode(GetSecretCode());
-      SetWinner(false);
       break;
     }
 
@@ -68,8 +71,6 @@ std::map<std::vector<int>, std::string> Player::GetGuesses() const {
 
 void Player::SetName(const std::string &name) { name_ = name; }
 
-bool Player::IsWinner() const { return is_winner_; }
-
 void Player::SetLife(const int &life) { life_ = life; }
 
 void Player::SetScore(const int &score) { score_ = score; }
@@ -82,6 +83,4 @@ void Player::SetGuesses(
     std::map<std::vector<int>, std::string> &guess_history) {
   guess_history_ = guess_history;
 }
-
-void Player::SetWinner(const bool &is_winner) { is_winner_ = is_winner; };
 } // namespace player
