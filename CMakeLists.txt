@@ -39,24 +39,34 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 )
 
 # Fetch and link libcurl
-include(FetchContent)
+# Check if libcurl is available on the system
+find_package(CURL QUIET)
 
-message(STATUS "Fetching libcurl")
-FetchContent_Declare(
-    curl
-    GIT_REPOSITORY https://github.com/curl/curl.git
-    GIT_TAG curl-7_80_0
-)
+if(NOT CURL_FOUND)
+    message(STATUS "libcurl not found, fetching libcurl")
+    include(FetchContent)
 
-# Prevent building the curl executable
-set(BUILD_CURL_EXE OFF CACHE BOOL "Do not build the curl executable")
+    FetchContent_Declare(
+        curl
+        GIT_REPOSITORY https://github.com/curl/curl.git
+        GIT_TAG curl-7_80_0
+    )
 
-# Make curl available
-FetchContent_MakeAvailable(curl)
+    # Prevent building the curl executable
+    set(BUILD_CURL_EXE OFF CACHE BOOL "Do not build the curl executable")
 
-# Include directories and link the libraries
-target_include_directories(${PROJECT_NAME} PRIVATE ${curl_SOURCE_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE curl)
+    # Make curl available
+    FetchContent_MakeAvailable(curl)
+
+    # Include directories and link the libraries
+    target_include_directories(${PROJECT_NAME} PRIVATE ${curl_SOURCE_DIR})
+    target_link_libraries(${PROJECT_NAME} PRIVATE curl)
+else()
+    message(STATUS "libcurl found: ${CURL_INCLUDE_DIRS}")
+    # Use the system-installed libcurl
+    target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
+endif()
 
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
