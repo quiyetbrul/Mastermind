@@ -18,7 +18,6 @@ public:
         guess_history_(guesses) {}
 
   void DecrementLife();
-  void AddGuess(const std::vector<int> &guess, const std::string &feedback);
 
   // getters
   std::string GetName() const;

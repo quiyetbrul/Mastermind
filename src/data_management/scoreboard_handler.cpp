@@ -1,5 +1,6 @@
 #include "scoreboard_handler.h"
 
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -8,6 +9,7 @@ std::vector<std::pair<std::string, int>>
 ScoreboardHandler::GetSavedScores() const {
   std::vector<std::pair<std::string, int>> saved_scores;
   std::ifstream file(file_name_);
+
   if (file.is_open()) {
     std::string line;
     while (std::getline(file, line)) {
@@ -21,18 +23,28 @@ ScoreboardHandler::GetSavedScores() const {
     }
     file.close();
   } else {
-    std::cerr << "GetSavedScores: Failed to open file: " << file_name_ << std::endl;
+    // TODO: cerr should be logged to a file instead of printed to the console
+    std::cerr << "GetSavedScores: Failed to open file: " << file_name_
+              << std::endl;
     std::cerr << "Error: " << strerror(errno)
               << std::endl; // Print the specific error
-    std::ofstream file(file_name_);
-    if (!file.is_open()) {
-      std::cerr << "GetSavedScores: Failed to create file: " << file_name_ << std::endl;
+
+    // Create the necessary directories
+    std::filesystem::create_directories(
+        std::filesystem::path(file_name_).parent_path());
+
+    // Attempt to create the file
+    std::ofstream create_file(file_name_);
+    if (!create_file.is_open()) {
+      std::cerr << "GetSavedScores: Failed to create file: " << file_name_
+                << std::endl;
       std::cerr << "Error: " << strerror(errno)
                 << std::endl; // Print the specific error
     } else {
-      file.close();
+      create_file.close();
     }
   }
+
   return saved_scores;
 }
 

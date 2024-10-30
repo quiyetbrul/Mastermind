@@ -9,6 +9,10 @@ namespace player {
 void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
   std::vector<int> guess = initial_guess;
 
+  if (!computer) {
+    SetName(InputString("Enter your name: "));
+  }
+
   while (GetLife() > 0) {
     if (!computer) {
       guess = InputGuess("Enter your guess: ");
@@ -19,18 +23,14 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
       SetScore(GetLife());
       PrintCode(GetSecretCode());
       if (!computer) {
-        SetName(InputString("Enter your name: "));
         game_data::Scoreboard::GetInstance().SaveScore(*this);
       }
       break;
     }
 
-    if (guess_history_.find(guess) == guess_history_.end()) {
-      feedback_ = GiveFeedback(GetSecretCode(), guess);
-      AddGuess(guess, feedback_);
-    } else {
-      feedback_ = guess_history_[guess];
-    }
+    feedback_ =
+        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess))
+            .first->second;
 
     std::cout << DELETE_LINE;
     PrintGuess(guess, feedback_);
@@ -51,11 +51,6 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
 }
 
 void Player::DecrementLife() { --life_; }
-
-void Player::AddGuess(const std::vector<int> &guess,
-                      const std::string &feedback) {
-  guess_history_[guess] = feedback;
-}
 
 std::string Player::GetName() const { return name_; }
 

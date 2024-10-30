@@ -21,12 +21,7 @@ public:
   void PrintScores() const;
 
 private:
-  // TODO: CMAKE DEF NOT WORKING
-  Scoreboard()
-      : handler_(
-            "/Users/quiyetbrul/GitHub/Mastermind/src/data/scoreboard.csv") {
-    saved_scores_ = handler_.GetSavedScores();
-  }
+  Scoreboard();
   Scoreboard(const Scoreboard &) = delete;
   Scoreboard &operator=(const Scoreboard &) = delete;
 

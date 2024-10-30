@@ -6,10 +6,15 @@ namespace game_data {
 
 std::vector<std::pair<std::string, int>> Scoreboard::saved_scores_;
 
+Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) {
+  saved_scores_ = handler_.GetSavedScores();
+}
+
 void Scoreboard::SaveScore(const player::Player &player) {
   if (!IsHighScore(player.GetScore())) {
     return;
   }
+  std::cout << "Congratulations! You made it to the scoreboard!" << std::endl;
   if (saved_scores_.size() > kScoreLimit &&
       player.GetScore() > saved_scores_.back().second) {
     saved_scores_.pop_back();
