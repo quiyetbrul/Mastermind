@@ -2,12 +2,12 @@
 #define PLAYER_UTIL_UTIL_H_
 
 #include <string>
-#include <utility>
 #include <vector>
 
-std::string GiveFeedback(std::vector<int> guess, std::vector<int> code);
-void PrintGuesses(
-    const std::vector<std::pair<std::vector<int>, std::string>> &guesses);
+std::string GiveFeedback(const std::vector<int> &guess,
+                         const std::vector<int> &code);
+std::vector<int> InputGuess(const std::string &prompt);
+void PrintGuess(const std::vector<int> &guess, const std::string &feedback);
 void PrintCode(std::vector<int> code);
 
 #endif // PLAYER_UTIL_UTIL_H_

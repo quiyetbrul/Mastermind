@@ -9,22 +9,27 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
   std::vector<int> guess = initial_guess;
 
   while (GetLife() > 0) {
-
     if (!computer) {
       guess = InputGuess("Enter your guess: ");
-      // TODO: memoize the guess
     }
 
     if (guess == GetSecretCode()) {
       Congratulations();
+      SetScore(GetLife());
       PrintCode(GetSecretCode());
       SetWinner(true);
       break;
     }
 
-    std::string feedback = GiveFeedback(GetSecretCode(), guess);
-    AddGuess(guess, feedback);
-    PrintGuesses(GetGuesses());
+    if (guess_history_.find(guess) == guess_history_.end()) {
+      feedback_ = GiveFeedback(GetSecretCode(), guess);
+      AddGuess(guess, feedback_);
+    } else {
+      feedback_ = guess_history_[guess];
+    }
+
+    std::cout << DELETE_LINE;
+    PrintGuess(guess, feedback_);
     DecrementLife();
 
     if (GetLife() == 0) {
@@ -35,48 +40,18 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
     }
 
     if (computer) {
-      computer->RemoveCode(guess);           // Remove the guess from the set
-      computer->PruneCodes(guess, feedback); // Prune the set of codes
-      guess = computer->MakeGuess();         // Use MakeGuess to get a guess
+      computer->RemoveCode(guess);
+      computer->PruneCodes(guess, feedback_);
+      guess = computer->MakeGuess();
     }
   }
-}
-
-std::vector<int> Player::InputGuess(const std::string &prompt) {
-  std::string input;
-  while (true) {
-    std::cout << prompt;
-    std::cin >> input;
-
-    if (input.length() != kSecretCodeLength) {
-      std::cout << "Input must be exactly " << kSecretCodeLength
-                << " digits long." << std::endl;
-      continue;
-    }
-
-    if (!std::all_of(input.begin(), input.end(),
-                     [](char c) { return c >= '0' && c <= '7'; })) {
-      std::cout << "Each digit must be between 0 and 7." << std::endl;
-      continue;
-    }
-
-    break;
-  }
-
-  std::vector<int> result(input.begin(), input.end());
-  std::transform(result.begin(), result.end(), result.begin(),
-                 [](char c) { return c - '0'; });
-
-  return result;
 }
 
 void Player::DecrementLife() { --life_; }
 
-void Player::DecrementScore() { --score_; }
-
 void Player::AddGuess(const std::vector<int> &guess,
                       const std::string &feedback) {
-  guesses_.push_back(std::make_pair(guess, feedback));
+  guess_history_[guess] = feedback;
 }
 
 std::string Player::GetName() const { return name_; }
@@ -87,9 +62,8 @@ int Player::GetScore() const { return score_; }
 
 std::vector<int> Player::GetSecretCode() const { return secret_code_; }
 
-std::vector<std::pair<std::vector<int>, std::string>>
-Player::GetGuesses() const {
-  return guesses_;
+std::map<std::vector<int>, std::string> Player::GetGuesses() const {
+  return guess_history_;
 }
 
 void Player::SetName(const std::string &name) { name_ = name; }
@@ -105,8 +79,8 @@ void Player::SetSecretCode(const std::vector<int> &secret_code) {
 }
 
 void Player::SetGuesses(
-    std::vector<std::pair<std::vector<int>, std::string>> &guesses) {
-  guesses_ = guesses;
+    std::map<std::vector<int>, std::string> &guess_history) {
+  guess_history_ = guess_history;
 }
 
 void Player::SetWinner(const bool &is_winner) { is_winner_ = is_winner; };

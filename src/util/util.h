@@ -14,12 +14,11 @@ const int kTerminalHeight = 24;
 #define ANSI_COLOR_BLUE "\x1b[34m"
 #define ANSI_RESET "\x1b[0m"
 #define ANSI_BLINK "\x1b[5m"
+#define DELETE_LINE "\033[A\033[K"
 
 const int kMinSecretCodeDigit = 0;
 const int kMaxSecretCodeDigit = 7;
 const int kSecretCodeLength = 4;
-
-// TODO: inline these small functions
 
 void ClearScreen();
 

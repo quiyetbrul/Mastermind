@@ -8,7 +8,7 @@ namespace player {
 void Computer::Start() {
   Title();
 
-  std::vector<std::pair<std::vector<int>, std::string>> computer_guess_history;
+  std::map<std::vector<int>, std::string> computer_guess_history;
   SetSecretCode(
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
   SetGuesses(computer_guess_history);

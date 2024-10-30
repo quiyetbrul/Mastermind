@@ -27,7 +27,6 @@ inline void Title() {
 }
 
 inline void Congratulations() {
-  // ClearScreen();
   std::cout << ANSI_COLOR_GREEN << ANSI_BLINK;
   std::cout << " ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗\n";
   std::cout << "██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝\n";
@@ -39,7 +38,6 @@ inline void Congratulations() {
 }
 
 inline void TryAgain() {
-  ClearScreen();
   std::cout << ANSI_COLOR_RED;
   std::cout << "                            ████████╗██████╗ ██╗   ██╗      █████╗  ██████╗  █████╗ ██╗███╗   ██╗\n";
   std::cout << "                            ╚══██╔══╝██╔══██╗╚██╗ ██╔╝     ██╔══██╗██╔════╝ ██╔══██╗██║████╗  ██║\n";

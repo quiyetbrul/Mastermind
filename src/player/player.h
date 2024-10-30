@@ -1,8 +1,8 @@
 #ifndef PLAYER_PLAYER_H_
 #define PLAYER_PLAYER_H_
 
+#include <map>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "player/computer/codebreaker/codebreaker.h"
@@ -10,18 +10,14 @@
 namespace player {
 class Player {
 public:
-  Player() {
-    life_ = kLifeStart;
-    score_ = kLifeStart;
-  };
+  Player() : life_(kLifeStart), score_(kLifeStart), guess_history_() {}
 
   Player(int &life, int &score, const std::vector<int> &secret_code,
-         std::vector<std::pair<std::vector<int>, std::string>> &guesses)
+         std::map<std::vector<int>, std::string> &guesses)
       : life_(life), score_(score), secret_code_(secret_code),
-        guesses_(guesses){};
+        guess_history_(guesses) {}
 
   void DecrementLife();
-  void DecrementScore();
   void AddGuess(const std::vector<int> &guess, const std::string &feedback);
 
   // getters
@@ -29,7 +25,7 @@ public:
   int GetLife() const;
   int GetScore() const;
   std::vector<int> GetSecretCode() const;
-  std::vector<std::pair<std::vector<int>, std::string>> GetGuesses() const;
+  std::map<std::vector<int>, std::string> GetGuesses() const;
   bool IsWinner() const;
 
   // setters
@@ -37,8 +33,7 @@ public:
   void SetLife(const int &life);
   void SetScore(const int &score);
   void SetSecretCode(const std::vector<int> &secret_code);
-  void
-  SetGuesses(std::vector<std::pair<std::vector<int>, std::string>> &guesses);
+  void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
   void SetWinner(const bool &is_winner);
 
 protected:
@@ -52,11 +47,9 @@ private:
   int score_ = 0;
   bool is_winner_ = false;
   std::vector<int> secret_code_;
-
-  // TODO: Change to std::map
-  std::vector<std::pair<std::vector<int>, std::string>> guesses_;
-
-  std::vector<int> InputGuess(const std::string &prompt);
+  std::string feedback_;
+  // TODO: change to std::unordered_map and add hash function
+  std::map<std::vector<int>, std::string> guess_history_;
 };
 } // namespace player
 
