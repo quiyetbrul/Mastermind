@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
-project(mastermind)
+project(Mastermind)
 
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 17)
