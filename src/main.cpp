@@ -1,4 +1,4 @@
-#include "gameplay/gameplay.h"
+#include "game_state/game_state.h"
 #include "util/util.h"
 
 /**
@@ -10,8 +10,8 @@ int main() {
   SetTerminalSize();
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
 
-  Gameplay gameplay;
-  gameplay.Start();
+  mastermind::GameState play;
+  play.Start();
 
   return 0;
 }

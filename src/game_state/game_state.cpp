@@ -1,8 +1,7 @@
-#include "gameplay.h"
+#include "game_state.h"
 
 #include <iostream>
 #include <string>
-#include <thread>
 
 #include "game_data/scoreboard/scoreboard.h"
 #include "player/computer/computer.h"
@@ -11,33 +10,32 @@
 #include "ui/print.h"
 #include "util/util.h"
 
-void Gameplay::Start() {
+namespace mastermind {
+void GameState::Start() {
   int menu_choice = MainMenu();
   switch (menu_choice) {
   case 1:
-    GameMenu();
+    Menu();
     break;
   case 2:
     std::cout << "Load Game under construction" << std::endl;
-    ReturnTo("Main Menu", [this]() { Start(); });
     break;
   case 3:
     // TODO: PRINT SCORE ASCII ART
     game_data::Scoreboard::GetInstance().PrintScores();
-    ReturnTo("Main Menu", [this]() { Start(); });
     break;
   case 4:
     Instructions();
-    ReturnTo("Main Menu", [this]() { Start(); });
     break;
   case 5:
     Goodbye();
     CloseTerminal();
     break;
   }
+  ReturnTo("Main Menu", [this]() { Start(); });
 }
 
-void Gameplay::GameMenu() {
+void GameState::Menu() {
   int player_choice = PlayerMenu();
   if (player_choice == 1) {
     player::Single single_player;
@@ -50,7 +48,8 @@ void Gameplay::GameMenu() {
   PlayAgain();
 }
 
-void Gameplay::PlayAgain() {
+void GameState::PlayAgain() {
   char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
-  play_again == 'y' ? GameMenu() : Start();
+  play_again == 'y' ? Menu() : Start();
 }
+} // namespace mastermind
