@@ -8,7 +8,10 @@ class Single : public Player {
 public:
   Single(){};
 
-  void Start();
+  void Start() override;
+
+protected:
+  void GameLoop() override;
 };
 } // namespace player
 

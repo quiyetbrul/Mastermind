@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "player/computer/codebreaker/codebreaker.h"
-
 namespace player {
 class Player {
 public:
@@ -16,6 +14,10 @@ public:
          std::map<std::vector<int>, std::string> &guesses)
       : life_(life), score_(score), secret_code_(secret_code),
         guess_history_(guesses) {}
+
+  virtual ~Player() = default;
+
+  virtual void Start() = 0;
 
   void DecrementLife();
 
@@ -34,8 +36,11 @@ public:
   void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
 
 protected:
-  void GameLoop(Codebreaker *computer = nullptr,
-                std::vector<int> initial_guess = {});
+  std::string feedback_;
+  // TODO: change to std::unordered_map and add hash function
+  std::map<std::vector<int>, std::string> guess_history_;
+
+  virtual void GameLoop() = 0;
 
 private:
   static const int kLifeStart = 10;
@@ -43,9 +48,6 @@ private:
   int life_ = kLifeStart;
   int score_ = 0;
   std::vector<int> secret_code_;
-  std::string feedback_;
-  // TODO: change to std::unordered_map and add hash function
-  std::map<std::vector<int>, std::string> guess_history_;
 };
 } // namespace player
 

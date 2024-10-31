@@ -1,8 +1,8 @@
 #include "computer.h"
 
 #include "player/computer/codebreaker/codebreaker.h"
+#include "player/util/util.h"
 #include "ui/print.h"
-#include "util/util.h"
 
 namespace player {
 void Computer::Start() {
@@ -13,10 +13,37 @@ void Computer::Start() {
       GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
   SetGuesses(computer_guess_history);
 
+  GameLoop();
+}
+
+void Computer::GameLoop() {
+  std::vector<int> guess = {0, 0, 1, 1};
   Codebreaker computer(kSecretCodeLength, kMinSecretCodeDigit,
                        kMaxSecretCodeDigit);
-  std::vector<int> computer_guess = {0, 0, 1, 1};
+  while (GetLife() > 0) {
+    if (guess == GetSecretCode()) {
+      Congratulations();
+      SetScore(GetLife());
+      PrintCode(GetSecretCode());
+      break;
+    }
 
-  GameLoop(&computer, computer_guess);
+    feedback_ =
+        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess))
+            .first->second;
+
+    PrintGuess(guess, feedback_);
+    DecrementLife();
+
+    if (GetLife() == 0) {
+      TryAgain();
+      PrintCode(GetSecretCode());
+      break;
+    }
+
+    computer.RemoveCode(guess);
+    computer.PruneCodes(guess, feedback_);
+    guess = computer.MakeGuess();
+  }
 }
 } // namespace player

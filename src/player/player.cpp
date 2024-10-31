@@ -1,55 +1,6 @@
 #include "player.h"
 
-#include "game_data/scoreboard/scoreboard.h"
-#include "ui/print.h"
-#include "util/util.h"
-
 namespace player {
-
-void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
-  std::vector<int> guess = initial_guess;
-
-  if (!computer) {
-    SetName(InputString("Enter your name: "));
-    std::cout << DELETE_LINE;
-  }
-
-  while (GetLife() > 0) {
-    if (!computer) {
-      guess = InputGuess("Enter your guess: ");
-      std::cout << DELETE_LINE;
-    }
-
-    if (guess == GetSecretCode()) {
-      Congratulations();
-      SetScore(GetLife());
-      PrintCode(GetSecretCode());
-      if (!computer) {
-        game_data::Scoreboard::GetInstance().SaveScore(*this);
-      }
-      break;
-    }
-
-    feedback_ =
-        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess))
-            .first->second;
-
-    PrintGuess(guess, feedback_);
-    DecrementLife();
-
-    if (GetLife() == 0) {
-      TryAgain();
-      PrintCode(GetSecretCode());
-      break;
-    }
-
-    if (computer) {
-      computer->RemoveCode(guess);
-      computer->PruneCodes(guess, feedback_);
-      guess = computer->MakeGuess();
-    }
-  }
-}
 
 void Player::DecrementLife() { --life_; }
 

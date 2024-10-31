@@ -8,7 +8,10 @@ class Computer : public Player {
 public:
   Computer(){};
 
-  void Start();
+  void Start() override;
+
+protected:
+  void GameLoop() override;
 };
 } // namespace player
 
