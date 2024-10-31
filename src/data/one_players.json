@@ -6,12 +6,14 @@
         "score": 0,
         "secret_number": "2345",
         "guess_history": [
-            "1234",
-            "4567"
-        ],
-        "guess_feedback": [
-            "WWW",
-            "WW"
+            [
+                "1234",
+                "WWW"
+            ],
+            [
+                "4567",
+                "WW"
+            ]
         ]
     }
 ]
