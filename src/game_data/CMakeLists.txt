@@ -10,5 +10,6 @@ add_library(game_data ${GAME_DATA_SOURCES})
 # Specify the include directories for the game_data library
 target_include_directories(game_data PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
-# Define the SCORES_FILE_PATH macro for the game_data target
+# Define the file paths macro for the game_data target
 target_compile_definitions(game_data PRIVATE -DSCORES_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/scoreboard.csv\")
+target_compile_definitions(game_data PRIVATE -DSAVED_GAMES_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/one_players.json\")
