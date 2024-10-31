@@ -48,6 +48,7 @@ private:
   int life_ = kLifeStart;
   int score_ = 0;
   std::vector<int> secret_code_;
+  // TODO: add timer
 };
 } // namespace player
 
