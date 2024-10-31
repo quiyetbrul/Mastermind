@@ -94,4 +94,6 @@ end
 
 ## Development
 
+## Design Decisions
+
 ## Installation
