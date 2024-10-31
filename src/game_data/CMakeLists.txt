@@ -1,6 +1,7 @@
 # Define the source files for the game_data library
 set(GAME_DATA_SOURCES
     scoreboard/scoreboard.cpp
+    saved_games/saved_games.cpp
 )
 
 # Add the game_data library

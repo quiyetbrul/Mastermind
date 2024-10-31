@@ -1,6 +1,6 @@
 set(DATA_HANDLER
     scoreboard_handler.cpp
-    json_handler.cpp
+    saved_games_handler.cpp
 )
 
 add_library(data_management ${DATA_HANDLER})

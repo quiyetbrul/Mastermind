@@ -18,7 +18,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 add_subdirectory(src/data_management)
 add_subdirectory(src/game_state)
 add_subdirectory(src/game_data)
-add_subdirectory(src/games)
 add_subdirectory(src/player)
 add_subdirectory(src/ui)
 add_subdirectory(src/util)
@@ -31,7 +30,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     data_management
     game_state
     game_data
-    games
     player
     ui
     util
