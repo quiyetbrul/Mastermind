@@ -5,11 +5,12 @@
 #include <iostream>
 #include <sstream>
 
+// TODO: need a func that looks at the file when it first starts and creates it
+// if it doesn't exist
 std::vector<std::pair<std::string, int>>
 ScoreboardHandler::GetSavedScores() const {
   std::vector<std::pair<std::string, int>> saved_scores;
   std::ifstream file(file_name_);
-
   if (file.is_open()) {
     std::string line;
     while (std::getline(file, line)) {
@@ -43,6 +44,10 @@ ScoreboardHandler::GetSavedScores() const {
     } else {
       create_file.close();
     }
+  }
+
+  if (saved_scores.empty()) {
+    std::cout << "No scores found." << std::endl;
   }
 
   return saved_scores;
