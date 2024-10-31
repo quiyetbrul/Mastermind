@@ -11,11 +11,13 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
 
   if (!computer) {
     SetName(InputString("Enter your name: "));
+    std::cout << DELETE_LINE;
   }
 
   while (GetLife() > 0) {
     if (!computer) {
       guess = InputGuess("Enter your guess: ");
+      std::cout << DELETE_LINE;
     }
 
     if (guess == GetSecretCode()) {
@@ -32,7 +34,6 @@ void Player::GameLoop(Codebreaker *computer, std::vector<int> initial_guess) {
         guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess))
             .first->second;
 
-    std::cout << DELETE_LINE;
     PrintGuess(guess, feedback_);
     DecrementLife();
 
