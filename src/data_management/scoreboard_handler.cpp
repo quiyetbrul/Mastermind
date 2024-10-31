@@ -46,10 +46,6 @@ ScoreboardHandler::GetSavedScores() const {
     }
   }
 
-  if (saved_scores.empty()) {
-    std::cout << "No scores found." << std::endl;
-  }
-
   return saved_scores;
 }
 

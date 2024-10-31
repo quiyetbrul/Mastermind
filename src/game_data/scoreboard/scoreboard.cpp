@@ -25,6 +25,10 @@ void Scoreboard::SaveScore(const player::Player &player) {
 
 // TODO: FORMAT SCORES
 void Scoreboard::PrintScores() const {
+  if (saved_scores_.empty()) {
+    std::cout << "No scores found." << std::endl;
+    return;
+  }
   for (const auto &entry : saved_scores_) {
     std::cout << entry.first << "    " << entry.second << std::endl;
   }
