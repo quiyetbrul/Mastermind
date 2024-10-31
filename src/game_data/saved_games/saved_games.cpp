@@ -10,32 +10,38 @@ SavedGames::SavedGames() : handler_(SAVED_GAMES_FILE_PATH) {
 
 void SavedGames::SaveGame(const std::string &game_name,
                           const player::Single &player) {
-  std::string game_name_ = game_name;
-  if (saved_games_.size() >= kMaxSavedGames && !IsGamePresent(game_name_)) {
-    OverwriteGame();
+  if (saved_games_.size() >= kMaxSavedGames && !IsGamePresent(game_name)) {
+    DeleteGame();
   }
   saved_games_[game_name] = player;
-  handler_.SaveGame(player);
-}
-
-void SavedGames::OverwriteGame() {
-  std::string to_delete =
-      InputString("Enter the name of the game you want to overwrite: ");
-
-  while (!IsGamePresent(to_delete)) {
-    to_delete = InputString(
-        "Game not found. Enter the name of the game you want to overwrite: ");
-  }
-
-  saved_games_.erase(to_delete);
+  handler_.SaveGame(saved_games_);
 }
 
 player::Single SavedGames::LoadGame(const std::string &game_name) {
+  std::string to_load =
+      InputString("Enter the name of the game you want to load: ");
+  while (!IsGamePresent(to_load)) {
+    to_load = InputString(
+        "Game not found. Enter the name of the game you want to load: ");
+  }
   return saved_games_[game_name];
 }
 
-void SavedGames::DeleteGame(const std::string &game_name) {
-  saved_games_.erase(game_name);
+void SavedGames::DeleteGame() {
+  // TODO: create a function for this!
+  std::string to_delete =
+      InputString("Enter the name of the game you want to delete: ");
+  while (!IsGamePresent(to_delete)) {
+    to_delete = InputString(
+        "Game not found. Enter the name of the game you want to delete: ");
+  }
+  char continue_delete =
+      InputChar("Are you sure you want to delete this game? (y/n): ", 'y', 'n');
+  if (continue_delete == 'n') {
+    return;
+  }
+  saved_games_.erase(to_delete);
+  handler_.DeleteGame(to_delete);
 }
 
 bool SavedGames::IsGamePresent(const std::string &game_name) {

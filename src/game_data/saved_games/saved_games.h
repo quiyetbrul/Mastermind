@@ -14,9 +14,10 @@ public:
     return instance;
   }
 
+  // TODO: make player::Player abstract class a shared pointer
   void SaveGame(const std::string &game_name, const player::Single &player);
   player::Single LoadGame(const std::string &game_name);
-  void DeleteGame(const std::string &game_name);
+  void DeleteGame();
   bool IsGamePresent(const std::string &game_name);
   void PrintSavedGames();
 
@@ -29,7 +30,8 @@ private:
   std::unordered_map<std::string, player::Single> saved_games_;
   const int kMaxSavedGames = 5;
 
-  void OverwriteGame();
+  void OverwriteGame(const std::string &game_name,
+                     const player::Single &player);
 };
 } // namespace game_data
 
