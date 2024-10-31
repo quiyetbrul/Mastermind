@@ -14,7 +14,7 @@ void Scoreboard::SaveScore(const player::Player &player) {
   if (!IsHighScore(player.GetScore())) {
     return;
   }
-  std::cout << "Congratulations! You made it to the scoreboard!" << std::endl;
+  std::cout << "Congratulations, " << player.GetName() <<"! You made it to the scoreboard!" << std::endl;
   if (saved_scores_.size() > kScoreLimit &&
       player.GetScore() > saved_scores_.back().second) {
     saved_scores_.pop_back();
