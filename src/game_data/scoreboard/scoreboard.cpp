@@ -1,4 +1,4 @@
-#include "game_data/scoreboard/scoreboard.h"
+#include "scoreboard.h"
 
 #include <iostream>
 
