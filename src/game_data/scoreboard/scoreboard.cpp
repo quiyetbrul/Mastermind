@@ -6,6 +6,7 @@ namespace game_data {
 
 std::vector<std::pair<std::string, int>> Scoreboard::saved_scores_;
 
+// TODO: create a function that handles the file path. e.g. SetFilePath
 Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) {
   saved_scores_ = handler_.GetSavedScores();
 }

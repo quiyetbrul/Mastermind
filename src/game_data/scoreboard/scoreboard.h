@@ -22,6 +22,7 @@ public:
 
 private:
   Scoreboard();
+  // TODO: make deleted functions public per Effective Modern C++
   Scoreboard(const Scoreboard &) = delete;
   Scoreboard &operator=(const Scoreboard &) = delete;
 
