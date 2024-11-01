@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 
-#include "game_data/saved_games/saved_games.h"
 #include "game_data/scoreboard/scoreboard.h"
 #include "player/computer/computer.h"
 #include "player/single/single.h"
@@ -20,16 +19,6 @@ void GameState::Start() {
     break;
   case 2:
     std::cout << "Load Game under construction" << std::endl;
-    // game_data::SavedGames::GetInstance().PrintSavedGames();
-    // std::string load_game =
-    //     InputString("Enter the name of the game you want to load: ");
-    // while (!game_data::SavedGames::GetInstance().IsGamePresent(load_game)) {
-    //   load_game = InputString("Game not found. Enter the name of the game you "
-    //                           "want to load: ");
-    // }
-    // player::Single loaded_player =
-    //     game_data::SavedGames::GetInstance().LoadGame(load_game);
-    // loaded_player.Start();
     break;
   case 3:
     // TODO: PRINT SCORE ASCII ART
