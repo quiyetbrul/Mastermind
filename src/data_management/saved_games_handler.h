@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "player/player.h"
 #include "player/single/single.h"
 
 class SavedGamesHandler {
@@ -15,7 +14,8 @@ public:
 
   std::unordered_map<std::string, player::Single> GetSavedGames() const;
 
-  void SaveGame(const player::Player &player);
+  void SaveGame(const std::unordered_map<std::string, player::Single> &players);
+  void DeleteGame(const std::string &game_name_to_delete);
 
 private:
   std::string file_name_;
