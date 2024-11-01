@@ -24,7 +24,9 @@ void Single::GameLoop() {
 
   std::vector<int> guess;
   while (GetLife() > 0) {
+    std::cout << "Life: " << GetLife() << std::endl;
     guess = InputGuess("Enter your guess: ");
+    std::cout << DELETE_LINE;
     std::cout << DELETE_LINE;
 
     if (guess == GetSecretCode()) {
@@ -41,6 +43,7 @@ void Single::GameLoop() {
 
     PrintGuess(guess, feedback_);
     DecrementLife();
+
 
     if (GetLife() == 0) {
       TryAgain();
