@@ -28,6 +28,8 @@ int Player::GetSecretCodeMaxDigit() const { return secret_code_max_digit_; }
 
 int Player::GetSecretCodeLength() const { return secret_code_length_; }
 
+int Player::GetDifficulty() const { return difficulty_; }
+
 std::vector<int> Player::GetSecretCode() const { return secret_code_; }
 
 std::map<std::vector<int>, std::string> Player::GetGuesses() const {
@@ -61,23 +63,24 @@ void Player::SetGuesses(
   guess_history_ = guess_history;
 }
 
-void Player::SetDifficulty(const Difficulty &difficulty) {
+void Player::SetDifficulty(const int &difficulty) {
   switch (difficulty) {
-  case Difficulty::EASY:
+  case kEasyDifficulty:
     SetSecretCodeMinDigit(kEasyMinDigit);
     SetSecretCodeMaxDigit(kEasyMaxDigit);
     SetSecretCodeLength(kEasyCodeLength);
     break;
-  case Difficulty::MEDIUM:
+  case kMediumDifficulty:
     SetSecretCodeMinDigit(kMediumMinDigit);
     SetSecretCodeMaxDigit(kMediumMaxDigit);
     SetSecretCodeLength(kMediumCodeLength);
     break;
-  case Difficulty::HARD:
+  case kHardDifficulty:
     SetSecretCodeMinDigit(kHardMinDigit);
     SetSecretCodeMaxDigit(kHardMaxDigit);
     SetSecretCodeLength(kHardCodeLength);
     break;
   }
+  difficulty_ = difficulty;
 }
 } // namespace player

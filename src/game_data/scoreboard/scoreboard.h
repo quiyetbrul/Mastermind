@@ -3,7 +3,6 @@
 
 #include <set>
 #include <string>
-#include <utility>
 
 #include "data_management/scoreboard_handler.h"
 #include "player/player.h"
@@ -28,12 +27,12 @@ private:
 
   ScoreboardHandler handler_;
 
-  static std::multiset<std::pair<int, std::string>, std::greater<>>
-      saved_scores_;
+  static std::multiset<ScoreEntry, std::greater<>> saved_scores_;
   const int kScoreLimit = 10;
 
   bool IsHighScore(const int &score) const;
-  void AddScore(const int &score, const std::string &name);
+  void AddScore(const int &score, const std::string &name,
+                const int &difficulty);
 };
 } // namespace game_data
 

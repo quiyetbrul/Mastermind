@@ -5,7 +5,9 @@
 #include <string>
 #include <vector>
 
-enum class Difficulty : int { EASY = 1, MEDIUM, HARD };
+const int kEasyDifficulty = 1;
+const int kMediumDifficulty = 2;
+const int kHardDifficulty = 3;
 
 namespace player {
 class Player {
@@ -30,6 +32,7 @@ public:
   int GetSecretCodeMinDigit() const;
   int GetSecretCodeMaxDigit() const;
   int GetSecretCodeLength() const;
+  int GetDifficulty() const;
   std::vector<int> GetSecretCode() const;
   std::map<std::vector<int>, std::string> GetGuesses() const;
 
@@ -42,7 +45,7 @@ public:
   void SetSecretCodeLength(const int &length);
   void SetSecretCode(const std::vector<int> &secret_code);
   void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
-  void SetDifficulty(const Difficulty &difficulty);
+  void SetDifficulty(const int &difficulty);
 
 protected:
   std::string feedback_;
@@ -61,6 +64,7 @@ private:
   int life_ = kLifeStart;
   int score_ = 0;
   std::vector<int> secret_code_;
+  int difficulty_ = kEasyDifficulty;
   // TODO: add timer
 };
 } // namespace player
