@@ -1,4 +1,5 @@
 set(UI_SOURCES
+    banner.cpp
     menu.cpp
 )
 

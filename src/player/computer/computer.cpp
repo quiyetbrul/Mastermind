@@ -2,7 +2,8 @@
 
 #include "player/computer/codebreaker/codebreaker.h"
 #include "player/util/util.h"
-#include "ui/print.h"
+#include "ui/banner.h"
+#include "util/util.h"
 
 namespace player {
 void Computer::Start() {

@@ -9,7 +9,7 @@ public:
   void Start();
 
 private:
-  void Menu();
+  void PlayerMenu();
   void PlayAgain();
 };
 } // namespace mastermind

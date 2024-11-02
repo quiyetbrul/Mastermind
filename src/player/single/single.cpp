@@ -1,9 +1,11 @@
 #include "single.h"
 
+#include <iostream>
+
 #include "game_data/scoreboard/scoreboard.h"
 #include "player/util/util.h"
-#include "ui/print.h"
-#include <iostream>
+#include "ui/banner.h"
+#include "util/util.h"
 
 namespace player {
 void Single::Start() {
@@ -43,7 +45,6 @@ void Single::GameLoop() {
 
     PrintGuess(guess, feedback_);
     DecrementLife();
-
 
     if (GetLife() == 0) {
       TryAgain();
