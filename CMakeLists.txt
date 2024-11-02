@@ -43,11 +43,5 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-# Set executable RPATH
-set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
-
 # Set executable install location
-install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-
-# Set install location for resources
-install(DIRECTORY assets DESTINATION "${CMAKE_INSTALL_PREFIX}/share/${CMAKE_PROJECT_NAME}")
+install(TARGETS ${PROJECT_NAME} DESTINATION build)
