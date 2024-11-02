@@ -19,6 +19,13 @@ Whether you're looking for a quick mental workout or a fun way to pass the time.
 
 ## What I Used
 
+### Operating System
+
+- macOS Sequoia 15.1
+  - it should work on any Linux distribution
+  - it might not work on Windows, given I use Unix/Linux commands
+  - TODO: need to see whether making it cross-platform is feasible
+
 ### Technologies
 
 - [VS Code](https://code.visualstudio.com/)
