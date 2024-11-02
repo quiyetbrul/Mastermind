@@ -10,9 +10,9 @@
 #include "ui/menu.h"
 #include "util/util.h"
 
-enum class MainMenu { PLAY = 1, LOAD, SCOREBOARD, INSTRUCTIONS, EXIT };
+enum class MainMenu : int { PLAY = 1, LOAD, SCOREBOARD, INSTRUCTIONS, EXIT };
 
-enum class PlayerType { SINGLE = 1, COMPUTER };
+enum class PlayerType : int { SINGLE = 1, COMPUTER };
 
 namespace mastermind {
 void GameState::Start() {

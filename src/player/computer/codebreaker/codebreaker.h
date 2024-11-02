@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace player {
+// TODO: Optimize the codebreaker algorithm
 class Codebreaker {
 public:
   // Constructor
@@ -34,5 +36,5 @@ private:
   int GetMaxScore(const std::map<std::string, int> &score_count);
   int GetMinScore(const std::map<std::vector<int>, int> &score);
 };
-
+} // namespace player
 #endif // PLAYER_COMPUTER_CODEBREAKER_H_

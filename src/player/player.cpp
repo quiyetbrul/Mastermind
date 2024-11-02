@@ -2,6 +2,18 @@
 
 namespace player {
 
+const int kEasyMinDigit = 0;
+const int kEasyMaxDigit = 7;
+const int kEasyCodeLength = 4;
+
+const int kMediumMinDigit = 0;
+const int kMediumMaxDigit = 8;
+const int kMediumCodeLength = 4;
+
+const int kHardMinDigit = 0;
+const int kHardMaxDigit = 9;
+const int kHardCodeLength = 4;
+
 void Player::DecrementLife() { --life_; }
 
 std::string Player::GetName() const { return name_; }
@@ -47,5 +59,25 @@ void Player::SetSecretCode(const std::vector<int> &secret_code) {
 void Player::SetGuesses(
     std::map<std::vector<int>, std::string> &guess_history) {
   guess_history_ = guess_history;
+}
+
+void Player::SetDifficulty(const Difficulty &difficulty) {
+  switch (difficulty) {
+  case Difficulty::EASY:
+    SetSecretCodeMinDigit(kEasyMinDigit);
+    SetSecretCodeMaxDigit(kEasyMaxDigit);
+    SetSecretCodeLength(kEasyCodeLength);
+    break;
+  case Difficulty::MEDIUM:
+    SetSecretCodeMinDigit(kMediumMinDigit);
+    SetSecretCodeMaxDigit(kMediumMaxDigit);
+    SetSecretCodeLength(kMediumCodeLength);
+    break;
+  case Difficulty::HARD:
+    SetSecretCodeMinDigit(kHardMinDigit);
+    SetSecretCodeMaxDigit(kHardMaxDigit);
+    SetSecretCodeLength(kHardCodeLength);
+    break;
+  }
 }
 } // namespace player

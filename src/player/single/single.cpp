@@ -11,6 +11,12 @@ namespace player {
 void Single::Start() {
   Title();
 
+  int user_input = InputInteger(
+      "Enter difficulty (1: easy, 2: medium, 3: hard): ",
+      static_cast<int>(Difficulty::EASY), static_cast<int>(Difficulty::HARD));
+  std::cout << DELETE_LINE;
+  SetDifficulty(static_cast<Difficulty>(user_input));
+
   std::map<std::vector<int>, std::string> user_guess_history;
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
@@ -27,9 +33,8 @@ void Single::GameLoop() {
   std::vector<int> guess;
   while (GetLife() > 0) {
     std::cout << "Life: " << GetLife() << std::endl;
-    guess = InputGuess("Enter your guess: ", GetSecretCodeLength(),
+    guess = player::InputGuess("Enter your guess: ", GetSecretCodeLength(),
                        GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
-    std::cout << DELETE_LINE;
     std::cout << DELETE_LINE;
 
     if (guess == GetSecretCode()) {
@@ -40,9 +45,10 @@ void Single::GameLoop() {
       break;
     }
 
-    feedback_ =
-        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess, GetSecretCodeLength()))
-            .first->second;
+    feedback_ = guess_history_
+                    .try_emplace(guess, player::GiveFeedback(GetSecretCode(), guess,
+                                                     GetSecretCodeLength()))
+                    .first->second;
 
     PrintGuess(guess, feedback_);
     DecrementLife();

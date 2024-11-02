@@ -5,6 +5,7 @@
 
 #include "player/util/util.h"
 
+namespace player {
 // Constructor
 Codebreaker::Codebreaker(int code_length, int min_digit, int max_digit)
     : code_length_(code_length), min_digit_(min_digit), max_digit_(max_digit) {
@@ -80,7 +81,8 @@ void Codebreaker::PruneCodes(const std::vector<int> &guess,
   candidate_solutions_.erase(
       std::remove_if(candidate_solutions_.begin(), candidate_solutions_.end(),
                      [&](const std::vector<int> &code) {
-                       return feedback != GiveFeedback(guess, code, code_length_);
+                       return feedback !=
+                              player::GiveFeedback(guess, code, code_length_);
                      }),
       candidate_solutions_.end());
 }
@@ -94,7 +96,7 @@ std::vector<std::vector<int>> Codebreaker::Minimax() {
 
   for (const auto &i : combinations_) {
     for (const auto &j : candidate_solutions_) {
-      std::string peg_score = GiveFeedback(i, j, code_length_);
+      std::string peg_score = player::GiveFeedback(i, j, code_length_);
       score_count[peg_score]++;
     }
     max = GetMaxScore(score_count);
@@ -134,3 +136,4 @@ int Codebreaker::GetMinScore(const std::map<std::vector<int>, int> &inputMap) {
   }
   return min;
 }
+} // namespace player

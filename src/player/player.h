@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+enum class Difficulty : int { EASY = 1, MEDIUM, HARD };
+
 namespace player {
 class Player {
 public:
@@ -40,6 +42,7 @@ public:
   void SetSecretCodeLength(const int &length);
   void SetSecretCode(const std::vector<int> &secret_code);
   void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
+  void SetDifficulty(const Difficulty &difficulty);
 
 protected:
   std::string feedback_;

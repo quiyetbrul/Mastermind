@@ -2,9 +2,11 @@
 
 #include <iostream>
 
-std::vector<int> InputGuess(const std::string &prompt, int secret_code_length,
-                            int secret_code_min_digit,
-                            int secret_code_max_digit) {
+namespace player {
+std::vector<int> InputGuess(const std::string &prompt,
+                            const int &secret_code_length,
+                            const int &secret_code_min_digit,
+                            const int &secret_code_max_digit) {
   std::string input;
   while (true) {
     std::cout << prompt;
@@ -82,3 +84,4 @@ void PrintCode(std::vector<int> code) {
   }
   std::cout << std::endl;
 }
+} // namespace player
