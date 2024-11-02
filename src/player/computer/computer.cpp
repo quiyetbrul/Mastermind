@@ -1,8 +1,6 @@
 #include "computer.h"
 
-#include <iostream>
 #include <string>
-#include <thread>
 
 #include "player/computer/codebreaker/codebreaker.h"
 #include "player/util/util.h"
@@ -12,17 +10,6 @@
 namespace player {
 void Computer::Start() {
   Title();
-
-  int user_input = RandomNumber(static_cast<int>(Difficulty::EASY),
-                                static_cast<int>(Difficulty::HARD));
-  std::cout
-      << "Computer is choosing difficulty level (1: easy, 2: medium, 3: hard)"
-      << std::endl;
-  std::cout << "Difficulty level: " << user_input << std::endl;
-  std::this_thread::sleep_for(std::chrono::seconds(2));
-  std::cout << DELETE_LINE;
-  std::cout << DELETE_LINE;
-  SetDifficulty(static_cast<Difficulty>(user_input));
 
   std::map<std::vector<int>, std::string> computer_guess_history;
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
