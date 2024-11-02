@@ -31,11 +31,10 @@ void Computer::GameLoop() {
       break;
     }
 
-    feedback_ =
-        guess_history_
-            .try_emplace(guess, player::GiveFeedback(GetSecretCode(), guess,
-                                                     GetSecretCodeLength()))
-            .first->second;
+    guess_history_.try_emplace(
+        guess,
+        player::GiveFeedback(GetSecretCode(), guess, GetSecretCodeLength()));
+    feedback_ = guess_history_.rbegin()->second;
 
     PrintGuess(guess, feedback_);
     DecrementLife();
