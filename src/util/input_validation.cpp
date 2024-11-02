@@ -1,6 +1,9 @@
 #include "util.h"
 
+#include <algorithm>
+#include <cctype>
 #include <iostream>
+#include <string>
 
 // TODO: get string input, validate, and convert to integer
 // rename GetIntegerInput
@@ -27,9 +30,19 @@ int InputInteger(const std::string prompt, const int &start_range,
 }
 
 std::string InputString(const std::string &prompt) {
-  std::cout << prompt;
   std::string input;
-  std::cin >> input;
+  while (true) {
+    std::cout << prompt;
+    std::cin >> input;
+
+    // Check if all characters are alphabetic
+    if (std::all_of(input.begin(), input.end(),
+                    [](char c) { return std::isalpha(c); })) {
+      break;
+    } else {
+      std::cout << "Invalid input. Please enter only alphabets." << std::endl;
+    }
+  }
   return input;
 }
 
