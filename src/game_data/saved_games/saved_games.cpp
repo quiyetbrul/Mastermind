@@ -44,7 +44,7 @@ void SavedGames::DeleteGame() {
   handler_.DeleteGame(to_delete);
 }
 
-bool SavedGames::IsGamePresent(const std::string &game_name) {
+bool SavedGames::IsGamePresent(const std::string &game_name) const {
   return saved_games_.find(game_name) != saved_games_.end();
 }
 

@@ -14,17 +14,18 @@ public:
     return instance;
   }
 
+  SavedGames(const SavedGames &) = delete;
+  SavedGames &operator=(const SavedGames &) = delete;
+
   // TODO: make player::Player abstract class a shared pointer
   void SaveGame(const std::string &game_name, const player::Single &player);
   player::Single LoadGame(const std::string &game_name);
   void DeleteGame();
-  bool IsGamePresent(const std::string &game_name);
+  bool IsGamePresent(const std::string &game_name) const;
   void PrintSavedGames();
 
 private:
   SavedGames();
-  SavedGames(const SavedGames &) = delete;
-  SavedGames &operator=(const SavedGames &) = delete;
 
   SavedGamesHandler handler_;
   std::unordered_map<std::string, player::Single> saved_games_;

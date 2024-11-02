@@ -5,11 +5,9 @@
 #include <iostream>
 #include <sstream>
 
-// TODO: need a func that looks at the file when it first starts and creates it
-// if it doesn't exist
-std::vector<std::pair<std::string, int>>
+std::multiset<std::pair<int, std::string>, std::greater<>>
 ScoreboardHandler::GetSavedScores() const {
-  std::vector<std::pair<std::string, int>> saved_scores;
+  std::multiset<std::pair<int, std::string>, std::greater<>> saved_scores;
   std::ifstream file(file_name_);
   if (file.is_open()) {
     std::string line;
@@ -17,9 +15,9 @@ ScoreboardHandler::GetSavedScores() const {
       std::istringstream ss(line);
       std::string name;
       std::string score_str;
-      if (std::getline(ss, name, ',') && std::getline(ss, score_str)) {
+      if (std::getline(ss, score_str, ',') && std::getline(ss, name)) {
         int score = std::stoi(score_str);
-        saved_scores.emplace_back(name, score);
+        saved_scores.emplace(score, name);
       }
     }
     file.close();
@@ -33,6 +31,8 @@ ScoreboardHandler::GetSavedScores() const {
     // Create the necessary directories
     std::filesystem::create_directories(
         std::filesystem::path(file_name_).parent_path());
+    std::cerr << "GetSavedScores: Creating leaderboard file: " << file_name_
+              << std::endl;
 
     // Attempt to create the file
     std::ofstream create_file(file_name_);
@@ -50,7 +50,8 @@ ScoreboardHandler::GetSavedScores() const {
 }
 
 void ScoreboardHandler::UpdateScoreboard(
-    const std::vector<std::pair<std::string, int>> &saved_scores) {
+    const std::multiset<std::pair<int, std::string>, std::greater<>>
+        &saved_scores) {
   std::ofstream file(file_name_);
   if (!file.is_open()) {
     std::cerr << "UpdateScoreboard: Failed to open file: " << file_name_

@@ -1,9 +1,9 @@
 #ifndef GAME_DATA_SCOREBOARD_SCOREBOARD_H_
 #define GAME_DATA_SCOREBOARD_SCOREBOARD_H_
 
+#include <set>
 #include <string>
 #include <utility>
-#include <vector>
 
 #include "data_management/scoreboard_handler.h"
 #include "player/player.h"
@@ -16,23 +16,25 @@ public:
     return instance;
   }
 
+  Scoreboard(const Scoreboard &) = delete;
+  Scoreboard &operator=(const Scoreboard &) = delete;
+
   void SaveScore(const player::Player &player);
 
   void PrintScores() const;
 
 private:
   Scoreboard();
-  // TODO: make deleted functions public per Effective Modern C++
-  Scoreboard(const Scoreboard &) = delete;
-  Scoreboard &operator=(const Scoreboard &) = delete;
 
   ScoreboardHandler handler_;
 
-  static std::vector<std::pair<std::string, int>> saved_scores_;
+  // std::multiset is a better choice for this use case
+  static std::multiset<std::pair<int, std::string>, std::greater<>>
+      saved_scores_;
   const int kScoreLimit = 10;
 
   bool IsHighScore(const int &score) const;
-  void AddScore(const std::string &name, const int &score);
+  void AddScore(const int &score, const std::string &name);
 };
 } // namespace game_data
 
