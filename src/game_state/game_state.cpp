@@ -12,8 +12,6 @@
 
 enum class MainMenu { PLAY = 1, LOAD, SCOREBOARD, INSTRUCTIONS, EXIT };
 
-enum class Difficulty { EASY = 1, MEDIUM, HARD };
-
 enum class PlayerType { SINGLE = 1, COMPUTER };
 
 namespace mastermind {
