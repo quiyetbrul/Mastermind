@@ -28,7 +28,6 @@ private:
 
   ScoreboardHandler handler_;
 
-  // std::multiset is a better choice for this use case
   static std::multiset<std::pair<int, std::string>, std::greater<>>
       saved_scores_;
   const int kScoreLimit = 10;
