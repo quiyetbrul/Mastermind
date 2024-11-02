@@ -1,13 +1,11 @@
-// clang-format off
-
-#ifndef UI_PRINT_H_
-#define UI_PRINT_H_
-
 #include <iostream>
 
+#include "ui/banner.h"
 #include "util/util.h"
 
-inline void Title() {
+// clang-format off
+
+void Title() {
 //   ClearScreen();
   // TODO: get terminal width dynamically
   std::cout << "                                      _ _ _ ____ _    ____ ____ _  _ ____     ___ ____\n";
@@ -26,7 +24,7 @@ inline void Title() {
   std::cout << "                                |__]   |      |_\\| |__| |   |   |___  |     |__] |  \\ |__| |___\n\n";
 }
 
-inline void Congratulations() {
+void Congratulations() {
   std::cout << ANSI_COLOR_GREEN << ANSI_BLINK;
   std::cout << " ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗\n";
   std::cout << "██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝\n";
@@ -37,7 +35,7 @@ inline void Congratulations() {
   std::cout << ANSI_RESET;
 }
 
-inline void TryAgain() {
+void TryAgain() {
   std::cout << ANSI_COLOR_RED;
   std::cout << "                            ████████╗██████╗ ██╗   ██╗      █████╗  ██████╗  █████╗ ██╗███╗   ██╗\n";
   std::cout << "                            ╚══██╔══╝██╔══██╗╚██╗ ██╔╝     ██╔══██╗██╔════╝ ██╔══██╗██║████╗  ██║\n";
@@ -48,7 +46,7 @@ inline void TryAgain() {
   std::cout << ANSI_RESET;
 }
 
-inline void Goodbye() {
+void Goodbye() {
   ClearScreen();
   std::cout << ANSI_COLOR_BLUE;
   std::cout << "                                    ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗\n";
@@ -59,5 +57,3 @@ inline void Goodbye() {
   std::cout << "                                    ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝\n\n";
   std::cout << ANSI_RESET;
 }
-
-#endif // UI_PRINT_H_
