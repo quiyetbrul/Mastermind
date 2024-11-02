@@ -10,8 +10,8 @@ void Computer::Start() {
   Title();
 
   std::map<std::vector<int>, std::string> computer_guess_history;
-  SetSecretCode(
-      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
+  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
+                          GetSecretCodeMaxDigit()));
   SetGuesses(computer_guess_history);
 
   GameLoop();
@@ -19,8 +19,8 @@ void Computer::Start() {
 
 void Computer::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
-  Codebreaker computer(kSecretCodeLength, kMinSecretCodeDigit,
-                       kMaxSecretCodeDigit);
+  Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
+                       GetSecretCodeMaxDigit());
   while (GetLife() > 0) {
     if (guess == GetSecretCode()) {
       Congratulations();
@@ -30,7 +30,7 @@ void Computer::GameLoop() {
     }
 
     feedback_ =
-        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess))
+        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess, GetSecretCodeLength()))
             .first->second;
 
     PrintGuess(guess, feedback_);

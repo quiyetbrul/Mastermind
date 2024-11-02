@@ -80,7 +80,7 @@ void Codebreaker::PruneCodes(const std::vector<int> &guess,
   candidate_solutions_.erase(
       std::remove_if(candidate_solutions_.begin(), candidate_solutions_.end(),
                      [&](const std::vector<int> &code) {
-                       return feedback != GiveFeedback(guess, code);
+                       return feedback != GiveFeedback(guess, code, code_length_);
                      }),
       candidate_solutions_.end());
 }
@@ -94,7 +94,7 @@ std::vector<std::vector<int>> Codebreaker::Minimax() {
 
   for (const auto &i : combinations_) {
     for (const auto &j : candidate_solutions_) {
-      std::string peg_score = GiveFeedback(i, j);
+      std::string peg_score = GiveFeedback(i, j, code_length_);
       score_count[peg_score]++;
     }
     max = GetMaxScore(score_count);

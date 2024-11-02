@@ -2,23 +2,27 @@
 
 #include <iostream>
 
-#include "util/util.h"
-
-std::vector<int> InputGuess(const std::string &prompt) {
+std::vector<int> InputGuess(const std::string &prompt, int secret_code_length,
+                            int secret_code_min_digit,
+                            int secret_code_max_digit) {
   std::string input;
   while (true) {
     std::cout << prompt;
     std::cin >> input;
 
-    if (input.length() != kSecretCodeLength) {
-      std::cout << "Input must be exactly " << kSecretCodeLength
+    if (input.length() != secret_code_length) {
+      std::cout << "Input must be exactly " << secret_code_length
                 << " digits long." << std::endl;
       continue;
     }
 
     if (!std::all_of(input.begin(), input.end(),
-                     [](char c) { return c >= '0' && c <= '7'; })) {
-      std::cout << "Each digit must be between 0 and 7." << std::endl;
+                     [secret_code_min_digit, secret_code_max_digit](char c) {
+                       return c >= '0' + secret_code_min_digit &&
+                              c <= '0' + secret_code_max_digit;
+                     })) {
+      std::cout << "Each digit must be between " << secret_code_min_digit
+                << " and " << secret_code_max_digit << "." << std::endl;
       continue;
     }
 
@@ -33,13 +37,14 @@ std::vector<int> InputGuess(const std::string &prompt) {
 }
 
 std::string GiveFeedback(const std::vector<int> &guess,
-                         const std::vector<int> &code) {
+                         const std::vector<int> &code,
+                         const int &secret_code_length) {
   std::string result;
-  std::vector<bool> guess_used(kSecretCodeLength, false);
-  std::vector<bool> code_used(kSecretCodeLength, false);
+  std::vector<bool> guess_used(secret_code_length, false);
+  std::vector<bool> code_used(secret_code_length, false);
 
   // First pass: check for black pegs (exact matches)
-  for (int i = 0; i < kSecretCodeLength; ++i) {
+  for (int i = 0; i < secret_code_length; ++i) {
     if (guess[i] == code[i]) {
       result.append("B");
       guess_used[i] = true; // Mark this guess position as used
@@ -48,9 +53,9 @@ std::string GiveFeedback(const std::vector<int> &guess,
   }
 
   // Second pass: check for white pegs (correct color, wrong position)
-  for (int i = 0; i < kSecretCodeLength; ++i) {
+  for (int i = 0; i < secret_code_length; ++i) {
     if (!code_used[i]) { // Only consider unused code positions
-      for (int j = 0; j < kSecretCodeLength; ++j) {
+      for (int j = 0; j < secret_code_length; ++j) {
         if (!guess_used[j] &&
             code[i] == guess[j]) { // Find unused matching color
           result.append("W");

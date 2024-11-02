@@ -25,6 +25,9 @@ public:
   std::string GetName() const;
   int GetLife() const;
   int GetScore() const;
+  int GetSecretCodeMinDigit() const;
+  int GetSecretCodeMaxDigit() const;
+  int GetSecretCodeLength() const;
   std::vector<int> GetSecretCode() const;
   std::map<std::vector<int>, std::string> GetGuesses() const;
 
@@ -32,6 +35,9 @@ public:
   void SetName(const std::string &name);
   void SetLife(const int &life);
   void SetScore(const int &score);
+  void SetSecretCodeMinDigit(const int &min_digit);
+  void SetSecretCodeMaxDigit(const int &max_digit);
+  void SetSecretCodeLength(const int &length);
   void SetSecretCode(const std::vector<int> &secret_code);
   void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
 
@@ -44,6 +50,10 @@ protected:
 
 private:
   static const int kLifeStart = 10;
+  int secret_code_min_digit_ = 0;
+  int secret_code_max_digit_ = 7;
+  int secret_code_length_ = 4;
+
   std::string name_;
   int life_ = kLifeStart;
   int score_ = 0;

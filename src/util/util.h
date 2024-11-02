@@ -18,10 +18,6 @@ const int kTerminalHeight = 24;
 #define ANSI_BLINK "\x1b[5m"
 #define DELETE_LINE "\033[A\033[K"
 
-const int kMinSecretCodeDigit = 0;
-const int kMaxSecretCodeDigit = 7;
-const int kSecretCodeLength = 4;
-
 void ClearScreen();
 
 void CloseTerminal();

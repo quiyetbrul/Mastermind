@@ -12,8 +12,8 @@ void Single::Start() {
   Title();
 
   std::map<std::vector<int>, std::string> user_guess_history;
-  SetSecretCode(
-      GenRandom(kSecretCodeLength, kMinSecretCodeDigit, kMaxSecretCodeDigit));
+  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
+                          GetSecretCodeMaxDigit()));
   SetGuesses(user_guess_history);
 
   GameLoop();
@@ -27,7 +27,8 @@ void Single::GameLoop() {
   std::vector<int> guess;
   while (GetLife() > 0) {
     std::cout << "Life: " << GetLife() << std::endl;
-    guess = InputGuess("Enter your guess: ");
+    guess = InputGuess("Enter your guess: ", GetSecretCodeLength(),
+                       GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
     std::cout << DELETE_LINE;
     std::cout << DELETE_LINE;
 
@@ -40,7 +41,7 @@ void Single::GameLoop() {
     }
 
     feedback_ =
-        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess))
+        guess_history_.try_emplace(guess, GiveFeedback(GetSecretCode(), guess, GetSecretCodeLength()))
             .first->second;
 
     PrintGuess(guess, feedback_);
