@@ -18,11 +18,13 @@ jobs:
     runs-on: macos-latest
 
     steps:
+      - uses: actions/checkout
+
       - name: Update Homebrew
         run: brew update
 
       - name: Install CMake, Make, and G++
-        run: brew install --formula cmake make gcc
+        run: brew install cmake make gcc
 
       - name: Install cURL
         run: brew install curl
@@ -43,6 +45,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout
+
       - name: Update apt-get
         run: sudo apt-get update
 
