@@ -26,6 +26,9 @@ void Single::Start() {
   GameLoop();
 }
 
+// TODO: can be tested
+// if winner, save score, else saved_scores_ stays the same
+// requires is winner in player
 void Single::GameLoop() {
   // TODO: only letters
   SetName(InputString("Enter your name: "));

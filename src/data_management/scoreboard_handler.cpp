@@ -38,6 +38,7 @@ void ScoreboardHandler::Init() {
   }
 }
 
+// TODO: can be tested
 std::multiset<ScoreEntry, std::greater<>> ScoreboardHandler::GetSavedScores() {
   std::multiset<ScoreEntry, std::greater<>> saved_scores;
   if (file_name_.empty()) {
@@ -70,6 +71,7 @@ std::multiset<ScoreEntry, std::greater<>> ScoreboardHandler::GetSavedScores() {
   return saved_scores;
 }
 
+// TODO: can be tested
 void ScoreboardHandler::UpdateScoreboard(
     const std::multiset<ScoreEntry, std::greater<>> &saved_scores) {
   std::ofstream file(file_name_);

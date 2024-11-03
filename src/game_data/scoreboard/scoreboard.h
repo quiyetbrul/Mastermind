@@ -2,7 +2,6 @@
 #define GAME_DATA_SCOREBOARD_SCOREBOARD_H_
 
 #include <set>
-#include <string>
 
 #include "data_management/scoreboard_handler.h"
 #include "player/player.h"

@@ -1,7 +1,6 @@
 #include "scoreboard.h"
 
 #include <iostream>
-#include <iomanip>
 
 namespace game_data {
 
@@ -14,6 +13,8 @@ Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) {
   }
 }
 
+// TODO: can be tested. create player, set values, and see if
+// AddScore adds the player to the scoreboard
 void Scoreboard::SaveScore(const player::Player &player) {
   if (!IsHighScore(player.GetScore())) {
     return;
