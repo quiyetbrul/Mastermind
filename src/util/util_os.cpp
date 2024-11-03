@@ -1,5 +1,6 @@
 #include "util.h"
 
+#include <cstdlib>
 #include <iostream>
 
 // TODO: ask whether game needs to be cross-platform
