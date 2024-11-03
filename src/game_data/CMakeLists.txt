@@ -1,6 +1,6 @@
 set(GAME_DATA_SOURCES
-    scoreboard/scoreboard.cpp
     saved_games/saved_games.cpp
+    scoreboard/scoreboard.cpp
 )
 
 add_library(game_data ${GAME_DATA_SOURCES})
