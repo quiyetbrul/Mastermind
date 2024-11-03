@@ -1,5 +1,6 @@
 #include "codebreaker.h"
 
+#include <algorithm>
 #include <climits>
 #include <string>
 
