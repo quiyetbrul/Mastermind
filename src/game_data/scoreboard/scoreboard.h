@@ -1,8 +1,6 @@
 #ifndef GAME_DATA_SCOREBOARD_SCOREBOARD_H_
 #define GAME_DATA_SCOREBOARD_SCOREBOARD_H_
 
-#include <memory>
-#include <mutex>
 #include <set>
 
 #include "data_management/scoreboard_handler.h"
