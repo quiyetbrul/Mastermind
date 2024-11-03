@@ -9,13 +9,22 @@
 namespace game_data {
 class Scoreboard {
 public:
-  Scoreboard();
+  static Scoreboard &GetInstance() {
+    static Scoreboard instance;
+    return instance;
+  }
+
+  Scoreboard(const Scoreboard &) = delete;
+  Scoreboard &operator=(const Scoreboard &) = delete;
+
+  void Init();
 
   void SaveScore(const player::Player &player);
 
   void PrintScores() const;
 
 private:
+  Scoreboard();
 
   ScoreboardHandler handler_;
 

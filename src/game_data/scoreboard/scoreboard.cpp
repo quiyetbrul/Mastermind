@@ -6,7 +6,9 @@ namespace game_data {
 
 std::multiset<ScoreEntry, std::greater<>> Scoreboard::saved_scores_;
 
-Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) {
+Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) { Init(); }
+
+void Scoreboard::Init() {
   auto scores = handler_.GetSavedScores();
   for (const auto &score : scores) {
     saved_scores_.emplace(score);

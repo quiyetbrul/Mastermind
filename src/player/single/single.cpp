@@ -53,8 +53,7 @@ void Single::GameLoop() {
       PrintCode(GetSecretCode());
       std::cout << "Solved in " << guess_history_.size() << " guesses and "
                 << GetElapsedTime() << " seconds." << std::endl;
-      game_data::Scoreboard scoreboard;
-      scoreboard.SaveScore(*this);
+      game_data::Scoreboard::GetInstance().SaveScore(*this);
       break;
     }
 
