@@ -17,6 +17,8 @@ public:
   Scoreboard(const Scoreboard &) = delete;
   Scoreboard &operator=(const Scoreboard &) = delete;
 
+  void Init();
+
   void SaveScore(const player::Player &player);
 
   void PrintScores() const;

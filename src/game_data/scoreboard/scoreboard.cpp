@@ -6,7 +6,10 @@ namespace game_data {
 
 std::multiset<ScoreEntry, std::greater<>> Scoreboard::saved_scores_;
 
-Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) {
+Scoreboard::Scoreboard() { Init(); }
+
+void Scoreboard::Init() {
+  handler_ = ScoreboardHandler(SCORES_FILE_PATH);
   auto scores = handler_.GetSavedScores();
   for (const auto &score : scores) {
     saved_scores_.emplace(score);
@@ -44,9 +47,8 @@ void Scoreboard::PrintScores() const {
   }
 
   for (const auto &entry : saved_scores_) {
-    std::cout << entry.score << "\t"
-              << entry.name << "\t" << entry.elapsed_time << "\t"
-              << entry.difficulty << std::endl;
+    std::cout << entry.score << "\t" << entry.name << "\t" << entry.elapsed_time
+              << "\t" << entry.difficulty << std::endl;
   }
 }
 
