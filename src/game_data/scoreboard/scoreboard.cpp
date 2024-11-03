@@ -4,7 +4,6 @@
 
 namespace game_data {
 
-std::unique_ptr<Scoreboard> Scoreboard::instance_ = nullptr;
 std::multiset<ScoreEntry, std::greater<>> Scoreboard::saved_scores_;
 
 Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) { Init(); }
