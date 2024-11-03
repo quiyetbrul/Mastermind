@@ -9,3 +9,5 @@ target_include_directories(game_data PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
 target_compile_definitions(game_data PRIVATE -DSCORES_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/scoreboard.csv\")
 target_compile_definitions(game_data PRIVATE -DSAVED_GAMES_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/one_players.json\")
+
+target_link_libraries(game_data PRIVATE data_management)
