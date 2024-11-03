@@ -3,7 +3,7 @@ set(GAME_DATA_SOURCES
     scoreboard/scoreboard.cpp
 )
 
-add_library(game_data ${GAME_DATA_SOURCES})
+add_library(game_data STATIC ${GAME_DATA_SOURCES})
 
 target_include_directories(game_data PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
