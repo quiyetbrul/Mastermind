@@ -5,8 +5,6 @@
 #include <iostream>
 #include <sstream>
 
-std::vector<std::string> ScoreboardHandler::header_;
-
 void ScoreboardHandler::Init() {
   if (file_name_.empty()) {
     std::cerr << "Initialize: file_name_ is empty" << std::endl;
@@ -14,7 +12,7 @@ void ScoreboardHandler::Init() {
   }
 
   // Define the header
-  header_ = {"score", "name", "difficulty"};
+  header_ = {"score", "name", "time", "difficulty"};
 
   std::ifstream file(file_name_);
   if (!file.is_open()) {
@@ -36,15 +34,6 @@ void ScoreboardHandler::Init() {
       create_file.close();
     }
   } else {
-    std::string line;
-    if (std::getline(file, line)) { // Read the header line
-      std::istringstream ss(line);
-      std::string header_item;
-      header_.clear();
-      while (std::getline(ss, header_item, ',')) {
-        header_.push_back(header_item);
-      }
-    }
     file.close();
   }
 }
@@ -68,12 +57,13 @@ std::multiset<ScoreEntry, std::greater<>> ScoreboardHandler::GetSavedScores() {
   std::getline(file, line); // Skip the header
   while (std::getline(file, line)) {
     std::istringstream ss(line);
-    std::string score_str, name, difficulty_str;
+    std::string score_str, name, time_str, difficulty_str;
     if (std::getline(ss, score_str, ',') && std::getline(ss, name, ',') &&
-        std::getline(ss, difficulty_str)) {
+        std::getline(ss, time_str, ',') && std::getline(ss, difficulty_str)) {
       int score = std::stoi(score_str);
+      double time = std::stod(time_str);
       int difficulty = std::stoi(difficulty_str);
-      saved_scores.emplace(ScoreEntry{score, name, difficulty});
+      saved_scores.emplace(ScoreEntry{score, name, time, difficulty});
     }
   }
   file.close();
@@ -91,8 +81,8 @@ void ScoreboardHandler::UpdateScoreboard(
 
   file << HeaderToString(",") << std::endl;
   for (const auto &entry : saved_scores) {
-    file << entry.score << "," << entry.name << "," << entry.difficulty
-         << std::endl;
+    file << std::fixed << std::setprecision(3) << entry.score << "," << entry.name
+         << "," << entry.elapsed_time << "," << entry.difficulty << std::endl;
   }
   file.close();
 }

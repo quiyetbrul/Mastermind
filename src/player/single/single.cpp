@@ -32,6 +32,8 @@ void Single::GameLoop() {
   std::cout << DELETE_LINE;
   std::cout << "Welcome, " << GetName() << "!" << std::endl;
 
+  StartTime();
+
   std::vector<int> guess;
   while (GetLife() > 0) {
     std::cout << "Life: " << GetLife() << std::endl;
@@ -41,9 +43,13 @@ void Single::GameLoop() {
     std::cout << DELETE_LINE;
 
     if (guess == GetSecretCode()) {
+      EndTime();
+      SaveElapsedTime();
       Congratulations();
       SetScore(GetLife());
       PrintCode(GetSecretCode());
+      std::cout << "Solved in " << guess_history_.size() << " guesses and "
+                << GetElapsedTime() << " seconds." << std::endl;
       game_data::Scoreboard::GetInstance().SaveScore(*this);
       break;
     }

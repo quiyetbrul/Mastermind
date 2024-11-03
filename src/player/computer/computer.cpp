@@ -23,11 +23,16 @@ void Computer::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   player::Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                                GetSecretCodeMaxDigit());
+  StartTime();
   while (GetLife() > 0) {
     if (guess == GetSecretCode()) {
+      EndTime();
+      SaveElapsedTime();
       Congratulations();
       SetScore(GetLife());
       PrintCode(GetSecretCode());
+      std::cout << "Solved in " << guess_history_.size() << " guesses and "
+                << GetElapsedTime() << " seconds." << std::endl;
       break;
     }
 

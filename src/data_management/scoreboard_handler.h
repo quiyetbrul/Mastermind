@@ -7,17 +7,18 @@
 struct ScoreEntry {
   int score;
   std::string name;
+  double elapsed_time;
   int difficulty;
 
-  ScoreEntry(int s, const std::string &n, const int &d)
-      : score(s), name(n), difficulty(d) {}
+  ScoreEntry(int s, const std::string &n, const double &t, const int &d)
+      : score(s), name(n), elapsed_time(t), difficulty(d) {}
 
   bool operator>(const ScoreEntry &other) const { return score > other.score; }
 };
 
 class ScoreboardHandler {
 public:
-  ScoreboardHandler(){Init();};
+  ScoreboardHandler() { Init(); };
 
   ScoreboardHandler(const std::string &file_name) : file_name_(file_name) {
     Init();
@@ -33,7 +34,7 @@ public:
 private:
   void Init();
   std::string file_name_;
-  static std::vector<std::string> header_;
+  std::vector<std::string> header_;
 };
 
 #endif // DATA_MANAGEMENT_SCOREBOARD_HANDLER_HANDLER_H_

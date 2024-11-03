@@ -1,6 +1,7 @@
 #include "scoreboard.h"
 
 #include <iostream>
+#include <iomanip>
 
 namespace game_data {
 
@@ -26,7 +27,7 @@ void Scoreboard::SaveScore(const player::Player &player) {
     saved_scores_.erase(saved_scores_.begin());
   }
 
-  AddScore(player.GetScore(), player.GetName(), player.GetDifficulty());
+  AddScore(player);
   handler_.UpdateScoreboard(saved_scores_);
 }
 
@@ -42,8 +43,9 @@ void Scoreboard::PrintScores() const {
   }
 
   for (const auto &entry : saved_scores_) {
-    std::cout << entry.score << "\t" << entry.name << "\t" << entry.difficulty
-              << std::endl;
+    std::cout << entry.score << "\t"
+              << entry.name << "\t" << entry.elapsed_time << "\t"
+              << entry.difficulty << std::endl;
   }
 }
 
@@ -52,9 +54,9 @@ bool Scoreboard::IsHighScore(const int &score) const {
          score > saved_scores_.begin()->score;
 }
 
-void Scoreboard::AddScore(const int &score, const std::string &name,
-                          const int &difficulty) {
-  saved_scores_.emplace(score, name, difficulty);
+void Scoreboard::AddScore(const player::Player &player) {
+  saved_scores_.emplace(player.GetScore(), player.GetName(),
+                        player.GetElapsedTime(), player.GetDifficulty());
 }
 
 } // namespace game_data

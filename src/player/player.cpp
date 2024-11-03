@@ -16,6 +16,19 @@ const int kHardCodeLength = 4;
 
 void Player::DecrementLife() { --life_; }
 
+void Player::StartTime() {
+  start_time_ = std::chrono::high_resolution_clock::now();
+}
+
+void Player::EndTime() {
+  end_time_ = std::chrono::high_resolution_clock::now();
+}
+
+void Player::SaveElapsedTime() {
+  std::chrono::duration<double> elapsed = end_time_ - start_time_;
+  elapsed_time_ = std::round(elapsed.count() * 1000.0) / 1000.0;
+}
+
 std::string Player::GetName() const { return name_; }
 
 int Player::GetLife() const { return life_; }
@@ -35,6 +48,8 @@ std::vector<int> Player::GetSecretCode() const { return secret_code_; }
 std::map<std::vector<int>, std::string> Player::GetGuesses() const {
   return guess_history_;
 }
+
+double Player::GetElapsedTime() const { return elapsed_time_; }
 
 void Player::SetName(const std::string &name) { name_ = name; }
 

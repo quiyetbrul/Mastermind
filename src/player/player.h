@@ -25,6 +25,10 @@ public:
 
   void DecrementLife();
 
+  void StartTime();
+  void EndTime();
+  void SaveElapsedTime();
+
   // getters
   std::string GetName() const;
   int GetLife() const;
@@ -33,6 +37,7 @@ public:
   int GetSecretCodeMaxDigit() const;
   int GetSecretCodeLength() const;
   int GetDifficulty() const;
+  double GetElapsedTime() const;
   std::vector<int> GetSecretCode() const;
   std::map<std::vector<int>, std::string> GetGuesses() const;
 
@@ -65,7 +70,9 @@ private:
   int score_ = 0;
   std::vector<int> secret_code_;
   int difficulty_ = kEasyDifficulty;
-  // TODO: add timer
+  std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
+  std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
+  double elapsed_time_;
 };
 } // namespace player
 

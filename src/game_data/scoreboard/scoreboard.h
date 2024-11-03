@@ -31,8 +31,7 @@ private:
   const int kScoreLimit = 10;
 
   bool IsHighScore(const int &score) const;
-  void AddScore(const int &score, const std::string &name,
-                const int &difficulty);
+  void AddScore(const player::Player& player);
 };
 } // namespace game_data
 
