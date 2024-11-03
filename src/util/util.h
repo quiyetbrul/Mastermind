@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <iostream>
+#include <limits>
 #include <string>
 
 // TODO: move to definitions file
