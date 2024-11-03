@@ -12,7 +12,7 @@ void ScoreboardHandler::Init() {
   }
 
   // Define the header
-  header_ = {"score", "name", "time", "difficulty"};
+  this->header_ = {"score", "name", "time", "difficulty"};
 
   std::ifstream file(file_name_);
   if (!file.is_open()) {
@@ -91,7 +91,7 @@ void ScoreboardHandler::UpdateScoreboard(
 
 std::string ScoreboardHandler::HeaderToString(const std::string &delim) const {
   std::string header_str;
-  for (int i = 0; i < header_.size(); i++) {
+  for (int i = 0; i < this->header_.size(); i++) {
     header_str += header_[i];
     if (i != header_.size() - 1) {
       header_str += delim;
