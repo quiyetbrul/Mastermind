@@ -30,7 +30,7 @@ add_subdirectory(src/util)
 add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Link subdirectory libraries
-target_link_libraries(${PROJECT_NAME} PRIVATE
+target_link_libraries(${PROJECT_NAME} PUBLIC
     data_management
     game_data
     game_state
