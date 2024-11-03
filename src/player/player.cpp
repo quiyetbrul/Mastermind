@@ -1,5 +1,7 @@
 #include "player.h"
 
+#include <cmath>
+
 namespace player {
 
 const int kEasyMinDigit = 0;
