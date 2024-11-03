@@ -27,10 +27,12 @@ void GameState::Start() {
   case MainMenu::LOAD:
     std::cout << "Load Game under construction" << std::endl;
     break;
-  case MainMenu::SCOREBOARD:
+  case MainMenu::SCOREBOARD: {
     // TODO: PRINT SCORE ASCII ART
-    game_data::Scoreboard::GetInstance().PrintScores();
+    game_data::Scoreboard scoreboard;
+    scoreboard.PrintScores();
     break;
+  }
   case MainMenu::INSTRUCTIONS:
     PrintInstructions();
     break;
