@@ -1,5 +1,6 @@
 #include "scoreboard_handler.h"
 
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
