@@ -10,8 +10,9 @@ namespace game_data {
 class Scoreboard {
 public:
   static Scoreboard &GetInstance() {
-    static Scoreboard instance;
-    return instance;
+    static std::once_flag onceFlag;
+    std::call_once(onceFlag, []() { instance_.reset(new Scoreboard); });
+    return *instance_;
   }
 
   Scoreboard(const Scoreboard &) = delete;
@@ -25,6 +26,7 @@ public:
 
 private:
   Scoreboard();
+  static std::unique_ptr<Scoreboard> instance_;
 
   ScoreboardHandler handler_;
 
