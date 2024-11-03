@@ -14,10 +14,14 @@ endif()
 # Export compile commands for completion engines (optional)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Find 3P libraries
+find_package(CURL REQUIRED)
+
 # Include subdirectories
 add_subdirectory(src/data_management)
 add_subdirectory(src/game_data)
 add_subdirectory(src/game_state)
+add_subdirectory(src/logger)
 add_subdirectory(src/player)
 add_subdirectory(src/ui)
 add_subdirectory(src/util)
@@ -30,13 +34,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     data_management
     game_data
     game_state
+    logger
     player
     ui
     util
 )
 
-# Find and link CURL
-find_package(CURL REQUIRED)
+# Link 3P libraries
 target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
 

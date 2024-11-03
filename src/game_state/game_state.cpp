@@ -58,6 +58,10 @@ void GameState::PlayerMenu() {
     computer_player.Start();
     break;
   }
+  default:
+    ReturnTo("Main Menu", [this]() { Start(); });
+    // Start(); // use Return To instead?
+    break;
   }
   // TODO: maybe just have user enter and return to Start()
   PlayAgain();
