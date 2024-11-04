@@ -8,37 +8,6 @@
 
 // Singleton CURL manager class
 // FOLLOWED EXAMPLE FROM https://terminalroot.com/using-curl-with-cpp/
-class CurlManager {
-public:
-  static CurlManager &Instance() {
-    static CurlManager instance;
-    return instance;
-  }
-
-  CURL *GetCurlHandle() {
-    if (!curl) {
-      curl = curl_easy_init();
-      if (!curl) {
-        std::cerr << "curl_easy_init() failed" << std::endl;
-      }
-    }
-    return curl;
-  }
-
-  ~CurlManager() {
-    if (curl) {
-      curl_easy_cleanup(curl);
-    }
-  }
-
-private:
-  CURL *curl = nullptr;
-
-  CurlManager() = default;
-  CurlManager(const CurlManager &) = delete;
-  CurlManager &operator=(const CurlManager &) = delete;
-};
-
 // Callback function to handle the response
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
                             void *userp) {
@@ -54,7 +23,7 @@ std::vector<int> GenRandom(const int &generate, const int &min,
   std::vector<int> random_number;
   std::string read_buffer;
 
-  curl = CurlManager::Instance().GetCurlHandle();
+  curl = curl_easy_init();
   if (curl) {
     std::string url =
         "https://www.random.org/integers/?num=" + std::to_string(generate) +
