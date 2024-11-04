@@ -51,7 +51,7 @@ void GameState::Start() {
     break;
   case MainMenu::SCOREBOARD:
     // TODO: PRINT SCORE ASCII ART
-    game_data::Scoreboard::GetInstance().PrintScores();
+    scoreboard_.PrintScores();
     break;
   case MainMenu::INSTRUCTIONS:
     PrintInstructions();
@@ -62,6 +62,13 @@ void GameState::Start() {
     break;
   }
   ReturnTo("Main Menu", [this]() { Start(); });
+}
+
+void GameState::Init() {
+  SetTerminalSize(kTerminalWidth, kTerminalHeight);
+  SetTerminalTitle("Mastermind Game by Quiyet Brul");
+  scoreboard_.Init();
+  saved_games_.Init();
 }
 
 void GameState::PlayerMenu() {

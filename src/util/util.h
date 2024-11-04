@@ -47,8 +47,7 @@ void CloseTerminal();
  * @param width The width of the terminal.
  * @param height The height of the terminal.
  */
-void SetTerminalSize(const int &width = kTerminalWidth,
-                     const int &height = kTerminalHeight);
+void SetTerminalSize(const int &width, const int &height);
 
 /**
  * @brief Set the terminal title.

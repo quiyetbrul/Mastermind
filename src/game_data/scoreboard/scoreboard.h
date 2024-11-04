@@ -9,13 +9,7 @@
 namespace game_data {
 class Scoreboard {
 public:
-  static Scoreboard &GetInstance() {
-    static Scoreboard instance;
-    return instance;
-  }
-
-  Scoreboard(const Scoreboard &) = delete;
-  Scoreboard &operator=(const Scoreboard &) = delete;
+  Scoreboard();
 
   void Init();
 
@@ -24,8 +18,6 @@ public:
   void PrintScores() const;
 
 private:
-  Scoreboard();
-
   ScoreboardHandler handler_;
 
   static std::multiset<ScoreEntry, std::greater<>> saved_scores_;

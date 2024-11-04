@@ -6,6 +6,8 @@
 #ifndef GAMESTATE_GAMESTATE_H_
 #define GAMESTATE_GAMESTATE_H_
 
+#include "game_data/saved_games/saved_games.h"
+#include "game_data/scoreboard/scoreboard.h"
 namespace mastermind {
 
 /**
@@ -22,12 +24,17 @@ public:
    */
   GameState(){};
 
+  void Init();
+
   /**
    * @brief Starts the game.
    */
   void Start();
 
 private:
+  game_data::Scoreboard scoreboard_;
+  game_data::SavedGames saved_games_;
+
   /**
    * @brief Main game loop.
    */

@@ -6,7 +6,7 @@ namespace game_data {
 
 std::multiset<ScoreEntry, std::greater<>> Scoreboard::saved_scores_;
 
-Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) { Init(); }
+Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) { }
 
 void Scoreboard::Init() {
   auto scores = handler_.GetSavedScores();

@@ -4,9 +4,9 @@
 #include <string>
 
 namespace game_data {
-SavedGames::SavedGames() : handler_(SAVED_GAMES_FILE_PATH) {
-  saved_games_ = handler_.GetSavedGames();
-}
+SavedGames::SavedGames() : handler_(SAVED_GAMES_FILE_PATH) {}
+
+void SavedGames::Init() { saved_games_ = handler_.GetSavedGames(); }
 
 void SavedGames::SaveGame(const std::string &game_name,
                           const player::Single &player) {

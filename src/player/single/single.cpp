@@ -60,7 +60,8 @@ void Single::GameLoop() {
       // TODO: turn into function
       std::cout << "Solved in " << guess_history_.size() << " guesses and "
                 << GetElapsedTime() << " seconds." << std::endl;
-      game_data::Scoreboard::GetInstance().SaveScore(*this);
+      game_data::Scoreboard scoreboard_;
+      scoreboard_.SaveScore(*this);
       break;
     }
 

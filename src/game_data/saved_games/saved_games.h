@@ -9,13 +9,9 @@
 namespace game_data {
 class SavedGames {
 public:
-  static SavedGames &GetInstance() {
-    static SavedGames instance;
-    return instance;
-  }
+  SavedGames();
 
-  SavedGames(const SavedGames &) = delete;
-  SavedGames &operator=(const SavedGames &) = delete;
+  void Init();
 
   // TODO: make player::Player abstract class a shared pointer
   void SaveGame(const std::string &game_name, const player::Single &player);
@@ -25,8 +21,6 @@ public:
   void PrintSavedGames();
 
 private:
-  SavedGames();
-
   SavedGamesHandler handler_;
   std::unordered_map<std::string, player::Single> saved_games_;
   const int kMaxSavedGames = 5;
