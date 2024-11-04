@@ -1,3 +1,8 @@
+/**
+ * @file saved_games.cpp
+ * @brief Implementation of the SavedGames class
+ */
+
 #include "saved_games.h"
 
 #include "util/util.h"

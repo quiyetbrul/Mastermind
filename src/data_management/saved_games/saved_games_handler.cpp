@@ -1,3 +1,8 @@
+/**
+ * @file saved_games_handler.cpp
+ * @brief Implementation of the SavedGamesHandler class
+ */
+
 #include "saved_games_handler.h"
 
 namespace data_management {

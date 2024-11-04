@@ -1,3 +1,8 @@
+/**
+ * @file scoreboard_handler.cpp
+ * @brief Implementation of the ScoreboardHandler class.
+ */
+
 #include "scoreboard_handler.h"
 
 #include <cstring>

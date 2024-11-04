@@ -1,3 +1,8 @@
+/**
+ * @file scoreboard.cpp
+ * @brief Implementation of all Scoreboard functions.
+ */
+
 #include "scoreboard.h"
 
 #include <iostream>
