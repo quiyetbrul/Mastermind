@@ -1,3 +1,8 @@
+/**
+ * @file computer.cpp
+ * @brief Implementation of the Computer class.
+ */
+
 #include "computer.h"
 
 #include <string>

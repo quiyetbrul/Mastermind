@@ -1,3 +1,8 @@
+/**
+ * @file player.h
+ * @brief Declaration of the Player class
+ */
+
 #ifndef PLAYER_PLAYER_H_
 #define PLAYER_PLAYER_H_
 
@@ -11,17 +16,45 @@ const int kMediumDifficulty = 2;
 const int kHardDifficulty = 3;
 
 namespace player {
+/**
+ * @class Player
+ * @brief Represents a player in the game.
+ *
+ * The Player class manages the player's attributes.
+ */
 class Player {
 public:
+  /**
+   * @brief Default constructor.
+   *
+   * Initializes the player with default values.
+   */
   Player() : life_(kLifeStart), score_(kLifeStart), guess_history_() {}
 
+  /**
+   * @brief Parameterized constructor.
+   *
+   * @param life Initial life value.
+   * @param score Initial score value.
+   * @param secret_code The secret code the player needs to guess.
+   * @param guesses The history of guesses made by the player.
+   */
   Player(int &life, int &score, const std::vector<int> &secret_code,
          std::map<std::vector<int>, std::string> &guesses)
       : life_(life), score_(score), secret_code_(secret_code),
         guess_history_(guesses) {}
 
+  /**
+   * @brief Virtual destructor.
+   */
   virtual ~Player() = default;
 
+  /**
+   * @brief Starts the game.
+   *
+   * This is a pure virtual function that must be implemented by derived
+   * classes. Sets up the player and the game, and calls the GameLoop().
+   */
   virtual void Start() = 0;
 
   void DecrementLife();
@@ -30,7 +63,6 @@ public:
   void EndTime();
   void SaveElapsedTime();
 
-  // getters
   std::string GetName() const;
   int GetLife() const;
   int GetScore() const;
@@ -39,10 +71,13 @@ public:
   int GetSecretCodeLength() const;
   int GetDifficulty() const;
   double GetElapsedTime() const;
+
   std::vector<int> GetSecretCode() const;
+
   std::map<std::vector<int>, std::string> GetGuesses() const;
 
-  // setters
+  // SETTERS
+
   void SetName(const std::string &name);
   void SetLife(const int &life);
   void SetScore(const int &score);
@@ -55,9 +90,14 @@ public:
 
 protected:
   std::string feedback_;
-  // TODO: change to std::unordered_map and add hash function
   std::map<std::vector<int>, std::string> guess_history_;
 
+  /**
+   * @brief Main game loop.
+   *
+   * This is a pure virtual function that must be implemented by derived
+   * classes.
+   */
   virtual void GameLoop() = 0;
 
 private:
@@ -75,6 +115,7 @@ private:
   std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
   double elapsed_time_;
 };
+
 } // namespace player
 
 #endif // PLAYER_PLAYER_H_

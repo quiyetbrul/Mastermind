@@ -1,3 +1,8 @@
+/**
+ * @file banner.cpp
+ * @brief Declaration of all banner functions.
+ */
+
 #include <iostream>
 
 #include "ui/banner.h"

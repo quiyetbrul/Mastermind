@@ -1,3 +1,8 @@
+/**
+ * @file single.cpp
+ * @brief Implementation of the Single class.
+ */
+
 #include "single.h"
 
 #include <iostream>
@@ -44,6 +49,7 @@ void Single::GameLoop() {
         player::InputGuess("Enter your guess: ", GetSecretCodeLength(),
                            GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
     std::cout << DELETE_LINE;
+    std::cout << DELETE_LINE;
 
     if (guess == GetSecretCode()) {
       EndTime();
@@ -51,6 +57,7 @@ void Single::GameLoop() {
       Congratulations();
       SetScore(GetLife());
       PrintCode(GetSecretCode());
+      // TODO: turn into function
       std::cout << "Solved in " << guess_history_.size() << " guesses and "
                 << GetElapsedTime() << " seconds." << std::endl;
       game_data::Scoreboard::GetInstance().SaveScore(*this);

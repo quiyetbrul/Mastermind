@@ -1,3 +1,8 @@
+/**
+ * @file util.cpp
+ * @brief Implementation for utility functions used by the player.
+ */
+
 #include "util.h"
 
 #include <algorithm>

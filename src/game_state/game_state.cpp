@@ -1,3 +1,8 @@
+/**
+ * @file game_state.cpp
+ * @brief Implementation of GameState class.
+ */
+
 #include "game_state.h"
 
 #include <iostream>
@@ -10,9 +15,26 @@
 #include "ui/menu.h"
 #include "util/util.h"
 
-enum class MainMenu : int { PLAY = 1, LOAD, SCOREBOARD, INSTRUCTIONS, EXIT };
+/**
+ * @enum MainMenu
+ * @brief Represents the main menu options.
+ */
+enum class MainMenu : int {
+  PLAY = 1,     /**< Start a new game */
+  LOAD,         /**< Load a saved game */
+  SCOREBOARD,   /**< View the scoreboard */
+  INSTRUCTIONS, /**< View the game instructions */
+  EXIT          /**< Exit the game */
+};
 
-enum class PlayerType : int { SINGLE = 1, COMPUTER };
+/**
+ * @enum PlayerType
+ * @brief Represents the types of players.
+ */
+enum class PlayerType : int {
+  SINGLE = 1, /**< Single player mode */
+  COMPUTER    /**< Play against the computer */
+};
 
 namespace mastermind {
 void GameState::Start() {
@@ -59,6 +81,7 @@ void GameState::PlayerMenu() {
     break;
   }
   default:
+    // TODO: this will never be reached. think!
     ReturnTo("Main Menu", [this]() { Start(); });
     // Start(); // use Return To instead?
     break;

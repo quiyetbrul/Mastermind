@@ -1,3 +1,8 @@
+/**
+ * @file player.cpp
+ * @brief Implementation of the Player class.
+ */
+
 #include "player.h"
 
 #include <cmath>

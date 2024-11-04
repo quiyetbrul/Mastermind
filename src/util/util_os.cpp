@@ -1,3 +1,8 @@
+/**
+ * @file util_os.cpp
+ * @brief Implementation of OS-specific functions.
+ */
+
 #include "util.h"
 
 #include <cstdlib>

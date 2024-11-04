@@ -1,3 +1,8 @@
+/**
+ * @file codebreaker.cpp
+ * @brief Implementation of the Codebreaker class.
+ */
+
 #include "codebreaker.h"
 
 #include <algorithm>
@@ -7,10 +12,8 @@
 #include "player/util/util.h"
 
 namespace player {
-// Constructor
 Codebreaker::Codebreaker(int code_length, int min_digit, int max_digit)
     : code_length_(code_length), min_digit_(min_digit), max_digit_(max_digit) {
-  // Initialize possible guesses (for example, generate all permutations)
   CreateSet();
 }
 

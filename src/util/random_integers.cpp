@@ -1,13 +1,16 @@
+/**
+ * @file random_integers.cpp
+ * @brief Implementation of random number generator functions.
+ */
+
 #include "util.h"
 
 #include <curl/curl.h>
 #include <iostream>
 #include <random>
-#include <string>
 #include <sstream>
+#include <string>
 
-// Singleton CURL manager class
-// FOLLOWED EXAMPLE FROM https://terminalroot.com/using-curl-with-cpp/
 // Callback function to handle the response
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
                             void *userp) {
@@ -15,7 +18,6 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
   return size * nmemb;
 }
 
-// Function to generate random numbers using Random.org API
 std::vector<int> GenRandom(const int &generate, const int &min,
                            const int &max) {
   CURL *curl;
@@ -64,7 +66,6 @@ std::vector<int> GenRandom(const int &generate, const int &min,
   return random_number;
 }
 
-// Local random number generator
 int RandomNumber(const int &min, const int &max) {
   std::random_device rd;
   std::mt19937 gen(rd());
