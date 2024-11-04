@@ -19,7 +19,6 @@ find_package(CURL REQUIRED)
 
 # Include subdirectories
 add_subdirectory(src/data_management)
-add_subdirectory(src/game_data)
 add_subdirectory(src/game_state)
 add_subdirectory(src/logger)
 add_subdirectory(src/player)
@@ -31,7 +30,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Link subdirectory libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC
-    game_data
+    data_management
     game_state
     logger
     player

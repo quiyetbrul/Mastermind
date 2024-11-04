@@ -11,10 +11,6 @@
 #include <string>
 #include <vector>
 
-const int kEasyDifficulty = 1;
-const int kMediumDifficulty = 2;
-const int kHardDifficulty = 3;
-
 namespace player {
 /**
  * @class Player
@@ -58,10 +54,11 @@ public:
   virtual void Start() = 0;
 
   void DecrementLife();
-
   void StartTime();
   void EndTime();
   void SaveElapsedTime();
+
+  // GETTERS
 
   std::string GetName() const;
   int GetLife() const;
@@ -71,9 +68,7 @@ public:
   int GetSecretCodeLength() const;
   int GetDifficulty() const;
   double GetElapsedTime() const;
-
   std::vector<int> GetSecretCode() const;
-
   std::map<std::vector<int>, std::string> GetGuesses() const;
 
   // SETTERS
@@ -91,6 +86,9 @@ public:
 protected:
   std::string feedback_;
   std::map<std::vector<int>, std::string> guess_history_;
+  static constexpr int kEasyDifficulty = 1;
+  static constexpr int kMediumDifficulty = 2;
+  static constexpr int kHardDifficulty = 3;
 
   /**
    * @brief Main game loop.
@@ -101,7 +99,7 @@ protected:
   virtual void GameLoop() = 0;
 
 private:
-  static const int kLifeStart = 10;
+  static constexpr int kLifeStart = 10;
   int secret_code_min_digit_ = 0;
   int secret_code_max_digit_ = 7;
   int secret_code_length_ = 4;

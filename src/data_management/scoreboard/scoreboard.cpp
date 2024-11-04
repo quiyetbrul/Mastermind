@@ -4,7 +4,8 @@
 
 namespace game_data {
 
-std::multiset<ScoreEntry, std::greater<>> Scoreboard::saved_scores_;
+std::multiset<data_management::ScoreEntry, std::greater<>>
+    Scoreboard::saved_scores_;
 
 Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) { }
 

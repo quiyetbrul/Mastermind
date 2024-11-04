@@ -8,7 +8,6 @@
 #include <iostream>
 #include <string>
 
-#include "game_data/scoreboard/scoreboard.h"
 #include "player/computer/computer.h"
 #include "player/single/single.h"
 #include "ui/banner.h"

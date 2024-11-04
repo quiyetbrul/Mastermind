@@ -7,7 +7,7 @@
 
 #include <iostream>
 
-#include "game_data/scoreboard/scoreboard.h"
+#include "data_management/scoreboard/scoreboard.h"
 #include "player/player.h"
 #include "player/util/util.h"
 #include "ui/banner.h"

@@ -35,7 +35,20 @@ std::vector<int> InputGuess(const std::string &prompt,
                             const int &secret_code_length,
                             const int &secret_code_min_digit,
                             const int &secret_code_max_digit);
+
+/**
+ * @brief Prints the player's guess and the feedback.
+ *
+ * @param guess The player's guess.
+ * @param feedback The feedback for the guess.
+ */
 void PrintGuess(const std::vector<int> &guess, const std::string &feedback);
+
+/**
+ * @brief Prints the player's secret code.
+ *
+ * @param code The player's secret code.
+ */
 void PrintCode(std::vector<int> code);
 } // namespace player
 #endif // PLAYER_UTIL_UTIL_H_

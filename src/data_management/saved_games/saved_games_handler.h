@@ -6,6 +6,7 @@
 
 #include "player/single/single.h"
 
+namespace data_management {
 class SavedGamesHandler {
 public:
   SavedGamesHandler(){};
@@ -20,5 +21,5 @@ public:
 private:
   std::string file_name_;
 };
-
+} // namespace data_management
 #endif // DATA_MANAGEMENT_GAMEPLAY_HANDLER_H

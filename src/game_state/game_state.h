@@ -6,8 +6,8 @@
 #ifndef GAMESTATE_GAMESTATE_H_
 #define GAMESTATE_GAMESTATE_H_
 
-#include "game_data/saved_games/saved_games.h"
-#include "game_data/scoreboard/scoreboard.h"
+#include "data_management/saved_games/saved_games.h"
+#include "data_management/scoreboard/scoreboard.h"
 namespace mastermind {
 
 /**

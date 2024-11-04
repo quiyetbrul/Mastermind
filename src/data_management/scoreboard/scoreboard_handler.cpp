@@ -6,6 +6,7 @@
 #include <iostream>
 #include <sstream>
 
+namespace data_management {
 void ScoreboardHandler::Init() {
   if (file_name_.empty()) {
     std::cerr << "Initialize: file_name_ is empty" << std::endl;
@@ -100,3 +101,4 @@ std::string ScoreboardHandler::HeaderToString(const std::string &delim) const {
   }
   return header_str;
 }
+} // namespace data_management

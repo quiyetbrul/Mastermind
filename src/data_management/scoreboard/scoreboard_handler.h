@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+namespace data_management {
 struct ScoreEntry {
   int score;
   std::string name;
@@ -37,5 +38,5 @@ private:
   std::string file_name_;
   std::vector<std::string> header_;
 };
-
+} // namespace data_management
 #endif // DATA_MANAGEMENT_SCOREBOARD_HANDLER_HANDLER_H_
