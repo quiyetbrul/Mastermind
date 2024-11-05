@@ -40,11 +40,25 @@ void Single::GameLoop() {
   SetName(InputString("Enter your name: "));
   std::cout << DELETE_LINE;
   std::cout << "Welcome, " << GetName() << "!" << std::endl;
-
+  PrintCode(GetSecretCode());
   StartTime();
+
+  int half_life = GetLife() / 2;
 
   std::vector<int> guess;
   while (GetLife() > 0) {
+    if (GetLife() <= half_life && GetHintCount() > 0 &&
+        GetLastFeedBack().size() != GetSecretCodeLength()) {
+      char give_hint = InputChar("Want a hint? (y/n): ", 'y', 'n');
+      std::cout << DELETE_LINE;
+      if (give_hint == 'y') {
+        std::string hint = GiveHint(guess, GetSecretCode());
+        std::cout << "Hint: " << hint << std::endl;
+        AddToHintHistory(hint);
+        DecrementHint();
+      }
+    }
+
     std::cout << "Life: " << GetLife() << std::endl;
     guess =
         player::InputGuess("Enter your guess: ", GetSecretCodeLength(),
@@ -57,17 +71,15 @@ void Single::GameLoop() {
       SaveElapsedTime();
       Congratulations();
       SetScore(GetLife());
-      PrintCode(GetSecretCode());
-      // TODO: turn into function
-      std::cout << "Solved in " << guess_history_.size() << " guesses and "
-                << GetElapsedTime() << " seconds." << std::endl;
+      PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
+                         GetElapsedTime());
       game_data::Scoreboard scoreboard_;
       scoreboard_.SaveScore(*this);
       break;
     }
 
     AddToGuessHistory(guess);
-    PrintGuess(guess, last_feedback_);
+    PrintGuess(guess, GetLastFeedBack());
     DecrementLife();
 
     if (GetLife() == 0) {

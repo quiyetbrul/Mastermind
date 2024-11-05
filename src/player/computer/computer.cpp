@@ -37,14 +37,13 @@ void Computer::GameLoop() {
       SaveElapsedTime();
       Congratulations();
       SetScore(GetLife());
-      PrintCode(GetSecretCode());
-      std::cout << "Solved in " << guess_history_.size() << " guesses and "
-                << GetElapsedTime() << " seconds." << std::endl;
+      PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
+                         GetElapsedTime());
       break;
     }
 
     AddToGuessHistory(guess);
-    PrintGuess(guess, last_feedback_);
+    PrintGuess(guess, GetLastFeedBack());
     DecrementLife();
 
     if (GetLife() == 0) {
@@ -54,7 +53,7 @@ void Computer::GameLoop() {
     }
 
     computer.RemoveCode(guess);
-    computer.FilterSolutions(guess, last_feedback_);
+    computer.FilterSolutions(guess, GetLastFeedBack());
     guess = computer.MakeGuess();
   }
 }

@@ -60,6 +60,10 @@ void Player::AddToGuessHistory(const std::vector<int> &guess) {
           .first->second;
 }
 
+void Player::AddToHintHistory(const std::string &hint) {
+  hint_history_.push_back(hint);
+}
+
 std::string Player::GetName() const { return name_; }
 
 int Player::GetLife() const { return life_; }
@@ -83,6 +87,8 @@ std::map<std::vector<int>, std::string> Player::GetGuesses() const {
 double Player::GetElapsedTime() const { return elapsed_time_; }
 
 int Player::GetHintCount() const { return hint_count_; }
+
+std::string Player::GetLastFeedBack() const { return last_feedback_; }
 
 void Player::SetName(const std::string &name) { name_ = name; }
 
@@ -109,6 +115,12 @@ void Player::SetSecretCode(const std::vector<int> &secret_code) {
 void Player::SetGuesses(
     std::map<std::vector<int>, std::string> &guess_history) {
   guess_history_ = guess_history;
+}
+
+void Player::SetHintCount(const int &hint_count) { hint_count_ = hint_count; }
+
+void Player::SetLastFeedBack(const std::string &feedback) {
+  last_feedback_ = feedback;
 }
 
 void Player::SetDifficulty(const int &difficulty) {

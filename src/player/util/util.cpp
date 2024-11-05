@@ -48,8 +48,22 @@ std::string GiveHint(const std::vector<int> &guess,
                      const std::vector<int> &code) {
   std::string hint;
 
+  for (int i = 0; i < guess.size(); i++) {
+    if (guess[i] != code[i]) {
+      hint = "Position " + std::to_string(i + 1) + " needs to be " +
+             (guess[i] > code[i] ? "lower" : "higher");
+      break;
+    }
+  }
 
   return hint;
+}
+
+void PrintSolvedSummary(const std::vector<int> secret_code,
+                        const int &guesses_size, const double &elapsed_time) {
+  PrintCode(secret_code);
+  std::cout << "Solved in " << guesses_size << " guesses and " << elapsed_time
+            << " seconds." << std::endl;
 }
 
 std::string GiveFeedback(const std::vector<int> &guess,

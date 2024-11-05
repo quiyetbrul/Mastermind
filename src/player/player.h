@@ -62,6 +62,12 @@ public:
   void DecrementHint();
 
   /**
+   * @brief Add hint to hint_history_
+   *
+   */
+  void AddToHintHistory(const std::string &hint);
+
+  /**
    * @brief Starts the timer.
    */
   void StartTime();
@@ -89,6 +95,7 @@ public:
   std::vector<int> GetSecretCode() const;
   std::map<std::vector<int>, std::string> GetGuesses() const;
   int GetHintCount() const;
+  std::string GetLastFeedBack() const;
 
   // SETTERS
 
@@ -101,10 +108,10 @@ public:
   void SetSecretCode(const std::vector<int> &secret_code);
   void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
   void SetDifficulty(const int &difficulty);
+  void SetHintCount(const int &hint_count);
+  void SetLastFeedBack(const std::string &feedback);
 
 protected:
-  std::string last_feedback_;
-  std::map<std::vector<int>, std::string> guess_history_;
   static constexpr int kEasyDifficulty = 1;
   static constexpr int kMediumDifficulty = 2;
   static constexpr int kHardDifficulty = 3;
@@ -142,7 +149,10 @@ private:
   std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
   std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
   double elapsed_time_;
-  int hint_count_ = 0;
+  int hint_count_ = 3;
+  std::vector<std::string> hint_history_;
+  std::map<std::vector<int>, std::string> guess_history_;
+  std::string last_feedback_;
 };
 } // namespace player
 

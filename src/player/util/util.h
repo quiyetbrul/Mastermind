@@ -34,6 +34,16 @@ std::string GiveHint(const std::vector<int> &guess,
                      const std::vector<int> &code);
 
 /**
+ * @brief Prints the summary of the game after the player has solved the code.
+ *
+ * @param guess
+ * @param guesses_size
+ * @param elapsed_time
+ */
+void PrintSolvedSummary(const std::vector<int> secret_code,
+                        const int &guesses_size, const double &elapsed_time);
+
+/**
  * @brief Prompts the player to input a guess.
  *
  * @param prompt The prompt to display to the player.
