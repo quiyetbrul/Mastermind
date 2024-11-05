@@ -1,6 +1,7 @@
 #include "logger.h"
 
 #include <chrono>
+#include <cstring>
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
