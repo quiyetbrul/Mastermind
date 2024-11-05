@@ -43,12 +43,8 @@ void Computer::GameLoop() {
       break;
     }
 
-    guess_history_.try_emplace(
-        guess,
-        player::GiveFeedback(GetSecretCode(), guess, GetSecretCodeLength()));
-    feedback_ = guess_history_.rbegin()->second;
-
-    PrintGuess(guess, feedback_);
+    AddToGuessHistory(guess);
+    PrintGuess(guess, last_feedback_);
     DecrementLife();
 
     if (GetLife() == 0) {
@@ -58,7 +54,7 @@ void Computer::GameLoop() {
     }
 
     computer.RemoveCode(guess);
-    computer.PruneCodes(guess, feedback_);
+    computer.FilterSolutions(guess, last_feedback_);
     guess = computer.MakeGuess();
   }
 }

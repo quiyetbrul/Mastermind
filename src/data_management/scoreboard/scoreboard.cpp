@@ -72,5 +72,4 @@ void Scoreboard::AddScore(const player::Player &player) {
   saved_scores_.emplace(player.GetScore(), player.GetName(),
                         player.GetElapsedTime(), player.GetDifficulty());
 }
-
 } // namespace game_data

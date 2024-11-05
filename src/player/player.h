@@ -144,7 +144,6 @@ private:
    */
   void Init();
 };
-
 } // namespace player
 
 #endif // PLAYER_PLAYER_H_

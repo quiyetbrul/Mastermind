@@ -8,10 +8,10 @@
 #include <iostream>
 
 #include "data_management/scoreboard/scoreboard.h"
+#include "logger/logger.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
 #include "util/util.h"
-#include "logger/logger.h"
 
 namespace player {
 void Single::Start() {
@@ -66,13 +66,8 @@ void Single::GameLoop() {
       break;
     }
 
-    feedback_ =
-        guess_history_
-            .try_emplace(guess, player::GiveFeedback(GetSecretCode(), guess,
-                                                     GetSecretCodeLength()))
-            .first->second;
-
-    PrintGuess(guess, feedback_);
+    AddToGuessHistory(guess);
+    PrintGuess(guess, last_feedback_);
     DecrementLife();
 
     if (GetLife() == 0) {
@@ -82,5 +77,4 @@ void Single::GameLoop() {
     }
   }
 }
-
 } // namespace player

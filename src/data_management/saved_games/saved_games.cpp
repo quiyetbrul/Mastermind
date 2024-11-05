@@ -63,5 +63,4 @@ void SavedGames::PrintSavedGames() {
     std::cout << game.first << std::endl;
   }
 }
-
 } // namespace game_data
