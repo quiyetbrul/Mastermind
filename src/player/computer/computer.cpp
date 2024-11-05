@@ -26,6 +26,7 @@ void Computer::Start() {
   GameLoop();
 }
 
+// TODO: stress test; requires is winner in player
 void Computer::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   player::Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),

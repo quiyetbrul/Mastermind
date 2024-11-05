@@ -26,6 +26,10 @@ std::string GiveFeedback(const std::vector<int> &guess,
  * @brief Generates a hint for the player based on the guess and the secret
  * code.
  *
+ * This will only say if the guess[i] is higher or lower than the code[i].
+ * Otherwise, it's basically giving the answer if it also hints at switching the
+ * position.
+ *
  * @param guess The player's guess.
  * @param code The secret code.
  * @return std::string The hint based on the player's guess and the secret code.
