@@ -14,32 +14,32 @@
 namespace player {
 Codebreaker::Codebreaker(int code_length, int min_digit, int max_digit)
     : code_length_(code_length), min_digit_(min_digit), max_digit_(max_digit) {
-  CreateSet();
+  Init();
 }
 
 std::vector<int> Codebreaker::MakeGuess() {
   std::vector<std::vector<int>> nextGuesses = Minimax();
   std::vector<int> nextGuess;
 
-  for (int i = 0; i < nextGuesses.size(); ++i) {
-    if (find(candidate_solutions_.begin(), candidate_solutions_.end(),
-             nextGuesses[i]) != candidate_solutions_.end()) {
-      return nextGuesses[i];
+  // Check if any of the next guesses are in the candidate solutions
+  for (const auto &guess : nextGuesses) {
+    if (std::find(candidate_solutions_.begin(), candidate_solutions_.end(),
+                  guess) != candidate_solutions_.end()) {
+      return guess;
     }
   }
-  for (int j = 0; j < nextGuesses.size(); ++j) {
-    if (find(combinations_.begin(), combinations_.end(), nextGuesses[j]) !=
-        combinations_.end()) {
-      return nextGuesses[j];
-    }
+
+  // If no next guess is found in candidate solutions, return the first next
+  // guess
+  if (!nextGuesses.empty()) {
+    return nextGuesses[0];
   }
 
   return nextGuess;
 }
 
-void Codebreaker::CreateSet() {
+void Codebreaker::Init() {
   std::vector<int> current(code_length_, 0);
-  std::vector<int> elements;
   GenerateCombinations(0, current);
   candidate_solutions_.insert(candidate_solutions_.end(), combinations_.begin(),
                               combinations_.end());
@@ -68,33 +68,35 @@ void Codebreaker::RemoveCode(const std::vector<int> &guess) {
 
 void Codebreaker::RemoveCode(std::vector<std::vector<int>> &set,
                              const std::vector<int> &guess) {
-  int index;
   for (auto it = set.begin(); it != set.end(); it++) {
-    index = std::distance(set.begin(),
-                          it); // Find the index of the current iterator
+    // Find the index of the current iterator
+    int index = std::distance(set.begin(), it);
 
-    if (set[index] == guess) { // If the current code matches the one to remove
-      set.erase(set.begin() + index); // Remove the code from the set
+    // Remove the code from the set if it matches the guess
+    if (set[index] == guess) {
+      set.erase(set.begin() + index);
       break;
     }
   }
 }
 
-void Codebreaker::PruneCodes(const std::vector<int> &guess,
-                             const std::string &feedback) {
-  candidate_solutions_.erase(
-      std::remove_if(candidate_solutions_.begin(), candidate_solutions_.end(),
-                     [&](const std::vector<int> &code) {
-                       return feedback !=
-                              player::GiveFeedback(guess, code, code_length_);
-                     }),
-      candidate_solutions_.end());
+void Codebreaker::FilterSolutions(const std::vector<int> &guess,
+                                  const std::string &feedback) {
+  int index;
+  for (auto it = candidate_solutions_.begin();
+       it != candidate_solutions_.end();) {
+    if (feedback != player::GiveFeedback(guess, *it, code_length_)) {
+      it = candidate_solutions_.erase(it);
+    } else {
+      ++it;
+    }
+  }
 }
 
 std::vector<std::vector<int>> Codebreaker::Minimax() {
-  std::map<std::string, int> score_count;
-  std::map<std::vector<int>, int> score;
-  std::vector<std::vector<int>> next_guesses;
+  std::map<std::string, int> score_count;     // count of each feedback score
+  std::map<std::vector<int>, int> score;      // maximum score for each guess
+  std::vector<std::vector<int>> next_guesses; // potential next guesses
   int max = INT_MIN;
   int min = INT_MAX;
 
@@ -118,7 +120,7 @@ std::vector<std::vector<int>> Codebreaker::Minimax() {
 }
 
 int Codebreaker::GetMaxScore(const std::map<std::string, int> &inputMap) {
-  int max = INT_MIN; // Stores the maximum score found
+  int max = INT_MIN;
 
   // Iterate over the input map to find the max value
   for (const auto &entry : inputMap) {
@@ -130,7 +132,7 @@ int Codebreaker::GetMaxScore(const std::map<std::string, int> &inputMap) {
 }
 
 int Codebreaker::GetMinScore(const std::map<std::vector<int>, int> &inputMap) {
-  int min = INT_MAX; // Stores the minimum score found
+  int min = INT_MAX;
 
   // Iterate over the input map to find the min value
   for (const auto &entry : inputMap) {

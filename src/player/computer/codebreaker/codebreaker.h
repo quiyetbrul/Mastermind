@@ -73,13 +73,15 @@ public:
   /**
    * @brief Filter the solutions based on the feedback.
    *
-   * This function filters the solutions with least possibilities based on the
-   * feedback received from the Codemaker.
+   * The function aims to remove all candidate solutions from
+   * candidate_solutions_ that do not produce the same feedback when compared to
+   * the given guess.
    *
    * @param guess The guess made by the Codebreaker.
    * @param feedback The feedback received from the Codemaker.
    */
-  void PruneCodes(const std::vector<int> &guess, const std::string &feedback);
+  void FilterSolutions(const std::vector<int> &guess,
+                       const std::string &feedback);
 
 private:
   const int code_length_;
@@ -95,7 +97,7 @@ private:
    * This function creates a set of all possible combinations and all possible
    * solutions of the code.
    */
-  void CreateSet();
+  void Init();
 
   /**
    * @brief Helper to CreateSet().
@@ -119,23 +121,12 @@ private:
                   const std::vector<int> &guess);
 
   /**
-   * @brief Helper to PruneCodes(const std::vector<int> &, const std::string &).
-   *
-   * This function removes the codes that do not match the feedback.
-   *
-   * @param guess
-   * @param feedback
-   */
-  void FilterSolutions(const std::vector<int> &guess,
-                       const std::string &feedback);
-
-  /**
    * @brief Minimax algorithm to find the next guess.
    *
    * The minimax algorithm is a decision-making algorithm used in game theory
    * and artificial intelligence to find the optimal move for a player by
    * minimizing the possible loss for a worst-case scenario. It works by
-   * recursively evaluating the possible moves, assuming that the opponent will
+   * evaluating the possible moves, assuming that the opponent will
    * also play optimally, and selecting the move that maximizes the player's
    * minimum gain.
    *
