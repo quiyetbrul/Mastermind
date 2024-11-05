@@ -25,18 +25,14 @@ const int kHardMaxDigit = 9;
 const int kHardCodeLength = 4;
 
 Player::Player() : life_(kLifeStart), score_(kLifeStart), guess_history_() {
-  Init();
+  SetDifficulty(1);
 }
 
 Player::Player(int &life, int &score, const std::vector<int> &secret_code,
                std::map<std::vector<int>, std::string> &guesses)
     : life_(life), score_(score), secret_code_(secret_code),
       guess_history_(guesses) {
-  Init();
-}
-
-void Player::Init() {
-  SetDifficulty(1); // TODO: should probably call this instead of creating Init()
+  SetDifficulty(1);
 }
 
 void Player::DecrementLife() { --life_; }

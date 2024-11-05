@@ -143,13 +143,6 @@ private:
   std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
   double elapsed_time_;
   int hint_count_ = 0;
-
-  /**
-   * @brief Initializes the player.
-   *
-   * Sets the secret code attribute.
-   */
-  void Init();
 };
 } // namespace player
 
