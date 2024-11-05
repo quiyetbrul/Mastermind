@@ -25,7 +25,7 @@ public:
    *
    * Initializes the player with default values.
    */
-  Player() : life_(kLifeStart), score_(kLifeStart), guess_history_() {}
+  Player();
 
   /**
    * @brief Parameterized constructor.
@@ -36,9 +36,7 @@ public:
    * @param guesses The history of guesses made by the player.
    */
   Player(int &life, int &score, const std::vector<int> &secret_code,
-         std::map<std::vector<int>, std::string> &guesses)
-      : life_(life), score_(score), secret_code_(secret_code),
-        guess_history_(guesses) {}
+         std::map<std::vector<int>, std::string> &guesses);
 
   /**
    * @brief Virtual destructor.
@@ -53,9 +51,24 @@ public:
    */
   virtual void Start() = 0;
 
+  /**
+   * @brief Decrements the player's life.
+   */
   void DecrementLife();
+
+  /**
+   * @brief Starts the timer.
+   */
   void StartTime();
+
+  /**
+   * @brief Ends the timer.
+   */
   void EndTime();
+
+  /**
+   * @brief Saves the elapsed time.
+   */
   void SaveElapsedTime();
 
   // GETTERS
@@ -84,7 +97,7 @@ public:
   void SetDifficulty(const int &difficulty);
 
 protected:
-  std::string feedback_;
+  std::string last_feedback_;
   std::map<std::vector<int>, std::string> guess_history_;
   static constexpr int kEasyDifficulty = 1;
   static constexpr int kMediumDifficulty = 2;
@@ -98,11 +111,22 @@ protected:
    */
   virtual void GameLoop() = 0;
 
+  /**
+   * @brief Adds a guess to the history.
+
+  * This checks whether the guess already exists in the history. If it does, it
+  * does not add it. Otherwise, it adds the guess to the history and updates
+  * last_feedback_.
+   *
+   * @param guess The guess to add.
+   */
+  void AddToGuessHistory(const std::vector<int> &guess);
+
 private:
   static constexpr int kLifeStart = 10;
-  int secret_code_min_digit_ = 0;
-  int secret_code_max_digit_ = 7;
-  int secret_code_length_ = 4;
+  int secret_code_min_digit_;
+  int secret_code_max_digit_;
+  int secret_code_length_;
 
   std::string name_;
   int life_ = kLifeStart;
@@ -112,6 +136,13 @@ private:
   std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
   std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
   double elapsed_time_;
+
+  /**
+   * @brief Initializes the player.
+   *
+   * Sets the secret code attribute.
+   */
+  void Init();
 };
 
 } // namespace player

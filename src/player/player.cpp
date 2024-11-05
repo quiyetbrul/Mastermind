@@ -9,6 +9,7 @@
 #include <string>
 
 #include "logger/logger.h"
+#include "player/util/util.h"
 
 namespace player {
 const int kEasyMinDigit = 0;
@@ -23,6 +24,23 @@ const int kHardMinDigit = 0;
 const int kHardMaxDigit = 9;
 const int kHardCodeLength = 4;
 
+Player::Player() : life_(kLifeStart), score_(kLifeStart), guess_history_() {
+  Init();
+}
+
+Player::Player(int &life, int &score, const std::vector<int> &secret_code,
+               std::map<std::vector<int>, std::string> &guesses)
+    : life_(life), score_(score), secret_code_(secret_code),
+      guess_history_(guesses) {
+  Init();
+}
+
+void Player::Init() {
+  secret_code_min_digit_ = kEasyMinDigit;
+  secret_code_max_digit_ = kEasyMaxDigit;
+  secret_code_length_ = kEasyCodeLength;
+}
+
 void Player::DecrementLife() { --life_; }
 
 void Player::StartTime() {
@@ -36,6 +54,14 @@ void Player::EndTime() {
 void Player::SaveElapsedTime() {
   std::chrono::duration<double> elapsed = end_time_ - start_time_;
   elapsed_time_ = std::round(elapsed.count() * 1000.0) / 1000.0;
+}
+
+void Player::AddToGuessHistory(const std::vector<int> &guess) {
+  last_feedback_ =
+      guess_history_
+          .try_emplace(guess, player::GiveFeedback(GetSecretCode(), guess,
+                                                   GetSecretCodeLength()))
+          .first->second;
 }
 
 std::string Player::GetName() const { return name_; }
