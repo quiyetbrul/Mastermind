@@ -21,7 +21,7 @@ void Logger::Init() {
   if (!file.is_open()) {
     std::cerr << "Logger: Failed to open file: " << output_file_name_
               << std::endl;
-    std::cerr << "Error: " << strerror(errno) << std::endl;
+    std::cerr << "Logger: " << strerror(errno) << std::endl;
 
     // Create the necessary directories and file
     std::filesystem::create_directories(
