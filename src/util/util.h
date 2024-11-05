@@ -11,8 +11,6 @@
 #include <limits>
 #include <string>
 
-// TODO: move to definitions file
-
 const int kTerminalWidth = 125;
 const int kTerminalHeight = 24;
 

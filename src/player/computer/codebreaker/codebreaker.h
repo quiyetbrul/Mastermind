@@ -164,4 +164,5 @@ private:
   int GetMinScore(const std::map<std::vector<int>, int> &score);
 };
 } // namespace player
+
 #endif // PLAYER_COMPUTER_CODEBREAKER_H_

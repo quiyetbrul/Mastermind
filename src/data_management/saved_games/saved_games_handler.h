@@ -59,4 +59,5 @@ private:
   std::string file_name_;
 };
 } // namespace data_management
+
 #endif // DATA_MANAGEMENT_GAMEPLAY_HANDLER_H

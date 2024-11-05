@@ -96,4 +96,5 @@ private:
   void Init();
 };
 } // namespace data_management
+
 #endif // DATA_MANAGEMENT_SCOREBOARD_HANDLER_HANDLER_H_
