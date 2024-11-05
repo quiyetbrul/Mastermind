@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "logger/logger.h"
+
 namespace data_management {
 /**
  * @struct ScoreEntry
@@ -86,6 +88,7 @@ public:
 private:
   std::string file_name_;
   std::vector<std::string> header_;
+  Logger &logger_ = Logger::GetInstance();
 
   /**
    * @brief Initializes the ScoreboardHandler.

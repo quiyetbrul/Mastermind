@@ -6,10 +6,11 @@
 #include "util.h"
 
 #include <curl/curl.h>
-#include <iostream>
 #include <random>
 #include <sstream>
 #include <string>
+
+#include "logger/logger.h"
 
 // Callback function to handle the response
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
@@ -22,9 +23,11 @@ std::vector<int> GenRandom(const int &generate, const int &min,
                            const int &max) {
   CURL *curl;
   CURLcode res;
+  Logger &logger = Logger::GetInstance();
   std::vector<int> random_number;
   std::string read_buffer;
 
+  logger.Log("Generating random numbers from random.org");
   curl = curl_easy_init();
   if (curl) {
     std::string url =
@@ -41,7 +44,7 @@ std::vector<int> GenRandom(const int &generate, const int &min,
       long http_code = 0;
       curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code == 503) {
-        std::cerr << "Server is busy (503 Service Unavailable)" << std::endl;
+        logger.Log("Server is busy (503 Service Unavailable)");
       } else {
         std::istringstream iss(read_buffer);
         std::string line;
@@ -53,13 +56,14 @@ std::vector<int> GenRandom(const int &generate, const int &min,
         return random_number;
       }
     } else {
-      std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res)
-                << std::endl;
+      logger.Log("curl_easy_perform() failed" +
+                 std::string(curl_easy_strerror(res)));
     }
   } else {
-    std::cerr << "curl_easy_init() failed" << std::endl;
+    logger.Log("curl_easy_init() failed");
   }
 
+  logger.Log("Falling back to pseudo-random number generator");
   for (int i = 0; i < generate; i++) {
     random_number.push_back(RandomNumber(min, max));
   }

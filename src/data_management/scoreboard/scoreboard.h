@@ -8,6 +8,7 @@
 
 #include <set>
 
+#include "logger/logger.h"
 #include "player/player.h"
 #include "scoreboard_handler.h"
 
@@ -44,6 +45,7 @@ public:
 
 private:
   data_management::ScoreboardHandler handler_;
+  Logger &logger_ = Logger::GetInstance();
 
   static std::multiset<data_management::ScoreEntry, std::greater<>>
       saved_scores_;

@@ -7,6 +7,7 @@
 
 #include <string>
 
+#include "logger/logger.h"
 #include "player/computer/codebreaker/codebreaker.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
@@ -14,6 +15,7 @@
 
 namespace player {
 void Computer::Start() {
+  Logger::GetInstance().Log("Starting computer player game");
   Title();
 
   std::map<std::vector<int>, std::string> computer_guess_history;

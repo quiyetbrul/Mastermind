@@ -13,8 +13,9 @@
 
 namespace data_management {
 void ScoreboardHandler::Init() {
+  logger_.Log("Initializing scoreboard handler");
   if (file_name_.empty()) {
-    std::cerr << "Initialize: file_name_ is empty" << std::endl;
+    logger_.Log("Initialize: file_name_ is empty");
     return;
   }
 
@@ -23,20 +24,17 @@ void ScoreboardHandler::Init() {
 
   std::ifstream file(file_name_);
   if (!file.is_open()) {
-    std::cerr << "GetSavedScores: Failed to open file: " << file_name_
-              << std::endl;
-    std::cerr << "Error: " << strerror(errno) << std::endl;
+    logger_.Log("Failed to open: " + file_name_);
+    logger_.Log("Error: " + std::string(strerror(errno)));
 
     // Create the necessary directories and file
     std::filesystem::create_directories(
         std::filesystem::path(file_name_).parent_path());
-    std::cerr << "GetSavedScores: Creating leaderboard file: " << file_name_
-              << std::endl;
+    logger_.Log("Creating: " + file_name_);
     std::ofstream create_file(file_name_);
     if (!create_file.is_open()) {
-      std::cerr << "GetSavedScores: Failed to create file: " << file_name_
-                << std::endl;
-      std::cerr << "Error: " << strerror(errno) << std::endl;
+      logger_.Log("Failed to create: " + file_name_);
+      logger_.Log("Error: " + std::string(strerror(errno)));
     } else {
       create_file.close();
     }
@@ -49,21 +47,21 @@ void ScoreboardHandler::Init() {
 std::multiset<ScoreEntry, std::greater<>> ScoreboardHandler::GetSavedScores() {
   std::multiset<ScoreEntry, std::greater<>> saved_scores;
   if (file_name_.empty()) {
-    std::cerr << "GetSavedScores: file_name_ is empty" << std::endl;
+    logger_.Log("GetSavedScores: " + file_name_ + " is empty");
     return saved_scores;
   }
 
   std::ifstream file(file_name_);
   if (!file.is_open()) {
-    std::cerr << "GetSavedScores: Failed to open file: " << file_name_
-              << std::endl;
-    std::cerr << "Error: " << strerror(errno) << std::endl;
+    logger_.Log("Failed to open: " + file_name_);
+    logger_.Log("Error: " + std::string(strerror(errno)));
     return saved_scores;
   }
 
   std::string line;
   std::getline(file, line); // Skip the header
   while (std::getline(file, line)) {
+    logger_.Log("Reading: " + file_name_);
     std::istringstream ss(line);
     std::string score_str, name, time_str, difficulty_str;
     if (std::getline(ss, score_str, ',') && std::getline(ss, name, ',') &&
@@ -83,15 +81,16 @@ void ScoreboardHandler::UpdateScoreboard(
     const std::multiset<ScoreEntry, std::greater<>> &saved_scores) {
   std::ofstream file(file_name_);
   if (!file.is_open()) {
-    std::cerr << "UpdateScoreboard: Failed to open file: " << file_name_
-              << std::endl;
+    logger_.Log("Failed to open file: " + file_name_);
     return;
   }
 
   file << HeaderToString(",") << std::endl;
+  logger_.Log("Updating: " + file_name_);
   for (const auto &entry : saved_scores) {
-    file << std::fixed << std::setprecision(3) << entry.score << "," << entry.name
-         << "," << entry.elapsed_time << "," << entry.difficulty << std::endl;
+    file << std::fixed << std::setprecision(3) << entry.score << ","
+         << entry.name << "," << entry.elapsed_time << "," << entry.difficulty
+         << std::endl;
   }
   file.close();
 }

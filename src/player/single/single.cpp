@@ -8,13 +8,14 @@
 #include <iostream>
 
 #include "data_management/scoreboard/scoreboard.h"
-#include "player/player.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
 #include "util/util.h"
+#include "logger/logger.h"
 
 namespace player {
 void Single::Start() {
+  Logger::GetInstance().Log("Starting single player game");
   Title();
 
   int user_input = InputInteger(

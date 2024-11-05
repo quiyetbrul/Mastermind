@@ -6,9 +6,11 @@
 #include "player.h"
 
 #include <cmath>
+#include <string>
+
+#include "logger/logger.h"
 
 namespace player {
-
 const int kEasyMinDigit = 0;
 const int kEasyMaxDigit = 7;
 const int kEasyCodeLength = 4;
@@ -103,6 +105,8 @@ void Player::SetDifficulty(const int &difficulty) {
     SetSecretCodeLength(kHardCodeLength);
     break;
   }
+  Logger &logger_ = Logger::GetInstance();
+  logger_.Log("Difficulty set to " + std::to_string(difficulty));
   difficulty_ = difficulty;
 }
 } // namespace player

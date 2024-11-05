@@ -8,6 +8,7 @@
 #include <iostream>
 #include <string>
 
+#include "logger/logger.h"
 #include "player/computer/computer.h"
 #include "player/single/single.h"
 #include "ui/banner.h"
@@ -41,18 +42,22 @@ void GameState::Start() {
   const int min_choice = static_cast<int>(MainMenu::PLAY);
   const int max_choice = static_cast<int>(MainMenu::EXIT);
   int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
+
   switch (static_cast<MainMenu>(user_choice)) {
   case MainMenu::PLAY:
     PlayerMenu();
     break;
   case MainMenu::LOAD:
+    Logger::GetInstance().Log("Printing saved games");
     std::cout << "Load Game under construction" << std::endl;
     break;
   case MainMenu::SCOREBOARD:
     // TODO: PRINT SCORE ASCII ART
+    Logger::GetInstance().Log("Printing scoreboard");
     scoreboard_.PrintScores();
     break;
   case MainMenu::INSTRUCTIONS:
+    Logger::GetInstance().Log("Printing instructions");
     PrintInstructions();
     break;
   case MainMenu::EXIT:
@@ -64,6 +69,7 @@ void GameState::Start() {
 }
 
 void GameState::Init() {
+  Logger::GetInstance().Log("Initializing game state");
   SetTerminalSize(kTerminalWidth, kTerminalHeight);
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
   scoreboard_.Init();

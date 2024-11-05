@@ -2,6 +2,7 @@
 #define LOGGER_LOGGER_H_
 
 #include <string>
+#include <fstream>
 
 class Logger {
 public:
@@ -15,9 +16,16 @@ public:
 
   void SetOutputFile(const std::string &file_name);
   void Log(const std::string &message);
+  void CloseOutputFile();
 
 private:
-  Logger();
+  Logger(){};
+
+  std::ofstream output_file_;
+  std::string output_file_name_;
+
+  std::string GetCurrentTime() const;
+  void Init();
 };
 
 #endif // LOGGER_LOGGER_H_

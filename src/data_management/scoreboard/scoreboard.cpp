@@ -12,9 +12,10 @@ namespace game_data {
 std::multiset<data_management::ScoreEntry, std::greater<>>
     Scoreboard::saved_scores_;
 
-Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) { }
+Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) {}
 
 void Scoreboard::Init() {
+  logger_.Log("Initializing scoreboard");
   auto scores = handler_.GetSavedScores();
   for (const auto &score : scores) {
     saved_scores_.emplace(score);
@@ -25,11 +26,15 @@ void Scoreboard::Init() {
 // AddScore adds the player to the scoreboard
 void Scoreboard::SaveScore(const player::Player &player) {
   if (!IsHighScore(player.GetScore())) {
+    std::cout << "Sorry, " << player.GetName()
+              << ". You did not make it to the scoreboard." << std::endl;
+    logger_.Log("Player did not make it to the scoreboard");
     return;
   }
 
   std::cout << "Congratulations, " << player.GetName()
             << "! You made it to the scoreboard!" << std::endl;
+  logger_.Log("Player made it to the scoreboard");
 
   if (saved_scores_.size() >= kScoreLimit &&
       player.GetScore() > saved_scores_.begin()->score) {
@@ -63,6 +68,7 @@ bool Scoreboard::IsHighScore(const int &score) const {
 }
 
 void Scoreboard::AddScore(const player::Player &player) {
+  logger_.Log("Adding score to the scoreboard");
   saved_scores_.emplace(player.GetScore(), player.GetName(),
                         player.GetElapsedTime(), player.GetDifficulty());
 }
