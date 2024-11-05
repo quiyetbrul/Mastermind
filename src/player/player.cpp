@@ -36,9 +36,7 @@ Player::Player(int &life, int &score, const std::vector<int> &secret_code,
 }
 
 void Player::Init() {
-  secret_code_min_digit_ = kEasyMinDigit;
-  secret_code_max_digit_ = kEasyMaxDigit;
-  secret_code_length_ = kEasyCodeLength;
+  SetDifficulty(1); // TODO: should probably call this instead of creating Init()
 }
 
 void Player::DecrementLife() { --life_; }
