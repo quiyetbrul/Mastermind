@@ -23,6 +23,17 @@ std::string GiveFeedback(const std::vector<int> &guess,
                          const int &secret_code_length);
 
 /**
+ * @brief Generates a hint for the player based on the guess and the secret
+ * code.
+ *
+ * @param guess The player's guess.
+ * @param code The secret code.
+ * @return std::string The hint based on the player's guess and the secret code.
+ */
+std::string GiveHint(const std::vector<int> &guess,
+                     const std::vector<int> &code);
+
+/**
  * @brief Prompts the player to input a guess.
  *
  * @param prompt The prompt to display to the player.

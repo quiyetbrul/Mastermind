@@ -43,6 +43,8 @@ void Player::Init() {
 
 void Player::DecrementLife() { --life_; }
 
+void Player::DecrementHint() { --hint_count_; }
+
 void Player::StartTime() {
   start_time_ = std::chrono::high_resolution_clock::now();
 }
@@ -85,6 +87,8 @@ std::map<std::vector<int>, std::string> Player::GetGuesses() const {
 }
 
 double Player::GetElapsedTime() const { return elapsed_time_; }
+
+int Player::GetHintCount() const { return hint_count_; }
 
 void Player::SetName(const std::string &name) { name_ = name; }
 

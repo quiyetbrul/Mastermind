@@ -57,6 +57,11 @@ public:
   void DecrementLife();
 
   /**
+   * @brief Decrements the player's hint count.
+   */
+  void DecrementHint();
+
+  /**
    * @brief Starts the timer.
    */
   void StartTime();
@@ -83,6 +88,7 @@ public:
   double GetElapsedTime() const;
   std::vector<int> GetSecretCode() const;
   std::map<std::vector<int>, std::string> GetGuesses() const;
+  int GetHintCount() const;
 
   // SETTERS
 
@@ -136,6 +142,7 @@ private:
   std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
   std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
   double elapsed_time_;
+  int hint_count_ = 0;
 
   /**
    * @brief Initializes the player.

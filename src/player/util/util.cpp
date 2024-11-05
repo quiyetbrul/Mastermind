@@ -44,6 +44,14 @@ std::vector<int> InputGuess(const std::string &prompt,
   return result;
 }
 
+std::string GiveHint(const std::vector<int> &guess,
+                     const std::vector<int> &code) {
+  std::string hint;
+
+
+  return hint;
+}
+
 std::string GiveFeedback(const std::vector<int> &guess,
                          const std::vector<int> &code,
                          const int &secret_code_length) {
