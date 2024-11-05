@@ -36,7 +36,12 @@ struct ScoreEntry {
    * @param other The other ScoreEntry to compare against.
    * @return True if this ScoreEntry has a greater score than the other.
    */
-  bool operator>(const ScoreEntry &other) const { return score > other.score; }
+  bool operator>(const ScoreEntry &other) const {
+    if (score != other.score) {
+      return score > other.score;
+    }
+    return elapsed_time < other.elapsed_time; // Assuming lower time is better
+  }
 };
 
 /**

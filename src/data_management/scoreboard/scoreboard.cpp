@@ -25,7 +25,8 @@ void Scoreboard::Init() {
 // TODO: can be tested. create player, set values, and see if
 // AddScore adds the player to the scoreboard
 void Scoreboard::SaveScore(const player::Player &player) {
-  if (!IsHighScore(player.GetScore())) {
+  if (player.GetScore() <= saved_scores_.rbegin()->score &&
+      player.GetElapsedTime() >= saved_scores_.rbegin()->elapsed_time) {
     std::cout << "Sorry, " << player.GetName()
               << ". You did not make it to the scoreboard." << std::endl;
     logger_.Log("Player did not make it to the scoreboard");
@@ -36,9 +37,8 @@ void Scoreboard::SaveScore(const player::Player &player) {
             << "! You made it to the scoreboard!" << std::endl;
   logger_.Log("Player made it to the scoreboard");
 
-  if (saved_scores_.size() >= kScoreLimit &&
-      player.GetScore() > saved_scores_.begin()->score) {
-    saved_scores_.erase(saved_scores_.begin());
+  if (saved_scores_.size() >= kScoreLimit) {
+    saved_scores_.erase(std::prev(saved_scores_.end()));
   }
 
   AddScore(player);
