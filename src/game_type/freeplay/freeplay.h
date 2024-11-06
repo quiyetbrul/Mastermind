@@ -1,9 +1,10 @@
-#ifndef GAME_TYPE_FREEPLAY_FREEPLAY_H_
-#define GAME_TYPE_FREEPLAY_FREEPLAY_H_
 /**
  * @file freeplay.h
  * @brief Declaration of the Freeplay class derived from Player.
  */
+
+#ifndef GAME_TYPE_FREEPLAY_FREEPLAY_H_
+#define GAME_TYPE_FREEPLAY_FREEPLAY_H_
 
 #include "player/player.h"
 
