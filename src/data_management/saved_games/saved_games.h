@@ -8,7 +8,7 @@
 
 #include <unordered_map>
 
-#include "player/single/single.h"
+#include "game_type/quick_game/quick_game.h"
 #include "saved_games_handler.h"
 
 namespace game_data {
@@ -39,7 +39,8 @@ public:
    * @param game_name The name of the game to save.
    * @param player The player's progress to save.
    */
-  void SaveGame(const std::string &game_name, const player::QuickGame &player);
+  void SaveGame(const std::string &game_name,
+                const game_type::QuickGame &player);
 
   /**
    * @brief Loads the saved game.
@@ -47,7 +48,7 @@ public:
    * @param game_name The name of the game to load.
    * @return The loaded player's progress.
    */
-  player::QuickGame LoadGame(const std::string &game_name);
+  game_type::QuickGame LoadGame(const std::string &game_name);
 
   /**
    * @brief Deletes the saved game.
@@ -69,7 +70,7 @@ public:
 
 private:
   data_management::SavedGamesHandler handler_;
-  std::unordered_map<std::string, player::QuickGame> saved_games_;
+  std::unordered_map<std::string, game_type::QuickGame> saved_games_;
   const int kMaxSavedGames = 5;
 
   /**
@@ -79,7 +80,7 @@ private:
    * @param player The player's progress to overwrite.
    */
   void OverwriteGame(const std::string &game_name,
-                     const player::QuickGame &player);
+                     const game_type::QuickGame &player);
 };
 } // namespace game_data
 

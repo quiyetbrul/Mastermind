@@ -14,7 +14,7 @@ SavedGames::SavedGames() : handler_(SAVED_GAMES_FILE_PATH) {}
 void SavedGames::Init() { saved_games_ = handler_.GetSavedGames(); }
 
 void SavedGames::SaveGame(const std::string &game_name,
-                          const player::QuickGame &player) {
+                          const game_type::QuickGame &player) {
   if (saved_games_.size() >= kMaxSavedGames && !IsGamePresent(game_name)) {
     DeleteGame();
   }
@@ -22,7 +22,7 @@ void SavedGames::SaveGame(const std::string &game_name,
   handler_.SaveGame(saved_games_);
 }
 
-player::QuickGame SavedGames::LoadGame(const std::string &game_name) {
+game_type::QuickGame SavedGames::LoadGame(const std::string &game_name) {
   std::string to_load =
       InputString("Enter the name of the game you want to load: ");
   while (!IsGamePresent(to_load)) {

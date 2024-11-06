@@ -9,7 +9,7 @@
 #include <string>
 #include <unordered_map>
 
-#include "player/single/single.h"
+#include "game_type/quick_game/quick_game.h"
 
 namespace data_management {
 /**
@@ -39,7 +39,7 @@ public:
    *
    * @return std::unordered_map<std::string, player::Single> The saved games.
    */
-  std::unordered_map<std::string, player::QuickGame> GetSavedGames() const;
+  std::unordered_map<std::string, game_type::QuickGame> GetSavedGames() const;
 
   /**
    * @brief Save the game to the saved games data.
@@ -47,7 +47,7 @@ public:
    * @param players The players to save.
    */
   void
-  SaveGame(const std::unordered_map<std::string, player::QuickGame> &players);
+  SaveGame(const std::unordered_map<std::string, game_type::QuickGame> &players);
 
   /**
    * @brief Delete the game from the saved games data.
