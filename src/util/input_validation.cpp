@@ -12,6 +12,7 @@
 
 // TODO: get string input, validate, and convert to integer
 // rename GetIntegerInput
+// TODO: delete prev line if input is invalid
 int InputInteger(const std::string prompt, const int &start_range,
                  const int &end_range) {
   int input;
