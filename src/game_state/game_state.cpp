@@ -9,6 +9,7 @@
 #include <string>
 
 #include "game_type/codemaster/codemaster.h"
+#include "game_type/freeplay/freeplay.h"
 #include "game_type/quick_game/quick_game.h"
 #include "logger/logger.h"
 #include "ui/banner.h"
@@ -33,8 +34,9 @@ enum class MainMenu : int {
  */
 // TODO: change names
 enum class GameType : int {
-  QUICK_GAME = 1, /**< Single player mode */
-  CODEMASTER    /**< Play against the computer */
+  FREEPLAY = 1, /**< Freeply mode */
+  QUICK_GAME, /**< Quick game mode */
+  CODEMASTER    /**< Play as codemaster */
 };
 
 namespace mastermind {
@@ -79,10 +81,15 @@ void GameState::Init() {
 
 void GameState::PlayerMenu() {
   PrintPlayerMenu();
-  const int min_choice = static_cast<int>(GameType::QUICK_GAME);
+  const int min_choice = static_cast<int>(GameType::FREEPLAY);
   const int max_choice = static_cast<int>(GameType::CODEMASTER);
   int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
   switch (static_cast<GameType>(user_choice)) {
+  case GameType::FREEPLAY: {
+    game_type::Freeplay freeplay;
+    freeplay.Start();
+    break;
+  }
   case GameType::QUICK_GAME: {
     game_type::QuickGame quick_game;
     quick_game.Start();

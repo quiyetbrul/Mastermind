@@ -1,6 +1,7 @@
 set(GAME_TYPE_SOURCES
     codemaster/codebreaker/codebreaker.cpp
     codemaster/codemaster.cpp
+    freeplay/freeplay.cpp
     quick_game/quick_game.cpp
 )
 
