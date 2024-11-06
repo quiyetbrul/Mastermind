@@ -62,7 +62,8 @@ std::string GiveHint(const std::vector<int> &guess,
 void PrintSolvedSummary(const std::vector<int> secret_code,
                         const int &guesses_size, const double &elapsed_time) {
   PrintCode(secret_code);
-  std::cout << "Solved in " << guesses_size << " guesses and " << elapsed_time
+  int default_guess = guesses_size == 0 ? 1 : guesses_size;
+  std::cout << "Solved in " << default_guess << " guesses and " << elapsed_time
             << " seconds." << std::endl;
 }
 
