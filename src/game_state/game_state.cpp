@@ -9,8 +9,8 @@
 #include <string>
 
 #include "game_type/codemaster/codemaster.h"
+#include "game_type/quick_game/quick_game.h"
 #include "logger/logger.h"
-#include "player/single/single.h"
 #include "ui/banner.h"
 #include "ui/menu.h"
 #include "util/util.h"
@@ -32,9 +32,9 @@ enum class MainMenu : int {
  * @brief Represents the types of players.
  */
 // TODO: change names
-enum class PlayerType : int {
-  SINGLE = 1, /**< Single player mode */
-  COMPUTER    /**< Play against the computer */
+enum class GameType : int {
+  QUICK_GAME = 1, /**< Single player mode */
+  CODEMASTER    /**< Play against the computer */
 };
 
 namespace mastermind {
@@ -79,18 +79,18 @@ void GameState::Init() {
 
 void GameState::PlayerMenu() {
   PrintPlayerMenu();
-  const int min_choice = static_cast<int>(PlayerType::SINGLE);
-  const int max_choice = static_cast<int>(PlayerType::COMPUTER);
+  const int min_choice = static_cast<int>(GameType::QUICK_GAME);
+  const int max_choice = static_cast<int>(GameType::CODEMASTER);
   int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
-  switch (static_cast<PlayerType>(user_choice)) {
-  case PlayerType::SINGLE: {
-    player::Single single_player;
-    single_player.Start();
+  switch (static_cast<GameType>(user_choice)) {
+  case GameType::QUICK_GAME: {
+    game_type::QuickGame quick_game;
+    quick_game.Start();
     break;
   }
-  case PlayerType::COMPUTER: {
-    game_type::Codemaster computer_player;
-    computer_player.Start();
+  case GameType::CODEMASTER: {
+    game_type::Codemaster codemaster_player;
+    codemaster_player.Start();
     break;
   }
   default:

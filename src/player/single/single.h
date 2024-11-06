@@ -15,14 +15,14 @@ namespace player {
  *
  * The Single class manages the single player's attributes.
  */
-class Single : public Player {
+class QuickGame : public Player {
 public:
   /**
    * @brief Default constructor.
    *
    * Initializes the single player with default values.
    */
-  Single(){};
+  QuickGame(){};
 
   /**
    * @brief Starts the game.

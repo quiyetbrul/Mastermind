@@ -1,6 +1,7 @@
 set(GAME_TYPE_SOURCES
     codemaster/codebreaker/codebreaker.cpp
     codemaster/codemaster.cpp
+    quick_game/quick_game.cpp
 )
 
 add_library(game_type ${GAME_TYPE_SOURCES})

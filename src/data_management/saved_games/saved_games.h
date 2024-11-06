@@ -39,7 +39,7 @@ public:
    * @param game_name The name of the game to save.
    * @param player The player's progress to save.
    */
-  void SaveGame(const std::string &game_name, const player::Single &player);
+  void SaveGame(const std::string &game_name, const player::QuickGame &player);
 
   /**
    * @brief Loads the saved game.
@@ -47,7 +47,7 @@ public:
    * @param game_name The name of the game to load.
    * @return The loaded player's progress.
    */
-  player::Single LoadGame(const std::string &game_name);
+  player::QuickGame LoadGame(const std::string &game_name);
 
   /**
    * @brief Deletes the saved game.
@@ -69,7 +69,7 @@ public:
 
 private:
   data_management::SavedGamesHandler handler_;
-  std::unordered_map<std::string, player::Single> saved_games_;
+  std::unordered_map<std::string, player::QuickGame> saved_games_;
   const int kMaxSavedGames = 5;
 
   /**
@@ -79,7 +79,7 @@ private:
    * @param player The player's progress to overwrite.
    */
   void OverwriteGame(const std::string &game_name,
-                     const player::Single &player);
+                     const player::QuickGame &player);
 };
 } // namespace game_data
 

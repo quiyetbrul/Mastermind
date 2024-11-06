@@ -1,9 +1,9 @@
 /**
- * @file single.cpp
- * @brief Implementation of the Single class.
+ * @file quick_game.cpp
+ * @brief Implementation of the QuickGame class.
  */
 
-#include "single.h"
+#include "quick_game.h"
 
 #include <iostream>
 
@@ -13,9 +13,9 @@
 #include "ui/banner.h"
 #include "util/util.h"
 
-namespace player {
+namespace game_type {
 void QuickGame::Start() {
-  Logger::GetInstance().Log("Starting single player game");
+  Logger::GetInstance().Log("Starting player's quick game");
   Title();
 
   int user_input = InputInteger(
@@ -40,7 +40,7 @@ void QuickGame::GameLoop() {
   SetName(InputString("Enter your name: "));
   std::cout << DELETE_LINE;
   std::cout << "Welcome, " << GetName() << "!" << std::endl;
-  PrintCode(GetSecretCode());
+  player::PrintCode(GetSecretCode());
   StartTime();
 
   int half_life = GetLife() / 2;
@@ -52,7 +52,7 @@ void QuickGame::GameLoop() {
       char give_hint = InputChar("Want a hint? (y/n): ", 'y', 'n');
       std::cout << DELETE_LINE;
       if (give_hint == 'y') {
-        std::string hint = GiveHint(guess, GetSecretCode());
+        std::string hint = player::GiveHint(guess, GetSecretCode());
         std::cout << "Hint: " << hint << std::endl;
         AddToHintHistory(hint);
         DecrementHint();
@@ -71,22 +71,22 @@ void QuickGame::GameLoop() {
       SaveElapsedTime();
       Congratulations();
       SetScore(GetLife());
-      PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
-                         GetElapsedTime());
+      player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
+                                 GetElapsedTime());
       game_data::Scoreboard scoreboard_;
       scoreboard_.SaveScore(*this);
       break;
     }
 
     AddToGuessHistory(guess);
-    PrintGuess(guess, GetLastFeedBack());
+    player::PrintGuess(guess, GetLastFeedBack());
     DecrementLife();
 
     if (GetLife() == 0) {
       TryAgain();
-      PrintCode(GetSecretCode());
+      player::PrintCode(GetSecretCode());
       break;
     }
   }
 }
-} // namespace player
+} // namespace game_type

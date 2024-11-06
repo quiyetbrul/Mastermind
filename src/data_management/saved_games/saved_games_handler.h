@@ -39,14 +39,15 @@ public:
    *
    * @return std::unordered_map<std::string, player::Single> The saved games.
    */
-  std::unordered_map<std::string, player::Single> GetSavedGames() const;
+  std::unordered_map<std::string, player::QuickGame> GetSavedGames() const;
 
   /**
    * @brief Save the game to the saved games data.
    *
    * @param players The players to save.
    */
-  void SaveGame(const std::unordered_map<std::string, player::Single> &players);
+  void
+  SaveGame(const std::unordered_map<std::string, player::QuickGame> &players);
 
   /**
    * @brief Delete the game from the saved games data.
