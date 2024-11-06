@@ -36,7 +36,6 @@ void QuickGame::Start() {
 // if winner, save score, else saved_scores_ stays the same
 // requires is winner in player
 void QuickGame::GameLoop() {
-  // TODO: only letters
   SetName(InputString("Enter your name: "));
   std::cout << DELETE_LINE;
   std::cout << "Welcome, " << GetName() << "!" << std::endl;
