@@ -8,8 +8,8 @@
 #include <iostream>
 #include <string>
 
+#include "game_type/codemaster/codemaster.h"
 #include "logger/logger.h"
-#include "player/computer/computer.h"
 #include "player/single/single.h"
 #include "ui/banner.h"
 #include "ui/menu.h"
@@ -31,6 +31,7 @@ enum class MainMenu : int {
  * @enum PlayerType
  * @brief Represents the types of players.
  */
+// TODO: change names
 enum class PlayerType : int {
   SINGLE = 1, /**< Single player mode */
   COMPUTER    /**< Play against the computer */
@@ -88,7 +89,7 @@ void GameState::PlayerMenu() {
     break;
   }
   case PlayerType::COMPUTER: {
-    player::Computer computer_player;
+    game_type::Codemaster computer_player;
     computer_player.Start();
     break;
   }

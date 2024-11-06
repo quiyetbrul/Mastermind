@@ -1,7 +1,5 @@
 set(PLAYER_SOURCES
     player.cpp
-    computer/codebreaker/codebreaker.cpp
-    computer/computer.cpp
     single/single.cpp
     util/util.cpp
 )

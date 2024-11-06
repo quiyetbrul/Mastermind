@@ -11,7 +11,7 @@
 
 #include "player/util/util.h"
 
-namespace player {
+namespace game_type {
 Codebreaker::Codebreaker(int code_length, int min_digit, int max_digit)
     : code_length_(code_length), min_digit_(min_digit), max_digit_(max_digit) {
   Init();
@@ -142,4 +142,4 @@ int Codebreaker::GetMinScore(const std::map<std::vector<int>, int> &inputMap) {
   }
   return min;
 }
-} // namespace player
+} // namespace game_type

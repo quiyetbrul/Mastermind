@@ -3,14 +3,14 @@
  * @brief Declaration of the Codebreaker class.
  */
 
-#ifndef PLAYER_COMPUTER_CODEBREAKER_H_
-#define PLAYER_COMPUTER_CODEBREAKER_H_
+#ifndef GAME_TYPE_CODEMASTER_CODEBREAKER_H_
+#define GAME_TYPE_CODEMASTER_CODEBREAKER_H_
 
 #include <map>
 #include <string>
 #include <vector>
 
-namespace player {
+namespace game_type {
 /**
  * @class Codebreaker
  * @brief Represents the computer player that breaks the code.
@@ -163,6 +163,6 @@ private:
    */
   int GetMinScore(const std::map<std::vector<int>, int> &score);
 };
-} // namespace player
+} // namespace game_type
 
-#endif // PLAYER_COMPUTER_CODEBREAKER_H_
+#endif // GAME_TYPE_CODEMASTER_CODEBREAKER_H_

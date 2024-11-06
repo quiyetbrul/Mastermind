@@ -1,21 +1,21 @@
 /**
- * @file computer.cpp
- * @brief Implementation of the Computer class.
+ * @file codemaster.cpp
+ * @brief Implementation of the Codemaster class.
  */
 
-#include "computer.h"
+#include "codemaster.h"
 
 #include <string>
 
+#include "game_type/codemaster/codebreaker/codebreaker.h"
 #include "logger/logger.h"
-#include "player/computer/codebreaker/codebreaker.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
 #include "util/util.h"
 
-namespace player {
-void Computer::Start() {
-  Logger::GetInstance().Log("Starting computer player game");
+namespace game_type {
+void Codemaster::Start() {
+  Logger::GetInstance().Log("Starting computer as codebreaker game");
   Title();
 
   std::map<std::vector<int>, std::string> computer_guess_history;
@@ -28,10 +28,10 @@ void Computer::Start() {
 }
 
 // TODO: stress test; requires is winner in player
-void Computer::GameLoop() {
+void Codemaster::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
-  player::Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
-                               GetSecretCodeMaxDigit());
+  game_type::Codebreaker computer(
+      GetSecretCodeLength(), GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
   StartTime();
   while (GetLife() > 0) {
     if (guess == GetSecretCode()) {
@@ -39,18 +39,18 @@ void Computer::GameLoop() {
       SaveElapsedTime();
       Congratulations();
       SetScore(GetLife());
-      PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
-                         GetElapsedTime());
+      player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
+                                 GetElapsedTime());
       break;
     }
 
     AddToGuessHistory(guess);
-    PrintGuess(guess, GetLastFeedBack());
+    player::PrintGuess(guess, GetLastFeedBack());
     DecrementLife();
 
     if (GetLife() == 0) {
       TryAgain();
-      PrintCode(GetSecretCode());
+      player::PrintCode(GetSecretCode());
       break;
     }
 
@@ -59,4 +59,4 @@ void Computer::GameLoop() {
     guess = computer.MakeGuess();
   }
 }
-} // namespace player
+} // namespace game_type
