@@ -25,7 +25,7 @@ void Scoreboard::Init() {
 // TODO: can be tested. create player, set values, and see if
 // AddScore adds the player to the scoreboard
 void Scoreboard::SaveScore(const player::Player &player) {
-  if (player.GetScore() <= saved_scores_.rbegin()->score &&
+  if (!saved_scores_.empty() && player.GetScore() <= saved_scores_.rbegin()->score &&
       player.GetElapsedTime() >= saved_scores_.rbegin()->elapsed_time) {
     std::cout << "Sorry, " << player.GetName()
               << ". You did not make it to the scoreboard." << std::endl;
