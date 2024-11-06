@@ -51,37 +51,6 @@ public:
    */
   virtual void Start() = 0;
 
-  /**
-   * @brief Decrements the player's life.
-   */
-  void DecrementLife();
-
-  /**
-   * @brief Decrements the player's hint count.
-   */
-  void DecrementHint();
-
-  /**
-   * @brief Add hint to hint_history_
-   *
-   */
-  void AddToHintHistory(const std::string &hint);
-
-  /**
-   * @brief Starts the timer.
-   */
-  void StartTime();
-
-  /**
-   * @brief Ends the timer.
-   */
-  void EndTime();
-
-  /**
-   * @brief Saves the elapsed time.
-   */
-  void SaveElapsedTime();
-
   // GETTERS
 
   std::string GetName() const;
@@ -125,6 +94,37 @@ protected:
   virtual void GameLoop() = 0;
 
   /**
+   * @brief Decrements the player's life.
+   */
+  void DecrementLife();
+
+  /**
+   * @brief Decrements the player's hint count.
+   */
+  void DecrementHint();
+
+  /**
+   * @brief Starts the timer.
+   */
+  void StartTime();
+
+  /**
+   * @brief Ends the timer.
+   */
+  void EndTime();
+
+  /**
+   * @brief Saves the elapsed time.
+   */
+  void SaveElapsedTime();
+
+  /**
+   * @brief Add hint to hint_history_
+   *
+   */
+  void AddToHintHistory(const std::string &hint);
+
+  /**
    * @brief Adds a guess to the history.
 
   * This checks whether the guess already exists in the history. If it does, it
@@ -137,6 +137,8 @@ protected:
 
 private:
   static constexpr int kLifeStart = 10;
+
+  int difficulty_ = kEasyDifficulty;
   int secret_code_min_digit_;
   int secret_code_max_digit_;
   int secret_code_length_;
@@ -145,14 +147,16 @@ private:
   int life_ = kLifeStart;
   int score_ = 0;
   std::vector<int> secret_code_;
-  int difficulty_ = kEasyDifficulty;
+
+  std::string last_feedback_;
+  std::map<std::vector<int>, std::string> guess_history_;
+
   std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
   std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
   double elapsed_time_;
+
   int hint_count_ = 3;
   std::vector<std::string> hint_history_;
-  std::map<std::vector<int>, std::string> guess_history_;
-  std::string last_feedback_;
 };
 } // namespace player
 

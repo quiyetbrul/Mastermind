@@ -19,6 +19,7 @@ void Computer::Start() {
   Title();
 
   std::map<std::vector<int>, std::string> computer_guess_history;
+  // TODO: ask user for secret code instead of using Random.org
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
   SetGuesses(computer_guess_history);
