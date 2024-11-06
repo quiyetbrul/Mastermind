@@ -51,6 +51,14 @@ public:
    */
   virtual void Start() = 0;
 
+  /**
+   * @brief Main game loop.
+   *
+   * This is a pure virtual function that must be implemented by derived
+   * classes.
+   */
+  virtual void GameLoop() = 0;
+
   // GETTERS
 
   std::string GetName() const;
@@ -84,14 +92,6 @@ protected:
   static constexpr int kEasyDifficulty = 1;
   static constexpr int kMediumDifficulty = 2;
   static constexpr int kHardDifficulty = 3;
-
-  /**
-   * @brief Main game loop.
-   *
-   * This is a pure virtual function that must be implemented by derived
-   * classes.
-   */
-  virtual void GameLoop() = 0;
 
   /**
    * @brief Decrements the player's life.
