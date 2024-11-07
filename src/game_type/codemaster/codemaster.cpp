@@ -31,6 +31,10 @@ void Codemaster::GameLoop() {
       GetSecretCodeLength(), GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
   StartTime();
   while (GetLife() > 0) {
+    AddToGuessHistory(guess);
+    player::PrintGuess(guess, GetLastFeedBack());
+    DecrementLife();
+
     if (guess == GetSecretCode()) {
       EndTime();
       SaveElapsedTime();
@@ -40,10 +44,6 @@ void Codemaster::GameLoop() {
                                  GetElapsedTime());
       break;
     }
-
-    AddToGuessHistory(guess);
-    player::PrintGuess(guess, GetLastFeedBack());
-    DecrementLife();
 
     if (GetLife() == 0) {
       TryAgain();

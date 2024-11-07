@@ -75,6 +75,10 @@ void TimedGame::GameLoop() {
     elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::steady_clock::now() - start_time);
 
+    AddToGuessHistory(guess);
+    player::PrintGuess(guess, GetLastFeedBack());
+    DecrementLife();
+
     if (guess == GetSecretCode()) {
       EndTime();
       SaveElapsedTime();
@@ -86,10 +90,6 @@ void TimedGame::GameLoop() {
       scoreboard_.SaveScore(*this);
       break;
     }
-
-    AddToGuessHistory(guess);
-    player::PrintGuess(guess, GetLastFeedBack());
-    DecrementLife();
 
     if (GetLife() == 0) {
       TryAgain();

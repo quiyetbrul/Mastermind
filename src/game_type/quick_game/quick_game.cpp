@@ -61,6 +61,10 @@ void QuickGame::GameLoop() {
     std::cout << DELETE_LINE;
     std::cout << DELETE_LINE;
 
+    AddToGuessHistory(guess);
+    player::PrintGuess(guess, GetLastFeedBack());
+    DecrementLife();
+
     if (guess == GetSecretCode()) {
       EndTime();
       SaveElapsedTime();
@@ -72,10 +76,6 @@ void QuickGame::GameLoop() {
       scoreboard_.SaveScore(*this);
       break;
     }
-
-    AddToGuessHistory(guess);
-    player::PrintGuess(guess, GetLastFeedBack());
-    DecrementLife();
 
     if (GetLife() == 0) {
       TryAgain();

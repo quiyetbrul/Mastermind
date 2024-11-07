@@ -38,8 +38,7 @@ void Freeplay::GameLoop() {
   StartTime();
 
   std::vector<int> guess;
-  while (guess != GetSecretCode()) {
-    std::cout << "Life: " << GetLife() << std::endl;
+  while (true) {
     guess =
         player::InputGuess("Enter your guess: ", GetSecretCodeLength(),
                            GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
@@ -47,7 +46,17 @@ void Freeplay::GameLoop() {
 
     AddToGuessHistory(guess);
     player::PrintGuess(guess, GetLastFeedBack());
-    DecrementLife();
+
+    if (guess == GetSecretCode()) {
+      EndTime();
+      SaveElapsedTime();
+      Congratulations();
+      player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
+                                 GetElapsedTime());
+      game_data::Scoreboard scoreboard_;
+      scoreboard_.SaveScore(*this);
+      break;
+    }
 
     char give_hint = InputChar("Want a hint? (y/n): ", 'y', 'n');
     if (give_hint == 'y') {
@@ -58,14 +67,5 @@ void Freeplay::GameLoop() {
 
     // TODO: add a way to exit the game
   }
-
-  EndTime();
-  SaveElapsedTime();
-  Congratulations();
-  SetScore(GetLife());
-  player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
-                             GetElapsedTime());
-  game_data::Scoreboard scoreboard_;
-  scoreboard_.SaveScore(*this);
 }
 } // namespace game_type
