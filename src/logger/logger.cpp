@@ -1,3 +1,8 @@
+/**
+ * @file logger.h
+ * @brief Implementation of a logger class.
+ */
+
 #include "logger.h"
 
 #include <chrono>

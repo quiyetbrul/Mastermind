@@ -1,13 +1,14 @@
+/**
+ * @file logger.h
+ * @brief Declaration of a logger class.
+ */
+
 #ifndef LOGGER_LOGGER_H_
 #define LOGGER_LOGGER_H_
 
 #include <fstream>
 #include <string>
 
-/**
- * @brief Implementation of a logger class.
- *
- */
 class Logger {
 public:
   /**
