@@ -22,7 +22,8 @@ void PrintPlayerMenu() {
   Title();
   std::cout << "1. Freeplay\n";
   std::cout << "2. Quick game\n";
-  std::cout << "3. Computer as Codebreaker\n";
+  std::cout << "3. Timed game\n";
+  std::cout << "4. Computer as Codebreaker\n";
 }
 
 void PrintInstructions() {

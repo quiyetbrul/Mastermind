@@ -3,6 +3,7 @@ set(GAME_TYPE_SOURCES
     codemaster/codemaster.cpp
     freeplay/freeplay.cpp
     quick_game/quick_game.cpp
+    timed_game/timed_game.cpp
 )
 
 add_library(game_type ${GAME_TYPE_SOURCES})

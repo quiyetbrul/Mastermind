@@ -11,6 +11,7 @@
 #include "game_type/codemaster/codemaster.h"
 #include "game_type/freeplay/freeplay.h"
 #include "game_type/quick_game/quick_game.h"
+#include "game_type/timed_game/timed_game.h"
 #include "logger/logger.h"
 #include "ui/banner.h"
 #include "ui/menu.h"
@@ -35,7 +36,8 @@ enum class MainMenu : int {
 // TODO: change names
 enum class GameType : int {
   FREEPLAY = 1, /**< Freeply mode */
-  QUICK_GAME, /**< Quick game mode */
+  QUICK_GAME,   /**< Quick game mode */
+  TIMED_GAME,   /**< Timed game mode */
   CODEMASTER    /**< Play as codemaster */
 };
 
@@ -93,6 +95,11 @@ void GameState::PlayerMenu() {
   case GameType::QUICK_GAME: {
     game_type::QuickGame quick_game;
     quick_game.Start();
+    break;
+  }
+  case GameType::TIMED_GAME: {
+    game_type::TimedGame timed_game;
+    timed_game.Start();
     break;
   }
   case GameType::CODEMASTER: {
