@@ -18,15 +18,15 @@ void Freeplay::Start() {
   Logger::GetInstance().Log("Starting player's freeplay game");
   Title();
 
-  int user_input = InputInteger(
-      "Enter difficulty (1: easy, 2: medium, 3: hard): ", kEasyDifficulty,
-      kHardDifficulty);
-  SetDifficulty(user_input);
+  SetDifficulty(InputInteger("Enter difficulty (1: easy, 2: medium, 3: hard): ",
+                             kEasyDifficulty, kHardDifficulty));
 
-  std::map<std::vector<int>, std::string> user_guess_history;
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
-  SetGuesses(user_guess_history);
+
+  SetName(InputString("Enter your name: "));
+  std::cout << "Welcome, " << GetName() << "!" << std::endl;
+  player::PrintCode(GetSecretCode());
 
   GameLoop();
 }
@@ -35,9 +35,6 @@ void Freeplay::Start() {
 // if winner, save score, else saved_scores_ stays the same
 // requires is winner in player
 void Freeplay::GameLoop() {
-  SetName(InputString("Enter your name: "));
-  std::cout << "Welcome, " << GetName() << "!" << std::endl;
-  player::PrintCode(GetSecretCode());
   StartTime();
 
   std::vector<int> guess;
@@ -47,18 +44,6 @@ void Freeplay::GameLoop() {
         player::InputGuess("Enter your guess: ", GetSecretCodeLength(),
                            GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
     std::cout << DELETE_LINE;
-
-    if (guess == GetSecretCode()) {
-      EndTime();
-      SaveElapsedTime();
-      Congratulations();
-      SetScore(GetLife());
-      player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
-                                 GetElapsedTime());
-      game_data::Scoreboard scoreboard_;
-      scoreboard_.SaveScore(*this);
-      break;
-    }
 
     AddToGuessHistory(guess);
     player::PrintGuess(guess, GetLastFeedBack());
@@ -73,5 +58,14 @@ void Freeplay::GameLoop() {
 
     // TODO: add a way to exit the game
   }
+
+  EndTime();
+  SaveElapsedTime();
+  Congratulations();
+  SetScore(GetLife());
+  player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
+                             GetElapsedTime());
+  game_data::Scoreboard scoreboard_;
+  scoreboard_.SaveScore(*this);
 }
 } // namespace game_type

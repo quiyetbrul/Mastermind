@@ -19,16 +19,18 @@ void TimedGame::Start() {
   Logger::GetInstance().Log("Starting player's timed game");
   Title();
 
-  int user_input = InputInteger(
-      "Enter difficulty (1: easy, 2: medium, 3: hard): ", kEasyDifficulty,
-      kHardDifficulty);
-  SetDifficulty(user_input);
+  SetDifficulty(InputInteger("Enter difficulty (1: easy, 2: medium, 3: hard): ",
+                             kEasyDifficulty, kHardDifficulty));
 
-  std::map<std::vector<int>, std::string> user_guess_history;
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
-  SetGuesses(user_guess_history);
-  SetTimeLimit(5);
+
+  SetTimeLimit(InputInteger("Enter desired seconds (30-90)", 30, 90));
+
+  SetName(InputString("Enter your name: "));
+  std::cout << DELETE_LINE;
+  std::cout << "Welcome, " << GetName() << "!" << std::endl;
+  player::PrintCode(GetSecretCode());
 
   GameLoop();
 }
@@ -38,18 +40,15 @@ void TimedGame::Start() {
 // requires is winner in player
 // TODO: learn threading
 void TimedGame::GameLoop() {
-  SetName(InputString("Enter your name: "));
-  std::cout << DELETE_LINE;
-  std::cout << "Welcome, " << GetName() << "!" << std::endl;
-  player::PrintCode(GetSecretCode());
   StartTime();
 
   int half_life = GetLife() / 2;
+  std::vector<int> guess;
+
   auto start_time = std::chrono::steady_clock::now();
   auto elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(
       std::chrono::steady_clock::now() - start_time);
 
-  std::vector<int> guess;
   while (elapsed_time < GetTimeLimit()) {
     elapsed_time = std::chrono::duration_cast<std::chrono::seconds>(
         std::chrono::steady_clock::now() - start_time);

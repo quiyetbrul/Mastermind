@@ -18,16 +18,16 @@ void QuickGame::Start() {
   Logger::GetInstance().Log("Starting player's quick game");
   Title();
 
-  int user_input = InputInteger(
-      "Enter difficulty (1: easy, 2: medium, 3: hard): ", kEasyDifficulty,
-      kHardDifficulty);
-  std::cout << DELETE_LINE;
-  SetDifficulty(user_input);
+  SetDifficulty(InputInteger("Enter difficulty (1: easy, 2: medium, 3: hard): ",
+                             kEasyDifficulty, kHardDifficulty));
 
-  std::map<std::vector<int>, std::string> user_guess_history;
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
-  SetGuesses(user_guess_history);
+
+  SetName(InputString("Enter your name: "));
+  std::cout << DELETE_LINE;
+  std::cout << "Welcome, " << GetName() << "!" << std::endl;
+  player::PrintCode(GetSecretCode());
 
   GameLoop();
 }
@@ -36,15 +36,11 @@ void QuickGame::Start() {
 // if winner, save score, else saved_scores_ stays the same
 // requires is winner in player
 void QuickGame::GameLoop() {
-  SetName(InputString("Enter your name: "));
-  std::cout << DELETE_LINE;
-  std::cout << "Welcome, " << GetName() << "!" << std::endl;
-  player::PrintCode(GetSecretCode());
   StartTime();
 
   int half_life = GetLife() / 2;
-
   std::vector<int> guess;
+
   while (GetLife() > 0) {
     if (GetLife() <= half_life && GetHintCount() > 0 &&
         GetLastFeedBack().size() != GetSecretCodeLength()) {

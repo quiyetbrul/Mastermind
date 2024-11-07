@@ -11,18 +11,15 @@
 #include "logger/logger.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
-#include "util/util.h"
 
 namespace game_type {
 void Codemaster::Start() {
   Logger::GetInstance().Log("Starting computer as codebreaker game");
   Title();
 
-  std::map<std::vector<int>, std::string> computer_guess_history;
-  // TODO: ask user for secret code instead of using Random.org
-  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
-                          GetSecretCodeMaxDigit()));
-  SetGuesses(computer_guess_history);
+  SetSecretCode(
+      player::InputGuess("Enter your secret code: ", GetSecretCodeLength(),
+                         GetSecretCodeMinDigit(), GetSecretCodeMaxDigit()));
 
   GameLoop();
 }
