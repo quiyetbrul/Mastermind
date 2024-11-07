@@ -8,6 +8,8 @@
 
 #include "player/player.h"
 
+#include <chrono>
+
 namespace game_type {
 /**
  * @class TimedGame
