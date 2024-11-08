@@ -10,6 +10,7 @@
 #include <unordered_map>
 
 #include "game_type/quick_game/quick_game.h"
+#include "logger/logger.h"
 
 namespace data_management {
 /**
@@ -25,7 +26,12 @@ public:
   /**
    * @brief Default constructor.
    */
-  SavedGamesHandler(){};
+  SavedGamesHandler(){Init();};
+
+  /**
+   * @brief Initialize the saved games data.
+   */
+  void Init();
 
   /**
    * @brief Parameterized constructor.
@@ -58,6 +64,7 @@ public:
 
 private:
   std::string file_name_;
+  Logger &logger_ = Logger::GetInstance();
 };
 } // namespace data_management
 

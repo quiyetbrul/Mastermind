@@ -10,6 +10,7 @@
 
 #include "game_type/quick_game/quick_game.h"
 #include "saved_games_handler.h"
+#include "logger/logger.h"
 
 namespace game_data {
 /**
@@ -72,6 +73,7 @@ private:
   data_management::SavedGamesHandler handler_;
   std::unordered_map<std::string, game_type::QuickGame> saved_games_;
   const int kMaxSavedGames = 5;
+  Logger &logger_ = Logger::GetInstance();
 
   /**
    * @brief Overwrites the game with the same name.

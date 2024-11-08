@@ -1,38 +1,38 @@
 [
     {
         "game_name": "game1",
-        "player": [
-            {
-                "player_name": "cr7",
-                "life": 8,
-                "score": 0,
-                "secret_number": [
-                    2,
-                    3,
-                    4,
-                    5
-                ],
-                "guess_history": [
+        "player": {
+            "player_name": "cr7",
+            "life": 8,
+            "score": 0,
+            "start_time": 360252499928250,
+            "end_time": 360252499929000,
+            "secret_code": [
+                2,
+                3,
+                4,
+                5
+            ],
+            "guess_history": [
+                [
                     [
-                        [
-                            1,
-                            2,
-                            3,
-                            4
-                        ],
-                        "WWW"
+                        1,
+                        2,
+                        3,
+                        4
                     ],
+                    "WWW"
+                ],
+                [
                     [
-                        [
-                            4,
-                            5,
-                            6,
-                            7
-                        ],
-                        "WW"
-                    ]
+                        4,
+                        5,
+                        6,
+                        7
+                    ],
+                    "WW"
                 ]
-            }
-        ]
+            ]
+        }
     }
 ]

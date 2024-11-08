@@ -37,6 +37,7 @@ void ScoreboardHandler::Init() {
       logger_.Log("Error: " + std::string(strerror(errno)));
     } else {
       create_file.close();
+      logger_.Log("Successfully created: " + file_name_);
     }
   } else {
     file.close();

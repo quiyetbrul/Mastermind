@@ -11,7 +11,10 @@
 namespace game_data {
 SavedGames::SavedGames() : handler_(SAVED_GAMES_FILE_PATH) {}
 
-void SavedGames::Init() { saved_games_ = handler_.GetSavedGames(); }
+void SavedGames::Init() {
+  logger_.Log("Initializing saved games");
+  saved_games_ = handler_.GetSavedGames();
+}
 
 void SavedGames::SaveGame(const std::string &game_name,
                           const game_type::QuickGame &gameplay) {
