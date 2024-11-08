@@ -14,11 +14,11 @@ SavedGames::SavedGames() : handler_(SAVED_GAMES_FILE_PATH) {}
 void SavedGames::Init() { saved_games_ = handler_.GetSavedGames(); }
 
 void SavedGames::SaveGame(const std::string &game_name,
-                          const game_type::QuickGame &player) {
+                          const game_type::QuickGame &gameplay) {
   if (saved_games_.size() >= kMaxSavedGames && !IsGamePresent(game_name)) {
     DeleteGame();
   }
-  saved_games_[game_name] = player;
+  saved_games_[game_name] = gameplay;
   handler_.SaveGame(saved_games_);
 }
 

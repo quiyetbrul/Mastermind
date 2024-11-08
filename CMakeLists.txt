@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 project(Mastermind)
 
 # Set C++ standard
@@ -16,6 +16,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Find 3P libraries
 find_package(CURL REQUIRED)
+find_package(nlohmann_json 3.2.0 REQUIRED)
 
 # Include subdirectories
 add_subdirectory(src/data_management)
@@ -42,6 +43,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 # Link 3P libraries
 target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)

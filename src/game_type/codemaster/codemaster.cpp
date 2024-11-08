@@ -17,6 +17,7 @@ void Codemaster::Start() {
   Logger::GetInstance().Log("Starting computer as codebreaker game");
   Title();
 
+  // TODO: set difficulty
   SetSecretCode(
       player::InputGuess("Enter your secret code: ", GetSecretCodeLength(),
                          GetSecretCodeMinDigit(), GetSecretCodeMaxDigit()));

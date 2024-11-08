@@ -10,3 +10,5 @@ target_include_directories(data_management PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
 
 target_compile_definitions(data_management PRIVATE -DSCORES_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/scoreboard.csv\")
 target_compile_definitions(data_management PRIVATE -DSAVED_GAMES_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/one_players.json\")
+
+target_link_libraries(data_management PRIVATE nlohmann_json::nlohmann_json)

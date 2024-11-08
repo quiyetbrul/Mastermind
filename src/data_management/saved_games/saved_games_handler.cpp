@@ -5,6 +5,8 @@
 
 #include "saved_games_handler.h"
 
+#include <nlohmann/json.hpp>
+
 namespace data_management {
 std::unordered_map<std::string, game_type::QuickGame>
 SavedGamesHandler::GetSavedGames() const {

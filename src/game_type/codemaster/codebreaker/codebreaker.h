@@ -19,23 +19,23 @@ namespace game_type {
  * The Codebreaker class is responsible for generating guesses and filtering
  * the possible solutions based on the feedback received from the Codemaker.
  * The Codebreaker is based on Donald Knuth's Five-guess algorithm.
-*
-* In the game of Mastermind, the minimax algorithm can be used by the
-codebreaker to determine the next guess. Here's how it works:
-*
-* 1. Generate Possible Guesses: The algorithm generates all possible guesses
-* that the codebreaker can make.
-*
-* 2. Simulate Feedback: For each possible guess, the algorithm
-* simulates the feedback that would be received if that guess were made.
-*
-* 3. Evaluate Worst-Case Scenarios: For each possible guess, the algorithm
-* considers the worst-case scenario, which is the feedback that would leave the
-* most possible codes remaining.
-*
-* 4. Select Optimal Guess: The algorithm selects the guess that minimizes the
-* maximum number of remaining possible codes, effectively reducing the search
-* space and increasing the chances of cracking the code in fewer attempts.
+ *
+ * In the game of Mastermind, the minimax algorithm can be used by the
+ * codebreaker to determine the next guess. Here's how it works:
+ *
+ * 1. Generate Possible Guesses: The algorithm generates all possible guesses
+ * that the codebreaker can make.
+ *
+ * 2. Simulate Feedback: For each possible guess, the algorithm
+ * simulates the feedback that would be received if that guess were made.
+ *
+ * 3. Evaluate Worst-Case Scenarios: For each possible guess, the algorithm
+ * considers the worst-case scenario, which is the feedback that would leave the
+ * most possible codes remaining.
+ *
+ * 4. Select Optimal Guess: The algorithm selects the guess that minimizes the
+ * maximum number of remaining possible codes, effectively reducing the search
+ * space and increasing the chances of cracking the code in fewer attempts.
  */
 class Codebreaker {
 public:

@@ -34,19 +34,19 @@ public:
 
   // TODO: make player::Player abstract class a shared pointer
   /**
-   * @brief Saves the player's progress.
+   * @brief Saves the player's game progress.
    *
    * @param game_name The name of the game to save.
-   * @param player The player's progress to save.
+   * @param player The player's game progress to save.
    */
   void SaveGame(const std::string &game_name,
-                const game_type::QuickGame &player);
+                const game_type::QuickGame &gameplay);
 
   /**
    * @brief Loads the saved game.
    *
    * @param game_name The name of the game to load.
-   * @return The loaded player's progress.
+   * @return The loaded player's game progress.
    */
   game_type::QuickGame LoadGame(const std::string &game_name);
 
@@ -77,10 +77,10 @@ private:
    * @brief Overwrites the game with the same name.
    *
    * @param game_name The name of the game to overwrite.
-   * @param player The player's progress to overwrite.
+   * @param player The player's game progress to overwrite.
    */
   void OverwriteGame(const std::string &game_name,
-                     const game_type::QuickGame &player);
+                     const game_type::QuickGame &gameplay);
 };
 } // namespace game_data
 
