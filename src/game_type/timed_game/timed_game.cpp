@@ -8,7 +8,6 @@
 #include <chrono>
 #include <iostream>
 
-#include "data_management/scoreboard/scoreboard.h"
 #include "logger/logger.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
@@ -86,8 +85,6 @@ void TimedGame::GameLoop() {
       SetScore(GetLife());
       player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
                                  GetElapsedTime());
-      game_data::Scoreboard scoreboard_;
-      scoreboard_.SaveScore(*this);
       break;
     }
 
