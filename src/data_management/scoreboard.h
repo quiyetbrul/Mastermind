@@ -46,14 +46,14 @@ private:
   /**
    * @brief Gets the number of records in the scoreboard.
    *
-   * @return The number of records in the scoreboard.
+   * @return int The number of records in the scoreboard.
    */
   int GetCount() const;
 
   /**
    * @brief Gets the lowest score in the scoreboard.
    *
-   * @return The lowest score in the scoreboard.
+   * @return SQLite::Statement The lowest score in the scoreboard.
    */
   SQLite::Statement GetLowestScore() const;
 

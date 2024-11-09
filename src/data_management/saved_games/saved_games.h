@@ -47,7 +47,7 @@ public:
    * @brief Loads the saved game.
    *
    * @param game_name The name of the game to load.
-   * @return The loaded player's game progress.
+   * @return game_type::QuickGame The loaded player's game progress.
    */
   game_type::QuickGame LoadGame(const std::string &game_name);
 
@@ -60,7 +60,7 @@ public:
    * @brief Checks if the game is present in the saved games.
    *
    * @param game_name The name of the game to check.
-   * @return True if the game is present, false otherwise.
+   * @return boolean True if the game is present, false otherwise.
    */
   bool IsGamePresent(const std::string &game_name) const;
 
