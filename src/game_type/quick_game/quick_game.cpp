@@ -7,7 +7,6 @@
 
 #include <iostream>
 
-#include "data_management/scoreboard/scoreboard.h"
 #include "logger/logger.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
@@ -63,7 +62,6 @@ void QuickGame::GameLoop() {
 
     AddToGuessHistory(guess);
     player::PrintGuess(guess, GetLastFeedBack());
-    DecrementLife();
 
     if (guess == GetSecretCode()) {
       EndTime();
@@ -72,10 +70,11 @@ void QuickGame::GameLoop() {
       SetScore(GetLife());
       player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
                                  GetElapsedTime());
-      game_data::Scoreboard scoreboard_;
-      scoreboard_.SaveScore(*this);
+      scoreboard_manager_.Save(*this);
       break;
     }
+
+    DecrementLife();
 
     if (GetLife() == 0) {
       TryAgain();

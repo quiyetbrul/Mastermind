@@ -6,6 +6,7 @@
 #ifndef GAME_TYPE_QUICK_GAME_QUICK_GAME_H_
 #define GAME_TYPE_QUICK_GAME_QUICK_GAME_H_
 
+#include "data_management/scoreboard.h"
 #include "player/player.h"
 
 namespace game_type {
@@ -38,6 +39,9 @@ public:
    * code.
    */
   void GameLoop() override;
+
+private:
+  data_management::Scoreboard scoreboard_manager_;
 };
 } // namespace game_type
 

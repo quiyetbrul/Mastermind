@@ -9,9 +9,7 @@
 #include <string>
 
 #include "game_type/codemaster/codemaster.h"
-#include "game_type/freeplay/freeplay.h"
 #include "game_type/quick_game/quick_game.h"
-#include "game_type/timed_game/timed_game.h"
 #include "logger/logger.h"
 #include "ui/banner.h"
 #include "ui/menu.h"
@@ -35,10 +33,9 @@ enum class MainMenu : int {
  */
 // TODO: change names
 enum class GameType : int {
-  FREEPLAY = 1, /**< Freeply mode */
-  QUICK_GAME,   /**< Quick game mode */
-  TIMED_GAME,   /**< Timed game mode */
-  CODEMASTER    /**< Play as codemaster */
+  QUICK_GAME = 1, /**< Quick game mode */
+  CODEMASTER,      /**< Play as codemaster */
+  BACK            /**< Go back to main menu */
 };
 
 namespace mastermind {
@@ -59,7 +56,8 @@ void GameState::Start() {
   case MainMenu::SCOREBOARD:
     // TODO: PRINT SCORE ASCII ART
     Logger::GetInstance().Log("Printing scoreboard");
-    scoreboard_.PrintScores();
+    scoreboard_manager_.PrintScores();
+    // std::cout << "Scoreboard under construction" << std::endl;
     break;
   case MainMenu::INSTRUCTIONS:
     Logger::GetInstance().Log("Printing instructions");
@@ -77,29 +75,17 @@ void GameState::Init() {
   Logger::GetInstance().Log("Initializing game state");
   SetTerminalSize(kTerminalWidth, kTerminalHeight);
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
-  scoreboard_.Init();
-  saved_games_.Init();
 }
 
 void GameState::PlayerMenu() {
   PrintPlayerMenu();
-  const int min_choice = static_cast<int>(GameType::FREEPLAY);
-  const int max_choice = static_cast<int>(GameType::CODEMASTER);
+  const int min_choice = static_cast<int>(GameType::QUICK_GAME);
+  const int max_choice = static_cast<int>(GameType::BACK);
   int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
   switch (static_cast<GameType>(user_choice)) {
-  case GameType::FREEPLAY: {
-    game_type::Freeplay freeplay;
-    freeplay.Start();
-    break;
-  }
   case GameType::QUICK_GAME: {
     game_type::QuickGame quick_game;
     quick_game.Start();
-    break;
-  }
-  case GameType::TIMED_GAME: {
-    game_type::TimedGame timed_game;
-    timed_game.Start();
     break;
   }
   case GameType::CODEMASTER: {
@@ -107,10 +93,8 @@ void GameState::PlayerMenu() {
     codemaster_player.Start();
     break;
   }
-  default:
-    // TODO: this will never be reached. think!
-    ReturnTo("Main Menu", [this]() { Start(); });
-    // Start(); // use Return To instead?
+  case GameType::BACK:
+    Start(); // use Return To instead?
     break;
   }
   // TODO: maybe just have user enter and return to Start()
@@ -119,6 +103,7 @@ void GameState::PlayerMenu() {
 
 void GameState::PlayAgain() {
   char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
-  play_again == 'y' ? PlayerMenu() : Start();
+  play_again == 'y' ? PlayerMenu() :
+    Start();
 }
 } // namespace mastermind

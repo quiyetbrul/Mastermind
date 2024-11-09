@@ -12,6 +12,8 @@
 #include "player/util/util.h"
 
 namespace player {
+const int kLifeStart = 10;
+
 const int kEasyMinDigit = 0;
 const int kEasyMaxDigit = 7;
 const int kEasyCodeLength = 4;
@@ -113,7 +115,7 @@ void Player::SetSecretCode(const std::vector<int> &secret_code) {
 }
 
 void Player::SetGuesses(
-    std::map<std::vector<int>, std::string> &guess_history) {
+    const std::map<std::vector<int>, std::string> &guess_history) {
   guess_history_ = guess_history;
 }
 
