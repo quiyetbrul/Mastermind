@@ -83,7 +83,7 @@ public:
   void SetSecretCodeMaxDigit(const int &max_digit);
   void SetSecretCodeLength(const int &length);
   void SetSecretCode(const std::vector<int> &secret_code);
-  void SetGuesses(std::map<std::vector<int>, std::string> &guesses);
+  void SetGuesses(const std::map<std::vector<int>, std::string> &guesses);
   void SetDifficulty(const int &difficulty);
   void SetHintCount(const int &hint_count);
   void SetLastFeedBack(const std::string &feedback);
@@ -136,15 +136,13 @@ protected:
   void AddToGuessHistory(const std::vector<int> &guess);
 
 private:
-  static constexpr int kLifeStart = 10;
-
   int difficulty_ = kEasyDifficulty;
   int secret_code_min_digit_;
   int secret_code_max_digit_;
   int secret_code_length_;
 
   std::string name_;
-  int life_ = kLifeStart;
+  int life_;
   int score_ = 0;
   std::vector<int> secret_code_;
 
