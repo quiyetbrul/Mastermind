@@ -62,7 +62,6 @@ void QuickGame::GameLoop() {
 
     AddToGuessHistory(guess);
     player::PrintGuess(guess, GetLastFeedBack());
-    DecrementLife();
 
     if (guess == GetSecretCode()) {
       EndTime();
@@ -71,8 +70,11 @@ void QuickGame::GameLoop() {
       SetScore(GetLife());
       player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
                                  GetElapsedTime());
+      scoreboard_manager_.Save(*this);
       break;
     }
+
+    DecrementLife();
 
     if (GetLife() == 0) {
       TryAgain();

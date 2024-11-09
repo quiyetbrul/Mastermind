@@ -35,6 +35,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 
 # Link subdirectory libraries
 target_link_libraries(${PROJECT_NAME} PUBLIC
+    data_management
     game_state
     game_type
     player

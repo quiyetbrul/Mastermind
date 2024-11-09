@@ -56,7 +56,8 @@ void GameState::Start() {
   case MainMenu::SCOREBOARD:
     // TODO: PRINT SCORE ASCII ART
     Logger::GetInstance().Log("Printing scoreboard");
-    std::cout << "Scoreboard under construction" << std::endl;
+    scoreboard_manager_.PrintScores();
+    // std::cout << "Scoreboard under construction" << std::endl;
     break;
   case MainMenu::INSTRUCTIONS:
     Logger::GetInstance().Log("Printing instructions");

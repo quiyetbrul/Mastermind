@@ -10,4 +10,4 @@ target_link_libraries(data_management PRIVATE logger)
 target_compile_definitions(data_management PRIVATE -DMASTERMIND_DATA=\"${CMAKE_BINARY_DIR}/src/data/mastermind.db\")
 
 include_directories(${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
-target_link_libraries(data_management PRIVATE ${SQLite3_LIBRARIES} SQLiteCpp)
+target_link_libraries(data_management PUBLIC ${SQLite3_LIBRARIES} SQLiteCpp)
