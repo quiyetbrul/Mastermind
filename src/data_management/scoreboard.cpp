@@ -1,8 +1,15 @@
+/**
+ * @file scoreboard.cpp
+ * @brief Implementation of all Scoreboard functions.
+ */
+
 #include "scoreboard.h"
 
 #include <iostream>
 
 namespace data_management {
+const int kTopScoreLimit = 10;
+
 Scoreboard::Scoreboard()
     : db_(MASTERMIND_DATA, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
   logger_.Log("Initializing Scoreboard");
@@ -11,7 +18,7 @@ Scoreboard::Scoreboard()
 
 void Scoreboard::Save(const player::Player &player) {
   SQLite::Statement lowest_score = GetLowestScore();
-  if (GetCount() > 1 &&
+  if (GetCount() >= kTopScoreLimit &&
       player.GetScore() < lowest_score.getColumn("SCORE").getInt()) {
     return;
   }
@@ -19,7 +26,7 @@ void Scoreboard::Save(const player::Player &player) {
   std::cout << "You made it to the scoreboard!" << std::endl;
   logger_.Log("You made it to the scoreboard!");
 
-  if (GetCount() >= 10) {
+  if (GetCount() >= kTopScoreLimit) {
     Update(lowest_score, player);
     return;
   }
@@ -67,6 +74,7 @@ void Scoreboard::Update(const SQLite::Statement &lowest_score,
   update.bind(3, player.GetElapsedTime());
   update.bind(4, player.GetDifficulty());
   update.bind(4, lowest_score.getColumn("ID").getInt());
+  update.exec();
 }
 
 SQLite::Statement Scoreboard::GetLowestScore() const {
@@ -89,7 +97,7 @@ void Scoreboard::CreateTable(const std::string &table_name) {
            "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
            "USER_NAME TEXT NOT NULL, "
            "SCORE INT NOT NULL, "
-           "ELAPSED_TIME INT NOT NULL, "
+           "ELAPSED_TIME REAL NOT NULL, "
            "DIFFICULTY INT NOT NULL);");
 }
 } // namespace data_management

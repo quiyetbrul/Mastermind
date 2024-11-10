@@ -147,6 +147,7 @@ private:
   std::vector<int> secret_code_;
 
   std::string last_feedback_;
+  // change to vector to keep insertion order
   std::map<std::vector<int>, std::string> guess_history_;
 
   std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
