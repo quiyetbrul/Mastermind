@@ -14,17 +14,33 @@
 namespace data_management {
 Game::Game() {}
 
-void Game::Save(const std::string &new_game_name,
-                const player::Player &player) {
-  if (GetCount() >= 3) {
-    std::string game_to_replace =
-        !Exists(new_game_name)
-            ? new_game_name
-            : InputString("Enter the name of the game to overwrite: ");
-    Update(game_to_replace, new_game_name, player);
+void Game::Save(player::Player &player) {
+  // Game was saved before, update it
+  if (!player.GetGameName().empty() && Exists(player.GetGameName())) {
+    Update(player.GetGameName(), player.GetGameName(), player);
     return;
   }
-  Insert(new_game_name, player);
+
+  // Game was not saved before, prompt user to enter game name
+  if (player.GetGameName().empty()) {
+    player.SetGameName(InputString("Enter game name: "));
+  }
+
+  // Game was not saved before and limit is reached, ask user to overwrite
+  if (GetCount() >= 3) {
+    // TODO: it's easier for user to enter 1-3 instead of game name
+    PrintGames();
+    std::string game_to_replace = player.GetGameName();
+    while (!Exists(game_to_replace)) {
+      game_to_replace =
+          InputString("Enter the name of the game to overwrite: ");
+    }
+    Update(game_to_replace, player.GetGameName(), player);
+    return;
+  }
+
+  // Game was not saved before and limit is not reached, insert it
+  Insert(player);
 }
 
 void Game::Delete(const std::string &game_name) {
