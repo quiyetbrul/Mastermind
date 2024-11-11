@@ -5,8 +5,6 @@
 
 #include "scoreboard.h"
 
-#include <iostream>
-
 namespace data_management {
 const int kTopScoreLimit = 10;
 
@@ -24,42 +22,6 @@ void Scoreboard::CreateTable(const std::string &table_name) {
            "SCORE INT NOT NULL, "
            "ELAPSED_TIME REAL NOT NULL, "
            "DIFFICULTY INT NOT NULL);");
-}
-
-void Scoreboard::Save(const player::Player &player) {
-  SQLite::Statement lowest_score = GetLowestScore();
-  if (GetCount() >= kTopScoreLimit &&
-      player.GetScore() < lowest_score.getColumn("SCORE").getInt()) {
-    return;
-  }
-
-  std::cout << "You made it to the scoreboard!" << std::endl;
-  logger_.Log("You made it to the scoreboard!");
-
-  if (GetCount() >= kTopScoreLimit) {
-    Update(lowest_score, player);
-    return;
-  }
-
-  Insert(player);
-}
-
-// TODO: format output
-void Scoreboard::PrintScores() const {
-  if (GetCount() < 1) {
-    std::cout << "No scores yet!" << std::endl;
-    return;
-  }
-  std::cout << "Scoreboard" << std::endl;
-  std::cout << "Name\tScore\tTime\tDifficulty" << std::endl;
-  SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() +
-                                   " ORDER BY SCORE DESC, ELAPSED_TIME ASC;");
-  while (query.executeStep()) {
-    std::cout << query.getColumn("USER_NAME").getText() << " \t "
-              << query.getColumn("SCORE").getInt() << " \t "
-              << query.getColumn("ELAPSED_TIME").getDouble() << "s \t "
-              << query.getColumn("DIFFICULTY").getInt() << std::endl;
-  }
 }
 
 void Scoreboard::Insert(const player::Player &player) {

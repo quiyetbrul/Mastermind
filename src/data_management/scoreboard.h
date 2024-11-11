@@ -25,23 +25,10 @@ public:
    */
   Scoreboard();
 
-  /**
-   * @brief Saves the player's score to the scoreboard.
-   *
-   * @param player The player whose score needs to be saved.
-   */
-  void Save(const player::Player &player);
-
-  /**
-   * @brief Prints the high scores.
-   */
-  void PrintScores() const;
-
 protected:
-  void CreateTable(const std::string &table_name) override;
-
-private:
   SQLite::Database db_;
+
+  void CreateTable(const std::string &table_name) override;
 
   /**
    * @brief Gets the number of records in the scoreboard.
