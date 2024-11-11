@@ -3,6 +3,9 @@
  * @brief Abstract class declaration for database handler
  */
 
+#ifndef DATA_MANAGEMENT_DATABASE_MANAGER_H_
+#define DATA_MANAGEMENT_DATABASE_MANAGER_H_
+
 #include <string>
 
 #include "logger/logger.h"
@@ -68,3 +71,4 @@ private:
   std::string table_name_;
 };
 } // namespace data_management
+#endif // DATA_MANAGEMENT_DATABASE_MANAGER_H_
