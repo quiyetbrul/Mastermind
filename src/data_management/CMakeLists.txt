@@ -1,4 +1,5 @@
 set(DATA_HANDLER
+    score.cpp
     scoreboard.cpp
     saved_games.cpp
 )
