@@ -16,6 +16,16 @@ Scoreboard::Scoreboard()
   CreateTable("SCOREBOARD");
 }
 
+void Scoreboard::CreateTable(const std::string &table_name) {
+  SetTableName(table_name);
+  db_.exec("CREATE TABLE IF NOT EXISTS " + table_name +
+           "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+           "USER_NAME TEXT NOT NULL, "
+           "SCORE INT NOT NULL, "
+           "ELAPSED_TIME REAL NOT NULL, "
+           "DIFFICULTY INT NOT NULL);");
+}
+
 void Scoreboard::Save(const player::Player &player) {
   SQLite::Statement lowest_score = GetLowestScore();
   if (GetCount() >= kTopScoreLimit &&
@@ -89,15 +99,5 @@ int Scoreboard::GetCount() const {
   SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName());
   query.executeStep();
   return query.getColumn(0).getInt();
-}
-
-void Scoreboard::CreateTable(const std::string &table_name) {
-  SetTableName(table_name);
-  db_.exec("CREATE TABLE IF NOT EXISTS " + table_name +
-           "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-           "USER_NAME TEXT NOT NULL, "
-           "SCORE INT NOT NULL, "
-           "ELAPSED_TIME REAL NOT NULL, "
-           "DIFFICULTY INT NOT NULL);");
 }
 } // namespace data_management
