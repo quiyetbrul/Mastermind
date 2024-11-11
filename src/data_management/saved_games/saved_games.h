@@ -54,6 +54,12 @@ protected:
    */
   int GetCount() const;
 
+  /**
+   * @brief Checks if a game exists in the saved games.
+   *
+   * @param game_name The name of the game to check.
+   * @return bool True if the game exists, false otherwise.
+   */
   bool Exists(const std::string &game_name) const;
 
   /**
