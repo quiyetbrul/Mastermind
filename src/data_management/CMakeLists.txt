@@ -1,6 +1,7 @@
 set(DATA_HANDLER
-    score.cpp
-    scoreboard.cpp
+    database_manager.h
+    scoreboard/score.cpp
+    scoreboard/scoreboard.cpp
     saved_games.cpp
 )
 

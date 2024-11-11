@@ -6,7 +6,7 @@
 #ifndef GAME_TYPE_QUICK_GAME_QUICK_GAME_H_
 #define GAME_TYPE_QUICK_GAME_QUICK_GAME_H_
 
-#include "data_management/score.h"
+#include "data_management/scoreboard/score.h"
 #include "player/player.h"
 
 namespace game_type {

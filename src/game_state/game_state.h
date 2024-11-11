@@ -6,7 +6,7 @@
 #ifndef GAMESTATE_GAMESTATE_H_
 #define GAMESTATE_GAMESTATE_H_
 
-#include "data_management/score.h"
+#include "data_management/scoreboard/score.h"
 
 namespace mastermind {
 

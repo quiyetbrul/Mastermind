@@ -6,7 +6,7 @@
 #ifndef DATA_MANAGEMENT_SCORE_H_
 #define DATA_MANAGEMENT_SCORE_H_
 
-#include "data_management/scoreboard.h"
+#include "data_management/scoreboard/scoreboard.h"
 #include "player/player.h"
 
 namespace data_management {

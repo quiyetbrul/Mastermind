@@ -8,7 +8,7 @@
 
 #include <SQLiteCpp/SQLiteCpp.h>
 
-#include "database_manager.h"
+#include "data_management/database_manager.h"
 #include "player/player.h"
 
 namespace data_management {
