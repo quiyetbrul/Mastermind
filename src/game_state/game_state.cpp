@@ -5,7 +5,6 @@
 
 #include "game_state.h"
 
-#include <iostream>
 #include <string>
 
 #include "game_type/codemaster/codemaster.h"
@@ -51,7 +50,7 @@ void GameState::Start() {
     break;
   case MainMenu::LOAD:
     Logger::GetInstance().Log("Printing saved games");
-    std::cout << "Load Game under construction" << std::endl;
+    game_.PrintGames();
     break;
   case MainMenu::SCOREBOARD:
     // TODO: PRINT SCORE ASCII ART

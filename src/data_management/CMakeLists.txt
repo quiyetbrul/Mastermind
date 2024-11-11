@@ -2,7 +2,8 @@ set(DATA_HANDLER
     database_manager.h
     scoreboard/score.cpp
     scoreboard/scoreboard.cpp
-    saved_games.cpp
+    saved_games/game.cpp
+    saved_games/saved_games.cpp
 )
 
 add_library(data_management ${DATA_HANDLER})

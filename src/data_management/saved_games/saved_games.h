@@ -3,13 +3,13 @@
  * @brief Declaration of all SavedGames functions.
  */
 
-#ifndef DATA_MANAGEMENT_SAVED_GAMES_H_
-#define DATA_MANAGEMENT_SAVED_GAMES_H_
+#ifndef DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_
+#define DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_
 
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <string>
 
-#include "database_manager.h"
+#include "data_management/database_manager.h"
 #include "player/player.h"
 
 namespace data_management {
@@ -26,30 +26,10 @@ public:
    */
   SavedGames();
 
-  /**
-   * @brief Saves the player's game to the database.
-   *
-   * @param player The player whose game needs to be saved.
-   */
-  void Save(const std::string &new_game_name, const player::Player &player);
-
-  /**
-   * @brief Deletes the player's game from the saved games.
-   *
-   * @param player The player whose game needs to be deleted.
-   */
-  void Delete(const std::string &game_name);
-
-  /**
-   * @brief Prints the saved games.
-   */
-  void PrintGames() const;
-
 protected:
-  void CreateTable(const std::string &table_name) override;
-
-private:
   SQLite::Database db_;
+
+  void CreateTable(const std::string &table_name) override;
 
   /**
    * @brief Inserts a player into the saved games.
@@ -111,4 +91,4 @@ private:
 };
 } // namespace data_management
 
-#endif // DATA_MANAGEMENT_SAVED_GAMES_H_
+#endif // DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_

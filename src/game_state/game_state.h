@@ -7,6 +7,7 @@
 #define GAMESTATE_GAMESTATE_H_
 
 #include "data_management/scoreboard/score.h"
+#include "data_management/saved_games/game.h"
 
 namespace mastermind {
 
@@ -33,6 +34,7 @@ public:
 
 private:
   data_management::Score score_;
+  data_management::Game game_;
 
   /**
    * @brief Main game loop.

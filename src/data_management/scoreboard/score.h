@@ -3,8 +3,8 @@
  * @brief Declaration of all Score functions.
  */
 
-#ifndef DATA_MANAGEMENT_SCORE_H_
-#define DATA_MANAGEMENT_SCORE_H_
+#ifndef DATA_MANAGEMENT_SCOREBOARD_SCORE_H_
+#define DATA_MANAGEMENT_SCOREBOARD_SCORE_H_
 
 #include "data_management/scoreboard/scoreboard.h"
 #include "player/player.h"
@@ -37,4 +37,4 @@ public:
 };
 } // namespace data_management
 
-#endif // DATA_MANAGEMENT_SCORE_H_
+#endif // DATA_MANAGEMENT_SCOREBOARD_SCORE_H_

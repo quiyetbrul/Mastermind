@@ -9,8 +9,6 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <nlohmann/json.hpp>
 
-#include "util/util.h"
-
 namespace data_management {
 SavedGames::SavedGames()
     : db_(MASTERMIND_DATA, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
@@ -33,38 +31,6 @@ void SavedGames::CreateTable(const std::string &table_name) {
            "HINT_COUNT INT NOT NULL, "
            "HINT_HISTORY TEXT NOT NULL, " // ARRAY, JSON
            "DIFFICULTY INT NOT NULL);");
-}
-
-void SavedGames::Save(const std::string &new_game_name,
-                const player::Player &player) {
-  if (GetCount() >= 3) {
-    std::string game_to_replace =
-        InputString("Enter the name of the game to overwrite: ");
-    Update(game_to_replace, new_game_name, player);
-    return;
-  }
-  Insert(new_game_name, player);
-}
-
-void SavedGames::Delete(const std::string &game_name) {
-  SQLite::Statement query(db_, "DELETE FROM " + GetTableName() +
-                                   " WHERE GAME_NAME = ?;");
-  query.bind(1, game_name);
-  query.exec();
-}
-
-void SavedGames::PrintGames() const {
-  if (GetCount() < 1) {
-    std::cout << "No saved games yet!" << std::endl;
-    return;
-  }
-  std::cout << "Saved Games" << std::endl;
-  std::cout << "Game Name\t\t\tDifficulty" << std::endl;
-  SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() + ";");
-  while (query.executeStep()) {
-    std::cout << query.getColumn("GAME_NAME").getText() << " \t\t\t "
-              << query.getColumn("DIFFICULTY").getInt() << std::endl;
-  }
 }
 
 void SavedGames::Insert(const std::string &new_game_name,

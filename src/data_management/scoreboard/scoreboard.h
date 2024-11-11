@@ -3,8 +3,8 @@
  * @brief Declaration of all Scoreboard functions.
  */
 
-#ifndef DATA_MANAGEMENT_SCOREBOARD_H_
-#define DATA_MANAGEMENT_SCOREBOARD_H_
+#ifndef DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_
+#define DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_
 
 #include <SQLiteCpp/SQLiteCpp.h>
 
@@ -62,4 +62,4 @@ protected:
 };
 } // namespace data_management
 
-#endif // DATA_MANAGEMENT_SCOREBOARD_H_
+#endif // DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_
