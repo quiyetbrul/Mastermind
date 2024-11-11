@@ -3,12 +3,12 @@
  * @brief Declaration of the Codemaster class
  */
 
-#ifndef GAME_TYPE_CODEMASTER_H_
-#define GAME_TYPE_CODEMASTER_H_
+#ifndef PLAYER_TYPE_CODEMASTER_CODEMASTER_H_
+#define PLAYER_TYPE_CODEMASTER_CODEMASTER_H_
 
 #include "player/player.h"
 
-namespace game_type {
+namespace player {
 /**
  * @class Codemaster
  * @brief Represents user as codemaster and computer as codebreaker in the game.
@@ -36,6 +36,6 @@ public:
    */
   void GameLoop() override;
 };
-} // namespace game_type
+} // namespace player
 
-#endif // GAME_TYPE_CODEMASTER_H_
+#endif // PLAYER_TYPE_CODEMASTER_CODEMASTER_H_

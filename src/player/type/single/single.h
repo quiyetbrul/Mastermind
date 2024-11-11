@@ -1,29 +1,29 @@
 /**
- * @file quick_game.h
- * @brief Declaration of the QuickGame class derived from Player.
+ * @file single.h
+ * @brief Declaration of the Single class derived from Player.
  */
 
-#ifndef GAME_TYPE_QUICK_GAME_QUICK_GAME_H_
-#define GAME_TYPE_QUICK_GAME_QUICK_GAME_H_
+#ifndef PLAYER_TYPE_SINGLE_SINGLE_H_
+#define PLAYER_TYPE_SINGLE_SINGLE_H_
 
 #include "data_management/scoreboard/score.h"
 #include "player/player.h"
 
-namespace game_type {
+namespace player {
 /**
- * @class QuickGame
+ * @class Single
  * @brief Represents a quick game.
  *
- * The QuickGame class manages the player's quick_game attributes.
+ * The Single class manages the user's single player attributes.
  */
-class QuickGame : public player::Player {
+class Single : public player::Player {
 public:
   /**
    * @brief Default constructor.
    *
    * Initializes the quick game with default values.
    */
-  QuickGame(){};
+  Single(){};
 
   /**
    * @brief Starts the game.
@@ -43,6 +43,6 @@ public:
 private:
   data_management::Score score_;
 };
-} // namespace game_type
+} // namespace player
 
-#endif // GAME_TYPE_QUICK_GAME_QUICK_GAME_H_
+#endif // PLAYER_TYPE_SINGLE_SINGLE_H_

@@ -1,9 +1,9 @@
 /**
- * @file quick_game.cpp
- * @brief Implementation of the QuickGame class.
+ * @file single.cpp
+ * @brief Implementation of the Single class.
  */
 
-#include "quick_game.h"
+#include "single.h"
 
 #include <iostream>
 
@@ -13,8 +13,8 @@
 #include "ui/banner.h"
 #include "util/util.h"
 
-namespace game_type {
-void QuickGame::Start() {
+namespace player {
+void Single::Start() {
   Logger::GetInstance().Log("Starting player's quick game");
   Title();
 
@@ -35,7 +35,7 @@ void QuickGame::Start() {
 // TODO: can be tested
 // if winner, save score, else saved_scores_ stays the same
 // requires is winner in player
-void QuickGame::GameLoop() {
+void Single::GameLoop() {
   StartTime();
 
   int half_life = GetLife() / 2;
@@ -98,4 +98,4 @@ void QuickGame::GameLoop() {
     }
   }
 }
-} // namespace game_type
+} // namespace player

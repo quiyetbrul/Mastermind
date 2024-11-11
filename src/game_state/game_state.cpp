@@ -7,9 +7,9 @@
 
 #include <string>
 
-#include "game_type/codemaster/codemaster.h"
-#include "game_type/quick_game/quick_game.h"
 #include "logger/logger.h"
+#include "player/type/codemaster/codemaster.h"
+#include "player/type/single/single.h"
 #include "ui/banner.h"
 #include "ui/menu.h"
 #include "util/util.h"
@@ -83,12 +83,12 @@ void GameState::PlayerMenu() {
   int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
   switch (static_cast<GameType>(user_choice)) {
   case GameType::QUICK_GAME: {
-    game_type::QuickGame quick_game;
+    player::Single quick_game;
     quick_game.Start();
     break;
   }
   case GameType::CODEMASTER: {
-    game_type::Codemaster codemaster_player;
+    player::Codemaster codemaster_player;
     codemaster_player.Start();
     break;
   }

@@ -25,7 +25,6 @@ add_definitions(-DLOGGER_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/logger.txt\")
 # Include subdirectories
 add_subdirectory(src/data_management)
 add_subdirectory(src/game_state)
-add_subdirectory(src/game_type)
 add_subdirectory(src/load_game)
 add_subdirectory(src/logger)
 add_subdirectory(src/player)
@@ -39,7 +38,6 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} PUBLIC
     data_management
     game_state
-    game_type
     load_game
     player
     ui
