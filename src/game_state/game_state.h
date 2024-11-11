@@ -6,7 +6,8 @@
 #ifndef GAMESTATE_GAMESTATE_H_
 #define GAMESTATE_GAMESTATE_H_
 
-#include "data_management/scoreboard.h"
+#include "data_management/scoreboard/score.h"
+#include "data_management/saved_games/game.h"
 
 namespace mastermind {
 
@@ -32,7 +33,8 @@ public:
   void Start();
 
 private:
-  data_management::Scoreboard scoreboard_manager_;
+  data_management::Score score_;
+  data_management::Game game_;
 
   /**
    * @brief Main game loop.

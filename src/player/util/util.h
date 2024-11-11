@@ -16,7 +16,7 @@ namespace player {
  * @param guess The guess to be evaluated.
  * @param code The secret code to compare the guess against.
  * @param secret_code_length The length of the secret code.
- * @return A string containing the feedback for the guess.
+ * @return std::string A string containing the feedback for the guess.
  */
 std::string GiveFeedback(const std::vector<int> &guess,
                          const std::vector<int> &code,
@@ -54,7 +54,7 @@ void PrintSolvedSummary(const std::vector<int> secret_code,
  * @param secret_code_length The length of the secret code.
  * @param secret_code_min_digit The minimum digit allowed in the secret code.
  * @param secret_code_max_digit The maximum digit allowed in the secret code.
- * @return A vector containing the player's guess.
+ * @return std::vector<int> A vector containing the player's guess.
  */
 std::vector<int> InputGuess(const std::string &prompt,
                             const int &secret_code_length,

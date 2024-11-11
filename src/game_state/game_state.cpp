@@ -5,7 +5,6 @@
 
 #include "game_state.h"
 
-#include <iostream>
 #include <string>
 
 #include "game_type/codemaster/codemaster.h"
@@ -34,7 +33,7 @@ enum class MainMenu : int {
 // TODO: change names
 enum class GameType : int {
   QUICK_GAME = 1, /**< Quick game mode */
-  CODEMASTER,      /**< Play as codemaster */
+  CODEMASTER,     /**< Play as codemaster */
   BACK            /**< Go back to main menu */
 };
 
@@ -51,12 +50,12 @@ void GameState::Start() {
     break;
   case MainMenu::LOAD:
     Logger::GetInstance().Log("Printing saved games");
-    std::cout << "Load Game under construction" << std::endl;
+    game_.PrintGames();
     break;
   case MainMenu::SCOREBOARD:
     // TODO: PRINT SCORE ASCII ART
     Logger::GetInstance().Log("Printing scoreboard");
-    scoreboard_manager_.PrintScores();
+    score_.PrintScores();
     // std::cout << "Scoreboard under construction" << std::endl;
     break;
   case MainMenu::INSTRUCTIONS:
@@ -103,7 +102,6 @@ void GameState::PlayerMenu() {
 
 void GameState::PlayAgain() {
   char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
-  play_again == 'y' ? PlayerMenu() :
-    Start();
+  play_again == 'y' ? PlayerMenu() : Start();
 }
 } // namespace mastermind

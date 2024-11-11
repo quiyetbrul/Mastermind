@@ -1,89 +1,94 @@
 /**
  * @file saved_games.h
- * @brief Declaration of the SavedGames class
+ * @brief Declaration of all SavedGames functions.
  */
 
 #ifndef DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_
 #define DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_
 
-#include <unordered_map>
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <string>
 
-#include "game_type/quick_game/quick_game.h"
-#include "saved_games_handler.h"
-#include "logger/logger.h"
+#include "data_management/database_manager.h"
+#include "player/player.h"
 
-namespace game_data {
+namespace data_management {
 /**
  * @class SavedGames
  * @brief Represents the saved games in the game.
  *
- * The SavedGames class manages the saved games in the game. It saves the
- * player's progress, loads the saved game, and deletes the saved game if
- * needed.
+ * The SavedGames class manages the saved games.
  */
-class SavedGames {
+class SavedGames : public DatabaseManager {
 public:
   /**
    * @brief Default constructor.
    */
   SavedGames();
 
-  /**
-   * @brief Initializes the saved games.
-   */
-  void Init();
+protected:
+  SQLite::Database db_;
 
-  // TODO: make player::Player abstract class a shared pointer
+  void CreateTable(const std::string &table_name) override;
+
   /**
-   * @brief Saves the player's game progress.
+   * @brief Inserts a player into the saved games.
    *
-   * @param game_name The name of the game to save.
-   * @param player The player's game progress to save.
+   * @param player The player to be inserted.
    */
-  void SaveGame(const std::string &game_name,
-                const game_type::QuickGame &gameplay);
+  void Insert(const std::string &new_game_name, const player::Player &player);
 
   /**
-   * @brief Loads the saved game.
+   * @brief Updates the saved games with the player's score.
    *
-   * @param game_name The name of the game to load.
-   * @return The loaded player's game progress.
+   * @param lowest_score The lowest score in the saved games.
+   * @param player The player whose score needs to be updated.
    */
-  game_type::QuickGame LoadGame(const std::string &game_name);
+  void Update(const std::string &game_name_to_update,
+              const std::string &new_game_name, const player::Player &player);
 
   /**
-   * @brief Deletes the saved game.
-   */
-  void DeleteGame();
-
-  /**
-   * @brief Checks if the game is present in the saved games.
+   * @brief Gets the number of records in the saved games.
    *
-   * @param game_name The name of the game to check.
-   * @return True if the game is present, false otherwise.
+   * @return int The number of records in the saved games.
    */
-  bool IsGamePresent(const std::string &game_name) const;
+  int GetCount() const;
+
+  bool Exists(const std::string &game_name) const;
 
   /**
-   * @brief Prints the saved games.
-   */
-  void PrintSavedGames();
-
-private:
-  data_management::SavedGamesHandler handler_;
-  std::unordered_map<std::string, game_type::QuickGame> saved_games_;
-  const int kMaxSavedGames = 5;
-  Logger &logger_ = Logger::GetInstance();
-
-  /**
-   * @brief Overwrites the game with the same name.
+   * @brief Binds the player's parameters to a SQLiteCPP statement.
    *
-   * @param game_name The name of the game to overwrite.
-   * @param player The player's game progress to overwrite.
+   * @param stmt
+   * @param player
+   * @param new_game_name
    */
-  void OverwriteGame(const std::string &game_name,
-                     const game_type::QuickGame &gameplay);
+  void BindPlayerParameters(SQLite::Statement &stmt,
+                            const player::Player &player,
+                            const std::string &new_game_name);
+
+  /**
+   * @brief Converts a set to a JSON string.
+   *
+   * @tparam T
+   * @param set
+   * @return std::string
+   */
+  template <typename T>
+  std::string ConvertToJson(const std::vector<T> &set) const;
+
+  /**
+   * @brief Converts a JSON string to a set.
+   *
+   * @tparam T
+   * @param game_name
+   * @param coloumn_name
+   * @return std::vector<T>
+   */
+  template <typename T>
+  std::vector<T> ConvertToArray(const std::string &game_name,
+                                const std::string &coloumn_name) const;
 };
-} // namespace game_data
+} // namespace data_management
 
 #endif // DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_

@@ -6,54 +6,60 @@
 #ifndef DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_
 #define DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_
 
-#include <set>
+#include <SQLiteCpp/SQLiteCpp.h>
 
-#include "logger/logger.h"
+#include "data_management/database_manager.h"
 #include "player/player.h"
-#include "scoreboard_handler.h"
 
-namespace game_data {
+namespace data_management {
 /**
  * @class Scoreboard
  * @brief Represents the scoreboard in the game.
  *
  * The Scoreboard class manages the high scores of the game.
  */
-class Scoreboard {
+class Scoreboard : public DatabaseManager {
 public:
   /**
    * @brief Default constructor.
    */
   Scoreboard();
 
-  /**
-   * @brief Initializes the scoreboard.
-   */
-  void Init();
+protected:
+  SQLite::Database db_;
+
+  void CreateTable(const std::string &table_name) override;
 
   /**
-   * @brief Saves the player's score to the scoreboard.
+   * @brief Gets the number of records in the scoreboard.
    *
-   * @param player The player whose score needs to be saved.
+   * @return int The number of records in the scoreboard.
    */
-  void SaveScore(const player::Player &player);
+  int GetCount() const;
 
   /**
-   * @brief Prints the high scores.
+   * @brief Gets the lowest score in the scoreboard.
+   *
+   * @return SQLite::Statement The lowest score in the scoreboard.
    */
-  void PrintScores() const;
+  SQLite::Statement GetLowestScore() const;
 
-private:
-  data_management::ScoreboardHandler handler_;
-  Logger &logger_ = Logger::GetInstance();
+  /**
+   * @brief Inserts a player into the scoreboard.
+   *
+   * @param player The player to be inserted.
+   */
+  void Insert(const player::Player &player);
 
-  static std::multiset<data_management::ScoreEntry, std::greater<>>
-      saved_scores_;
-  const int kScoreLimit = 10;
-
-  bool IsHighScore(const int &score) const;
-  void AddScore(const player::Player &player);
+  /**
+   * @brief Updates the scoreboard with the player's score.
+   *
+   * @param lowest_score The lowest score in the scoreboard.
+   * @param player The player whose score needs to be updated.
+   */
+  void Update(const SQLite::Statement &lowest_score,
+              const player::Player &player);
 };
-} // namespace game_data
+} // namespace data_management
 
 #endif // DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_

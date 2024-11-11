@@ -5,71 +5,61 @@
 
 #include "scoreboard.h"
 
-#include <iostream>
+namespace data_management {
+const int kTopScoreLimit = 10;
 
-namespace game_data {
-
-std::multiset<data_management::ScoreEntry, std::greater<>>
-    Scoreboard::saved_scores_;
-
-Scoreboard::Scoreboard() : handler_(SCORES_FILE_PATH) {}
-
-void Scoreboard::Init() {
-  logger_.Log("Initializing scoreboard");
-  auto scores = handler_.GetSavedScores();
-  for (const auto &score : scores) {
-    saved_scores_.emplace(score);
-  }
+Scoreboard::Scoreboard()
+    : db_(MASTERMIND_DATA, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
+  logger_.Log("Initializing Scoreboard");
+  CreateTable("SCOREBOARD");
 }
 
-// TODO: can be tested. create player, set values, and see if
-// AddScore adds the player to the scoreboard
-void Scoreboard::SaveScore(const player::Player &player) {
-  if (!saved_scores_.empty() && player.GetScore() <= saved_scores_.rbegin()->score &&
-      player.GetElapsedTime() >= saved_scores_.rbegin()->elapsed_time) {
-    std::cout << "Sorry, " << player.GetName()
-              << ". You did not make it to the scoreboard." << std::endl;
-    logger_.Log("Player did not make it to the scoreboard");
-    return;
-  }
-
-  std::cout << "Congratulations, " << player.GetName()
-            << "! You made it to the scoreboard!" << std::endl;
-  logger_.Log("Player made it to the scoreboard");
-
-  if (saved_scores_.size() >= kScoreLimit) {
-    saved_scores_.erase(std::prev(saved_scores_.end()));
-  }
-
-  AddScore(player);
-  handler_.UpdateScoreboard(saved_scores_);
+void Scoreboard::CreateTable(const std::string &table_name) {
+  SetTableName(table_name);
+  db_.exec("CREATE TABLE IF NOT EXISTS " + table_name +
+           "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+           "USER_NAME TEXT NOT NULL, "
+           "SCORE INT NOT NULL, "
+           "ELAPSED_TIME REAL NOT NULL, "
+           "DIFFICULTY INT NOT NULL);");
 }
 
-// TODO: FORMAT SCORES
-void Scoreboard::PrintScores() const {
-  std::cout << "High Scores:" << std::endl;
-  std::string header = handler_.HeaderToString("\t");
-  std::cout << header << std::endl;
-
-  if (saved_scores_.empty()) {
-    std::cout << "No scores found." << std::endl;
-    return;
-  }
-
-  for (const auto &entry : saved_scores_) {
-    std::cout << entry.score << "\t" << entry.name << "\t" << entry.elapsed_time
-              << "\t" << entry.difficulty << std::endl;
-  }
+void Scoreboard::Insert(const player::Player &player) {
+  SQLite::Statement insert(
+      db_,
+      "INSERT OR REPLACE INTO " + GetTableName() +
+          "(USER_NAME, SCORE, ELAPSED_TIME, DIFFICULTY) VALUES(?, ?, ?, ?);");
+  insert.bind(1, player.GetName());
+  insert.bind(2, player.GetScore());
+  insert.bind(3, player.GetElapsedTime());
+  insert.bind(4, player.GetDifficulty());
+  insert.exec();
 }
 
-bool Scoreboard::IsHighScore(const int &score) const {
-  return saved_scores_.size() < kScoreLimit ||
-         score > saved_scores_.begin()->score;
+void Scoreboard::Update(const SQLite::Statement &lowest_score,
+                        const player::Player &player) {
+  SQLite::Statement update(
+      db_, "UPDATE " + GetTableName() +
+               " SET USER_NAME = ?, SCORE = ?, ELAPSED_TIME = ? WHERE ID = ?;");
+  update.bind(1, player.GetName());
+  update.bind(2, player.GetScore());
+  update.bind(3, player.GetElapsedTime());
+  update.bind(4, player.GetDifficulty());
+  update.bind(4, lowest_score.getColumn("ID").getInt());
+  update.exec();
 }
 
-void Scoreboard::AddScore(const player::Player &player) {
-  logger_.Log("Adding score to the scoreboard");
-  saved_scores_.emplace(player.GetScore(), player.GetName(),
-                        player.GetElapsedTime(), player.GetDifficulty());
+SQLite::Statement Scoreboard::GetLowestScore() const {
+  SQLite::Statement query(
+      db_, "SELECT * FROM " + GetTableName() +
+               " ORDER BY SCORE ASC, ELAPSED_TIME DESC LIMIT 1;");
+  query.executeStep();
+  return query;
 }
-} // namespace game_data
+
+int Scoreboard::GetCount() const {
+  SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName());
+  query.executeStep();
+  return query.getColumn(0).getInt();
+}
+} // namespace data_management

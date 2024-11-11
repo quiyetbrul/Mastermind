@@ -17,6 +17,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install nlohmann/json
+        run: brew install nlohmann-json
+
       - name: Clone SQLiteCpp repository
         run: |
           git clone https://github.com/SRombauts/SQLiteCpp.git
@@ -47,6 +50,9 @@ jobs:
 
       - name: Install cURL
         run: sudo apt-get install -y curl libcurl4-openssl-dev
+
+      - name: Install nlohmann/json
+        run: sudo apt-get install -y nlohmann-json3-dev
 
       - name: Clone SQLiteCpp repository
         run: |

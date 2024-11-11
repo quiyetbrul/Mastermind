@@ -1,7 +1,10 @@
 /**
- * @file database_handler.cpp
- * @brief Abstract class declaration for database handler
+ * @file database_manager.cpp
+ * @brief Abstract class declaration for database manager
  */
+
+#ifndef DATA_MANAGEMENT_DATABASE_MANAGER_H_
+#define DATA_MANAGEMENT_DATABASE_MANAGER_H_
 
 #include <string>
 
@@ -10,7 +13,7 @@
 namespace data_management {
 /**
  * @class DatabaseHandler
- * @brief Represents a database handler.
+ * @brief Represents a database manager.
  *
  * The DatabaseHandler class is an abstract class that manages the database
  * operations.
@@ -68,3 +71,4 @@ private:
   std::string table_name_;
 };
 } // namespace data_management
+#endif // DATA_MANAGEMENT_DATABASE_MANAGER_H_

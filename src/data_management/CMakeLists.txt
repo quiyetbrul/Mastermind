@@ -1,5 +1,9 @@
 set(DATA_HANDLER
-    scoreboard.cpp
+    database_manager.h
+    scoreboard/score.cpp
+    scoreboard/scoreboard.cpp
+    saved_games/game.cpp
+    saved_games/saved_games.cpp
 )
 
 add_library(data_management ${DATA_HANDLER})
@@ -11,3 +15,5 @@ target_compile_definitions(data_management PRIVATE -DMASTERMIND_DATA=\"${CMAKE_B
 
 include_directories(${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
 target_link_libraries(data_management PUBLIC ${SQLite3_LIBRARIES} SQLiteCpp)
+
+target_link_libraries(data_management PUBLIC nlohmann_json::nlohmann_json)

@@ -5,6 +5,7 @@
 
 #include "player.h"
 
+#include <algorithm>
 #include <cmath>
 #include <string>
 
@@ -31,7 +32,7 @@ Player::Player() : life_(kLifeStart), score_(kLifeStart), guess_history_() {
 }
 
 Player::Player(int &life, int &score, const std::vector<int> &secret_code,
-               std::map<std::vector<int>, std::string> &guesses)
+               std::vector<std::pair<std::vector<int>, std::string>> &guesses)
     : life_(life), score_(score), secret_code_(secret_code),
       guess_history_(guesses) {
   SetDifficulty(1);
@@ -49,17 +50,29 @@ void Player::EndTime() {
   end_time_ = std::chrono::high_resolution_clock::now();
 }
 
+double Player::GetStartTime() const {
+  return start_time_.time_since_epoch().count();
+}
+
+double Player::GetEndTime() const {
+  return end_time_.time_since_epoch().count();
+}
+
 void Player::SaveElapsedTime() {
   std::chrono::duration<double> elapsed = end_time_ - start_time_;
   elapsed_time_ = std::round(elapsed.count() * 1000.0) / 1000.0;
 }
 
 void Player::AddToGuessHistory(const std::vector<int> &guess) {
-  last_feedback_ =
-      guess_history_
-          .try_emplace(guess, player::GiveFeedback(GetSecretCode(), guess,
-                                                   GetSecretCodeLength()))
-          .first->second;
+  // if guess is not in history
+  if (std::find_if(guess_history_.begin(), guess_history_.end(),
+                   [&guess](const std::pair<std::vector<int>, std::string> &p) {
+                     return p.first == guess;
+                   }) == guess_history_.end()) {
+    last_feedback_ =
+        player::GiveFeedback(GetSecretCode(), guess, GetSecretCodeLength());
+    guess_history_.push_back(std::make_pair(guess, last_feedback_));
+  }
 }
 
 void Player::AddToHintHistory(const std::string &hint) {
@@ -82,13 +95,18 @@ int Player::GetDifficulty() const { return difficulty_; }
 
 std::vector<int> Player::GetSecretCode() const { return secret_code_; }
 
-std::map<std::vector<int>, std::string> Player::GetGuesses() const {
+std::vector<std::pair<std::vector<int>, std::string>>
+Player::GetGuesses() const {
   return guess_history_;
 }
 
 double Player::GetElapsedTime() const { return elapsed_time_; }
 
 int Player::GetHintCount() const { return hint_count_; }
+
+std::vector<std::string> Player::GetHintHistory() const {
+  return hint_history_;
+}
 
 std::string Player::GetLastFeedBack() const { return last_feedback_; }
 
@@ -115,11 +133,16 @@ void Player::SetSecretCode(const std::vector<int> &secret_code) {
 }
 
 void Player::SetGuesses(
-    const std::map<std::vector<int>, std::string> &guess_history) {
+    const std::vector<std::pair<std::vector<int>, std::string>>
+        &guess_history) {
   guess_history_ = guess_history;
 }
 
 void Player::SetHintCount(const int &hint_count) { hint_count_ = hint_count; }
+
+void Player::SetHintHistory(const std::vector<std::string> &hint_history) {
+  hint_history_ = hint_history;
+}
 
 void Player::SetLastFeedBack(const std::string &feedback) {
   last_feedback_ = feedback;

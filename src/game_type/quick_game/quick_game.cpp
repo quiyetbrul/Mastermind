@@ -70,7 +70,7 @@ void QuickGame::GameLoop() {
       SetScore(GetLife());
       player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
                                  GetElapsedTime());
-      scoreboard_manager_.Save(*this);
+      score_.Save(*this);
       break;
     }
 

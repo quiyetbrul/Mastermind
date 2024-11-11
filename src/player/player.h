@@ -7,8 +7,8 @@
 #define PLAYER_PLAYER_H_
 
 #include <chrono>
-#include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace player {
@@ -36,7 +36,7 @@ public:
    * @param guesses The history of guesses made by the player.
    */
   Player(int &life, int &score, const std::vector<int> &secret_code,
-         std::map<std::vector<int>, std::string> &guesses);
+         std::vector<std::pair<std::vector<int>, std::string>> &guesses);
 
   /**
    * @brief Virtual destructor.
@@ -68,10 +68,13 @@ public:
   int GetSecretCodeMaxDigit() const;
   int GetSecretCodeLength() const;
   int GetDifficulty() const;
+  double GetStartTime() const;
+  double GetEndTime() const;
   double GetElapsedTime() const;
   std::vector<int> GetSecretCode() const;
-  std::map<std::vector<int>, std::string> GetGuesses() const;
+  std::vector<std::pair<std::vector<int>, std::string>> GetGuesses() const;
   int GetHintCount() const;
+  std::vector<std::string> GetHintHistory() const;
   std::string GetLastFeedBack() const;
 
   // SETTERS
@@ -83,9 +86,11 @@ public:
   void SetSecretCodeMaxDigit(const int &max_digit);
   void SetSecretCodeLength(const int &length);
   void SetSecretCode(const std::vector<int> &secret_code);
-  void SetGuesses(const std::map<std::vector<int>, std::string> &guesses);
+  void SetGuesses(
+      const std::vector<std::pair<std::vector<int>, std::string>> &guesses);
   void SetDifficulty(const int &difficulty);
   void SetHintCount(const int &hint_count);
+  void SetHintHistory(const std::vector<std::string> &hint_history);
   void SetLastFeedBack(const std::string &feedback);
 
 protected:
@@ -147,7 +152,7 @@ private:
   std::vector<int> secret_code_;
 
   std::string last_feedback_;
-  std::map<std::vector<int>, std::string> guess_history_;
+  std::vector<std::pair<std::vector<int>, std::string>> guess_history_;
 
   std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
   std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
