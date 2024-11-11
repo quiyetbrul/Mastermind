@@ -31,7 +31,7 @@ public:
    *
    * @param player The player whose game needs to be saved.
    */
-  void Save(const std::string& new_game_name,const player::Player &player);
+  void Save(const std::string &new_game_name, const player::Player &player);
 
   /**
    * @brief Deletes the player's game from the saved games.
@@ -73,6 +73,41 @@ private:
    * @return int The number of records in the saved games.
    */
   int GetCount() const;
+
+  bool Exists(const std::string &game_name) const;
+
+  /**
+   * @brief Binds the player's parameters to a SQLiteCPP statement.
+   *
+   * @param stmt
+   * @param player
+   * @param new_game_name
+   */
+  void BindPlayerParameters(SQLite::Statement &stmt,
+                            const player::Player &player,
+                            const std::string &new_game_name);
+
+  /**
+   * @brief Converts a set to a JSON string.
+   *
+   * @tparam T
+   * @param set
+   * @return std::string
+   */
+  template <typename T>
+  std::string ConvertToJson(const std::vector<T> &set) const;
+
+  /**
+   * @brief Converts a JSON string to a set.
+   *
+   * @tparam T
+   * @param game_name
+   * @param coloumn_name
+   * @return std::vector<T>
+   */
+  template <typename T>
+  std::vector<T> ConvertToArray(const std::string &game_name,
+                                const std::string &coloumn_name) const;
 };
 } // namespace data_management
 
