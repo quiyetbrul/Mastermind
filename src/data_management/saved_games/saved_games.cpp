@@ -34,8 +34,7 @@ void SavedGames::CreateTable(const std::string &table_name) {
            "DIFFICULTY INT NOT NULL);");
 }
 
-void SavedGames::Insert(const std::string &new_game_name,
-                        const player::Player &player) {
+void SavedGames::Insert(const player::Player &player) {
   SQLite::Statement insert(db_,
                            "INSERT OR REPLACE INTO " + GetTableName() +
                                "("
@@ -53,7 +52,7 @@ void SavedGames::Insert(const std::string &new_game_name,
                                "DIFFICULTY"
                                ")"
                                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
-  BindPlayerParameters(insert, player, new_game_name);
+  BindPlayerParameters(insert, player, player.GetGameName());
   insert.exec();
 }
 

@@ -36,7 +36,7 @@ protected:
    *
    * @param player The player to be inserted.
    */
-  void Insert(const std::string &new_game_name, const player::Player &player);
+  void Insert(const player::Player &player);
 
   /**
    * @brief Updates the saved games with the player's score.
