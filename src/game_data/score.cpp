@@ -9,7 +9,7 @@
 
 #include <SQLiteCpp/SQLiteCpp.h>
 
-namespace data_management {
+namespace game_data {
 const int kTopScoreLimit = 10;
 
 Score::Score() {}
@@ -49,4 +49,4 @@ void Score::PrintScores() const {
               << query.getColumn("DIFFICULTY").getInt() << std::endl;
   }
 }
-} // namespace data_management
+} // namespace game_data

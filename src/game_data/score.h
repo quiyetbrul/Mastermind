@@ -3,13 +3,13 @@
  * @brief Declaration of all Score functions.
  */
 
-#ifndef DATA_MANAGEMENT_SCOREBOARD_SCORE_H_
-#define DATA_MANAGEMENT_SCOREBOARD_SCORE_H_
+#ifndef GAME_DATA_SCORE_H_
+#define GAME_DATA_SCORE_H_
 
-#include "data_management/scoreboard/scoreboard.h"
+#include "data_management/scoreboard.h"
 #include "player/player.h"
 
-namespace data_management {
+namespace game_data {
 /**
  * @class Score
  * @brief Represents the scoreboard in the game.
@@ -37,4 +37,4 @@ public:
 };
 } // namespace data_management
 
-#endif // DATA_MANAGEMENT_SCOREBOARD_SCORE_H_
+#endif // GAME_DATA_SCORE_H_
