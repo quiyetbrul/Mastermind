@@ -20,6 +20,7 @@ void SavedGames::CreateTable(const std::string &table_name) {
   SetTableName(table_name);
   db_.exec("CREATE TABLE IF NOT EXISTS " + table_name +
            "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
+           "GAME_NAME TEXT NOT NULL, "
            "USER_NAME TEXT NOT NULL, "
            "LIFE INT NOT NULL, "
            "SECRET_CODE TEXT NOT NULL, "   // ARRAY, JSON
@@ -33,8 +34,7 @@ void SavedGames::CreateTable(const std::string &table_name) {
            "DIFFICULTY INT NOT NULL);");
 }
 
-void SavedGames::Insert(const std::string &new_game_name,
-                        const player::Player &player) {
+void SavedGames::Insert(const player::Player &player) {
   SQLite::Statement insert(db_,
                            "INSERT OR REPLACE INTO " + GetTableName() +
                                "("
@@ -52,31 +52,42 @@ void SavedGames::Insert(const std::string &new_game_name,
                                "DIFFICULTY"
                                ")"
                                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?); ");
-  BindPlayerParameters(insert, player, new_game_name);
+  BindPlayerParameters(insert, player, player.GetGameName());
   insert.exec();
 }
 
 void SavedGames::Update(const std::string &game_to_replace,
                         const std::string &new_game_name,
                         const player::Player &player) {
-  SQLite::Statement update(
-      db_, "UPDATE " + GetTableName() +
-               "SET GAME_NAME = ?,"
-               "USER_NAME = ?, "
-               "LIFE = ?, "
-               "SECRET_CODE = ?, "   // ARRAY, JSON
-               "GUESS_HISTORY = ?, " // ARRAY <guess, feedback>, JSON
-               "SCORE = ?, "
-               "START_TIME = ?, "
-               "END_TIME = ?, "
-               "ELAPSED_TIME = ?, "
-               "HINT_COUNT = ?, "
-               "HINT_HISTORY = ?, " // ARRAY, JSON
-               "DIFFICULTY = ?"
-               "WHERE GAME_NAME = ?;");
-  BindPlayerParameters(update, player, new_game_name);
-  update.bind(13, game_to_replace);
-  update.exec();
+  SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
+                                   " WHERE GAME_NAME = ?");
+  query.bind(1, game_to_replace);
+  if (query.executeStep()) {
+    int game_id = query.getColumn(0).getInt();
+
+    // Perform the update using the retrieved ID
+    SQLite::Statement update(
+        db_, "UPDATE " + GetTableName() +
+                 " SET GAME_NAME = ?,"
+                 " USER_NAME = ?, "
+                 " LIFE = ?, "
+                 " SECRET_CODE = ?, "   // ARRAY, JSON
+                 " GUESS_HISTORY = ?, " // ARRAY <guess, feedback>, JSON
+                 " SCORE = ?, "
+                 " START_TIME = ?, "
+                 " END_TIME = ?, "
+                 " ELAPSED_TIME = ?, "
+                 " HINT_COUNT = ?, "
+                 " HINT_HISTORY = ?, " // ARRAY, JSON
+                 " DIFFICULTY = ? "
+                 " WHERE ID = ?;");
+    BindPlayerParameters(update, player, new_game_name);
+    update.bind(13, game_id);
+    update.exec();
+  } else {
+    // Handle the case where the game to replace was not found
+    throw std::runtime_error("Game to replace not found");
+  }
 }
 
 int SavedGames::GetCount() const {
@@ -97,7 +108,7 @@ void SavedGames::BindPlayerParameters(SQLite::Statement &stmt,
                                       const player::Player &player,
                                       const std::string &new_game_name) {
   stmt.bind(1, new_game_name);
-  stmt.bind(2, player.GetName());
+  stmt.bind(2, player.GetPlayerName());
   stmt.bind(3, player.GetLife());
   stmt.bind(4, ConvertToJson(player.GetSecretCode()));
   stmt.bind(5, ConvertToJson(player.GetGuesses()));

@@ -29,7 +29,7 @@ void Scoreboard::Insert(const player::Player &player) {
       db_,
       "INSERT OR REPLACE INTO " + GetTableName() +
           "(USER_NAME, SCORE, ELAPSED_TIME, DIFFICULTY) VALUES(?, ?, ?, ?);");
-  insert.bind(1, player.GetName());
+  insert.bind(1, player.GetPlayerName());
   insert.bind(2, player.GetScore());
   insert.bind(3, player.GetElapsedTime());
   insert.bind(4, player.GetDifficulty());
@@ -41,7 +41,7 @@ void Scoreboard::Update(const SQLite::Statement &lowest_score,
   SQLite::Statement update(
       db_, "UPDATE " + GetTableName() +
                " SET USER_NAME = ?, SCORE = ?, ELAPSED_TIME = ? WHERE ID = ?;");
-  update.bind(1, player.GetName());
+  update.bind(1, player.GetPlayerName());
   update.bind(2, player.GetScore());
   update.bind(3, player.GetElapsedTime());
   update.bind(4, player.GetDifficulty());

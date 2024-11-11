@@ -79,7 +79,9 @@ void Player::AddToHintHistory(const std::string &hint) {
   hint_history_.push_back(hint);
 }
 
-std::string Player::GetName() const { return name_; }
+std::string Player::GetPlayerName() const { return player_name_; }
+
+std::string Player::GetGameName() const { return game_name_; }
 
 int Player::GetLife() const { return life_; }
 
@@ -110,7 +112,9 @@ std::vector<std::string> Player::GetHintHistory() const {
 
 std::string Player::GetLastFeedBack() const { return last_feedback_; }
 
-void Player::SetName(const std::string &name) { name_ = name; }
+void Player::SetPlayerName(const std::string &name) { player_name_ = name; }
+
+void Player::SetGameName(const std::string &name) { game_name_ = name; }
 
 void Player::SetLife(const int &life) { life_ = life; }
 

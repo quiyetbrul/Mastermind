@@ -61,7 +61,8 @@ public:
 
   // GETTERS
 
-  std::string GetName() const;
+  std::string GetPlayerName() const;
+  std::string GetGameName() const;
   int GetLife() const;
   int GetScore() const;
   int GetSecretCodeMinDigit() const;
@@ -79,7 +80,8 @@ public:
 
   // SETTERS
 
-  void SetName(const std::string &name);
+  void SetPlayerName(const std::string &name);
+  void SetGameName(const std::string &name);
   void SetLife(const int &life);
   void SetScore(const int &score);
   void SetSecretCodeMinDigit(const int &min_digit);
@@ -146,7 +148,8 @@ private:
   int secret_code_max_digit_;
   int secret_code_length_;
 
-  std::string name_;
+  std::string player_name_;
+  std::string game_name_;
   int life_;
   int score_ = 0;
   std::vector<int> secret_code_;

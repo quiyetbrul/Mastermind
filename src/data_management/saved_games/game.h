@@ -31,7 +31,7 @@ public:
    *
    * @param player The player whose game needs to be saved.
    */
-  void Save(const std::string &new_game_name, const player::Player &player);
+  void Save(player::Player &player);
 
   /**
    * @brief Deletes the player's game from the saved games.

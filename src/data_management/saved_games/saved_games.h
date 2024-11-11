@@ -36,7 +36,7 @@ protected:
    *
    * @param player The player to be inserted.
    */
-  void Insert(const std::string &new_game_name, const player::Player &player);
+  void Insert(const player::Player &player);
 
   /**
    * @brief Updates the saved games with the player's score.
@@ -54,6 +54,12 @@ protected:
    */
   int GetCount() const;
 
+  /**
+   * @brief Checks if a game exists in the saved games.
+   *
+   * @param game_name The name of the game to check.
+   * @return bool True if the game exists, false otherwise.
+   */
   bool Exists(const std::string &game_name) const;
 
   /**
