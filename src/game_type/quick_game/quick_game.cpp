@@ -7,6 +7,7 @@
 
 #include <iostream>
 
+#include "data_management/saved_games/game.h"
 #include "logger/logger.h"
 #include "player/util/util.h"
 #include "ui/banner.h"
@@ -23,9 +24,9 @@ void QuickGame::Start() {
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
 
-  SetName(InputString("Enter your name: "));
+  SetPlayerName(InputString("Enter your name: "));
   std::cout << DELETE_LINE;
-  std::cout << "Welcome, " << GetName() << "!" << std::endl;
+  std::cout << "Welcome, " << GetPlayerName() << "!" << std::endl;
   player::PrintCode(GetSecretCode());
 
   GameLoop();
@@ -54,9 +55,23 @@ void QuickGame::GameLoop() {
     }
 
     std::cout << "Life: " << GetLife() << std::endl;
+    // TODO: it's probably easier to refactor InputGuess to return a string
+    // and create a new function to convert it to a vector after if statement
+    // for save
     guess =
         player::InputGuess("Enter your guess: ", GetSecretCodeLength(),
                            GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
+
+    std::string save = InputString("Save guess? (y/n): ");
+
+    if (save == "y") {
+      data_management::Game saved_games;
+      saved_games.Save(*this);
+      break;
+    }
+
+    // TODO: do string to vector conversion here
+
     std::cout << DELETE_LINE;
     std::cout << DELETE_LINE;
 
