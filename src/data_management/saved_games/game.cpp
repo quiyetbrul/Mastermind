@@ -18,7 +18,9 @@ void Game::Save(const std::string &new_game_name,
                 const player::Player &player) {
   if (GetCount() >= 3) {
     std::string game_to_replace =
-        InputString("Enter the name of the game to overwrite: ");
+        !Exists(new_game_name)
+            ? new_game_name
+            : InputString("Enter the name of the game to overwrite: ");
     Update(game_to_replace, new_game_name, player);
     return;
   }
