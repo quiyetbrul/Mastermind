@@ -1,5 +1,5 @@
 set(LOAD_GAME
-    load_game.h
+    load_game.cpp
 )
 
 add_library(load_game ${LOAD_GAME})
