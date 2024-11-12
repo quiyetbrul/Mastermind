@@ -59,6 +59,8 @@ public:
    */
   virtual void GameLoop() = 0;
 
+  bool IsGameFinished() const;
+
   // GETTERS
 
   std::string GetPlayerName() const;

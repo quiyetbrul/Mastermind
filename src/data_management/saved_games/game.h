@@ -7,7 +7,6 @@
 #define DATA_MANAGEMENT_SAVED_GAMES_GAME_H_
 
 #include <SQLiteCpp/SQLiteCpp.h>
-#include <string>
 
 #include "data_management/saved_games/saved_games.h"
 #include "player/player.h"
@@ -38,12 +37,17 @@ public:
    *
    * @param player The player whose game needs to be deleted.
    */
-  void Delete(const std::string &game_name);
+  void Delete(const int &game_id);
 
   /**
    * @brief Prints the saved games.
    */
   void PrintGames() const;
+
+private:
+  int limit_ = 3;
+
+  int GetSaveLimit() const;
 };
 } // namespace data_management
 

@@ -27,7 +27,7 @@ void Game::Save(player::Player &player) {
   }
 
   // Game was not saved before and limit is reached, ask user to overwrite
-  if (GetCount() >= 3) {
+  if (GetCount() >= GetSaveLimit()) {
     // TODO: it's easier for user to enter 1-3 instead of game name
     PrintGames();
     std::string game_to_replace = player.GetGameName();
@@ -43,10 +43,10 @@ void Game::Save(player::Player &player) {
   Insert(player);
 }
 
-void Game::Delete(const std::string &game_name) {
-  SQLite::Statement query(db_, "DELETE FROM " + GetTableName() +
-                                   " WHERE GAME_NAME = ?;");
-  query.bind(1, game_name);
+void Game::Delete(const int &game_id) {
+  SQLite::Statement query(db_,
+                          "DELETE FROM " + GetTableName() + " WHERE ID = ?;");
+  query.bind(1, game_id);
   query.exec();
 }
 
@@ -63,4 +63,6 @@ void Game::PrintGames() const {
               << query.getColumn("DIFFICULTY").getInt() << std::endl;
   }
 }
+
+int Game::GetSaveLimit() const { return limit_; }
 } // namespace data_management

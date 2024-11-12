@@ -38,6 +38,10 @@ Player::Player(int &life, int &score, const std::vector<int> &secret_code,
   SetDifficulty(1);
 }
 
+bool Player::IsGameFinished() const {
+  return GetLife() == 0 || GetGuesses().back().first == GetSecretCode();
+}
+
 void Player::DecrementLife() { --life_; }
 
 void Player::DecrementHint() { --hint_count_; }

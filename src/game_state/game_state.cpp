@@ -53,9 +53,12 @@ void GameState::Start() {
     Logger::GetInstance().Log("Printing saved games");
     game_loader::LoadGame load;
     load.PrintGames();
-    int game_id = InputInteger("Enter the game ID: ", 1, load.GetCount());
-    load.SelectedGame(game_id);
-    load.Start();
+    // TODO: this should be in SelectGame
+    if (load.GetCount() != 0) {
+      int game_id = InputInteger("Enter the game ID: ", 1, load.GetCount());
+      load.SelectedGame(game_id);
+      load.Start();
+    }
     break;
   }
   case MainMenu::SCOREBOARD:

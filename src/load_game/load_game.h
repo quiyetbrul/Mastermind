@@ -36,6 +36,11 @@ public:
 private:
   player::Single player_;
   data_management::Game game_;
+  int game_id_;
+
+  int GetGameId();
+
+  void SetGameId(const int &game_id);
 };
 } // namespace game_loader
 #endif // LOAD_GAME_LOAD_GAME_H_

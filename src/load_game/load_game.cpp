@@ -9,11 +9,12 @@ namespace game_loader {
 LoadGame::LoadGame() {}
 
 void LoadGame::SelectedGame(const int &game_id) {
+  SetGameId(game_id);
+
   // Open the database
   SQLite::Database db(MASTERMIND_DB_PATH, SQLite::OPEN_READWRITE);
 
   // Prepare the SQL query
-
   SQLite::Statement query(
       db, "SELECT GAME_NAME, USER_NAME, LIFE, SECRET_CODE, GUESS_HISTORY, "
           "SCORE, START_TIME, END_TIME, ELAPSED_TIME, HINT_COUNT, "
@@ -44,6 +45,15 @@ void LoadGame::SelectedGame(const int &game_id) {
   }
 }
 
-void LoadGame::Start() { player_.GameLoop(); }
+void LoadGame::Start() {
+  player_.GameLoop();
+  if (player_.IsGameFinished()) {
+    Delete(GetGameId());
+  }
+}
+
+int LoadGame::GetGameId() { return game_id_; }
+
+void LoadGame::SetGameId(const int &game_id) { game_id_ = game_id; }
 
 } // namespace game_loader
