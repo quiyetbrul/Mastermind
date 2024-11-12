@@ -31,7 +31,6 @@ enum class MainMenu : int {
  * @enum PlayerType
  * @brief Represents the types of players.
  */
-// TODO: change names
 enum class GameType : int {
   QUICK_GAME = 1, /**< Quick game mode */
   CODEMASTER,     /**< Play as codemaster */
@@ -53,10 +52,8 @@ void GameState::Start() {
     Logger::GetInstance().Log("Printing saved games");
     game_loader::LoadGame load;
     load.PrintGames();
-    // TODO: this should be in SelectGame
     if (load.GetCount() != 0) {
-      int game_id = InputInteger("Enter the game ID: ", 1, load.GetCount());
-      load.SelectedGame(game_id);
+      load.SelectGame();
       load.Start();
     }
     break;

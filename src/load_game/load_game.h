@@ -26,7 +26,7 @@ public:
   /**
    * @brief Load the selected game.
    */
-  void SelectedGame(const int &game_id);
+  void SelectGame();
 
   /**
    * @brief Starts the game.

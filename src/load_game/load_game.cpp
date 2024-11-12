@@ -5,11 +5,16 @@
 
 #include "load_game.h"
 
+#include "util/util.h"
+
 namespace game_loader {
 LoadGame::LoadGame() {}
 
-void LoadGame::SelectedGame(const int &game_id) {
+void LoadGame::SelectGame() {
+  int game_id = InputInteger("Enter the game ID: ", 1, GetCount());
   SetGameId(game_id);
+
+  // TODO: need to use Exists() to check if the game exists
 
   // Open the database
   SQLite::Database db(MASTERMIND_DB_PATH, SQLite::OPEN_READWRITE);
