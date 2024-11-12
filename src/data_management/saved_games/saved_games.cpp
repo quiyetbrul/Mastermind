@@ -7,11 +7,10 @@
 
 #include <SQLiteCpp/Column.h>
 #include <SQLiteCpp/SQLiteCpp.h>
-#include <nlohmann/json.hpp>
 
 namespace data_management {
 SavedGames::SavedGames()
-    : db_(MASTERMIND_DATA, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
+    : db_(MASTERMIND_DB_PATH, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
   logger_.Log("Initializing SavedGames");
   CreateTable("SAVED_GAMES");
 }
@@ -120,47 +119,4 @@ void SavedGames::BindPlayerParameters(SQLite::Statement &stmt,
   stmt.bind(11, ConvertToJson(player.GetHintHistory()));
   stmt.bind(12, player.GetDifficulty());
 }
-
-template <typename T>
-std::string SavedGames::ConvertToJson(const std::vector<T> &vec) const {
-  nlohmann::json json_array = vec;
-  return json_array.dump();
-}
-
-template <typename T>
-std::vector<T>
-SavedGames::ConvertToArray(const std::string &game_name,
-                           const std::string &coloumn_name) const {
-  SQLite::Statement query(db_, "SELECT " + coloumn_name + " FROM " +
-                                   GetTableName() + " WHERE GAME_NAME = ?");
-  query.bind(1, game_name);
-  if (query.executeStep()) {
-    std::string array_str = query.getColumn(0).getText();
-    nlohmann::json json_array = nlohmann::json::parse(array_str);
-    return json_array.get<std::vector<T>>();
-  }
-  return {};
-}
-
-template std::string
-SavedGames::ConvertToJson<int>(const std::vector<int> &vec) const;
-
-template std::string SavedGames::ConvertToJson<std::string>(
-    const std::vector<std::string> &vec) const;
-
-template std::string
-SavedGames::ConvertToJson<std::map<std::vector<int>, std::string>>(
-    const std::vector<std::map<std::vector<int>, std::string>> &vec) const;
-
-template std::vector<int>
-SavedGames::ConvertToArray<int>(const std::string &game_name,
-                                const std::string &column_name) const;
-
-template std::vector<std::string>
-SavedGames::ConvertToArray<std::string>(const std::string &game_name,
-                                        const std::string &column_name) const;
-
-template std::vector<std::map<std::vector<int>, std::string>>
-SavedGames::ConvertToArray<std::map<std::vector<int>, std::string>>(
-    const std::string &game_name, const std::string &column_name) const;
 } // namespace data_management

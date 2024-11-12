@@ -30,6 +30,10 @@ public:
    */
   virtual ~DatabaseManager() = default;
 
+  // GETTERS
+
+  std::string GetTableName() const { return table_name_; }
+
   // /**
   //  * @brief Inserts a record into the database.
   //  */
@@ -58,10 +62,6 @@ protected:
    * @brief Creates the table in the database.
    */
   virtual void CreateTable(const std::string &table_name) = 0;
-
-  // GETTERS
-
-  std::string GetTableName() const { return table_name_; }
 
   // SETTERS
 

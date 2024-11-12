@@ -7,6 +7,7 @@
 #define LOAD_GAME_LOAD_GAME_H_
 
 #include "data_management/saved_games/game.h"
+#include "player/type/single/single.h"
 
 namespace game_loader {
 /**
@@ -25,7 +26,16 @@ public:
   /**
    * @brief Load the selected game.
    */
-  void LoadSelectedGame(const int &game_id);
+  void SelectedGame(const int &game_id);
+
+  /**
+   * @brief Starts the game.
+   */
+  void Start();
+
+private:
+  player::Single player_;
+  data_management::Game game_;
 };
 } // namespace game_loader
 #endif // LOAD_GAME_LOAD_GAME_H_

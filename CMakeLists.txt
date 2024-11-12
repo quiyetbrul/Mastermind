@@ -20,6 +20,7 @@ find_package(SQLiteCpp REQUIRED)
 find_package(nlohmann_json REQUIRED)
 
 # Definitions
+add_definitions(-DMASTERMIND_DB_PATH=\"${CMAKE_BINARY_DIR}/src/data/mastermind.db\")
 add_definitions(-DLOGGER_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/logger.txt\")
 
 # Include subdirectories

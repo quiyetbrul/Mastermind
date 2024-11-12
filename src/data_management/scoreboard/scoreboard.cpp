@@ -9,7 +9,7 @@ namespace data_management {
 const int kTopScoreLimit = 10;
 
 Scoreboard::Scoreboard()
-    : db_(MASTERMIND_DATA, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
+    : db_(MASTERMIND_DB_PATH, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
   logger_.Log("Initializing Scoreboard");
   CreateTable("SCOREBOARD");
 }

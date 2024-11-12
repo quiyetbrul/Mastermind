@@ -120,6 +120,20 @@ void Player::SetLife(const int &life) { life_ = life; }
 
 void Player::SetScore(const int &score) { score_ = score; }
 
+void Player::SetStartTime(const double &start_time) {
+  start_time_ = std::chrono::time_point<std::chrono::high_resolution_clock>(
+      std::chrono::nanoseconds(static_cast<long long>(start_time)));
+}
+
+void Player::SetEndTime(const double &end_time) {
+  end_time_ = std::chrono::time_point<std::chrono::high_resolution_clock>(
+      std::chrono::nanoseconds(static_cast<long long>(end_time)));
+}
+
+void Player::SetElapsedTime(const double &elapsed_time) {
+  elapsed_time_ = elapsed_time;
+}
+
 void Player::SetSecretCodeMinDigit(const int &min_digit) {
   secret_code_min_digit_ = min_digit;
 }

@@ -7,6 +7,7 @@
 
 #include <string>
 
+#include "load_game/load_game.h"
 #include "logger/logger.h"
 #include "player/type/codemaster/codemaster.h"
 #include "player/type/single/single.h"
@@ -48,15 +49,19 @@ void GameState::Start() {
   case MainMenu::PLAY:
     PlayerMenu();
     break;
-  case MainMenu::LOAD:
+  case MainMenu::LOAD: {
     Logger::GetInstance().Log("Printing saved games");
-    game_.PrintGames();
+    game_loader::LoadGame load;
+    load.PrintGames();
+    int game_id = InputInteger("Enter the game ID: ", 1, load.GetCount());
+    load.SelectedGame(game_id);
+    load.Start();
     break;
+  }
   case MainMenu::SCOREBOARD:
     // TODO: PRINT SCORE ASCII ART
     Logger::GetInstance().Log("Printing scoreboard");
     score_.PrintScores();
-    // std::cout << "Scoreboard under construction" << std::endl;
     break;
   case MainMenu::INSTRUCTIONS:
     Logger::GetInstance().Log("Printing instructions");

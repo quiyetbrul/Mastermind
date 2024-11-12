@@ -84,6 +84,9 @@ public:
   void SetGameName(const std::string &name);
   void SetLife(const int &life);
   void SetScore(const int &score);
+  void SetStartTime(const double &start_time);
+  void SetEndTime(const double &end_time);
+  void SetElapsedTime(const double &elapsed_time);
   void SetSecretCodeMinDigit(const int &min_digit);
   void SetSecretCodeMaxDigit(const int &max_digit);
   void SetSecretCodeLength(const int &length);

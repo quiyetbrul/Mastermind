@@ -6,11 +6,12 @@
 #ifndef DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_
 #define DATA_MANAGEMENT_SAVED_GAMES_SAVED_GAMES_H_
 
-#include <SQLiteCpp/SQLiteCpp.h>
 #include <string>
 
 #include "data_management/database_manager.h"
 #include "player/player.h"
+#include <SQLiteCpp/SQLiteCpp.h>
+#include <nlohmann/json.hpp>
 
 namespace data_management {
 /**
@@ -25,6 +26,13 @@ public:
    * @brief Default constructor.
    */
   SavedGames();
+
+  /**
+   * @brief Gets the number of records in the saved games.
+   *
+   * @return int The number of records in the saved games.
+   */
+  int GetCount() const;
 
 protected:
   SQLite::Database db_;
@@ -48,13 +56,6 @@ protected:
               const std::string &new_game_name, const player::Player &player);
 
   /**
-   * @brief Gets the number of records in the saved games.
-   *
-   * @return int The number of records in the saved games.
-   */
-  int GetCount() const;
-
-  /**
    * @brief Checks if a game exists in the saved games.
    *
    * @param game_name The name of the game to check.
@@ -73,6 +74,7 @@ protected:
                             const player::Player &player,
                             const std::string &new_game_name);
 
+public:
   /**
    * @brief Converts a set to a JSON string.
    *
@@ -81,7 +83,10 @@ protected:
    * @return std::string
    */
   template <typename T>
-  std::string ConvertToJson(const std::vector<T> &set) const;
+  std::string ConvertToJson(const std::vector<T> &vec) const {
+    nlohmann::json json_array = vec;
+    return json_array.dump();
+  }
 
   /**
    * @brief Converts a JSON string to a set.
@@ -92,8 +97,10 @@ protected:
    * @return std::vector<T>
    */
   template <typename T>
-  std::vector<T> ConvertToArray(const std::string &game_name,
-                                const std::string &coloumn_name) const;
+  std::vector<T> ConvertToArray(const std::string &json_str) const {
+    nlohmann::json json_array = nlohmann::json::parse(json_str);
+    return json_array.get<std::vector<T>>();
+  }
 };
 } // namespace data_management
 
