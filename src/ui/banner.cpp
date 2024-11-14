@@ -20,18 +20,19 @@ void NewTitle(WINDOW *win, int y, int x) {
   // clang-format on
 
   int i = y;
-  mvwprintw(win, i + 1, x,
-            "                    .-- . .-.. -.-. --- -- .    - --- ");
+  std::string welcome_in_morse =
+      "                      .-- . .-.. -.-. --- -- .    - --- ";
+  mvwprintw(win, i + 1, x, welcome_in_morse.c_str());
   ++i;
 
   for (const auto &line : game_name) {
-    mvwprintw(win, i + 1, x, "line.c_str()");
+    mvwprintw(win, i + 1, x, line.c_str());
     ++i;
   }
 
-  mvwprintw(
-      win, i + 1, x,
-      "           --- .-..    -.. .... ...- .-.. .-. --.    --- . .... -.--");
+  std::string by_in_rot13_morse =
+      "          --- .-..    -.. .... ...- .-.. .-. --.    --- . .... -.--";
+  mvwprintw(win, i + 1, x, by_in_rot13_morse.c_str());
 
   wrefresh(win);
 }
