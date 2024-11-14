@@ -36,8 +36,8 @@ public:
 private:
   int y_max_;
   int x_max_;
-  WINDOW *title_win_;
-  WINDOW *menu_win_;
+  WINDOW *banner_window_;
+  WINDOW *game_window_;
 
   data_management::Score score_;
   data_management::Game game_;

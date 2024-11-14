@@ -25,6 +25,6 @@ void PrintPlayerMenu();
 /**
  * @brief Print the instructions.
  */
-void PrintInstructions(WINDOW *window, int y, int x);
+void PrintInstructions(WINDOW *windo);
 
 #endif // UI_MENU_H_

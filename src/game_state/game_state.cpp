@@ -41,22 +41,22 @@ enum class GameType : int {
 
 namespace mastermind {
 void GameState::Start() {
-  box(title_win_, 0, 0);
-  box(menu_win_, 0, 0);
-  keypad(menu_win_, true); // enable function keys, e.g. arrow keys
+  box(banner_window_, 0, 0);
+  box(game_window_, 0, 0);
+  keypad(game_window_, true); // enable function keys, e.g. arrow keys
 
   std::vector<std::string> choices = {"Play", "Load Game", "Scoreboard",
                                       "Instructions", "Exit"};
   int choice = 0;
   int highlight = 0;
 
-  Title(title_win_);
+  Title(banner_window_);
 
   while (true) {
     refresh();
-    Title(title_win_);
-    PrintMenu(menu_win_, highlight, choices);
-    choice = wgetch(menu_win_);
+    Title(banner_window_);
+    PrintMenu(game_window_, highlight, choices);
+    choice = wgetch(game_window_);
     switch (choice) {
     case KEY_UP:
       --highlight;
@@ -79,20 +79,20 @@ void GameState::Start() {
       }
       case MainMenu::SCOREBOARD:
         // TODO: PRINT SCORE ASCII ART
-        // Scoreboard(menu_win_);
+        Scoreboard(game_window_);
         break;
       case MainMenu::INSTRUCTIONS:
         Logger::GetInstance().Log("Printing instructions");
-        PrintInstructions(menu_win_, 0, 10);
+        PrintInstructions(game_window_);
         break;
       case MainMenu::EXIT:
-        wclear(title_win_);
-        wclear(menu_win_);
-        wrefresh(title_win_);
-        wrefresh(menu_win_);
+        wclear(banner_window_);
+        wclear(game_window_);
+        wrefresh(banner_window_);
+        wrefresh(game_window_);
         refresh();
-        delwin(title_win_);
-        delwin(menu_win_);
+        delwin(banner_window_);
+        delwin(game_window_);
         return; // Exit the function to close the program
       }
     }
@@ -105,8 +105,8 @@ void GameState::Init() {
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
   initscr();
   getmaxyx(stdscr, y_max_, x_max_);
-  title_win_ = newwin(10, x_max_, 0, 0);
-  menu_win_ = newwin(20, x_max_, 10, 0);
+  banner_window_ = newwin(10, x_max_, 0, 0);
+  game_window_ = newwin(20, x_max_, 10, 0);
   curs_set(0); // hide the cursor
   start_color();
 }
@@ -145,6 +145,6 @@ void GameState::LoadGameMenu(WINDOW *window) {
 
 void GameState::Scoreboard(WINDOW *window) {
   Logger::GetInstance().Log("Printing scoreboard");
-  score_.PrintScores();
+  score_.PrintScores(window);
 }
 } // namespace mastermind

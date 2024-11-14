@@ -38,30 +38,28 @@ void PrintPlayerMenu() {
   std::cout << "3. Back\n";
 }
 
-void PrintInstructions(WINDOW *window, int y, int x) {
+void PrintInstructions(WINDOW *window) {
+  int y;
+  int x;
+  getmaxyx(window, y, x);
+  y = 1;
   wclear(window);
-  mvwprintw(window, y++, x, "Instructions:");
-  mvwprintw(
-      window, y++, x,
-      "Depending on the difficulty level, the length of the secret code ");
-  mvwprintw(window, y++, x, "and the range of each digit vary.");
-  mvwprintw(window, y++, x,
-            "If you are the codebreaker, you have to guess the secret code. If "
-            "you are");
-  mvwprintw(window, y++, x,
-            "the codemaster, you have to create a secret code that the AI "
-            "codebreaker has to guess.");
-  mvwprintw(window, y++, x,
-            "Each feedback character represents a digit in the secret code:");
-  mvwprintw(window, y++, x,
-            "- 'B' represents a correct digit in the correct position");
-  mvwprintw(window, y++, x,
-            "- 'W' represents a correct digit in the wrong position");
-  mvwprintw(window, y++, x,
-            "You have 10 chances to guess the secret code. You may save or "
-            "exit the game at any time.");
-  mvwprintw(window, y++, x, "Good Luck!");
-  mvwprintw(window, y++, x, "Press enter to continue...");
+  std::string instructions[] = {
+      "Instructions:",
+      "The secret code length and each digit range depend on the difficulty.",
+      "If you are Codebreaker, you have to crack the secret code.",
+      "If you are Codemaster, create a secret code for the AI to crack.",
+      "Each feedback character represents a digit in the secret code:",
+      "- 'B' represents a correct digit in the correct position",
+      "- 'W' represents a correct digit in the wrong position",
+      "You have 10 chances to guess the secret code.",
+      "You may save or exit the game at any time.",
+      "Good Luck!",
+      "Press enter to continue..."};
+
+  for (const auto &instruction : instructions) {
+    mvwprintw(window, y++, (x/2) - (instruction.length() / 2), instruction.c_str());
+  }
   int c = wgetch(window);
   while (c != '\n') {
     c = wgetch(window);
