@@ -9,6 +9,22 @@
 
 #include "ui/banner.h"
 
+void print_menu(WINDOW *menu_win, int y, int x, int highlight,
+                const std::vector<std::string> &choices) {
+  box(menu_win, 0, 0);
+  for (int i = 0; i < choices.size(); ++i) {
+    if (highlight == i) {
+      wattron(menu_win, A_REVERSE);
+      mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
+      wattroff(menu_win, A_REVERSE);
+    } else {
+      mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
+    }
+    ++y;
+  }
+  wrefresh(menu_win);
+}
+
 void PrintMenu() {
   Title();
   std::cout << "1. Play\n";
@@ -25,20 +41,31 @@ void PrintPlayerMenu() {
   std::cout << "3. Back\n";
 }
 
-void PrintInstructions() {
-  Title();
-  std::cout << "Instructions:\n";
-  std::cout << "1. The computer will generate a secret code consisting of 4 "
-               "numbers.\n";
-  std::cout << "2. The numbers in the secret code will be between 0 and 7.\n";
-  std::cout << "3. You have to guess the secret code.\n";
-  std::cout << "4. After each guess, the computer will give you feedback.\n";
-  std::cout << "5. The feedback will characters 'B' and 'W':\n";
-  std::cout << "   - 'B' represents digits in correct positions\n";
-  std::cout << "   - 'W' represents digits in incorrect positions\n";
-  std::cout << "6. You have 10 chances to guess the secret code.\n";
-  std::cout << "7. If you guess the secret code within 10 chances, you win.\n";
-  std::cout << "8. If you are unable to guess the secret code within 10 "
-               "chances, you lose.\n";
-  std::cout << "9. Good luck!\n\n";
+void PrintInstructions(WINDOW *window, int y, int x) {
+  mvwprintw(window, y++, x, "Instructions:");
+  mvwprintw(window, y++, x,
+            "Depending on the difficulty level, the length of the secret code "
+            "and the range of each digit vary.");
+  mvwprintw(window, y++, x,
+            "If you are the codebreaker, you have to guess the secret code. If "
+            "you are");
+  mvwprintw(window, y++, x,
+            "the codemaster, you have to create a secret code that the AI "
+            "codebreaker has to guess.");
+  mvwprintw(window, y++, x,
+            "Each feedback character represents a digit in the secret code:");
+  mvwprintw(window, y++, x,
+            "- 'B' represents a correct digit in the correct position");
+  mvwprintw(window, y++, x,
+            "- 'W' represents a correct digit in the wrong position");
+  mvwprintw(window, y++, x,
+            "You have 10 chances to guess the secret code. You may save or "
+            "exit the game at any time.");
+  mvwprintw(window, y++, x, "Good Luck! Press enter to continue...");
+  int c = wgetch(window);
+  while (c != '\n') {
+    c = wgetch(window);
+  }
+  wclear(window);
+  wrefresh(window);
 }
