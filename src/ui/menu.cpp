@@ -6,12 +6,12 @@
 #include "menu.h"
 
 #include <iostream>
+#include <ncurses.h>
 
 #include "ui/banner.h"
 
 void print_menu(WINDOW *menu_win, int y, int x, int highlight,
                 const std::vector<std::string> &choices) {
-  box(menu_win, 0, 0);
   for (int i = 0; i < choices.size(); ++i) {
     if (highlight == i) {
       wattron(menu_win, A_REVERSE);
@@ -42,10 +42,12 @@ void PrintPlayerMenu() {
 }
 
 void PrintInstructions(WINDOW *window, int y, int x) {
+  wclear(window);
   mvwprintw(window, y++, x, "Instructions:");
-  mvwprintw(window, y++, x,
-            "Depending on the difficulty level, the length of the secret code "
-            "and the range of each digit vary.");
+  mvwprintw(
+      window, y++, x,
+      "Depending on the difficulty level, the length of the secret code ");
+  mvwprintw(window, y++, x, "and the range of each digit vary.");
   mvwprintw(window, y++, x,
             "If you are the codebreaker, you have to guess the secret code. If "
             "you are");
@@ -61,7 +63,8 @@ void PrintInstructions(WINDOW *window, int y, int x) {
   mvwprintw(window, y++, x,
             "You have 10 chances to guess the secret code. You may save or "
             "exit the game at any time.");
-  mvwprintw(window, y++, x, "Good Luck! Press enter to continue...");
+  mvwprintw(window, y++, x, "Good Luck!");
+  mvwprintw(window, y++, x, "Press enter to continue...");
   int c = wgetch(window);
   while (c != '\n') {
     c = wgetch(window);
