@@ -6,9 +6,12 @@
 #ifndef UI_BANNER_H_
 #define UI_BANNER_H_
 
+#include <ncurses.h>
+
 /**
  * @brief Display the title banner.
  */
+void NewTitle(WINDOW *win, int y, int x);
 void Title();
 
 /**

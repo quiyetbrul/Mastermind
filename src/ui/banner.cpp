@@ -4,12 +4,39 @@
  */
 
 #include <iostream>
+#include <ncurses.h>
+#include <string>
+#include <vector>
 
 #include "ui/banner.h"
 #include "util/util.h"
 
-// clang-format off
+void NewTitle(WINDOW *win, int y, int x) {
+  // clang-format off
+  std::vector<std::string> game_name={
+  "_______ _______ _______ _______ _______  ______ _______ _____ __   _ ______ \n",
+  "|  |  | |_____| |______    |    |______ |_____/ |  |  |   |   | \\  | |     \\\n",
+  "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/\n"};
+  // clang-format on
 
+  int i = y;
+  mvwprintw(win, i + 1, x,
+            "                    .-- . .-.. -.-. --- -- .    - --- ");
+  ++i;
+
+  for (const auto &line : game_name) {
+    mvwprintw(win, i + 1, x, "line.c_str()");
+    ++i;
+  }
+
+  mvwprintw(
+      win, i + 1, x,
+      "           --- .-..    -.. .... ...- .-.. .-. --.    --- . .... -.--");
+
+  wrefresh(win);
+}
+
+// clang-format off
 void Title() {
 //   ClearScreen();
   // TODO: get terminal width dynamically
