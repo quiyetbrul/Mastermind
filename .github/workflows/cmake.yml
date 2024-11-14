@@ -30,6 +30,9 @@ jobs:
           make
           sudo make install
 
+      - name: Install ncurses
+        run: brew install ncurses
+
       - name: Configure CMake
         run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
@@ -53,6 +56,9 @@ jobs:
 
       - name: Install nlohmann/json
         run: sudo apt-get install -y nlohmann-json3-dev
+
+      - name: Install ncurses
+        run: sudo apt-get install -y libncurses5-dev
 
       - name: Clone SQLiteCpp repository
         run: |
