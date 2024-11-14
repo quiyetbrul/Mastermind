@@ -11,8 +11,8 @@
 #include <limits>
 #include <string>
 
-const int kTerminalWidth = 125;
-const int kTerminalHeight = 24;
+const int kTerminalWidth = 100;
+const int kTerminalHeight = 30;
 
 #define ANSI_COLOR_RED "\x1b[31m"
 #define ANSI_COLOR_GREEN "\x1b[32m"
