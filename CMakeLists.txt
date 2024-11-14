@@ -18,6 +18,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 find_package(CURL REQUIRED)
 find_package(SQLiteCpp REQUIRED)
 find_package(nlohmann_json REQUIRED)
+find_package(Curses REQUIRED)
 
 # Definitions
 add_definitions(-DMASTERMIND_DB_PATH=\"${CMAKE_BINARY_DIR}/src/data/mastermind.db\")
@@ -50,6 +51,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
 include_directories(${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
+include_directories(${CURSES_INCLUDE_DIR})
 
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)
