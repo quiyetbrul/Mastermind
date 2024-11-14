@@ -6,8 +6,9 @@
 #ifndef GAMESTATE_GAMESTATE_H_
 #define GAMESTATE_GAMESTATE_H_
 
-#include "data_management/scoreboard/score.h"
 #include "data_management/saved_games/game.h"
+#include "data_management/scoreboard/score.h"
+#include <ncurses.h>
 
 namespace mastermind {
 
@@ -37,9 +38,19 @@ private:
   data_management::Game game_;
 
   /**
-   * @brief Main game loop.
+   * @brief Player's game menu.
    */
-  void PlayerMenu();
+  void PlayerMenu(WINDOW *window);
+
+  /**
+   * @brief Load game menu.
+   */
+  void LoadGameMenu(WINDOW *window);
+
+  /**
+   * @brief Scoreboard.
+   */
+  void Scoreboard(WINDOW *window);
 
   /**
    * @brief Player game loop.
@@ -48,7 +59,7 @@ private:
    * choose whether to play again and go back to PlayerMenu() or go back to
    * Start().
    */
-  void PlayAgain();
+  void PlayAgain(WINDOW *window);
 };
 } // namespace mastermind
 
