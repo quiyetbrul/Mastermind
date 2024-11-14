@@ -10,28 +10,25 @@
 
 #include "ui/banner.h"
 
-void print_menu(WINDOW *menu_win, int y, int x, int highlight,
-                const std::vector<std::string> &choices) {
+void PrintMenu(WINDOW *menu_win, const int &highlight,
+               const std::vector<std::string> &choices) {
+  int x, y;
+  getmaxyx(menu_win, y, x);
+  y = 0;
+  x /= 2;
   for (int i = 0; i < choices.size(); ++i) {
     if (highlight == i) {
-      wattron(menu_win, A_REVERSE);
-      mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
-      wattroff(menu_win, A_REVERSE);
+      wattron(menu_win, A_STANDOUT);
+      mvwprintw(menu_win, y, x - (choices[i].length() / 2), "%s",
+                choices[i].c_str());
+      wattroff(menu_win, A_STANDOUT);
     } else {
-      mvwprintw(menu_win, y, x, "%s", choices[i].c_str());
+      mvwprintw(menu_win, y, x - (choices[i].length() / 2), "%s",
+                choices[i].c_str());
     }
     ++y;
   }
   wrefresh(menu_win);
-}
-
-void PrintMenu() {
-  Title();
-  std::cout << "1. Play\n";
-  std::cout << "2. Load Game\n";
-  std::cout << "3. Scoreboard\n";
-  std::cout << "4. Instructions\n";
-  std::cout << "5. Exit\n";
 }
 
 void PrintPlayerMenu() {

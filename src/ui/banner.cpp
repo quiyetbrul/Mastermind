@@ -11,28 +11,34 @@
 #include "ui/banner.h"
 #include "util/util.h"
 
-void NewTitle(WINDOW *win, int y, int x) {
+void Title(WINDOW *win) {
   // clang-format off
   std::vector<std::string> game_name={
-  "_______ _______ _______ _______ _______  ______ _______ _____ __   _ ______ \n",
-  "|  |  | |_____| |______    |    |______ |_____/ |  |  |   |   | \\  | |     \\\n",
-  "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/\n"};
+  "_______ _______ _______ _______ _______  ______ _______ _____ __   _ ______ ",
+  "|  |  | |_____| |______    |    |______ |_____/ |  |  |   |   | \\  | |     \\",
+  "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/"};
   // clang-format on
 
-  int i = y;
+  int y;
+  int x;
+  getmaxyx(win, y, x);
+  y = 1;
+  x /= 10;
+
   std::string welcome_in_morse =
       "                      .-- . .-.. -.-. --- -- .    - --- ";
-  mvwprintw(win, i + 1, x, welcome_in_morse.c_str());
-  ++i;
+  mvwprintw(win, ++y, x, welcome_in_morse.c_str());
 
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
+  wattron(win, COLOR_PAIR(1));
   for (const auto &line : game_name) {
-    mvwprintw(win, i + 1, x, line.c_str());
-    ++i;
+    mvwprintw(win, ++y, x, line.c_str());
   }
+  wattroff(win, COLOR_PAIR(1));
 
   std::string by_in_rot13_morse =
       "          --- .-..    -.. .... ...- .-.. .-. --.    --- . .... -.--";
-  mvwprintw(win, i + 1, x, by_in_rot13_morse.c_str());
+  mvwprintw(win, ++y, x, by_in_rot13_morse.c_str());
 
   wrefresh(win);
 }

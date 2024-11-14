@@ -11,7 +11,7 @@
 /**
  * @brief Display the title banner.
  */
-void NewTitle(WINDOW *win, int y, int x);
+void Title(WINDOW *win);
 void Title();
 
 /**

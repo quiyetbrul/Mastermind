@@ -41,31 +41,22 @@ enum class GameType : int {
 
 namespace mastermind {
 void GameState::Start() {
-
-  // TODO: make member variables
-  int y_max;
-  int x_max;
-  getmaxyx(stdscr, y_max, x_max);
-
-  // nlines, ncols, begin_y, begin_x
-  WINDOW *title_win = newwin(10, x_max, 0, 0);
-  box(title_win, 0, 0);
-
-  WINDOW *menu_win = newwin(20, x_max, 10, 0);
-  box(menu_win, 0, 0);
-  keypad(menu_win, true); // enable function keys, e.g. arrow keys
+  box(title_win_, 0, 0);
+  box(menu_win_, 0, 0);
+  keypad(menu_win_, true); // enable function keys, e.g. arrow keys
 
   std::vector<std::string> choices = {"Play", "Load Game", "Scoreboard",
                                       "Instructions", "Exit"};
   int choice = 0;
   int highlight = 0;
 
-  NewTitle(title_win, 1, x_max / 10);
+  Title(title_win_);
 
   while (true) {
-    NewTitle(title_win, 1, x_max / 10);
-    print_menu(menu_win, 1, 42, highlight, choices);
-    choice = wgetch(menu_win);
+    refresh();
+    Title(title_win_);
+    PrintMenu(menu_win_, highlight, choices);
+    choice = wgetch(menu_win_);
     switch (choice) {
     case KEY_UP:
       --highlight;
@@ -92,17 +83,18 @@ void GameState::Start() {
         break;
       case MainMenu::INSTRUCTIONS:
         Logger::GetInstance().Log("Printing instructions");
-        PrintInstructions(menu_win, 0, 10);
+        PrintInstructions(menu_win_, 0, 10);
         break;
       case MainMenu::EXIT:
-        wclear(title_win);
-        wclear(menu_win);
+        wclear(title_win_);
+        wclear(menu_win_);
+        wrefresh(title_win_);
+        wrefresh(menu_win_);
         refresh();
-        delwin(title_win);
-        delwin(menu_win);
+        delwin(title_win_);
+        delwin(menu_win_);
         return; // Exit the function to close the program
       }
-      break;
     }
   }
 }
@@ -112,8 +104,11 @@ void GameState::Init() {
   SetTerminalSize(kTerminalWidth, kTerminalHeight);
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
   initscr();
+  getmaxyx(stdscr, y_max_, x_max_);
+  title_win_ = newwin(10, x_max_, 0, 0);
+  menu_win_ = newwin(20, x_max_, 10, 0);
   curs_set(0); // hide the cursor
-  // start_color();
+  start_color();
 }
 
 void GameState::PlayerMenu(WINDOW *window) {

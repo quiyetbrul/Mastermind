@@ -11,13 +11,11 @@
 
 #include <ncurses.h>
 
-void print_menu(WINDOW *window, int y, int x, int highlight,
-                const std::vector<std::string> &choices);
-
 /**
  * @brief Print the main menu.
  */
-void PrintMenu();
+void PrintMenu(WINDOW *window, const int &highlight,
+               const std::vector<std::string> &choices);
 
 /**
  * @brief Print the player menu.

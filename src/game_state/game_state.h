@@ -34,6 +34,11 @@ public:
   void Start();
 
 private:
+  int y_max_;
+  int x_max_;
+  WINDOW *title_win_;
+  WINDOW *menu_win_;
+
   data_management::Score score_;
   data_management::Game game_;
 
