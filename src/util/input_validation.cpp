@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cctype>
 #include <iostream>
+#include <limits>
 #include <string>
 
 // TODO: get string input, validate, and convert to integer
