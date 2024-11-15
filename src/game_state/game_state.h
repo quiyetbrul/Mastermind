@@ -8,6 +8,7 @@
 
 #include "data_management/saved_games/game.h"
 #include "data_management/scoreboard/score.h"
+#include "load_game/load_game.h"
 #include <ncurses.h>
 
 namespace mastermind {
@@ -24,9 +25,7 @@ public:
   /**
    * @brief Default constructor.
    */
-  GameState(){};
-
-  void Init();
+  GameState();
 
   /**
    * @brief Starts the game.
@@ -40,36 +39,27 @@ private:
   WINDOW *game_window_;
 
   data_management::Score score_;
-  data_management::Game game_;
+  game_loader::LoadGame load_;
 
   /**
    * @brief Player's game menu.
    */
-  void PlayerMenu(WINDOW *window);
+  void PlayerMenu();
 
   /**
    * @brief Load game menu.
    */
-  void LoadGameMenu(WINDOW *window);
+  void LoadGameMenu();
 
   /**
    * @brief Scoreboard.
    */
-  void Scoreboard(WINDOW *window);
+  void Scoreboard();
 
   /**
    * @brief Game instructions.
    */
-  void Instructions(WINDOW *window);
-
-  /**
-   * @brief Player game loop.
-   *
-   * This function is called at every end of a game. It prompts the user to
-   * choose whether to play again and go back to PlayerMenu() or go back to
-   * Start().
-   */
-  void PlayAgain(WINDOW *window);
+  void Instructions();
 };
 } // namespace mastermind
 

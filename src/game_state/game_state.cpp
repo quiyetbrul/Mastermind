@@ -5,11 +5,9 @@
 
 #include "game_state.h"
 
-#include <cstdlib>
 #include <ncurses.h>
 #include <string>
 
-#include "load_game/load_game.h"
 #include "logger/logger.h"
 #include "player/type/codemaster/codemaster.h"
 #include "player/type/single/single.h"
@@ -40,6 +38,20 @@ enum class GameType : int {
 };
 
 namespace mastermind {
+GameState::GameState() {
+  Logger::GetInstance().Log("Initializing game state");
+  SetTerminalSize(kTerminalWidth, kTerminalHeight);
+  SetTerminalTitle("Mastermind Game by Quiyet Brul");
+  initscr();
+  getmaxyx(stdscr, y_max_, x_max_);
+  banner_window_ = newwin(10, x_max_, 0, 0);
+  game_window_ = newwin(20, x_max_, 10, 0);
+  curs_set(0); // hide the cursor
+  start_color();
+  load_.SetWindow(game_window_);
+  score_.SetWindow(game_window_);
+}
+
 void GameState::Start() {
   box(banner_window_, 0, 0);
   box(game_window_, 0, 0);
@@ -71,17 +83,17 @@ void GameState::Start() {
     case 10:
       switch (static_cast<MainMenu>(highlight + 1)) {
       case MainMenu::PLAY:
-        // PlayerMenu(menu_win_);
+        // PlayerMenu();
         break;
       case MainMenu::LOAD: {
-        // LoadGameMenu(menu_win_);
+        LoadGameMenu();
         break;
       }
       case MainMenu::SCOREBOARD:
-        Scoreboard(game_window_);
+        Scoreboard();
         break;
       case MainMenu::INSTRUCTIONS:
-        Instructions(game_window_);
+        Instructions();
         break;
       case MainMenu::EXIT:
         wclear(banner_window_);
@@ -97,19 +109,7 @@ void GameState::Start() {
   }
 }
 
-void GameState::Init() {
-  Logger::GetInstance().Log("Initializing game state");
-  SetTerminalSize(kTerminalWidth, kTerminalHeight);
-  SetTerminalTitle("Mastermind Game by Quiyet Brul");
-  initscr();
-  getmaxyx(stdscr, y_max_, x_max_);
-  banner_window_ = newwin(10, x_max_, 0, 0);
-  game_window_ = newwin(20, x_max_, 10, 0);
-  curs_set(0); // hide the cursor
-  start_color();
-}
-
-void GameState::PlayerMenu(WINDOW *window) {
+void GameState::PlayerMenu() {
   PrintPlayerMenu();
   const int min_choice = static_cast<int>(GameType::QUICK_GAME);
   const int max_choice = static_cast<int>(GameType::BACK);
@@ -131,23 +131,22 @@ void GameState::PlayerMenu(WINDOW *window) {
   Start();
 }
 
-void GameState::LoadGameMenu(WINDOW *window) {
+void GameState::LoadGameMenu() {
   Logger::GetInstance().Log("Printing saved games");
-  game_loader::LoadGame load;
-  load.PrintGames();
-  if (load.GetCount() != 0) {
-    load.SelectGame();
-    load.Start();
+  load_.PrintGames();
+  if (load_.GetCount() != 0) {
+    load_.SelectGame();
+    load_.Start();
   }
 }
 
-void GameState::Scoreboard(WINDOW *window) {
+void GameState::Scoreboard() {
   Logger::GetInstance().Log("Printing scoreboard");
-  score_.PrintScores(window);
+  score_.PrintScores();
 }
 
-void GameState::Instructions(WINDOW *window) {
+void GameState::Instructions() {
   Logger::GetInstance().Log("Printing instructions");
-  PrintInstructions(window);
+  PrintInstructions(game_window_);
 }
 } // namespace mastermind
