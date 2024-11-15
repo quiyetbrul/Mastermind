@@ -40,18 +40,15 @@ public:
    */
   void Delete(const int &game_id);
 
-  /**
-   * @brief Prints the saved games.
-   */
-  void PrintGames() const;
+  int GetSaveLimit() const;
 
   void SetWindow(WINDOW *window);
 
-private:
-  int limit_ = 3;
+protected:
   WINDOW *window_;
 
-  int GetSaveLimit() const;
+private:
+  int limit_;
 };
 } // namespace data_management
 
