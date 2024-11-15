@@ -81,7 +81,6 @@ void Score::PrintScores() const {
     }
   }
   EnterToContinue(window_, y);
-  return;
 }
 
 void Score::SetWindow(WINDOW *window) { window_ = window; }
