@@ -108,8 +108,8 @@ inline void EnterToContinue(WINDOW *window, const int &y) {
   wrefresh(window);
 }
 
-inline void UpdateHighlight(int &highlight,
-                            const std::vector<std::string> &choices,
+template <typename T>
+inline void UpdateHighlight(int &highlight, const std::vector<T> &choices,
                             const int &direction) {
   highlight += direction;
   if (highlight < 0) {
