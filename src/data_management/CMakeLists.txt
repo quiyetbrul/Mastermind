@@ -15,3 +15,6 @@ include_directories(${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
 target_link_libraries(data_management PUBLIC ${SQLite3_LIBRARIES} SQLiteCpp)
 
 target_link_libraries(data_management PUBLIC nlohmann_json::nlohmann_json)
+
+include_directories(${CURSES_INCLUDE_DIR})
+target_link_libraries(data_management PUBLIC ${CURSES_LIBRARIES})
