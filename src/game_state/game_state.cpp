@@ -41,33 +41,38 @@ enum class GameType : int {
 namespace mastermind {
 GameState::GameState() {
   Logger::GetInstance().Log("Initializing game state");
+
   SetTerminalSize(kTerminalWidth, kTerminalHeight);
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
+
   initscr();
+
   getmaxyx(stdscr, y_max_, x_max_);
+
   banner_window_ = newwin(10, x_max_, 0, 0);
   game_window_ = newwin(20, x_max_, 10, 0);
-  curs_set(0); // hide the cursor
-  start_color();
-  load_.SetWindow(game_window_);
-  score_.SetWindow(game_window_);
-}
 
-void GameState::Start() {
+  score_.SetWindow(game_window_);
+  load_.SetWindow(game_window_);
+
+  start_color();
+
+  curs_set(0); // hide the cursor
   box(banner_window_, 0, 0);
   box(game_window_, 0, 0);
   keypad(game_window_, true); // enable function keys, e.g. arrow keys
+}
+
+void GameState::Start() {
+  Title(banner_window_);
 
   std::vector<std::string> choices = {"Play", "Load Game", "Scoreboard",
                                       "Instructions", "Exit"};
   int choice = 0;
   int highlight = 0;
 
-  Title(banner_window_);
-
   while (true) {
-    refresh();
-    Title(banner_window_);
+    wrefresh(game_window_);
     PrintMenu(game_window_, highlight, choices);
     choice = wgetch(game_window_);
     switch (choice) {
@@ -84,7 +89,7 @@ void GameState::Start() {
     case 10:
       switch (static_cast<MainMenu>(highlight + 1)) {
       case MainMenu::PLAY:
-        // PlayerMenu();
+        PlayerMenu();
         break;
       case MainMenu::LOAD: {
         LoadGameMenu();
@@ -109,25 +114,48 @@ void GameState::Start() {
 }
 
 void GameState::PlayerMenu() {
-  PrintPlayerMenu();
-  const int min_choice = static_cast<int>(GameType::QUICK_GAME);
-  const int max_choice = static_cast<int>(GameType::BACK);
-  int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
-  switch (static_cast<GameType>(user_choice)) {
-  case GameType::QUICK_GAME: {
-    player::Single quick_game;
-    quick_game.Start();
-    break;
+  std::vector<std::string> choices = {"Quick Game", "Codemaster", "Back"};
+
+  int choice = 0;
+  int highlight = 0;
+
+  wclear(game_window_);
+  wrefresh(game_window_);
+
+  while (true) {
+    wrefresh(game_window_);
+    PrintMenu(game_window_, highlight, choices);
+    choice = wgetch(game_window_);
+    switch (choice) {
+    case KEY_UP:
+      --highlight;
+      if (highlight < 0)
+        highlight = choices.size() - 1;
+      break;
+    case KEY_DOWN:
+      ++highlight;
+      if (highlight >= choices.size())
+        highlight = 0;
+      break;
+    case 10:
+      switch (static_cast<GameType>(highlight + 1)) {
+      case GameType::QUICK_GAME: {
+        player::Single quick_game;
+        quick_game.Start();
+        break;
+      }
+      case GameType::CODEMASTER: {
+        player::Codemaster codemaster_player;
+        codemaster_player.Start();
+        break;
+      }
+      case GameType::BACK:
+        wclear(game_window_);
+        wrefresh(game_window_);
+        return;
+      }
+    }
   }
-  case GameType::CODEMASTER: {
-    player::Codemaster codemaster_player;
-    codemaster_player.Start();
-    break;
-  }
-  case GameType::BACK:
-    break;
-  }
-  Start();
 }
 
 void GameState::LoadGameMenu() {

@@ -1,5 +1,5 @@
 /**
- * @file util.cpp
+ * @file util.h
  * @brief Declaration of all game-wide utilities.
  */
 
