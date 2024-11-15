@@ -48,7 +48,7 @@ void PrintInstructions(WINDOW *window) {
   std::string instructions[] = {
       "Instructions:",
       "The secret code length and each digit range depend on the difficulty.",
-      "If you are Codebreaker, you have to crack the secret code.",
+      "If you are Codebreaker, crack the secret code.",
       "If you are Codemaster, create a secret code for the AI to crack.",
       "Each feedback character represents a digit in the secret code:",
       "- 'B' represents a correct digit in the correct position",

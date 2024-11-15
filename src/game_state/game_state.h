@@ -58,6 +58,11 @@ private:
   void Scoreboard(WINDOW *window);
 
   /**
+   * @brief Game instructions.
+   */
+  void Instructions(WINDOW *window);
+
+  /**
    * @brief Player game loop.
    *
    * This function is called at every end of a game. It prompts the user to

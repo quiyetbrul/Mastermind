@@ -78,12 +78,10 @@ void GameState::Start() {
         break;
       }
       case MainMenu::SCOREBOARD:
-        // TODO: PRINT SCORE ASCII ART
         Scoreboard(game_window_);
         break;
       case MainMenu::INSTRUCTIONS:
-        Logger::GetInstance().Log("Printing instructions");
-        PrintInstructions(game_window_);
+        Instructions(game_window_);
         break;
       case MainMenu::EXIT:
         wclear(banner_window_);
@@ -146,5 +144,10 @@ void GameState::LoadGameMenu(WINDOW *window) {
 void GameState::Scoreboard(WINDOW *window) {
   Logger::GetInstance().Log("Printing scoreboard");
   score_.PrintScores(window);
+}
+
+void GameState::Instructions(WINDOW *window) {
+  Logger::GetInstance().Log("Printing instructions");
+  PrintInstructions(window);
 }
 } // namespace mastermind
