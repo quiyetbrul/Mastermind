@@ -9,6 +9,7 @@
 #include <ncurses.h>
 
 #include "ui/banner.h"
+#include "util/util.h"
 
 void PrintMenu(WINDOW *menu_win, const int &highlight,
                const std::vector<std::string> &choices) {
@@ -54,16 +55,11 @@ void PrintInstructions(WINDOW *window) {
       "- 'W' represents a correct digit in the wrong position",
       "You have 10 chances to guess the secret code.",
       "You may save or exit the game at any time.",
-      "Good Luck!",
-      "Press enter to continue..."};
+      "Good Luck!"};
 
   for (const auto &instruction : instructions) {
     mvwprintw(window, y++, (x/2) - (instruction.length() / 2), instruction.c_str());
   }
-  int c = wgetch(window);
-  while (c != '\n') {
-    c = wgetch(window);
-  }
-  wclear(window);
-  wrefresh(window);
+  EnterToContinue(window, y);
+  return;
 }

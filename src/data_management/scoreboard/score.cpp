@@ -10,6 +10,8 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <ncurses.h>
 
+#include "util/util.h"
+
 namespace data_management {
 const int kTopScoreLimit = 10;
 
@@ -52,10 +54,8 @@ void Score::PrintScores(WINDOW *window) const {
     max_length_query.executeStep();
     int max_name_length = max_length_query.getColumn("USER_NAME").getInt();
 
-    // Define the headers
     std::string header[] = {"Name", "Score", "Time", "Difficulty"};
 
-    // Print the headers
     x = 2; // Starting x position for printing
     int col_width = max_name_length + x;
 
@@ -63,7 +63,7 @@ void Score::PrintScores(WINDOW *window) const {
       mvwprintw(window, y, x, head.c_str());
       x += col_width;
     }
-    ++y; // Move to the next line for the data
+    ++y;
 
     SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() +
                                      " ORDER BY SCORE DESC, ELAPSED_TIME ASC;");
@@ -80,11 +80,7 @@ void Score::PrintScores(WINDOW *window) const {
       ++y;
     }
   }
-  int c = wgetch(window);
-  while (c != '\n') {
-    c = wgetch(window);
-  }
-  wclear(window);
-  wrefresh(window);
+  EnterToContinue(window, y);
+  return;
 }
 } // namespace data_management
