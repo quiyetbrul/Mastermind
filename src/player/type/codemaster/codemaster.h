@@ -28,6 +28,7 @@ public:
    */
   void Start() override;
 
+private:
   /**
    * @brief Main game loop.
    *
