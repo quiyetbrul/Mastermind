@@ -6,9 +6,6 @@
 #ifndef UTIL_UTIL_H_
 #define UTIL_UTIL_H_
 
-#include <functional>
-#include <iostream>
-#include <limits>
 #include <string>
 
 #include <ncurses.h>
@@ -84,25 +81,12 @@ std::vector<int> GenRandom(const int &generate, const int &min, const int &max);
  */
 int RandomNumber(const int &min, const int &max);
 
-// TODO: think where this should be. UI maybe? it deals with menus
 /**
- * @brief Return to a specific function.
+ * @brief Prompts user to press the enter key to continue the app.
  *
- * This function prompts the user to press the enter key to return to a specific
- * function.
- *
- * @param where The name of the function to return to.
- * @param function The function to return to.
+ * @param window The window to display the message.
+ * @param y The y-coordinate of the message.
  */
-inline void ReturnTo(const std::string &where,
-                     const std::function<void()> &function) {
-  std::cout << "Press enter key to return to " << where << std::endl;
-  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-  std::cin.get();
-  std::cin.clear();
-  function();
-}
-
 inline void EnterToContinue(WINDOW *window, const int &y) {
   int _;
   int x;
@@ -111,10 +95,14 @@ inline void EnterToContinue(WINDOW *window, const int &y) {
   std::string press_enter = "Press enter to continue...";
   mvwprintw(window, y, (x / 2) - (press_enter.length() / 2),
             press_enter.c_str());
+
+  noecho();
+
   int c = wgetch(window);
   while (c != '\n') {
     c = wgetch(window);
   }
+
   wclear(window);
   wrefresh(window);
 }
