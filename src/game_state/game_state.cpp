@@ -50,7 +50,7 @@ GameState::GameState() {
   getmaxyx(stdscr, y_max_, x_max_);
 
   banner_window_ = newwin(10, x_max_, 0, 0);
-  game_window_ = newwin(20, x_max_, 10, 0);
+  game_window_ = newwin(20, x_max_, 11, 0);
 
   score_.SetWindow(game_window_);
   load_.SetWindow(game_window_);
@@ -77,14 +77,10 @@ void GameState::Start() {
     choice = wgetch(game_window_);
     switch (choice) {
     case KEY_UP:
-      --highlight;
-      if (highlight < 0)
-        highlight = choices.size() - 1;
+      UpdateHighlight(highlight, choices, -1);
       break;
     case KEY_DOWN:
-      ++highlight;
-      if (highlight >= choices.size())
-        highlight = 0;
+      UpdateHighlight(highlight, choices, 1);
       break;
     case 10:
       switch (static_cast<MainMenu>(highlight + 1)) {
@@ -102,6 +98,8 @@ void GameState::Start() {
         Instructions();
         break;
       case MainMenu::EXIT:
+        // TODO: use signal handler to properly close the program when the x
+        // button is clicked
         delwin(banner_window_);
         delwin(game_window_);
         endwin();
@@ -128,14 +126,10 @@ void GameState::PlayerMenu() {
     choice = wgetch(game_window_);
     switch (choice) {
     case KEY_UP:
-      --highlight;
-      if (highlight < 0)
-        highlight = choices.size() - 1;
+      UpdateHighlight(highlight, choices, -1);
       break;
     case KEY_DOWN:
-      ++highlight;
-      if (highlight >= choices.size())
-        highlight = 0;
+      UpdateHighlight(highlight, choices, 1);
       break;
     case 10:
       switch (static_cast<GameType>(highlight + 1)) {

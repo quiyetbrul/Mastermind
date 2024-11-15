@@ -119,6 +119,17 @@ inline void EnterToContinue(WINDOW *window, const int &y) {
   wrefresh(window);
 }
 
+inline void UpdateHighlight(int &highlight,
+                            const std::vector<std::string> &choices,
+                            const int &direction) {
+  highlight += direction;
+  if (highlight < 0) {
+    highlight = choices.size() - 1;
+  } else if (highlight >= choices.size()) {
+    highlight = 0;
+  }
+}
+
 /**
  * @brief Get string input from user.
  *
