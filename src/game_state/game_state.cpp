@@ -154,11 +154,7 @@ void GameState::PlayerMenu() {
 
 void GameState::LoadGameMenu() {
   Logger::GetInstance().Log("Printing saved games");
-  load_.PrintGames();
-  if (load_.GetCount() != 0) {
-    load_.SelectGame();
-    load_.Start();
-  }
+  load_.Start();
 }
 
 void GameState::Scoreboard() {
