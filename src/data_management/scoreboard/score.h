@@ -34,7 +34,12 @@ public:
   /**
    * @brief Prints the high scores.
    */
-  void PrintScores(WINDOW *window) const;
+  void PrintScores() const;
+
+  void SetWindow(WINDOW *window);
+
+private:
+  WINDOW *window_;
 };
 } // namespace data_management
 

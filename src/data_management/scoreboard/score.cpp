@@ -35,18 +35,17 @@ void Score::Save(const player::Player &player) {
   Insert(player);
 }
 
-// TODO: format output
-void Score::PrintScores(WINDOW *window) const {
+void Score::PrintScores() const {
   int y;
   int x;
-  getmaxyx(window, y, x);
+  getmaxyx(window_, y, x);
   y = 1;
-  wclear(window);
+  wclear(window_);
   std::string title = "Top Scores";
-  mvwprintw(window, y++, (x / 2) - (title.length() / 2), title.c_str());
+  mvwprintw(window_, y++, (x / 2) - (title.length() / 2), title.c_str());
   if (GetCount() < 1) {
     std::string no_score = "No scores yet!";
-    mvwprintw(window, y++, (x / 2) - (no_score.length() / 2), no_score.c_str());
+    mvwprintw(window_, y++, (x / 2) - (no_score.length() / 2), no_score.c_str());
   } else {
     // Determine the maximum length of user names
     SQLite::Statement max_length_query(
@@ -60,7 +59,7 @@ void Score::PrintScores(WINDOW *window) const {
     int col_width = max_name_length + x;
 
     for (const auto &head : header) {
-      mvwprintw(window, y, x, head.c_str());
+      mvwprintw(window_, y, x, head.c_str());
       x += col_width;
     }
     ++y;
@@ -69,18 +68,20 @@ void Score::PrintScores(WINDOW *window) const {
                                      " ORDER BY SCORE DESC, ELAPSED_TIME ASC;");
     while (query.executeStep()) {
       x = 2;
-      mvwprintw(window, y, x, "%s", query.getColumn("USER_NAME").getText());
+      mvwprintw(window_, y, x, "%s", query.getColumn("USER_NAME").getText());
       x += col_width;
-      mvwprintw(window, y, x, "%d", query.getColumn("SCORE").getInt());
+      mvwprintw(window_, y, x, "%d", query.getColumn("SCORE").getInt());
       x += col_width;
-      mvwprintw(window, y, x, "%.2fs",
+      mvwprintw(window_, y, x, "%.2fs",
                 query.getColumn("ELAPSED_TIME").getDouble());
       x += col_width;
-      mvwprintw(window, y, x, "%d", query.getColumn("DIFFICULTY").getInt());
+      mvwprintw(window_, y, x, "%d", query.getColumn("DIFFICULTY").getInt());
       ++y;
     }
   }
-  EnterToContinue(window, y);
+  EnterToContinue(window_, y);
   return;
 }
+
+void Score::SetWindow(WINDOW *window) { window_ = window; }
 } // namespace data_management

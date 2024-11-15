@@ -7,6 +7,7 @@
 #define DATA_MANAGEMENT_SAVED_GAMES_GAME_H_
 
 #include <SQLiteCpp/SQLiteCpp.h>
+#include <ncurses.h>
 
 #include "data_management/saved_games/saved_games.h"
 #include "player/player.h"
@@ -44,8 +45,11 @@ public:
    */
   void PrintGames() const;
 
+  void SetWindow(WINDOW *window);
+
 private:
   int limit_ = 3;
+  WINDOW *window_;
 
   int GetSaveLimit() const;
 };
