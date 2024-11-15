@@ -11,7 +11,6 @@ int main() {
   Logger::GetInstance().SetOutputFile(LOGGER_FILE_PATH);
   Logger::GetInstance().Log("Starting application");
   mastermind::GameState play;
-  play.Init();
   play.Start();
 
   return 0;
