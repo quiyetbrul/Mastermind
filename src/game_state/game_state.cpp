@@ -5,7 +5,6 @@
 
 #include "game_state.h"
 
-#include <ncurses.h>
 #include <string>
 
 #include "logger/logger.h"
@@ -14,6 +13,8 @@
 #include "ui/banner.h"
 #include "ui/menu.h"
 #include "util/util.h"
+
+#include <ncurses.h>
 
 /**
  * @enum MainMenu
@@ -96,13 +97,11 @@ void GameState::Start() {
         Instructions();
         break;
       case MainMenu::EXIT:
-        wclear(banner_window_);
-        wclear(game_window_);
-        wrefresh(banner_window_);
-        wrefresh(game_window_);
-        refresh();
         delwin(banner_window_);
         delwin(game_window_);
+        endwin();
+        ClearScreen();
+        CloseTerminal();
         return; // Exit the function to close the program
       }
     }

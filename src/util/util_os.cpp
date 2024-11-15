@@ -30,7 +30,7 @@ void CloseTerminal() {
   ExitProcess(0);
 #else
   // Close terminal on Unix-like systems
-  exit(0);
+  _exit(0);
 #endif
 }
 

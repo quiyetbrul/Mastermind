@@ -8,6 +8,7 @@
 
 #include "data_management/scoreboard/scoreboard.h"
 #include "player/player.h"
+
 #include <ncurses.h>
 
 namespace data_management {

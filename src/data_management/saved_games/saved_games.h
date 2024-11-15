@@ -10,6 +10,7 @@
 
 #include "data_management/database_manager.h"
 #include "player/player.h"
+
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <nlohmann/json.hpp>
 

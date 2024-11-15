@@ -6,9 +6,9 @@
 #ifndef GAMESTATE_GAMESTATE_H_
 #define GAMESTATE_GAMESTATE_H_
 
-#include "data_management/saved_games/game.h"
 #include "data_management/scoreboard/score.h"
 #include "load_game/load_game.h"
+
 #include <ncurses.h>
 
 namespace mastermind {

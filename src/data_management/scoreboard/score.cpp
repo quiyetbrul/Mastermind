@@ -7,10 +7,10 @@
 
 #include <iostream>
 
+#include "util/util.h"
+
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <ncurses.h>
-
-#include "util/util.h"
 
 namespace data_management {
 const int kTopScoreLimit = 10;
@@ -45,7 +45,8 @@ void Score::PrintScores() const {
   mvwprintw(window_, y++, (x / 2) - (title.length() / 2), title.c_str());
   if (GetCount() < 1) {
     std::string no_score = "No scores yet!";
-    mvwprintw(window_, y++, (x / 2) - (no_score.length() / 2), no_score.c_str());
+    mvwprintw(window_, y++, (x / 2) - (no_score.length() / 2),
+              no_score.c_str());
   } else {
     // Determine the maximum length of user names
     SQLite::Statement max_length_query(

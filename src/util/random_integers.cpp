@@ -5,12 +5,13 @@
 
 #include "util.h"
 
-#include <curl/curl.h>
 #include <random>
 #include <sstream>
 #include <string>
 
 #include "logger/logger.h"
+
+#include <curl/curl.h>
 
 // Callback function to handle the response
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb,

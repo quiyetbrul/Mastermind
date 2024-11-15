@@ -6,10 +6,10 @@
 #ifndef DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_
 #define DATA_MANAGEMENT_SCOREBOARD_SCOREBOARD_H_
 
-#include <SQLiteCpp/SQLiteCpp.h>
-
 #include "data_management/database_manager.h"
 #include "player/player.h"
+
+#include <SQLiteCpp/SQLiteCpp.h>
 
 namespace data_management {
 /**

@@ -6,7 +6,6 @@
 #include "menu.h"
 
 #include <iostream>
-#include <ncurses.h>
 
 #include "ui/banner.h"
 #include "util/util.h"
@@ -58,7 +57,8 @@ void PrintInstructions(WINDOW *window) {
       "Good Luck!"};
 
   for (const auto &instruction : instructions) {
-    mvwprintw(window, y++, (x/2) - (instruction.length() / 2), instruction.c_str());
+    mvwprintw(window, y++, (x / 2) - (instruction.length() / 2),
+              instruction.c_str());
   }
   EnterToContinue(window, y);
   return;
