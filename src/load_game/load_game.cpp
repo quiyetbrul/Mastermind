@@ -5,6 +5,8 @@
 
 #include "load_game.h"
 
+#include <algorithm>
+
 #include "util/util.h"
 
 namespace game_loader {
@@ -67,6 +69,7 @@ void LoadGame::SetGame() {
 }
 
 void LoadGame::SelectGame(int &y) {
+  // TODO: needed?
   int _;
   int x;
   getmaxyx(window_, _, x);
@@ -88,7 +91,9 @@ void LoadGame::SelectGame(int &y) {
                " ORDER BY LENGTH(GAME_NAME) DESC LIMIT 1;");
   int longest_name_length = 5;
   if (longest_name_query.executeStep()) {
-    longest_name_length = strlen(longest_name_query.getColumn(0).getText());
+    longest_name_length = std::max(
+        longest_name_length,
+        static_cast<int>(strlen(longest_name_query.getColumn(0).getText())));
   }
 
   std::string header[] = {"Game", "Difficulty"};
