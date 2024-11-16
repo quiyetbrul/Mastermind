@@ -4,42 +4,51 @@
  */
 
 #include <iostream>
+#include <ncurses.h>
 #include <string>
 #include <vector>
 
 #include "ui/banner.h"
 #include "util/util.h"
 
-void Title(WINDOW *win) {
+void PrintBanner(WINDOW *window, int &y, int &x,
+                 const std::vector<std::string> lines, int color_pair) {
+  wattron(window, COLOR_PAIR(color_pair));
+  for (const auto &line : lines) {
+    mvwprintw(window, ++y, x - (line.length() / 2), line.c_str());
+  }
+  wattroff(window, COLOR_PAIR(color_pair));
+}
+
+void Title(WINDOW *window) {
+  wclear(window);
+  wrefresh(window);
   // clang-format off
   std::vector<std::string> game_name={
   "_______ _______ _______ _______ _______  ______ _______ _____ __   _ ______ ",
   "|  |  | |_____| |______    |    |______ |_____/ |  |  |   |   | \\  | |     \\",
-  "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/"};
+  "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/k"};
   // clang-format on
 
   int y;
   int x;
-  getmaxyx(win, y, x);
+  getmaxyx(window, y, x);
   y = 1;
-  x /= 10;
+  x /= 2;
 
-  std::string welcome_in_morse =
-      "                      .-- . .-.. -.-. --- -- .    - --- ";
-  mvwprintw(win, ++y, x, welcome_in_morse.c_str());
+  std::string welcome_in_morse = ".-- . .-.. -.-. --- -- .    - --- ";
+  mvwprintw(window, ++y, x - (welcome_in_morse.length() / 2),
+            welcome_in_morse.c_str());
 
   init_pair(1, COLOR_CYAN, COLOR_BLACK);
-  wattron(win, COLOR_PAIR(1));
-  for (const auto &line : game_name) {
-    mvwprintw(win, ++y, x, line.c_str());
-  }
-  wattroff(win, COLOR_PAIR(1));
+  PrintBanner(window, y, x, game_name, 1);
 
   std::string by_in_rot13_morse =
-      "          --- .-..    -.. .... ...- .-.. .-. --.    --- . .... -.--";
-  mvwprintw(win, ++y, x, by_in_rot13_morse.c_str());
+      "--- .-..    -.. .... ...- .-.. .-. --.    --- . .... -.--";
+  mvwprintw(window, ++y, x - (by_in_rot13_morse.length() / 2),
+            by_in_rot13_morse.c_str());
 
-  wrefresh(win);
+  wrefresh(window);
 }
 
 // clang-format off
@@ -73,6 +82,29 @@ void Congratulations() {
   std::cout << ANSI_RESET;
 }
 
+void Congratulations(WINDOW* window){
+  wclear(window);
+  wrefresh(window);
+
+  // clang-format off
+  std::vector<std::string> congrats={
+  "____ ____ _  _ ____ ____ ____ ___ ____",
+  "|    |  | |\\ | | __ |__/ |__|  |  [__",
+  "|___ |__| | \\| |__] |  \\ |  |  |  ___]"};
+  // clang-format on
+
+  int y;
+  int x;
+  getmaxyx(window, y, x);
+  y = 1;
+  x /= 2;
+
+  init_pair(1, COLOR_GREEN, COLOR_BLACK);
+  PrintBanner(window, y, x, congrats, 1);
+  wrefresh(window);
+}
+// clang-format off
+
 void TryAgain() {
   std::cout << ANSI_COLOR_RED;
   std::cout << "                            ████████╗██████╗ ██╗   ██╗      █████╗  ██████╗  █████╗ ██╗███╗   ██╗\n";
@@ -84,6 +116,53 @@ void TryAgain() {
   std::cout << ANSI_RESET;
 }
 
+void TryAgain(WINDOW* window){
+  wclear(window);
+  wrefresh(window);
+
+  // clang-format off
+  std::vector<std::string> try_again={
+  "___ ____ _   _    ____ ____ ____ _ _  _",
+  " |  |__/  \\_/     |__| | __ |__| | |\\ |",
+  " |  |  \\   |      |  | |__] |  | | | \\|",
+  };
+  // clang-format on
+
+  int y;
+  int x;
+  getmaxyx(window, y, x);
+  y = 1;
+  x /= 2;
+
+  init_pair(1, COLOR_RED, COLOR_BLACK);
+  PrintBanner(window, y, x, try_again, 1);
+  wrefresh(window);
+}
+
+void Goodbye(WINDOW *window) {
+  wclear(window);
+  wrefresh(window);
+
+  // clang-format off
+  std::vector<std::string> goodbye={
+  "____ ____ ____ ___  ___  _   _ ____",
+  "| __ |  | |  | |  \\ |__]  \\_/  |___",
+  "|__] |__| |__| |__/ |__]   |   |___",
+  };
+  // clang-format on
+
+  int y;
+  int x;
+  getmaxyx(window, y, x);
+  y = 1;
+  x /= 2;
+
+  init_pair(1, COLOR_BLUE, COLOR_BLACK);
+  PrintBanner(window, y, x, goodbye, 1);
+  wrefresh(window);
+}
+
+// clang-format off
 void Goodbye() {
   ClearScreen();
   std::cout << ANSI_COLOR_BLUE;
