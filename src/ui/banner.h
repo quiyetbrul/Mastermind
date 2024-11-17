@@ -8,6 +8,8 @@
 
 #include <ncurses.h>
 
+// TODO: i probably don't need the other banners. just change colors
+
 /**
  * @brief Display the title banner.
  */
@@ -18,7 +20,7 @@ void Title();
  * @brief Display the congratulations banner.
  */
 void Congratulations();
-void Congratulations(WINDOW *window);
+void Congratulations(WINDOW *window, int &y);
 
 /**
  * @brief Display the try again banner.

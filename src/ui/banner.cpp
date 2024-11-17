@@ -12,10 +12,16 @@
 #include "util/util.h"
 
 void PrintBanner(WINDOW *window, int &y, int &x,
-                 const std::vector<std::string> lines, int color_pair) {
+                 const std::vector<std::string> lines, const int &color_pair) {
+  int longest_line = 0;
+  for (const auto &line : lines) {
+    if (line.length() > longest_line) {
+      longest_line = line.length();
+    }
+  }
   wattron(window, COLOR_PAIR(color_pair));
   for (const auto &line : lines) {
-    mvwprintw(window, ++y, x - (line.length() / 2), line.c_str());
+    mvwprintw(window, ++y, x - (longest_line / 2), line.c_str());
   }
   wattroff(window, COLOR_PAIR(color_pair));
 }
@@ -27,7 +33,7 @@ void Title(WINDOW *window) {
   std::vector<std::string> game_name={
   "_______ _______ _______ _______ _______  ______ _______ _____ __   _ ______ ",
   "|  |  | |_____| |______    |    |______ |_____/ |  |  |   |   | \\  | |     \\",
-  "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/k"};
+  "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/"};
   // clang-format on
 
   int y;
@@ -35,7 +41,6 @@ void Title(WINDOW *window) {
   getmaxyx(window, y, x);
   y = 1;
   x /= 2;
-
   std::string welcome_in_morse = ".-- . .-.. -.-. --- -- .    - --- ";
   mvwprintw(window, ++y, x - (welcome_in_morse.length() / 2),
             welcome_in_morse.c_str());
@@ -82,8 +87,8 @@ void Congratulations() {
   std::cout << ANSI_RESET;
 }
 
-void Congratulations(WINDOW* window){
-  wclear(window);
+void Congratulations(WINDOW* window, int &y){
+  // wclear(window);
   wrefresh(window);
 
   // clang-format off
@@ -93,10 +98,9 @@ void Congratulations(WINDOW* window){
   "|___ |__| | \\| |__] |  \\ |  |  |  ___]"};
   // clang-format on
 
-  int y;
+  int _;
   int x;
-  getmaxyx(window, y, x);
-  y = 1;
+  getmaxyx(window, _, x);
   x /= 2;
 
   init_pair(1, COLOR_GREEN, COLOR_BLACK);
