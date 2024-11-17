@@ -17,7 +17,11 @@ void Codemaster::Start() {
   wclear(window_);
   wrefresh(window_);
 
-  // TODO: set difficulty
+  int highlight = InputDifficulty(window_);
+  if (highlight == 3) {
+    return;
+  }
+  SetDifficulty(highlight + 1);
   // SetSecretCode(
   //     InputGuess("Enter your secret code: ", GetSecretCodeLength(),
   //                        GetSecretCodeMinDigit(), GetSecretCodeMaxDigit()));

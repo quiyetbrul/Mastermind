@@ -8,6 +8,9 @@
 #include <algorithm>
 #include <iostream>
 
+#include "ui/menu.h"
+#include "util/util.h"
+
 namespace player {
 std::vector<int> InputGuess(const std::string &prompt,
                             const int &secret_code_length,
@@ -67,8 +70,8 @@ void PrintSolvedSummary(const std::vector<int> secret_code,
             << " seconds." << std::endl;
 }
 
-void PrintSolvedSummary(WINDOW *window, int &y, int x,
-                        const int &guesses_size, const double &elapsed_time) {
+void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
+                        const double &elapsed_time) {
   x /= 2;
   std::string summary = "Solved in " + std::to_string(guesses_size) +
                         " guesses and " + std::to_string(elapsed_time) +
@@ -146,5 +149,33 @@ void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code) {
     x += 2;
   }
   wrefresh(window);
+}
+
+int InputDifficulty(WINDOW *window) {
+  std::vector<std::string> difficulty_options = {"Easy", "Medium", "Hard",
+                                                 "Back"};
+  int choice = 0;
+  int highlight = 0;
+
+  bool loop = true;
+  while (loop) {
+    wclear(window);
+    wrefresh(window);
+    PrintMenu(window, highlight, difficulty_options);
+    choice = wgetch(window);
+    switch (choice) {
+    case KEY_UP:
+      UpdateHighlight(highlight, difficulty_options, -1);
+      break;
+    case KEY_DOWN:
+      UpdateHighlight(highlight, difficulty_options, 1);
+      break;
+    case 10:
+      wclear(window);
+      wrefresh(window);
+      loop = false;
+    }
+  }
+  return highlight;
 }
 } // namespace player
