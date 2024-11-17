@@ -5,9 +5,6 @@
 
 #include "menu.h"
 
-#include <iostream>
-
-#include "ui/banner.h"
 #include "util/util.h"
 
 void PrintMenu(WINDOW *menu_win, const int &highlight,
@@ -29,13 +26,6 @@ void PrintMenu(WINDOW *menu_win, const int &highlight,
     ++y;
   }
   wrefresh(menu_win);
-}
-
-void PrintPlayerMenu() {
-  Title();
-  std::cout << "1. Quick game\n";
-  std::cout << "2. Codemaster\n";
-  std::cout << "3. Back\n";
 }
 
 void PrintInstructions(WINDOW *window) {

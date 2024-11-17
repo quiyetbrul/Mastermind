@@ -12,15 +12,10 @@
 #include <ncurses.h>
 
 /**
- * @brief Print the main menu.
+ * @brief Print a menu.
  */
 void PrintMenu(WINDOW *window, const int &highlight,
                const std::vector<std::string> &choices);
-
-/**
- * @brief Print the player menu.
- */
-void PrintPlayerMenu();
 
 /**
  * @brief Print the instructions.
