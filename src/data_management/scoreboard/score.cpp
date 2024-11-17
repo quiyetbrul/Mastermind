@@ -5,8 +5,6 @@
 
 #include "score.h"
 
-#include <iostream>
-
 #include "util/util.h"
 
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -23,9 +21,6 @@ void Score::Save(const player::Player &player) {
       player.GetScore() < lowest_score.getColumn("SCORE").getInt()) {
     return;
   }
-
-  std::cout << "You made it to the scoreboard!" << std::endl;
-  logger_.Log("You made it to the scoreboard!");
 
   if (GetCount() >= kTopScoreLimit) {
     Update(lowest_score, player);
