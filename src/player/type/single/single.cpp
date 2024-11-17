@@ -97,7 +97,6 @@ void Single::GameLoop() {
       mvwprintw(window_, y++, (x_max / 2) - (message.length() / 2),
                 message.c_str());
       score_.Save(*this);
-      init_pair(1, COLOR_CYAN, COLOR_BLACK);
       break;
     }
 
@@ -106,11 +105,11 @@ void Single::GameLoop() {
     if (GetLife() == 0) {
       init_pair(1, COLOR_RED, COLOR_BLACK);
       PrintCode(window_, y, x_max, GetSecretCode());
-      init_pair(1, COLOR_CYAN, COLOR_BLACK);
       break;
     }
   }
   EnterToContinue(window_, y);
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
 }
 
 void Single::SetWindow(WINDOW *window) { window_ = window; }

@@ -42,6 +42,10 @@ void Codemaster::GameLoop() {
   y = 0;
   StartTime();
   while (GetLife() > 0) {
+    wrefresh(window_);
+    mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+              GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+              GetSecretCodeMaxDigit());
     AddToGuessHistory(guess);
     PrintGuess(window_, y, x, guess, GetLastFeedBack());
 
@@ -51,7 +55,6 @@ void Codemaster::GameLoop() {
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
       PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
-      init_pair(1, COLOR_CYAN, COLOR_BLACK);
       break;
     }
 
@@ -60,7 +63,6 @@ void Codemaster::GameLoop() {
     if (GetLife() == 0) {
       init_pair(1, COLOR_RED, COLOR_BLACK);
       PrintCode(window_, y, x, GetSecretCode());
-      init_pair(1, COLOR_CYAN, COLOR_BLACK);
       break;
     }
 
@@ -69,6 +71,7 @@ void Codemaster::GameLoop() {
     guess = computer.MakeGuess();
   }
   EnterToContinue(window_, y);
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
 }
 
 void Codemaster::SetWindow(WINDOW *window) { window_ = window; }
