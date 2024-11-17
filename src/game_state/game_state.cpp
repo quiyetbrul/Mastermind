@@ -33,7 +33,7 @@ enum class MainMenu : int {
  * @brief Represents the types of players.
  */
 enum class GameType : int {
-  QUICK_GAME = 1, /**< Quick game mode */
+  SINGLE_PLAYER = 1, /**< Single player mode */
   CODEMASTER,     /**< Play as codemaster */
   BACK            /**< Go back to main menu */
 };
@@ -109,7 +109,7 @@ void GameState::Start() {
 }
 
 void GameState::PlayerMenu() {
-  std::vector<std::string> choices = {"Quick Game", "Codemaster", "Back"};
+  std::vector<std::string> choices = {"Single Player", "Codemaster", "Back"};
 
   int choice = 0;
   int highlight = 0;
@@ -130,9 +130,10 @@ void GameState::PlayerMenu() {
       break;
     case 10:
       switch (static_cast<GameType>(highlight + 1)) {
-      case GameType::QUICK_GAME: {
-        player::Single quick_game;
-        quick_game.Start();
+      case GameType::SINGLE_PLAYER: {
+        player::Single single_player;
+        single_player.SetWindow(game_window_);
+        single_player.Start();
         return;
       }
       case GameType::CODEMASTER: {
