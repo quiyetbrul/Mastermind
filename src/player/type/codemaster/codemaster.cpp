@@ -8,20 +8,23 @@
 #include <string>
 
 #include "logger/logger.h"
-#include "player/util/util.h"
 #include "player/type/codemaster/codebreaker/codebreaker.h"
+#include "player/util/util.h"
 #include "ui/banner.h"
+#include "util/util.h"
 
 namespace player {
 void Codemaster::Start() {
   Logger::GetInstance().Log("Starting computer as codebreaker game");
-  Title();
+  wclear(window_);
+  wrefresh(window_);
 
   // TODO: set difficulty
-  SetSecretCode(
-      InputGuess("Enter your secret code: ", GetSecretCodeLength(),
-                         GetSecretCodeMinDigit(), GetSecretCodeMaxDigit()));
-
+  // SetSecretCode(
+  //     InputGuess("Enter your secret code: ", GetSecretCodeLength(),
+  //                        GetSecretCodeMinDigit(), GetSecretCodeMaxDigit()));
+  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
+                          GetSecretCodeMaxDigit()));
   GameLoop();
 }
 
@@ -30,25 +33,33 @@ void Codemaster::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                        GetSecretCodeMaxDigit());
+  int y;
+  int x;
+  getmaxyx(window_, y, x);
+  box(window_, 0, 0);
+  y = 0;
   StartTime();
   while (GetLife() > 0) {
     AddToGuessHistory(guess);
-    PrintGuess(guess, GetLastFeedBack());
+    PrintGuess(window_, y, x, guess, GetLastFeedBack());
     DecrementLife();
 
     if (guess == GetSecretCode()) {
       EndTime();
       SaveElapsedTime();
-      Congratulations();
       SetScore(GetLife());
-      PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
-                                 GetElapsedTime());
+      init_pair(1, COLOR_GREEN, COLOR_BLACK);
+      PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
+      EnterToContinue(window_, y);
+      init_pair(1, COLOR_CYAN, COLOR_BLACK);
       break;
     }
 
     if (GetLife() == 0) {
       TryAgain();
-      PrintCode(GetSecretCode());
+      TryAgain(window_);
+      y = 4;
+      PrintCode(window_, y, x, GetSecretCode());
       break;
     }
 
@@ -57,4 +68,6 @@ void Codemaster::GameLoop() {
     guess = computer.MakeGuess();
   }
 }
+
+void Codemaster::SetWindow(WINDOW *window) { window_ = window; }
 } // namespace player
