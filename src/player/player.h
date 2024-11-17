@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+#include "logger/logger.h"
+
 namespace player {
 /**
  * @class Player
@@ -104,6 +106,8 @@ protected:
   static constexpr int kEasyDifficulty = 1;
   static constexpr int kMediumDifficulty = 2;
   static constexpr int kHardDifficulty = 3;
+
+  Logger &logger_ = Logger::GetInstance();
 
   /**
    * @brief Decrements the player's life.

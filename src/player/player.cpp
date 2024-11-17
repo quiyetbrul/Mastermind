@@ -188,7 +188,6 @@ void Player::SetDifficulty(const int &difficulty) {
     SetSecretCodeLength(kHardCodeLength);
     break;
   }
-  Logger &logger_ = Logger::GetInstance();
   logger_.Log("Difficulty set to " + std::to_string(difficulty));
   difficulty_ = difficulty;
 }

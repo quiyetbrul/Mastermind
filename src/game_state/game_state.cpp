@@ -40,7 +40,7 @@ enum class GameType : int {
 
 namespace mastermind {
 GameState::GameState() {
-  Logger::GetInstance().Log("Initializing game state");
+  logger_.Log("Initializing game state");
 
   SetTerminalSize(kTerminalWidth, kTerminalHeight);
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
@@ -152,21 +152,21 @@ void GameState::PlayerMenu() {
 }
 
 void GameState::LoadGameMenu() {
-  Logger::GetInstance().Log("Printing saved games");
+  logger_.Log("Printing saved games");
   game_loader::LoadGame load;
   load.SetWindow(game_window_);
   load.Start();
 }
 
 void GameState::Scoreboard() {
-  Logger::GetInstance().Log("Printing scoreboardooo");
+  logger_.Log("Printing scoreboardooo");
   data_management::Score score;
   score.SetWindow(game_window_);
   score.PrintScores();
 }
 
 void GameState::Instructions() {
-  Logger::GetInstance().Log("Printing instructions");
+  logger_.Log("Printing instructions");
   PrintInstructions(game_window_);
 }
 } // namespace mastermind

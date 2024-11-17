@@ -38,6 +38,8 @@ private:
   WINDOW *banner_window_;
   WINDOW *game_window_;
 
+  Logger& logger_ = Logger::GetInstance();
+
   /**
    * @brief Player's game menu.
    */

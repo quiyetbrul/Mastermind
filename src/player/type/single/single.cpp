@@ -15,7 +15,7 @@
 
 namespace player {
 void Single::Start() {
-  Logger::GetInstance().Log("Starting player's quick game");
+  logger_.Log("Starting player's quick game");
   Title();
 
   SetDifficulty(InputInteger("Enter difficulty (1: easy, 2: medium, 3: hard): ",
