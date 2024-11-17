@@ -7,14 +7,13 @@
 
 #include <string>
 
-#include "logger/logger.h"
 #include "player/type/codemaster/codebreaker/codebreaker.h"
 #include "player/util/util.h"
 #include "util/util.h"
 
 namespace player {
 void Codemaster::Start() {
-  Logger::GetInstance().Log("Starting computer as codebreaker game");
+  logger_.Log("Starting computer as codebreaker game");
   wclear(window_);
   wrefresh(window_);
 
