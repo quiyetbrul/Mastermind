@@ -42,7 +42,6 @@ void Codemaster::GameLoop() {
   while (GetLife() > 0) {
     AddToGuessHistory(guess);
     PrintGuess(window_, y, x, guess, GetLastFeedBack());
-    DecrementLife();
 
     if (guess == GetSecretCode()) {
       EndTime();
@@ -55,11 +54,13 @@ void Codemaster::GameLoop() {
       break;
     }
 
+    DecrementLife();
+
     if (GetLife() == 0) {
-      TryAgain();
-      TryAgain(window_);
-      y = 4;
+      init_pair(1, COLOR_RED, COLOR_BLACK);
       PrintCode(window_, y, x, GetSecretCode());
+      EnterToContinue(window_, y);
+      init_pair(1, COLOR_CYAN, COLOR_BLACK);
       break;
     }
 
