@@ -39,7 +39,8 @@ Player::Player(int &life, int &score, const std::vector<int> &secret_code,
 }
 
 bool Player::IsGameFinished() const {
-  return GetLife() == 0 || GetGuesses().back().first == GetSecretCode();
+  return GetLife() == 0 ||
+         (!GetGuesses().empty() && GetGuesses().back().first == GetSecretCode());
 }
 
 void Player::DecrementLife() { --life_; }
