@@ -84,5 +84,14 @@ void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
  */
 void PrintCode(std::vector<int> code);
 void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code);
+
+/**
+ * @brief Prompts the player to select the game difficulty or to go back to the
+ * previous screen.
+ *
+ * @param window The window to display the selection.
+ * @return int The player's selection.
+ */
+int InputDifficulty(WINDOW *window);
 } // namespace player
 #endif // PLAYER_UTIL_UTIL_H_
