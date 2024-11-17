@@ -44,8 +44,8 @@ void PrintInstructions(WINDOW *window) {
       "Each feedback character represents a digit in the secret code:",
       "- 'B' represents a correct digit in the correct position",
       "- 'W' represents a correct digit in the wrong position",
-      "You have 10 chances to guess the secret code.",
-      "You may save or exit the game at any time.",
+      "You have 10 chances to guess the secret code, and you have 3 [h]ints.",
+      "You may [s]ave or [e]xit the game at any time.",
       "Good Luck!"};
 
   for (const auto &instruction : instructions) {
