@@ -13,10 +13,11 @@
 #include "util/util.h"
 
 namespace player {
-std::vector<int> InputGuess(WINDOW *window, int &y, std::string prompt,
-                            const int &secret_code_length,
-                            const int &secret_code_min_digit,
-                            const int &secret_code_max_digit) {
+std::string InputGuess(WINDOW *window, int &y, std::string prompt,
+                       const int &secret_code_length,
+                       const int &secret_code_min_digit,
+                       const int &secret_code_max_digit,
+                       const bool &is_single) {
   int _;
   int x;
   getmaxyx(window, _, x);
@@ -28,6 +29,10 @@ std::vector<int> InputGuess(WINDOW *window, int &y, std::string prompt,
 
     wmove(window, y + 1, x - 2);
     input = InputString(window, y, prompt);
+
+    if (is_single && (input == "s" || input == "h" || input == "e")) {
+      return input;
+    }
 
     if (input.length() != secret_code_length) {
       prompt = "Input must be exactly " + std::to_string(secret_code_length) +
@@ -49,6 +54,14 @@ std::vector<int> InputGuess(WINDOW *window, int &y, std::string prompt,
     break;
   }
 
+  std::vector<int> result(input.begin(), input.end());
+  std::transform(result.begin(), result.end(), result.begin(),
+                 [](char c) { return c - '0'; });
+
+  return input;
+}
+
+std::vector<int> ToVector(std::string input) {
   std::vector<int> result(input.begin(), input.end());
   std::transform(result.begin(), result.end(), result.begin(),
                  [](char c) { return c - '0'; });
