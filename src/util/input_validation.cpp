@@ -60,19 +60,28 @@ std::string InputString(WINDOW *window, int y, const std::string &prompt) {
   x /= 2;
   std::string input;
 
-  mvwprintw(window, y, x - (prompt.length() / 2) - 10, prompt.c_str());
+  while (true) {
+    mvwprintw(window, y, x - (prompt.length() / 2) - 10, prompt.c_str());
+    wmove(window, y, x - (prompt.length() / 2) - 10 + prompt.length() + 1);
+    wrefresh(window);
 
-  wmove(window, y, x - (prompt.length() / 2) - 10 + prompt.length() + 1);
+    echo();
+    curs_set(1);
+    char buffer[256];
+    wgetnstr(window, buffer, sizeof(buffer) - 1);
+    input = std::string(buffer);
+    curs_set(0);
+    noecho();
 
-  wrefresh(window);
+    if (!input.empty()) {
+      break;
+    }
 
-  echo();
-  curs_set(1);
-  char buffer[256];
-  wgetnstr(window, buffer, sizeof(buffer) - 1);
-  input = std::string(buffer);
-  curs_set(0);
-  noecho();
+    wmove(window, y, 0);
+    wclrtoeol(window);
+    mvwprintw(window, y, x - (prompt.length() / 2) - 10,
+              "Input cannot be empty. ");
+  }
 
   wmove(window, y, 0);
   wclrtobot(window);
