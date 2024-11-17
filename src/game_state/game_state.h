@@ -38,9 +38,6 @@ private:
   WINDOW *banner_window_;
   WINDOW *game_window_;
 
-  data_management::Score score_;
-  game_loader::LoadGame load_;
-
   /**
    * @brief Player's game menu.
    */

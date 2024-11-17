@@ -50,10 +50,7 @@ GameState::GameState() {
   getmaxyx(stdscr, y_max_, x_max_);
 
   banner_window_ = newwin(10, x_max_, 0, 0);
-  game_window_ = newwin(20, x_max_, 11, 0);
-
-  score_.SetWindow(game_window_);
-  load_.SetWindow(game_window_);
+  game_window_ = newwin(20, x_max_, 10, 0);
 
   start_color();
 
@@ -136,12 +133,13 @@ void GameState::PlayerMenu() {
       case GameType::QUICK_GAME: {
         player::Single quick_game;
         quick_game.Start();
-        break;
+        return;
       }
       case GameType::CODEMASTER: {
         player::Codemaster codemaster_player;
+        codemaster_player.SetWindow(game_window_);
         codemaster_player.Start();
-        break;
+        return;
       }
       case GameType::BACK:
         wclear(game_window_);
@@ -154,12 +152,16 @@ void GameState::PlayerMenu() {
 
 void GameState::LoadGameMenu() {
   Logger::GetInstance().Log("Printing saved games");
-  load_.Start();
+  game_loader::LoadGame load;
+  load.SetWindow(game_window_);
+  load.Start();
 }
 
 void GameState::Scoreboard() {
-  Logger::GetInstance().Log("Printing scoreboard");
-  score_.PrintScores();
+  Logger::GetInstance().Log("Printing scoreboardooo");
+  data_management::Score score;
+  score.SetWindow(game_window_);
+  score.PrintScores();
 }
 
 void GameState::Instructions() {
