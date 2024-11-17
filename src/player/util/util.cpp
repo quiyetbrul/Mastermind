@@ -67,6 +67,16 @@ void PrintSolvedSummary(const std::vector<int> secret_code,
             << " seconds." << std::endl;
 }
 
+void PrintSolvedSummary(WINDOW *window, int &y, int x,
+                        const int &guesses_size, const double &elapsed_time) {
+  x /= 2;
+  std::string summary = "Solved in " + std::to_string(guesses_size) +
+                        " guesses and " + std::to_string(elapsed_time) +
+                        " seconds.";
+  mvwprintw(window, y++, x - (summary.length() / 2), summary.c_str());
+  wrefresh(window);
+}
+
 std::string GiveFeedback(const std::vector<int> &guess,
                          const std::vector<int> &code,
                          const int &secret_code_length) {
@@ -107,10 +117,34 @@ void PrintGuess(const std::vector<int> &guess, const std::string &feedback) {
   std::cout << "   " << feedback << std::endl;
 }
 
+void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
+                const std::string &feedback) {
+  x /= 2;
+  // 4 numbers + (2 * 4 spaces between numbers)
+  // 4 letter feedback + 4 spaces after the guess
+  // / 2 to center
+  x -= 10;
+  for (const auto &i : guess) {
+    mvwprintw(window, y, x, "%d ", i);
+    x += 2;
+  }
+  mvwprintw(window, y++, x + 4, feedback.c_str());
+  wrefresh(window);
+}
+
 void PrintCode(std::vector<int> code) {
   for (const auto &i : code) {
     std::cout << i << " ";
   }
   std::cout << std::endl;
+}
+
+void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code) {
+  x /= 2;
+  for (const auto &i : code) {
+    mvwprintw(window, y, x, "%d ", i);
+    x += 2;
+  }
+  wrefresh(window);
 }
 } // namespace player

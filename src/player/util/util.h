@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include <ncurses.h>
+
 namespace player {
 /**
  * @brief Generates feedback for a guess based on the secret code.
@@ -46,14 +48,18 @@ std::string GiveHint(const std::vector<int> &guess,
  */
 void PrintSolvedSummary(const std::vector<int> secret_code,
                         const int &guesses_size, const double &elapsed_time);
+void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
+                        const double &elapsed_time);
 
 /**
  * @brief Prompts the player to input a guess.
  *
  * @param prompt The prompt to display to the player.
  * @param secret_code_length The length of the secret code.
- * @param secret_code_min_digit The minimum digit allowed in the secret code.
- * @param secret_code_max_digit The maximum digit allowed in the secret code.
+ * @param secret_code_min_digit The minimum digit allowed in the secret
+ * code.
+ * @param secret_code_max_digit The maximum digit allowed in the secret
+ * code.
  * @return std::vector<int> A vector containing the player's guess.
  */
 std::vector<int> InputGuess(const std::string &prompt,
@@ -68,6 +74,8 @@ std::vector<int> InputGuess(const std::string &prompt,
  * @param feedback The feedback for the guess.
  */
 void PrintGuess(const std::vector<int> &guess, const std::string &feedback);
+void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
+                const std::string &feedback);
 
 /**
  * @brief Prints the player's secret code.
@@ -75,5 +83,6 @@ void PrintGuess(const std::vector<int> &guess, const std::string &feedback);
  * @param code The player's secret code.
  */
 void PrintCode(std::vector<int> code);
+void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code);
 } // namespace player
 #endif // PLAYER_UTIL_UTIL_H_
