@@ -69,6 +69,7 @@ void GameState::Start() {
   int highlight = 0;
 
   while (true) {
+    wclear(game_window_);
     wrefresh(game_window_);
     PrintMenu(game_window_, highlight, choices);
     choice = wgetch(game_window_);
@@ -134,13 +135,19 @@ void GameState::PlayerMenu() {
         player::Single single_player;
         single_player.SetWindow(game_window_);
         single_player.Start();
-        return;
+        if (single_player.IsGameFinished()) {
+          return;
+        }
+        break;
       }
       case GameType::CODEMASTER: {
         player::Codemaster codemaster_player;
         codemaster_player.SetWindow(game_window_);
         codemaster_player.Start();
-        return;
+        if (codemaster_player.IsGameFinished()) {
+          return;
+        }
+        break;
       }
       case GameType::BACK:
         wclear(game_window_);
