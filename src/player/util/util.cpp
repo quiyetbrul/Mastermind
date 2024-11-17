@@ -74,7 +74,7 @@ void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
                         const double &elapsed_time) {
   x /= 2;
   std::string summary = "Solved in " + std::to_string(guesses_size) +
-                        " guesses and " + std::to_string(elapsed_time) +
+                        " guess(es) and " + std::to_string(elapsed_time) +
                         " seconds.";
   mvwprintw(window, y++, x - (summary.length() / 2), summary.c_str());
   wrefresh(window);
