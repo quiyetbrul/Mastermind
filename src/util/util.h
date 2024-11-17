@@ -129,6 +129,7 @@ inline void UpdateHighlight(int &highlight, const std::vector<T> &choices,
  * @return std::string The validated string input.
  */
 std::string InputString(const std::string &prompt);
+std::string InputString(WINDOW *window, int y, const std::string &prompt);
 
 /**
  * @brief Get integer input from user.

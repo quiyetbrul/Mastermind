@@ -53,6 +53,33 @@ std::string InputString(const std::string &prompt) {
   return input;
 }
 
+std::string InputString(WINDOW *window, int y, const std::string &prompt) {
+  int _;
+  int x;
+  getmaxyx(window, _, x);
+  x /= 2;
+  std::string input;
+
+  mvwprintw(window, y, x - (prompt.length() / 2) - 10, prompt.c_str());
+
+  wmove(window, y, x - (prompt.length() / 2) - 10 + prompt.length() + 1);
+
+  wrefresh(window);
+
+  echo();
+  curs_set(1);
+  char buffer[256];
+  wgetnstr(window, buffer, sizeof(buffer) - 1);
+  input = std::string(buffer);
+  curs_set(0);
+  noecho();
+
+  wmove(window, y, 0);
+  wclrtobot(window);
+
+  return input;
+}
+
 char InputChar(const std::string &prompt, const char &yes, const char &no) {
   char input;
   do {
