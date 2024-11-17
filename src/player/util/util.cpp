@@ -7,23 +7,31 @@
 
 #include <algorithm>
 #include <iostream>
+#include <ncurses.h>
 
 #include "ui/menu.h"
 #include "util/util.h"
 
 namespace player {
-std::vector<int> InputGuess(const std::string &prompt,
+std::vector<int> InputGuess(WINDOW *window, int &y, std::string prompt,
                             const int &secret_code_length,
                             const int &secret_code_min_digit,
                             const int &secret_code_max_digit) {
+  int _;
+  int x;
+  getmaxyx(window, _, x);
+  x /= 2;
   std::string input;
+
   while (true) {
-    std::cout << prompt;
-    std::cin >> input;
+    wrefresh(window);
+
+    wmove(window, y + 1, x - 2);
+    input = InputString(window, y, prompt);
 
     if (input.length() != secret_code_length) {
-      std::cout << "Input must be exactly " << secret_code_length
-                << " digits long." << std::endl;
+      prompt = "Input must be exactly " + std::to_string(secret_code_length) +
+               " digits long.";
       continue;
     }
 
@@ -32,8 +40,9 @@ std::vector<int> InputGuess(const std::string &prompt,
                        return c >= '0' + secret_code_min_digit &&
                               c <= '0' + secret_code_max_digit;
                      })) {
-      std::cout << "Each digit must be between " << secret_code_min_digit
-                << " and " << secret_code_max_digit << "." << std::endl;
+      prompt = "Each digit must be between " +
+               std::to_string(secret_code_min_digit) + " and " +
+               std::to_string(secret_code_max_digit) + ".";
       continue;
     }
 
@@ -128,7 +137,7 @@ void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
   // / 2 to center
   x -= 10;
   for (const auto &i : guess) {
-    mvwprintw(window, y, x, "%d ", i);
+    mvwprintw(window, y, x, "%d", i);
     x += 2;
   }
   mvwprintw(window, y++, x + 4, feedback.c_str());
@@ -145,9 +154,10 @@ void PrintCode(std::vector<int> code) {
 void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code) {
   x /= 2;
   for (const auto &i : code) {
-    mvwprintw(window, y, x, "%d ", i);
+    mvwprintw(window, y, x - 4, "%d ", i);
     x += 2;
   }
+  y++;
   wrefresh(window);
 }
 

@@ -54,6 +54,7 @@ void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
 /**
  * @brief Prompts the player to input a guess.
  *
+ * @param window The window to display the prompt.
  * @param prompt The prompt to display to the player.
  * @param secret_code_length The length of the secret code.
  * @param secret_code_min_digit The minimum digit allowed in the secret
@@ -62,7 +63,7 @@ void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
  * code.
  * @return std::vector<int> A vector containing the player's guess.
  */
-std::vector<int> InputGuess(const std::string &prompt,
+std::vector<int> InputGuess(WINDOW *window, int &y, std::string prompt,
                             const int &secret_code_length,
                             const int &secret_code_min_digit,
                             const int &secret_code_max_digit);
