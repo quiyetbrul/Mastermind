@@ -10,7 +10,6 @@
 #include "logger/logger.h"
 #include "player/type/codemaster/codebreaker/codebreaker.h"
 #include "player/util/util.h"
-#include "ui/banner.h"
 #include "util/util.h"
 
 namespace player {
