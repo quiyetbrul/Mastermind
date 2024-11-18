@@ -9,6 +9,7 @@
 
 #include "player/type/codemaster/codebreaker/codebreaker.h"
 #include "player/util/util.h"
+#include "ui/menu.h"
 #include "util/util.h"
 
 namespace player {

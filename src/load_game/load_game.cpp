@@ -5,7 +5,7 @@
 
 #include "load_game.h"
 
-#include "util/util.h"
+#include "ui/menu.h"
 
 namespace game_loader {
 LoadGame::LoadGame() {}

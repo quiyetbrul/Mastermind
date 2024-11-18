@@ -5,9 +5,8 @@
 
 #include "menu.h"
 
-#include "util/util.h"
-
-void PrintHeader(WINDOW* window, int & y, const std::vector<std::string>& header, const int& longest_name_length) {
+void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
+                 const int &longest_name_length) {
   int _;
   int x;
   getmaxyx(window, _, x);
@@ -70,4 +69,24 @@ void PrintInstructions(WINDOW *window) {
   }
   EnterToContinue(window, y);
   return;
+}
+
+void EnterToContinue(WINDOW *window, const int &y) {
+  int _;
+  int x;
+  getmaxyx(window, _, x);
+
+  std::string press_enter = "Press enter to continue...";
+  mvwprintw(window, y, (x / 2) - (press_enter.length() / 2),
+            press_enter.c_str());
+
+  noecho();
+
+  int c = wgetch(window);
+  while (c != '\n') {
+    c = wgetch(window);
+  }
+
+  wclear(window);
+  wrefresh(window);
 }
