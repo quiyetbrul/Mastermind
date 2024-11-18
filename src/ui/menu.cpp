@@ -5,40 +5,97 @@
 
 #include "menu.h"
 
-#include <iostream>
+void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
+                 const int &longest_name_length) {
+  int x = getmaxx(window);
+  x /= 2;
+  int temp = x;
+  int col_width = longest_name_length + x;
+  int total_width = header.size() * longest_name_length;
+  for (const auto &head : header) {
+    temp += col_width;
+    mvwprintw(window, y, (temp / 4) + total_width, head.c_str());
+  }
+  ++y;
 
-#include "ui/banner.h"
-
-void PrintMenu() {
-  Title();
-  std::cout << "1. Play\n";
-  std::cout << "2. Load Game\n";
-  std::cout << "3. Scoreboard\n";
-  std::cout << "4. Instructions\n";
-  std::cout << "5. Exit\n";
+  wrefresh(window);
 }
 
-void PrintPlayerMenu() {
-  Title();
-  std::cout << "1. Quick game\n";
-  std::cout << "2. Codemaster\n";
-  std::cout << "3. Back\n";
+void PrintMenu(WINDOW *window, const int &highlight,
+               const std::vector<std::string> &choices,
+               const std::string &menu_title) {
+  wclear(window);
+
+  int y = 0;
+  int x = getmaxx(window);
+  PrintHL(window);
+  x /= 2;
+
+  mvwprintw(window, y++, x - (menu_title.size() / 2), "%s", menu_title.c_str());
+
+  // y = 2;
+  for (int i = 0; i < choices.size(); ++i) {
+    if (highlight == i) {
+      wattron(window, A_STANDOUT);
+      mvwprintw(window, y, x - (choices[i].length() / 2), "%s",
+                choices[i].c_str());
+      wattroff(window, A_STANDOUT);
+    } else {
+      mvwprintw(window, y, x - (choices[i].length() / 2), "%s",
+                choices[i].c_str());
+    }
+    ++y;
+  }
+  wrefresh(window);
 }
 
-void PrintInstructions() {
-  Title();
-  std::cout << "Instructions:\n";
-  std::cout << "1. The computer will generate a secret code consisting of 4 "
-               "numbers.\n";
-  std::cout << "2. The numbers in the secret code will be between 0 and 7.\n";
-  std::cout << "3. You have to guess the secret code.\n";
-  std::cout << "4. After each guess, the computer will give you feedback.\n";
-  std::cout << "5. The feedback will characters 'B' and 'W':\n";
-  std::cout << "   - 'B' represents digits in correct positions\n";
-  std::cout << "   - 'W' represents digits in incorrect positions\n";
-  std::cout << "6. You have 10 chances to guess the secret code.\n";
-  std::cout << "7. If you guess the secret code within 10 chances, you win.\n";
-  std::cout << "8. If you are unable to guess the secret code within 10 "
-               "chances, you lose.\n";
-  std::cout << "9. Good luck!\n\n";
+void PrintInstructions(WINDOW *window) {
+  wclear(window);
+  int y = 0;
+  int x = getmaxx(window);
+  PrintHL(window);
+  x /= 2;
+
+  // clang-format off
+  std::string instructions[] = {
+      "Instructions",
+      "The secret code length and each digit range depend on the difficulty.",
+      "The settings are displayed at the top of the screen in the following format: ",
+      "[difficulty] [code length] [min digit] [max digit]",
+      "If you are Codebreaker, crack the secret code.",
+      "If you are Codemaster, create a secret code for the AI to crack.",
+      "Each feedback character represents a digit in the secret code:",
+      "- 'B' represents a correct digit in the correct position",
+      "- 'W' represents a correct digit in the wrong position",
+      "You have 10 chances to guess the secret code, and you have 3 [h]ints.",
+      "You may [s]ave or [e]xit the game at any time.",
+      "Good Luck!"};
+  // clang-format on
+
+  for (const auto &instruction : instructions) {
+    mvwprintw(window, y++, x - (instruction.length() / 2), instruction.c_str());
+  }
+  EnterToContinue(window, y);
+  return;
+}
+
+void EnterToContinue(WINDOW *window, const int &y) {
+  int x = getmaxx(window);
+  x /= 2;
+
+  std::string press_enter = "Press enter to continue...";
+  mvwprintw(window, y, x - (press_enter.length() / 2), press_enter.c_str());
+
+  int c = wgetch(window);
+  while (c != '\n') {
+    c = wgetch(window);
+  }
+
+  wclear(window);
+}
+
+void PrintHL(WINDOW *window) {
+  wattron(window, COLOR_PAIR(2));
+  mvwhline(window, 0, 0, 0, getmaxx(window));
+  wattroff(window, COLOR_PAIR(2));
 }

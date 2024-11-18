@@ -7,7 +7,10 @@
 #define GAMESTATE_GAMESTATE_H_
 
 #include "data_management/scoreboard/score.h"
-#include "data_management/saved_games/game.h"
+#include "load_game/load_game.h"
+#include "logger/logger.h"
+
+#include <ncurses.h>
 
 namespace mastermind {
 
@@ -23,9 +26,7 @@ public:
   /**
    * @brief Default constructor.
    */
-  GameState(){};
-
-  void Init();
+  GameState();
 
   /**
    * @brief Starts the game.
@@ -33,22 +34,35 @@ public:
   void Start();
 
 private:
+  int y_max_;
+  int x_max_;
+  WINDOW *banner_window_;
+  WINDOW *game_window_;
+
+  game_loader::LoadGame load_;
   data_management::Score score_;
-  data_management::Game game_;
+
+  Logger &logger_ = Logger::GetInstance();
 
   /**
-   * @brief Main game loop.
+   * @brief Player's game menu.
    */
   void PlayerMenu();
 
   /**
-   * @brief Player game loop.
-   *
-   * This function is called at every end of a game. It prompts the user to
-   * choose whether to play again and go back to PlayerMenu() or go back to
-   * Start().
+   * @brief Load game menu.
    */
-  void PlayAgain();
+  void LoadGameMenu();
+
+  /**
+   * @brief Scoreboard.
+   */
+  void Scoreboard();
+
+  /**
+   * @brief Game instructions.
+   */
+  void Instructions();
 };
 } // namespace mastermind
 

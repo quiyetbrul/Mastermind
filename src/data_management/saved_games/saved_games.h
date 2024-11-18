@@ -10,6 +10,7 @@
 
 #include "data_management/database_manager.h"
 #include "player/player.h"
+
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <nlohmann/json.hpp>
 
@@ -52,8 +53,7 @@ protected:
    * @param lowest_score The lowest score in the saved games.
    * @param player The player whose score needs to be updated.
    */
-  void Update(const std::string &game_name_to_update,
-              const std::string &new_game_name, const player::Player &player);
+  void Update(const int &game_name_to_update, const player::Player &player);
 
   /**
    * @brief Checks if a game exists in the saved games.
@@ -71,8 +71,7 @@ protected:
    * @param new_game_name
    */
   void BindPlayerParameters(SQLite::Statement &stmt,
-                            const player::Player &player,
-                            const std::string &new_game_name);
+                            const player::Player &player);
 
 public:
   /**

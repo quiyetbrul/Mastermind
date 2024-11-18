@@ -8,6 +8,8 @@
 
 #include "player/player.h"
 
+#include <ncurses.h>
+
 namespace player {
 /**
  * @class Codemaster
@@ -27,6 +29,11 @@ public:
    * Sets up the the game, and calls the GameLoop().
    */
   void Start() override;
+
+  void SetWindow(WINDOW *window);
+
+private:
+  WINDOW *window_;
 
   /**
    * @brief Main game loop.

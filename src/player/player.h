@@ -1,6 +1,6 @@
 /**
  * @file player.h
- * @brief Declaration of the Player class
+ * @brief Abstract class declaration of the Player class
  */
 
 #ifndef PLAYER_PLAYER_H_
@@ -10,6 +10,8 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "logger/logger.h"
 
 namespace player {
 /**
@@ -105,6 +107,8 @@ protected:
   static constexpr int kMediumDifficulty = 2;
   static constexpr int kHardDifficulty = 3;
 
+  Logger &logger_ = Logger::GetInstance();
+
   /**
    * @brief Decrements the player's life.
    */
@@ -156,7 +160,7 @@ private:
   std::string player_name_;
   std::string game_name_;
   int life_;
-  int score_ = 0;
+  int score_;
   std::vector<int> secret_code_;
 
   std::string last_feedback_;

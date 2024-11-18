@@ -5,7 +5,7 @@
 
 #include "score.h"
 
-#include <iostream>
+#include "ui/menu.h"
 
 #include <SQLiteCpp/SQLiteCpp.h>
 
@@ -21,9 +21,6 @@ void Score::Save(const player::Player &player) {
     return;
   }
 
-  std::cout << "You made it to the scoreboard!" << std::endl;
-  logger_.Log("You made it to the scoreboard!");
-
   if (GetCount() >= kTopScoreLimit) {
     Update(lowest_score, player);
     return;
@@ -32,21 +29,55 @@ void Score::Save(const player::Player &player) {
   Insert(player);
 }
 
-// TODO: format output
 void Score::PrintScores() const {
+  wclear(window_);
+  PrintHL(window_);
+  int y = 0;
+  int x = getmaxx(window_);
+  x /= 2;
+  std::string title = "Top Scores";
+  mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());
+  wrefresh(window_);
   if (GetCount() < 1) {
-    std::cout << "No scores yet!" << std::endl;
-    return;
+    std::string no_score = "No scores yet!";
+    mvwprintw(window_, y++, x - (no_score.length() / 2), no_score.c_str());
+  } else {
+    // Determine the maximum length of user names
+    SQLite::Statement max_length_query(
+        db_, "SELECT USER_NAME FROM " + GetTableName() +
+                 " ORDER BY LENGTH(USER_NAME) DESC LIMIT 1;");
+    max_length_query.executeStep();
+    int longest_name_length = max_length_query.getColumn("USER_NAME").getInt();
+    int col_width = longest_name_length + x;
+    int temp = x;
+
+    std::vector<std::string> header = {"Name", "Score", "Time", "Difficulty"};
+    PrintHeader(window_, y, header, longest_name_length);
+
+    int total_width = header.size() * longest_name_length;
+
+    SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() +
+                                     " ORDER BY SCORE DESC, ELAPSED_TIME ASC;");
+    while (query.executeStep()) {
+      temp = x;
+      temp += col_width;
+      mvwprintw(window_, y, (temp / 4) + total_width, "%s",
+                query.getColumn("USER_NAME").getText());
+      temp += col_width;
+      mvwprintw(window_, y, (temp / 4) + total_width, "%d",
+                query.getColumn("SCORE").getInt());
+      temp += col_width;
+      mvwprintw(window_, y, (temp / 4) + total_width, "%.2fs",
+                query.getColumn("ELAPSED_TIME").getDouble());
+      temp += col_width;
+      mvwprintw(window_, y, (temp / 4) + total_width, "%d",
+                query.getColumn("DIFFICULTY").getInt());
+      ++y;
+    }
   }
-  std::cout << "Score" << std::endl;
-  std::cout << "Name\tScore\tTime\tDifficulty" << std::endl;
-  SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() +
-                                   " ORDER BY SCORE DESC, ELAPSED_TIME ASC;");
-  while (query.executeStep()) {
-    std::cout << query.getColumn("USER_NAME").getText() << " \t "
-              << query.getColumn("SCORE").getInt() << " \t "
-              << query.getColumn("ELAPSED_TIME").getDouble() << "s \t "
-              << query.getColumn("DIFFICULTY").getInt() << std::endl;
-  }
+
+  EnterToContinue(window_, y);
 }
+
+void Score::SetWindow(WINDOW *window) { window_ = window; }
 } // namespace data_management

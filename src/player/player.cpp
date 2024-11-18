@@ -27,19 +27,22 @@ const int kHardMinDigit = 0;
 const int kHardMaxDigit = 9;
 const int kHardCodeLength = 4;
 
-Player::Player() : life_(kLifeStart), score_(kLifeStart), guess_history_() {
+Player::Player()
+    : life_(kLifeStart), score_(kLifeStart), guess_history_(),
+      elapsed_time_(0.0) {
   SetDifficulty(1);
 }
 
 Player::Player(int &life, int &score, const std::vector<int> &secret_code,
                std::vector<std::pair<std::vector<int>, std::string>> &guesses)
     : life_(life), score_(score), secret_code_(secret_code),
-      guess_history_(guesses) {
+      guess_history_(guesses), elapsed_time_(0.0) {
   SetDifficulty(1);
 }
 
 bool Player::IsGameFinished() const {
-  return GetLife() == 0 || GetGuesses().back().first == GetSecretCode();
+  return GetLife() == 0 || (!GetGuesses().empty() &&
+                            GetGuesses().back().first == GetSecretCode());
 }
 
 void Player::DecrementLife() { --life_; }
@@ -188,7 +191,6 @@ void Player::SetDifficulty(const int &difficulty) {
     SetSecretCodeLength(kHardCodeLength);
     break;
   }
-  Logger &logger_ = Logger::GetInstance();
   logger_.Log("Difficulty set to " + std::to_string(difficulty));
   difficulty_ = difficulty;
 }

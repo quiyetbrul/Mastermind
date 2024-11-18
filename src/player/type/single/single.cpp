@@ -5,97 +5,128 @@
 
 #include "single.h"
 
-#include <iostream>
-
 #include "data_management/saved_games/game.h"
 #include "logger/logger.h"
 #include "player/util/util.h"
-#include "ui/banner.h"
+#include "ui/menu.h"
 #include "util/util.h"
 
 namespace player {
 void Single::Start() {
-  Logger::GetInstance().Log("Starting player's quick game");
-  Title();
+  logger_.Log("Starting single player game");
 
-  SetDifficulty(InputInteger("Enter difficulty (1: easy, 2: medium, 3: hard): ",
-                             kEasyDifficulty, kHardDifficulty));
+  int highlight = InputDifficulty(window_);
+  if (highlight == 3) {
+    return;
+  }
+  SetDifficulty(highlight + 1);
 
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
 
-  SetPlayerName(InputString("Enter your name: "));
-  std::cout << DELETE_LINE;
-  std::cout << "Welcome, " << GetPlayerName() << "!" << std::endl;
-  player::PrintCode(GetSecretCode());
+  wclear(window_);
+  PrintHL(window_);
+  mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+            GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+            GetSecretCodeMaxDigit());
+
+  std::string name = InputString(window_, 1, "Enter your name: ");
+  SetPlayerName(name);
 
   GameLoop();
 }
 
-// TODO: can be tested
-// if winner, save score, else saved_scores_ stays the same
-// requires is winner in player
 void Single::GameLoop() {
-  StartTime();
-
-  int half_life = GetLife() / 2;
+  std::string input;
   std::vector<int> guess;
 
+  PrintHL(window_);
+
+  int y = 1;
+  int x = getmaxx(window_);
+  x /= 2;
+
+  PrintCode(window_, y, x, GetSecretCode());
+
+  StartTime();
+
   while (GetLife() > 0) {
-    if (GetLife() <= half_life && GetHintCount() > 0 &&
-        GetLastFeedBack().size() != GetSecretCodeLength()) {
-      char give_hint = InputChar("Want a hint? (y/n): ", 'y', 'n');
-      std::cout << DELETE_LINE;
-      if (give_hint == 'y') {
-        std::string hint = player::GiveHint(guess, GetSecretCode());
-        std::cout << "Hint: " << hint << std::endl;
+    wrefresh(window_);
+    mvwprintw(window_, 0, 2, "LIFE: %02d  HINTS: %d  SETTINGS: %d %d %d %d",
+              GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
+              GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
+
+    input = player::InputGuess(
+        window_, y, x, "Enter your guess: ", GetSecretCodeLength(),
+        GetSecretCodeMinDigit(), GetSecretCodeMaxDigit(), true);
+
+    if (input == "s") {
+      wclear(window_);
+      EndTime();
+      int old_time = GetElapsedTime();
+      SaveElapsedTime();
+      int new_time = GetElapsedTime();
+      SetElapsedTime(old_time + new_time);
+      SetScore(GetLife());
+      data_management::Game saved_games;
+      saved_games.SetWindow(window_);
+      saved_games.Save(*this);
+      init_pair(1, COLOR_CYAN, COLOR_BLACK);
+      return;
+    }
+
+    if (input == "h") {
+      std::string hint = "No available hints!";
+      if (!GetGuesses().empty() && GetHintCount() > 0 &&
+          GetLastFeedBack().size() != GetSecretCodeLength()) {
+        hint = player::GiveHint(guess, GetSecretCode());
+        mvwprintw(window_, y++, x - (hint.length() / 2), hint.c_str());
         AddToHintHistory(hint);
         DecrementHint();
+      } else {
+        mvwprintw(window_, y++, x - (hint.length() / 2), hint.c_str());
       }
+      continue;
     }
 
-    std::cout << "Life: " << GetLife() << std::endl;
-    // TODO: it's probably easier to refactor InputGuess to return a string
-    // and create a new function to convert it to a vector after if statement
-    // for save
-    guess =
-        player::InputGuess("Enter your guess: ", GetSecretCodeLength(),
-                           GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
-
-    std::string save = InputString("Save guess? (y/n): ");
-
-    if (save == "y") {
-      data_management::Game saved_games;
-      saved_games.Save(*this);
-      break;
+    if (input == "e") {
+      wclear(window_);
+      init_pair(1, COLOR_CYAN, COLOR_BLACK);
+      return;
     }
 
-    // TODO: do string to vector conversion here
-
-    std::cout << DELETE_LINE;
-    std::cout << DELETE_LINE;
+    guess = player::ConvertToVector(input);
 
     AddToGuessHistory(guess);
-    player::PrintGuess(guess, GetLastFeedBack());
+    PrintGuess(window_, y, x, guess, GetLastFeedBack());
 
     if (guess == GetSecretCode()) {
       EndTime();
+      int old_time = GetElapsedTime();
       SaveElapsedTime();
-      Congratulations();
+      int new_time = GetElapsedTime();
+      SetElapsedTime(old_time + new_time);
       SetScore(GetLife());
-      player::PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
-                                 GetElapsedTime());
+      init_pair(1, COLOR_GREEN, COLOR_BLACK);
+      PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
+      std::string message = "You made it to the scoreboard!";
+      logger_.Log(message);
+      mvwprintw(window_, y++, x - (message.length() / 2), message.c_str());
       score_.Save(*this);
       break;
     }
 
     DecrementLife();
-
+    wrefresh(window_);
     if (GetLife() == 0) {
-      TryAgain();
-      player::PrintCode(GetSecretCode());
+      init_pair(1, COLOR_RED, COLOR_BLACK);
+      PrintCode(window_, y, x, GetSecretCode());
       break;
     }
   }
+  EnterToContinue(window_, y);
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
 }
+
+void Single::SetWindow(WINDOW *window) { window_ = window; }
 } // namespace player

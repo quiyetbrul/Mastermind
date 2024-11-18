@@ -24,23 +24,14 @@ public:
   LoadGame();
 
   /**
-   * @brief Load the selected game.
-   */
-  void SelectGame();
-
-  /**
    * @brief Starts the game.
    */
   void Start();
 
 private:
   player::Single player_;
-  data_management::Game game_;
-  int game_id_;
 
-  int GetGameId();
-
-  void SetGameId(const int &game_id);
+  void SetGame();
 };
 } // namespace game_loader
 #endif // LOAD_GAME_LOAD_GAME_H_

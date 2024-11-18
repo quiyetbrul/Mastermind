@@ -5,9 +5,9 @@
 
 #include "game_state.h"
 
+#include <ncurses.h>
 #include <string>
 
-#include "load_game/load_game.h"
 #include "logger/logger.h"
 #include "player/type/codemaster/codemaster.h"
 #include "player/type/single/single.h"
@@ -32,81 +32,144 @@ enum class MainMenu : int {
  * @brief Represents the types of players.
  */
 enum class GameType : int {
-  QUICK_GAME = 1, /**< Quick game mode */
-  CODEMASTER,     /**< Play as codemaster */
-  BACK            /**< Go back to main menu */
+  SINGLE_PLAYER = 1, /**< Single player mode */
+  CODEMASTER,        /**< Play as codemaster */
+  BACK               /**< Go back to main menu */
 };
 
 namespace mastermind {
-void GameState::Start() {
-  PrintMenu();
-  const int min_choice = static_cast<int>(MainMenu::PLAY);
-  const int max_choice = static_cast<int>(MainMenu::EXIT);
-  int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
+GameState::GameState() {
+  logger_.Log("Initializing game state");
 
-  switch (static_cast<MainMenu>(user_choice)) {
-  case MainMenu::PLAY:
-    PlayerMenu();
-    break;
-  case MainMenu::LOAD: {
-    Logger::GetInstance().Log("Printing saved games");
-    game_loader::LoadGame load;
-    load.PrintGames();
-    if (load.GetCount() != 0) {
-      load.SelectGame();
-      load.Start();
-    }
-    break;
-  }
-  case MainMenu::SCOREBOARD:
-    // TODO: PRINT SCORE ASCII ART
-    Logger::GetInstance().Log("Printing scoreboard");
-    score_.PrintScores();
-    break;
-  case MainMenu::INSTRUCTIONS:
-    Logger::GetInstance().Log("Printing instructions");
-    PrintInstructions();
-    break;
-  case MainMenu::EXIT:
-    Goodbye();
-    CloseTerminal();
-    break;
-  }
-  ReturnTo("Main Menu", [this]() { Start(); });
-}
-
-void GameState::Init() {
-  Logger::GetInstance().Log("Initializing game state");
   SetTerminalSize(kTerminalWidth, kTerminalHeight);
   SetTerminalTitle("Mastermind Game by Quiyet Brul");
+
+  initscr();
+
+  getmaxyx(stdscr, y_max_, x_max_);
+
+  banner_window_ = newwin(10, x_max_, 0, 0);
+  game_window_ = newwin(20, x_max_, 10, 0);
+
+  start_color();
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
+  init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
+
+  curs_set(0);
+  scrollok(game_window_, false);
+  keypad(game_window_, true);
+  noecho();
+}
+
+void GameState::Start() {
+  Title(banner_window_);
+
+  std::vector<std::string> choices = {"Play", "Load Game", "Scoreboard",
+                                      "Instructions", "Exit"};
+  int choice = 0;
+  int highlight = 0;
+
+  while (true) {
+    wclear(game_window_);
+    PrintHL(game_window_);
+    PrintMenu(game_window_, highlight, choices, "Main Menu");
+    choice = wgetch(game_window_);
+    switch (choice) {
+    case KEY_UP:
+      UpdateHighlight(highlight, choices, -1);
+      break;
+    case KEY_DOWN:
+      UpdateHighlight(highlight, choices, 1);
+      break;
+    case 10:
+      switch (static_cast<MainMenu>(highlight + 1)) {
+      case MainMenu::PLAY:
+        PlayerMenu();
+        break;
+      case MainMenu::LOAD: {
+        LoadGameMenu();
+        break;
+      }
+      case MainMenu::SCOREBOARD:
+        Scoreboard();
+        break;
+      case MainMenu::INSTRUCTIONS:
+        Instructions();
+        break;
+      case MainMenu::EXIT:
+        // TODO: use signal handler to properly close the program when the x
+        // button is clicked
+        delwin(banner_window_);
+        delwin(game_window_);
+        endwin();
+        ClearScreen();
+        CloseTerminal();
+        return; // Exit the function to close the program
+      }
+    }
+  }
 }
 
 void GameState::PlayerMenu() {
-  PrintPlayerMenu();
-  const int min_choice = static_cast<int>(GameType::QUICK_GAME);
-  const int max_choice = static_cast<int>(GameType::BACK);
-  int user_choice = InputInteger("Enter your choice: ", min_choice, max_choice);
-  switch (static_cast<GameType>(user_choice)) {
-  case GameType::QUICK_GAME: {
-    player::Single quick_game;
-    quick_game.Start();
-    break;
+  wclear(game_window_);
+
+  std::vector<std::string> choices = {"Single Player", "Codemaster", "Back"};
+
+  int choice = 0;
+  int highlight = 0;
+
+  while (true) {
+    PrintMenu(game_window_, highlight, choices, "Select Player Type");
+    choice = wgetch(game_window_);
+    switch (choice) {
+    case KEY_UP:
+      UpdateHighlight(highlight, choices, -1);
+      break;
+    case KEY_DOWN:
+      UpdateHighlight(highlight, choices, 1);
+      break;
+    case 10:
+      switch (static_cast<GameType>(highlight + 1)) {
+      case GameType::SINGLE_PLAYER: {
+        player::Single single_player;
+        single_player.SetWindow(game_window_);
+        single_player.Start();
+        if (single_player.IsGameFinished()) {
+          return;
+        }
+        break;
+      }
+      case GameType::CODEMASTER: {
+        player::Codemaster codemaster_player;
+        codemaster_player.SetWindow(game_window_);
+        codemaster_player.Start();
+        if (codemaster_player.IsGameFinished()) {
+          return;
+        }
+        break;
+      }
+      case GameType::BACK:
+        wclear(game_window_);
+        return;
+      }
+    }
   }
-  case GameType::CODEMASTER: {
-    player::Codemaster codemaster_player;
-    codemaster_player.Start();
-    break;
-  }
-  case GameType::BACK:
-    Start(); // use Return To instead?
-    break;
-  }
-  // TODO: maybe just have user enter and return to Start()
-  PlayAgain();
 }
 
-void GameState::PlayAgain() {
-  char play_again = InputChar("Do you want to play again? (y/n): ", 'y', 'n');
-  play_again == 'y' ? PlayerMenu() : Start();
+void GameState::LoadGameMenu() {
+  logger_.Log("Printing saved games");
+  load_.SetWindow(game_window_);
+  load_.Start();
+}
+
+void GameState::Scoreboard() {
+  logger_.Log("Printing scoreboard");
+  score_.SetWindow(game_window_);
+  score_.PrintScores();
+}
+
+void GameState::Instructions() {
+  logger_.Log("Printing instructions");
+  PrintInstructions(game_window_);
 }
 } // namespace mastermind

@@ -7,21 +7,32 @@
 
 #include <string>
 
-#include "logger/logger.h"
-#include "player/util/util.h"
 #include "player/type/codemaster/codebreaker/codebreaker.h"
-#include "ui/banner.h"
+#include "player/util/util.h"
+#include "ui/menu.h"
 
 namespace player {
 void Codemaster::Start() {
-  Logger::GetInstance().Log("Starting computer as codebreaker game");
-  Title();
+  logger_.Log("Starting computer as codebreaker game");
+  wclear(window_);
+  wrefresh(window_);
 
-  // TODO: set difficulty
-  SetSecretCode(
-      InputGuess("Enter your secret code: ", GetSecretCodeLength(),
-                         GetSecretCodeMinDigit(), GetSecretCodeMaxDigit()));
+  int highlight = InputDifficulty(window_);
+  if (highlight == 3) {
+    return;
+  }
+  PrintHL(window_);
+  SetDifficulty(highlight + 1);
+  int y = 1;
+  int x = getmaxx(window_);
+  mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+            GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+            GetSecretCodeMaxDigit());
 
+  std::string input = player::InputGuess(
+      window_, y, x, "Enter secret code: ", GetSecretCodeLength(),
+      GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
+  SetSecretCode(player::ConvertToVector(input));
   GameLoop();
 }
 
@@ -30,25 +41,35 @@ void Codemaster::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                        GetSecretCodeMaxDigit());
+  PrintHL(window_);
+
+  int y = 2;
+  int x = getmaxx(window_);
+  x /= 2;
+
   StartTime();
   while (GetLife() > 0) {
+    wrefresh(window_);
+    mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+              GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+              GetSecretCodeMaxDigit());
     AddToGuessHistory(guess);
-    PrintGuess(guess, GetLastFeedBack());
-    DecrementLife();
+    PrintGuess(window_, y, x, guess, GetLastFeedBack());
 
     if (guess == GetSecretCode()) {
       EndTime();
       SaveElapsedTime();
-      Congratulations();
       SetScore(GetLife());
-      PrintSolvedSummary(GetSecretCode(), GetGuesses().size(),
-                                 GetElapsedTime());
+      init_pair(1, COLOR_GREEN, COLOR_BLACK);
+      PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
       break;
     }
 
+    DecrementLife();
+
     if (GetLife() == 0) {
-      TryAgain();
-      PrintCode(GetSecretCode());
+      init_pair(1, COLOR_RED, COLOR_BLACK);
+      PrintCode(window_, y, x, GetSecretCode());
       break;
     }
 
@@ -56,5 +77,9 @@ void Codemaster::GameLoop() {
     computer.FilterSolutions(guess, GetLastFeedBack());
     guess = computer.MakeGuess();
   }
+  EnterToContinue(window_, y);
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
 }
+
+void Codemaster::SetWindow(WINDOW *window) { window_ = window; }
 } // namespace player

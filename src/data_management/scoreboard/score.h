@@ -9,6 +9,8 @@
 #include "data_management/scoreboard/scoreboard.h"
 #include "player/player.h"
 
+#include <ncurses.h>
+
 namespace data_management {
 /**
  * @class Score
@@ -34,6 +36,11 @@ public:
    * @brief Prints the high scores.
    */
   void PrintScores() const;
+
+  void SetWindow(WINDOW *window);
+
+private:
+  WINDOW *window_;
 };
 } // namespace data_management
 

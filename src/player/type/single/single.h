@@ -9,10 +9,12 @@
 #include "data_management/scoreboard/score.h"
 #include "player/player.h"
 
+#include <ncurses.h>
+
 namespace player {
 /**
  * @class Single
- * @brief Represents a quick game.
+ * @brief Represents a single player game.
  *
  * The Single class manages the user's single player attributes.
  */
@@ -21,14 +23,14 @@ public:
   /**
    * @brief Default constructor.
    *
-   * Initializes the quick game with default values.
+   * Initializes the single player game with default values.
    */
   Single(){};
 
   /**
    * @brief Starts the game.
    *
-   * Sets up the quick_game, and calls the GameLoop().
+   * Sets up the single player game, and calls the GameLoop().
    */
   void Start() override;
 
@@ -40,8 +42,11 @@ public:
    */
   void GameLoop() override;
 
+  void SetWindow(WINDOW *window);
+
 private:
   data_management::Score score_;
+  WINDOW *window_;
 };
 } // namespace player
 
