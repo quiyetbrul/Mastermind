@@ -5,6 +5,7 @@
 
 #include "score.h"
 
+#include "ui/menu.h"
 #include "util/util.h"
 
 #include <SQLiteCpp/SQLiteCpp.h>
@@ -48,19 +49,14 @@ void Score::PrintScores() const {
         db_, "SELECT USER_NAME FROM " + GetTableName() +
                  " ORDER BY LENGTH(USER_NAME) DESC LIMIT 1;");
     max_length_query.executeStep();
-    int max_name_length = max_length_query.getColumn("USER_NAME").getInt();
-
-    int col_width = max_name_length + x;
-
+    int longest_name_length = max_length_query.getColumn("USER_NAME").getInt();
+    int col_width = longest_name_length + x;
     int temp = x;
+
     std::vector<std::string> header = {"Name", "Score", "Time", "Difficulty"};
-    // TODO: can probably refactor this to a function
-    int total_width = header.size() * max_name_length;
-    for (const auto &head : header) {
-      temp += col_width;
-      mvwprintw(window_, y, (temp / 4) + total_width, head.c_str());
-    }
-    ++y;
+    PrintHeader(window_, y, header, longest_name_length);
+
+    int total_width = header.size() * longest_name_length;
 
     SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() +
                                      " ORDER BY SCORE DESC, ELAPSED_TIME ASC;");
