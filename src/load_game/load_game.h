@@ -30,17 +30,8 @@ public:
 
 private:
   player::Single player_;
-  int game_id_;
-
-  /**
-   * @brief Load the selected game.
-   */
-  void SelectGame(int &y);
-
-  int GetGameId();
 
   void SetGame();
-  void SetGameId(const int &game_id);
 };
 } // namespace game_loader
 #endif // LOAD_GAME_LOAD_GAME_H_

@@ -5,8 +5,6 @@
 
 #include "load_game.h"
 
-#include <algorithm>
-
 #include "util/util.h"
 
 namespace game_loader {
@@ -16,7 +14,7 @@ void LoadGame::Start() {
   int y;
   int x;
   getmaxyx(window_, y, x);
-  y = 1;
+  y = 0;
   wclear(window_);
 
   std::string title = "Saved Games";
@@ -29,15 +27,20 @@ void LoadGame::Start() {
     EnterToContinue(window_, y);
     return;
   }
-  SelectGame(y);
+
+  int selected_game = SelectGame(y);
+  if (selected_game == -1) {
+    return;
+  }
   SetGame();
+  wclear(window_);
+  wrefresh(window_);
+  player_.SetWindow(window_);
   player_.GameLoop();
   if (player_.IsGameFinished()) {
     Delete(GetGameId());
   }
 }
-
-int LoadGame::GetGameId() { return game_id_; }
 
 void LoadGame::SetGame() {
   SQLite::Statement query(
@@ -45,7 +48,7 @@ void LoadGame::SetGame() {
            "SCORE, START_TIME, END_TIME, ELAPSED_TIME, HINT_COUNT, "
            "HINT_HISTORY, DIFFICULTY FROM " +
                GetTableName() + " WHERE ID = ?");
-  query.bind(1, game_id_);
+  query.bind(1, GetGameId());
 
   if (query.executeStep()) {
     player_.SetGameName(query.getColumn(0).getText());
@@ -67,85 +70,4 @@ void LoadGame::SetGame() {
     throw std::runtime_error("Game to load not found");
   }
 }
-
-void LoadGame::SelectGame(int &y) {
-  // TODO: needed?
-  int _;
-  int x;
-  getmaxyx(window_, _, x);
-  x = 2;
-
-  int game_id = 0;
-
-  SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() + ";");
-  std::vector<std::pair<std::string, int>> saved_games;
-
-  while (query.executeStep()) {
-    saved_games.push_back(
-        std::make_pair(query.getColumn("GAME_NAME").getText(),
-                       query.getColumn("DIFFICULTY").getInt()));
-  }
-
-  SQLite::Statement longest_name_query(
-      db_, "SELECT GAME_NAME FROM " + GetTableName() +
-               " ORDER BY LENGTH(GAME_NAME) DESC LIMIT 1;");
-  int longest_name_length = 5;
-  if (longest_name_query.executeStep()) {
-    longest_name_length = std::max(
-        longest_name_length,
-        static_cast<int>(strlen(longest_name_query.getColumn(0).getText())));
-  }
-
-  std::string header[] = {"Game", "Difficulty"};
-  for (const auto &head : header) {
-    mvwprintw(window_, y++, x, head.c_str());
-    x += (longest_name_length + 2);
-  }
-
-  int choice = 0;
-  int highlight = 0;
-  x = 2; // reset
-
-  while (true) {
-    wrefresh(window_);
-    for (int i = 0; i < saved_games.size(); ++i) {
-      if (highlight == i) {
-        wattron(window_, A_STANDOUT);
-        mvwprintw(window_, y, x, saved_games[i].first.c_str());
-        mvwprintw(window_, y, x + (longest_name_length + 2),
-                  std::to_string(saved_games[i].second).c_str());
-        wattroff(window_, A_STANDOUT);
-      } else {
-        mvwprintw(window_, y, x, saved_games[i].first.c_str());
-        mvwprintw(window_, y, x + (longest_name_length + 2),
-                  std::to_string(saved_games[i].second).c_str());
-      }
-      ++y;
-    }
-
-    choice = wgetch(window_);
-    switch (choice) {
-    case KEY_UP:
-      UpdateHighlight(highlight, saved_games, -1);
-      break;
-    case KEY_DOWN:
-      UpdateHighlight(highlight, saved_games, 1);
-      break;
-    case 10:
-      SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
-                                       " WHERE GAME_NAME = ?;");
-      query.bind(1, saved_games[highlight].first);
-      if (query.executeStep()) {
-        game_id = query.getColumn("ID").getInt();
-        SetGameId(game_id);
-      } else {
-        throw std::runtime_error("Game ID not found");
-      }
-      return;
-    }
-  }
-}
-
-void LoadGame::SetGameId(const int &game_id) { game_id_ = game_id; }
-
 } // namespace game_loader

@@ -40,6 +40,14 @@ public:
    */
   void Delete(const int &game_id);
 
+  /**
+   * @brief Load the selected game.
+   *
+   * @param y The y-coordinate of the window.
+   * @return int 0 if a game was selected, -1 if the user wants to go back.
+   */
+  int SelectGame(int &y);
+
   int GetSaveLimit() const;
 
   void SetWindow(WINDOW *window);
@@ -47,8 +55,13 @@ public:
 protected:
   WINDOW *window_;
 
+  int GetGameId();
+
+  void SetGameId(const int &game_id);
+
 private:
   int limit_;
+  int game_id_;
 };
 } // namespace data_management
 
