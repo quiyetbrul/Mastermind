@@ -95,6 +95,7 @@ Finally, I utilized ncurses to create a robust terminal-based UI, enhancing the 
 
 ## Links
 
+- [Using cURL with C++](https://terminalroot.com/using-curl-with-cpp/)
 - [Mastermind Game](https://en.wikipedia.org/wiki/Mastermind_(board_game))
 - [MiniMax Algorithm](https://en.wikipedia.org/wiki/Minimax)
 - [RubyConf 2018 - Beating Mastermind: Winning with the help of Donald Knuth by Adam Forsyth](https://www.youtube.com/watch?v=Okm_t5T1PiA&ab_channel=Confreaks)
