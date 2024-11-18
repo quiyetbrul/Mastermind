@@ -11,10 +11,8 @@ namespace game_loader {
 LoadGame::LoadGame() {}
 
 void LoadGame::Start() {
-  int y;
-  int x;
-  getmaxyx(window_, y, x);
-  y = 0;
+  int y = 0;
+  int x = getmaxx(window_);
   wclear(window_);
 
   std::string title = "Saved Games";

@@ -7,9 +7,7 @@
 
 void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
                  const int &longest_name_length) {
-  int _;
-  int x;
-  getmaxyx(window, _, x);
+  int x = getmaxx(window);
   x /= 2;
   int temp = x;
   int col_width = longest_name_length + x;
@@ -24,9 +22,8 @@ void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
 
 void PrintMenu(WINDOW *window, const int &highlight,
                const std::vector<std::string> &choices) {
-  int x, y;
-  getmaxyx(window, y, x);
-  y = 2;
+  int y = 2;
+  int x = getmaxx(window);
   x /= 2;
   for (int i = 0; i < choices.size(); ++i) {
     if (highlight == i) {
@@ -44,10 +41,9 @@ void PrintMenu(WINDOW *window, const int &highlight,
 }
 
 void PrintInstructions(WINDOW *window) {
-  int y;
-  int x;
-  getmaxyx(window, y, x);
-  y = 1;
+  int y = 1;
+  int x = getmaxx(window);
+  x /= 2;
   wclear(window);
   std::string instructions[] = {
       "Instructions:",
@@ -64,23 +60,19 @@ void PrintInstructions(WINDOW *window) {
       "Good Luck!"};
 
   for (const auto &instruction : instructions) {
-    mvwprintw(window, y++, (x / 2) - (instruction.length() / 2),
-              instruction.c_str());
+    mvwprintw(window, y++, x - (instruction.length() / 2), instruction.c_str());
   }
   EnterToContinue(window, y);
   return;
 }
 
 void EnterToContinue(WINDOW *window, const int &y) {
-  int _;
-  int x;
-  getmaxyx(window, _, x);
+  int x = getmaxx(window);
+  x /= 2;
 
   std::string press_enter = "Press enter to continue...";
-  mvwprintw(window, y, (x / 2) - (press_enter.length() / 2),
+  mvwprintw(window, y, x - (press_enter.length() / 2),
             press_enter.c_str());
-
-  noecho();
 
   int c = wgetch(window);
   while (c != '\n') {

@@ -6,22 +6,16 @@
 #include "util.h"
 
 #include <algorithm>
-#include <iostream>
-#include <ncurses.h>
 
 #include "ui/menu.h"
 #include "util/util.h"
 
 namespace player {
-std::string InputGuess(WINDOW *window, int &y, std::string prompt,
+std::string InputGuess(WINDOW *window, int &y, int x, std::string prompt,
                        const int &secret_code_length,
                        const int &secret_code_min_digit,
                        const int &secret_code_max_digit,
                        const bool &is_single) {
-  int _;
-  int x;
-  getmaxyx(window, _, x);
-  x /= 2;
   std::string input;
 
   while (true) {
@@ -61,7 +55,7 @@ std::string InputGuess(WINDOW *window, int &y, std::string prompt,
   return input;
 }
 
-std::vector<int> ToVector(std::string input) {
+std::vector<int> ConvertToVector(std::string input) {
   std::vector<int> result(input.begin(), input.end());
   std::transform(result.begin(), result.end(), result.begin(),
                  [](char c) { return c - '0'; });
@@ -84,17 +78,8 @@ std::string GiveHint(const std::vector<int> &guess,
   return hint;
 }
 
-void PrintSolvedSummary(const std::vector<int> secret_code,
-                        const int &guesses_size, const double &elapsed_time) {
-  PrintCode(secret_code);
-  int default_guess = guesses_size == 0 ? 1 : guesses_size;
-  std::cout << "Solved in " << default_guess << " guesses and " << elapsed_time
-            << " seconds." << std::endl;
-}
-
 void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
                         const double &elapsed_time) {
-  x /= 2;
   std::string summary = "Solved in " + std::to_string(guesses_size) +
                         " guess(es) and " + std::to_string(elapsed_time) +
                         " seconds.";
@@ -135,20 +120,11 @@ std::string GiveFeedback(const std::vector<int> &guess,
   return result;
 }
 
-void PrintGuess(const std::vector<int> &guess, const std::string &feedback) {
-  for (const auto &i : guess) {
-    std::cout << i << " ";
-  }
-  std::cout << "   " << feedback << std::endl;
-}
-
 void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
                 const std::string &feedback) {
-  x /= 2;
-  // 4 numbers + (2 * 4 spaces between numbers)
-  // 4 letter feedback + 4 spaces after the guess
-  // / 2 to center
-  x -= 10;
+  int total_width_needed =
+      guess.size() + (2 * guess.size()) + feedback.length() + guess.size();
+  x -= (total_width_needed / 2);
   for (const auto &i : guess) {
     mvwprintw(window, y, x, "%d", i);
     x += 2;
@@ -157,15 +133,7 @@ void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
   wrefresh(window);
 }
 
-void PrintCode(std::vector<int> code) {
-  for (const auto &i : code) {
-    std::cout << i << " ";
-  }
-  std::cout << std::endl;
-}
-
 void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code) {
-  x /= 2;
   for (const auto &i : code) {
     mvwprintw(window, y, x - 4, "%d ", i);
     x += 2;

@@ -10,7 +10,6 @@
 #include "player/type/codemaster/codebreaker/codebreaker.h"
 #include "player/util/util.h"
 #include "ui/menu.h"
-#include "util/util.h"
 
 namespace player {
 void Codemaster::Start() {
@@ -23,11 +22,13 @@ void Codemaster::Start() {
     return;
   }
   SetDifficulty(highlight + 1);
-  // SetSecretCode(
-  //     InputGuess("Enter your secret code: ", GetSecretCodeLength(),
-  //                        GetSecretCodeMinDigit(), GetSecretCodeMaxDigit()));
-  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
-                          GetSecretCodeMaxDigit()));
+  int y = 1;
+  int x = getmaxx(window_);
+
+  std::string input = player::InputGuess(
+      window_, y, x, "Enter secret code: ", GetSecretCodeLength(),
+      GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
+  SetSecretCode(player::ConvertToVector(input));
   GameLoop();
 }
 
@@ -36,11 +37,10 @@ void Codemaster::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                        GetSecretCodeMaxDigit());
-  int y;
-  int x;
-  getmaxyx(window_, y, x);
-  box(window_, 0, 0);
-  y = 0;
+  int y = 0;
+  int x = getmaxx(window_);
+  x /= 2;
+
   StartTime();
   while (GetLife() > 0) {
     wrefresh(window_);

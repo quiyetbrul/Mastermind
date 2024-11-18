@@ -39,9 +39,7 @@ void Game::Save(player::Player &player) {
   // Game was not saved before and limit is reached, ask user to overwrite
   if (GetCount() >= GetSaveLimit()) {
     int y = 1;
-    int x;
-    int _;
-    getmaxyx(window_, _, x);
+    int x = getmaxx(window_);
     std::string message = "Overwrite a saved game?";
     int game_to_replace = SelectGame(y);
     Update(game_to_replace, player);

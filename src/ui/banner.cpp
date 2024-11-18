@@ -35,10 +35,8 @@ void Title(WINDOW *window) {
   "|  |  | |     | ______|    |    |______ |    \\_ |  |  | __|__ |  \\_| |_____/"};
   // clang-format on
 
-  int y;
-  int x;
-  getmaxyx(window, y, x);
-  y = 1;
+  int y = 1;
+  int x = getmaxx(window);
   x /= 2;
   std::string welcome_in_morse = ".-- . .-.. -.-. --- -- .    - --- ";
   mvwprintw(window, ++y, x - (welcome_in_morse.length() / 2),
@@ -66,9 +64,7 @@ void Congratulations(WINDOW *window, int &y) {
   "|___ |__| | \\| |__] |  \\ |  |  |  ___]"};
   // clang-format on
 
-  int _;
-  int x;
-  getmaxyx(window, _, x);
+  int x = getmaxx(window);
   x /= 2;
 
   init_pair(1, COLOR_GREEN, COLOR_BLACK);
@@ -88,10 +84,8 @@ void TryAgain(WINDOW *window) {
   };
   // clang-format on
 
-  int y;
-  int x;
-  getmaxyx(window, y, x);
-  y = 1;
+  int y = 1;
+  int x = getmaxx(window);
   x /= 2;
 
   init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -111,10 +105,8 @@ void Goodbye(WINDOW *window) {
   };
   // clang-format on
 
-  int y;
-  int x;
-  getmaxyx(window, y, x);
-  y = 1;
+  int y = 1;
+  int x = getmaxx(window);
   x /= 2;
 
   init_pair(1, COLOR_BLUE, COLOR_BLACK);

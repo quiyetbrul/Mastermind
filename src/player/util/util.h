@@ -42,12 +42,13 @@ std::string GiveHint(const std::vector<int> &guess,
 /**
  * @brief Prints the summary of the game after the player has solved the code.
  *
- * @param guess
- * @param guesses_size
- * @param elapsed_time
+ * @param window The window to display the secret code.
+ * @param y The y-coordinate of the window.
+ * @param x The x-coordinate of the window.
+ * @param guess The player's guess.
+ * @param guesses_size The number of guesses the player made.
+ * @param elapsed_time The time it took the player to solve the code.
  */
-void PrintSolvedSummary(const std::vector<int> secret_code,
-                        const int &guesses_size, const double &elapsed_time);
 void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
                         const double &elapsed_time);
 
@@ -63,29 +64,40 @@ void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
  * code.
  * @return std::vector<int> A vector containing the player's guess.
  */
-std::string InputGuess(WINDOW *window, int &y, std::string prompt,
+std::string InputGuess(WINDOW *window, int &y, int x, std::string prompt,
                        const int &secret_code_length,
                        const int &secret_code_min_digit,
                        const int &secret_code_max_digit,
                        const bool &is_single = false);
-std::vector<int> ToVector(std::string input);
+
+/**
+ * @brief Converts a string to a vector of integers.
+ *
+ * @param input The string to convert.
+ * @return std::vector<int> The vector of integers.
+ */
+std::vector<int> ConvertToVector(std::string input);
 
 /**
  * @brief Prints the player's guess and the feedback.
  *
+ * @param window The window to display the secret code.
+ * @param y The y-coordinate of the window.
+ * @param x The x-coordinate of the window.
  * @param guess The player's guess.
  * @param feedback The feedback for the guess.
  */
-void PrintGuess(const std::vector<int> &guess, const std::string &feedback);
 void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
                 const std::string &feedback);
 
 /**
  * @brief Prints the player's secret code.
  *
+ * @param window The window to display the secret code.
+ * @param y The y-coordinate of the window.
+ * @param x The x-coordinate of the window.
  * @param code The player's secret code.
  */
-void PrintCode(std::vector<int> code);
 void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code);
 
 /**

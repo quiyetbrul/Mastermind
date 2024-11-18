@@ -160,7 +160,7 @@ private:
   std::string player_name_;
   std::string game_name_;
   int life_;
-  int score_ = 0;
+  int score_;
   std::vector<int> secret_code_;
 
   std::string last_feedback_;

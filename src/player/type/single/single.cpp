@@ -11,8 +11,6 @@
 #include "ui/menu.h"
 #include "util/util.h"
 
-#include <ncurses.h>
-
 namespace player {
 void Single::Start() {
   logger_.Log("Starting single player game");
@@ -35,21 +33,19 @@ void Single::Start() {
   GameLoop();
 }
 
-// TODO: can be tested
-// if winner, save score, else saved_scores_ stays the same
-// requires is winner in player
 void Single::GameLoop() {
   std::string input;
   std::vector<int> guess;
 
-  int y_max;
-  int x_max;
-  getmaxyx(window_, y_max, x_max);
-  box(window_, 0, 0);
   int y = 1;
-  PrintCode(window_, y, x_max, GetSecretCode());
-  // TODO: check if zero
-  StartTime();
+  int x = getmaxx(window_);
+  x /= 2;
+
+  PrintCode(window_, y, x, GetSecretCode());
+
+  if (GetStartTime() == 0)
+    StartTime();
+
   while (GetLife() > 0) {
     wrefresh(window_);
     mvwprintw(window_, 0, 2, "LIFE: %02d  HINTS: %d  SETTINGS: %d %d %d %d",
@@ -57,7 +53,7 @@ void Single::GameLoop() {
               GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
 
     input = player::InputGuess(
-        window_, y, "Enter your guess: ", GetSecretCodeLength(),
+        window_, y, x, "Enter your guess: ", GetSecretCodeLength(),
         GetSecretCodeMinDigit(), GetSecretCodeMaxDigit(), true);
 
     if (input == "s") {
@@ -78,13 +74,11 @@ void Single::GameLoop() {
       if (!GetGuesses().empty() && GetHintCount() > 0 &&
           GetLastFeedBack().size() != GetSecretCodeLength()) {
         hint = player::GiveHint(guess, GetSecretCode());
-        mvwprintw(window_, y++, (x_max / 2) - (hint.length() / 2),
-                  hint.c_str());
+        mvwprintw(window_, y++, x - (hint.length() / 2), hint.c_str());
         AddToHintHistory(hint);
         DecrementHint();
       } else {
-        mvwprintw(window_, y++, (x_max / 2) - (hint.length() / 2),
-                  hint.c_str());
+        mvwprintw(window_, y++, x - (hint.length() / 2), hint.c_str());
       }
       continue;
     }
@@ -96,22 +90,20 @@ void Single::GameLoop() {
       return;
     }
 
-    guess = player::ToVector(input);
+    guess = player::ConvertToVector(input);
 
     AddToGuessHistory(guess);
-    PrintGuess(window_, y, x_max, guess, GetLastFeedBack());
+    PrintGuess(window_, y, x, guess, GetLastFeedBack());
 
     if (guess == GetSecretCode()) {
       EndTime();
       SaveElapsedTime();
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
-      PrintSolvedSummary(window_, y, x_max, GetGuesses().size(),
-                         GetElapsedTime());
+      PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
       std::string message = "You made it to the scoreboard!";
       logger_.Log(message);
-      mvwprintw(window_, y++, (x_max / 2) - (message.length() / 2),
-                message.c_str());
+      mvwprintw(window_, y++, x - (message.length() / 2), message.c_str());
       score_.Save(*this);
       break;
     }
@@ -120,7 +112,7 @@ void Single::GameLoop() {
     wrefresh(window_);
     if (GetLife() == 0) {
       init_pair(1, COLOR_RED, COLOR_BLACK);
-      PrintCode(window_, y, x_max, GetSecretCode());
+      PrintCode(window_, y, x, GetSecretCode());
       break;
     }
   }

@@ -8,9 +8,7 @@
 #include <string>
 
 std::string InputString(WINDOW *window, int y, const std::string &prompt) {
-  int _;
-  int x;
-  getmaxyx(window, _, x);
+  int x = getmaxx(window);
   x /= 2;
   std::string input;
 

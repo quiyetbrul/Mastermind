@@ -32,10 +32,8 @@ void Score::Save(const player::Player &player) {
 }
 
 void Score::PrintScores() const {
-  int y;
-  int x;
-  getmaxyx(window_, y, x);
-  y = 1;
+  int y = 1;
+  int x = getmaxx(window_);
   x /= 2;
   wclear(window_);
   std::string title = "Top Scores";
