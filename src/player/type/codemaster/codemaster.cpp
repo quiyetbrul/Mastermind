@@ -25,6 +25,11 @@ void Codemaster::Start() {
   int y = 1;
   int x = getmaxx(window_);
 
+  box(window_, 0, 0);
+  mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+            GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+            GetSecretCodeMaxDigit());
+
   std::string input = player::InputGuess(
       window_, y, x, "Enter secret code: ", GetSecretCodeLength(),
       GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());

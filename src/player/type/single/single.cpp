@@ -26,6 +26,11 @@ void Single::Start() {
 
   wclear(window_);
 
+  box(window_, 0, 0);
+  mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+            GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+            GetSecretCodeMaxDigit());
+
   std::string name = InputString(window_, 1, "Enter your name: ");
   SetPlayerName(name);
 
@@ -42,8 +47,7 @@ void Single::GameLoop() {
 
   PrintCode(window_, y, x, GetSecretCode());
 
-  if (GetStartTime() == 0)
-    StartTime();
+  StartTime();
 
   while (GetLife() > 0) {
     wrefresh(window_);
@@ -59,7 +63,10 @@ void Single::GameLoop() {
     if (input == "s") {
       wclear(window_);
       EndTime();
+      int old_time = GetElapsedTime();
       SaveElapsedTime();
+      int new_time = GetElapsedTime();
+      SetElapsedTime(old_time + new_time);
       SetScore(GetLife());
       data_management::Game saved_games;
       saved_games.SetWindow(window_);
@@ -95,7 +102,10 @@ void Single::GameLoop() {
 
     if (guess == GetSecretCode()) {
       EndTime();
+      int old_time = GetElapsedTime();
       SaveElapsedTime();
+      int new_time = GetElapsedTime();
+      SetElapsedTime(old_time + new_time);
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
       PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
