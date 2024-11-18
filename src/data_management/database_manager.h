@@ -34,27 +34,6 @@ public:
 
   std::string GetTableName() const { return table_name_; }
 
-  // /**
-  //  * @brief Inserts a record into the database.
-  //  */
-  // virtual void InsertRecord(const std::vector<std::string> &values) = 0;
-
-  // /**
-  //  * @brief Queries records from the database.
-  //  */
-  // virtual void QueryRecords() = 0;
-
-  // /**
-  //  * @brief Updates a record in the database.
-  //  */
-  // virtual void UpdateRecord(const int &id,
-  //                           std::vector<std::string> &values) = 0;
-
-  // /**
-  //  * @brief Deletes a record from the database.
-  //  */
-  // virtual void DeleteRecord(const int &id) = 0;
-
 protected:
   Logger &logger_ = Logger::GetInstance();
 
