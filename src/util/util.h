@@ -85,6 +85,6 @@ int RandomNumber(const int &min, const int &max);
  * @param prompt The prompt message to display to the user.
  * @return std::string The validated string input.
  */
-std::string InputString(WINDOW *window, int y, const std::string &prompt);
+std::string InputString(WINDOW *window, int y, std::string prompt);
 
 #endif // UTIL_UTIL_H_

@@ -7,7 +7,7 @@
 
 #include <string>
 
-std::string InputString(WINDOW *window, int y, const std::string &prompt) {
+std::string InputString(WINDOW *window, int y, std::string prompt) {
   int x = getmaxx(window);
   x /= 2;
   std::string input;
@@ -30,9 +30,8 @@ std::string InputString(WINDOW *window, int y, const std::string &prompt) {
     }
 
     wmove(window, y, 0);
-    wclrtoeol(window);
-    mvwprintw(window, y, x - (prompt.length() / 2) - 10,
-              "Input cannot be empty. ");
+    wclrtobot(window);
+    prompt = "Input cannot be empty. ";
   }
 
   wmove(window, y, 0);

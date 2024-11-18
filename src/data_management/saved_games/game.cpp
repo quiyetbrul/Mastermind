@@ -18,6 +18,11 @@ namespace data_management {
 Game::Game() { limit_ = 3; }
 
 void Game::Save(player::Player &player) {
+  int y = 0;
+  int x = getmaxx(window_);
+  x /= 2;
+  std::string title = "Saving Game";
+  mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());
   // Game was saved before, update it
   if (!player.GetGameName().empty() && Exists(player.GetGameName())) {
     SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
@@ -31,15 +36,14 @@ void Game::Save(player::Player &player) {
 
   // Game was not saved before, prompt user to enter game name
   if (player.GetGameName().empty()) {
-    std::string game_name = InputString(window_, 1, "Enter game name: ");
+    std::string game_name = InputString(window_, y, "Enter game name: ");
     player.SetGameName(game_name);
   }
 
   // Game was not saved before and limit is reached, ask user to overwrite
   if (GetCount() >= GetSaveLimit()) {
-    int y = 1;
-    int x = getmaxx(window_);
-    std::string message = "Overwrite a saved game?";
+    std::string message = "Overwrite a saved game";
+    mvwprintw(window_, y++, x - (message.length() / 2), message.c_str());
     int game_to_replace = SelectGame(y);
     Update(game_to_replace, player);
     wclear(window_);
