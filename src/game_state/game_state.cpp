@@ -5,6 +5,7 @@
 
 #include "game_state.h"
 
+#include <ncurses.h>
 #include <string>
 
 #include "logger/logger.h"
@@ -53,8 +54,9 @@ GameState::GameState() {
   start_color();
 
   curs_set(0);
-  noecho();
+  scrollok(game_window_, false);
   keypad(game_window_, true);
+  noecho();
 }
 
 void GameState::Start() {

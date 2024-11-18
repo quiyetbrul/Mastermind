@@ -8,7 +8,6 @@
 void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
                  const int &longest_name_length) {
   int x = getmaxx(window);
-  PrintHL(window, x);
   x /= 2;
   int temp = x;
   int col_width = longest_name_length + x;
@@ -96,7 +95,8 @@ void EnterToContinue(WINDOW *window, const int &y) {
 }
 
 void PrintHL(WINDOW *window, const int &x) {
-  wattron(window, COLOR_PAIR(1));
+  init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
+  wattron(window, COLOR_PAIR(2));
   mvwhline(window, 0, 0, 0, x);
-  wattroff(window, COLOR_PAIR(1));
+  wattroff(window, COLOR_PAIR(2));
 }
