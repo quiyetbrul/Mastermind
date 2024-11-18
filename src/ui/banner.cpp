@@ -3,13 +3,12 @@
  * @brief Declaration of all banner functions.
  */
 
-#include <iostream>
-#include <ncurses.h>
 #include <string>
 #include <vector>
 
 #include "ui/banner.h"
-#include "util/util.h"
+
+#include <ncurses.h>
 
 void PrintBanner(WINDOW *window, int &y, int &x,
                  const std::vector<std::string> lines, const int &color_pair) {
@@ -56,38 +55,7 @@ void Title(WINDOW *window) {
   wrefresh(window);
 }
 
-// clang-format off
-void Title() {
-//   ClearScreen();
-  // TODO: get terminal width dynamically
-  std::cout << "                                      _ _ _ ____ _    ____ ____ _  _ ____     ___ ____\n";
-  std::cout << "                                      | | | |___ |    |    |  | |\\/| |___      |  |  |\n";
-  std::cout << "                                      |_|_| |___ |___ |___ |__| |  | |___      |  |__|\n\n";
-  std::cout << ANSI_COLOR_YELLOW;
-  std::cout << "███╗   ███╗ █████╗ ███████╗████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗██████╗       ██████╗  █████╗ ███╗   ███╗███████╗\n";
-  std::cout << "████╗ ████║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗     ██╔════╝ ██╔══██╗████╗ ████║██╔════╝\n";
-  std::cout << "██╔████╔██║███████║███████╗   ██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║██║  ██║     ██║  ███╗███████║██╔████╔██║█████╗\n";
-  std::cout << "██║╚██╔╝██║██╔══██║╚════██║   ██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██║  ██║     ██║   ██║██╔══██║██║╚██╔╝██║██╔══╝\n";
-  std::cout << "██║ ╚═╝ ██║██║  ██║███████║   ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██████╔╝     ╚██████╔╝██║  ██║██║ ╚═╝ ██║███████╗\n";
-  std::cout << "╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═════╝       ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝\n";
-  std::cout << ANSI_RESET;
-  std::cout << "                                ___  _   _    ____ _  _ _ _   _ ____ ___    ___  ____ _  _ _\n";
-  std::cout << "                                |__]  \\_/     |  | |  | |  \\_/  |___  |     |__] |__/ |  | |\n";
-  std::cout << "                                |__]   |      |_\\| |__| |   |   |___  |     |__] |  \\ |__| |___\n\n";
-}
-
-void Congratulations() {
-  std::cout << ANSI_COLOR_GREEN << ANSI_BLINK;
-  std::cout << " ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗██╗   ██╗██╗      █████╗ ████████╗██╗ ██████╗ ███╗   ██╗███████╗\n";
-  std::cout << "██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██║   ██║██║     ██╔══██╗╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝\n";
-  std::cout << "██║     ██║   ██║██╔██╗ ██║██║  ███╗██████╔╝███████║   ██║   ██║   ██║██║     ███████║   ██║   ██║██║   ██║██╔██╗ ██║███████╗\n";
-  std::cout << "██║     ██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══██║   ██║   ██║   ██║██║     ██╔══██║   ██║   ██║██║   ██║██║╚██╗██║╚════██║\n";
-  std::cout << "╚██████╗╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║██║  ██║   ██║   ╚██████╔╝███████╗██║  ██║   ██║   ██║╚██████╔╝██║ ╚████║███████║\n";
-  std::cout << " ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚══════╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝\n";
-  std::cout << ANSI_RESET;
-}
-
-void Congratulations(WINDOW* window, int &y){
+void Congratulations(WINDOW *window, int &y) {
   // wclear(window);
   wrefresh(window);
 
@@ -107,20 +75,8 @@ void Congratulations(WINDOW* window, int &y){
   PrintBanner(window, y, x, congrats, 1);
   wrefresh(window);
 }
-// clang-format off
 
-void TryAgain() {
-  std::cout << ANSI_COLOR_RED;
-  std::cout << "                            ████████╗██████╗ ██╗   ██╗      █████╗  ██████╗  █████╗ ██╗███╗   ██╗\n";
-  std::cout << "                            ╚══██╔══╝██╔══██╗╚██╗ ██╔╝     ██╔══██╗██╔════╝ ██╔══██╗██║████╗  ██║\n";
-  std::cout << "                               ██║   ██████╔╝ ╚████╔╝      ███████║██║  ███╗███████║██║██╔██╗ ██║\n";
-  std::cout << "                               ██║   ██╔══██╗  ╚██╔╝       ██╔══██║██║   ██║██╔══██║██║██║╚██╗██║\n";
-  std::cout << "                               ██║   ██║  ██║   ██║        ██║  ██║╚██████╔╝██║  ██║██║██║ ╚████║\n";
-  std::cout << "                               ╚═╝   ╚═╝  ╚═╝   ╚═╝        ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝\n\n";
-  std::cout << ANSI_RESET;
-}
-
-void TryAgain(WINDOW* window){
+void TryAgain(WINDOW *window) {
   wclear(window);
   wrefresh(window);
 
@@ -164,17 +120,4 @@ void Goodbye(WINDOW *window) {
   init_pair(1, COLOR_BLUE, COLOR_BLACK);
   PrintBanner(window, y, x, goodbye, 1);
   wrefresh(window);
-}
-
-// clang-format off
-void Goodbye() {
-  ClearScreen();
-  std::cout << ANSI_COLOR_BLUE;
-  std::cout << "                                    ██████╗  ██████╗  ██████╗ ██████╗ ██████╗ ██╗   ██╗███████╗\n";
-  std::cout << "                                   ██╔════╝ ██╔═══██╗██╔═══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝██╔════╝\n";
-  std::cout << "                                   ██║  ███╗██║   ██║██║   ██║██║  ██║██████╔╝ ╚████╔╝ █████╗\n";
-  std::cout << "                                   ██║   ██║██║   ██║██║   ██║██║  ██║██╔══██╗  ╚██╔╝  ██╔══╝\n";
-  std::cout << "                                   ╚██████╔╝╚██████╔╝╚██████╔╝██████╔╝██████╔╝   ██║   ███████╗\n";
-  std::cout << "                                    ╚═════╝  ╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝    ╚═╝   ╚══════╝\n\n";
-  std::cout << ANSI_RESET;
 }
