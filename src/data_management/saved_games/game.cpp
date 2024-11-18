@@ -9,9 +9,9 @@
 
 #include <SQLiteCpp/Column.h>
 #include <SQLiteCpp/SQLiteCpp.h>
+#include <ncurses.h>
 #include <nlohmann/json.hpp>
 
-#include "data_management/saved_games/saved_games.h"
 #include "ui/menu.h"
 #include "util/util.h"
 
@@ -21,7 +21,12 @@ Game::Game() { limit_ = 3; }
 void Game::Save(player::Player &player) {
   // Game was saved before, update it
   if (!player.GetGameName().empty() && Exists(player.GetGameName())) {
-    Update(player.GetGameName(), player.GetGameName(), player);
+    SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
+                                     " WHERE GAME_NAME = ?");
+    query.bind(1, player.GetGameName());
+    query.executeStep();
+    int game_id = query.getColumn(0).getInt();
+    Update(game_id, player);
     return;
   }
 
@@ -33,15 +38,15 @@ void Game::Save(player::Player &player) {
 
   // Game was not saved before and limit is reached, ask user to overwrite
   if (GetCount() >= GetSaveLimit()) {
-    // TODO: it's easier for user to enter 1-3 instead of game name
-    // PrintGames();
-    std::string game_to_replace = player.GetGameName();
-    while (!Exists(game_to_replace)) {
-      game_to_replace =
-          InputString("Enter the name of the game to overwrite: ");
-      // SelectGame(y);
-    }
-    Update(game_to_replace, player.GetGameName(), player);
+    int y = 1;
+    int x;
+    int _;
+    getmaxyx(window_, _, x);
+    std::string message = "Overwrite a saved game?";
+    int game_to_replace = SelectGame(y);
+    Update(game_to_replace, player);
+    wclear(window_);
+    wrefresh(window_);
     return;
   }
 
@@ -110,7 +115,7 @@ int Game::SelectGame(int &y) {
       } else {
         throw std::runtime_error("Game ID not found");
       }
-      return 0;
+      return game_id;
     }
   }
 }
