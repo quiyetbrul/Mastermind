@@ -5,6 +5,7 @@
 
 #include "single.h"
 
+#include <cctype>
 #include <iostream>
 #include <ncurses.h>
 
@@ -39,8 +40,7 @@ void Single::Start() {
 // if winner, save score, else saved_scores_ stays the same
 // requires is winner in player
 void Single::GameLoop() {
-
-  int half_life = GetLife() / 2;
+  std::string input;
   std::vector<int> guess;
 
   int y_max;
@@ -49,6 +49,7 @@ void Single::GameLoop() {
   box(window_, 0, 0);
   int y = 1;
   PrintCode(window_, y, x_max, GetSecretCode());
+  // TODO: check if zero
   StartTime();
   while (GetLife() > 0) {
     wrefresh(window_);
@@ -56,31 +57,47 @@ void Single::GameLoop() {
               GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
               GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
 
-    //
-    // if (GetLife() <= half_life && GetHintCount() > 0 &&
-    //     GetLastFeedBack().size() != GetSecretCodeLength()) {
-    //   char give_hint = InputChar("Want a hint? (y/n): ", 'y', 'n');
-    //   std::cout << DELETE_LINE;
-    //   if (give_hint == 'y') {
-    //     std::string hint = player::GiveHint(guess, GetSecretCode());
-    //     std::cout << "Hint: " << hint << std::endl;
-    //     AddToHintHistory(hint);
-    //     DecrementHint();
-    //   }
-    // }
-    // TODO: it's probably easier to refactor InputGuess to return a string
-    // and create a new function to convert it to a vector after if statement
-    // for save
-    guess = player::InputGuess(
+    input = player::InputGuess(
         window_, y, "Enter your guess: ", GetSecretCodeLength(),
-        GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
-    // std::string save = InputString("Save guess? (y/n): ");
+        GetSecretCodeMinDigit(), GetSecretCodeMaxDigit(), true);
 
-    // if (save == "y") {
-    //   data_management::Game saved_games;
-    //   saved_games.Save(*this);
-    //   break;
-    // }
+    if (input == "s") {
+      wclear(window_);
+      wrefresh(window_);
+      EndTime();
+      SaveElapsedTime();
+      SetScore(GetLife());
+      data_management::Game saved_games;
+      saved_games.SetWindow(window_);
+      saved_games.Save(*this);
+      init_pair(1, COLOR_CYAN, COLOR_BLACK);
+      return;
+    }
+
+    if (input == "h") {
+      std::string hint = "No available hints!";
+      if (!GetGuesses().empty() && GetHintCount() > 0 &&
+          GetLastFeedBack().size() != GetSecretCodeLength()) {
+        hint = player::GiveHint(guess, GetSecretCode());
+        mvwprintw(window_, y++, (x_max / 2) - (hint.length() / 2),
+                  hint.c_str());
+        AddToHintHistory(hint);
+        DecrementHint();
+      } else {
+        mvwprintw(window_, y++, (x_max / 2) - (hint.length() / 2),
+                  hint.c_str());
+      }
+      continue;
+    }
+
+    if (input == "e") {
+      wclear(window_);
+      wrefresh(window_);
+      init_pair(1, COLOR_CYAN, COLOR_BLACK);
+      return;
+    }
+
+    guess = player::ToVector(input);
 
     AddToGuessHistory(guess);
     PrintGuess(window_, y, x_max, guess, GetLastFeedBack());
