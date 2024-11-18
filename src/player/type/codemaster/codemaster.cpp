@@ -24,8 +24,7 @@ void Codemaster::Start() {
   SetDifficulty(highlight + 1);
   int y = 1;
   int x = getmaxx(window_);
-
-  box(window_, 0, 0);
+  PrintHL(window_, x);
   mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
@@ -44,12 +43,12 @@ void Codemaster::GameLoop() {
                        GetSecretCodeMaxDigit());
   int y = 2;
   int x = getmaxx(window_);
+  PrintHL(window_, x);
   x /= 2;
 
   StartTime();
   while (GetLife() > 0) {
     wrefresh(window_);
-    box(window_, 0, 0);
     mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
               GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
               GetSecretCodeMaxDigit());

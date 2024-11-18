@@ -30,12 +30,12 @@ std::string InputString(WINDOW *window, int y, std::string prompt) {
     }
 
     wmove(window, y, 0);
-    wclrtobot(window);
-    prompt = "Input cannot be empty. ";
+    wclrtoeol(window);
+    prompt = "Input cannot be empty. " + prompt;
   }
 
   wmove(window, y, 0);
-  wclrtobot(window);
+  wclrtoeol(window);
 
   return input;
 }

@@ -8,6 +8,7 @@
 void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
                  const int &longest_name_length) {
   int x = getmaxx(window);
+  PrintHL(window, x);
   x /= 2;
   int temp = x;
   int col_width = longest_name_length + x;
@@ -17,7 +18,7 @@ void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
     mvwprintw(window, y, (temp / 4) + total_width, head.c_str());
   }
   ++y;
-  box(window, 0, 0);
+
   wrefresh(window);
 }
 
@@ -26,9 +27,9 @@ void PrintMenu(WINDOW *window, const int &highlight,
                const std::string &menu_title) {
   wclear(window);
 
-  box(window, 0, 0);
   int y = 0;
   int x = getmaxx(window);
+  PrintHL(window, x);
   x /= 2;
 
   mvwprintw(window, y++, x - (menu_title.size() / 2), "%s", menu_title.c_str());
@@ -50,12 +51,11 @@ void PrintMenu(WINDOW *window, const int &highlight,
 }
 
 void PrintInstructions(WINDOW *window) {
+  wclear(window);
   int y = 0;
   int x = getmaxx(window);
+  PrintHL(window, x);
   x /= 2;
-
-  wclear(window);
-  box(window, 0, 0);
 
   // clang-format off
   std::string instructions[] = {
@@ -93,4 +93,10 @@ void EnterToContinue(WINDOW *window, const int &y) {
   }
 
   wclear(window);
+}
+
+void PrintHL(WINDOW *window, const int &x) {
+  wattron(window, COLOR_PAIR(1));
+  mvwhline(window, 0, 0, 0, x);
+  wattroff(window, COLOR_PAIR(1));
 }

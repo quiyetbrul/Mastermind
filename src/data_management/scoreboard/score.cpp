@@ -32,11 +32,12 @@ void Score::Save(const player::Player &player) {
 void Score::PrintScores() const {
   int y = 0;
   int x = getmaxx(window_);
+  PrintHL(window_, x);
   x /= 2;
   wclear(window_);
-  box(window_, 0, 0);
   std::string title = "Top Scores";
   mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());
+  wrefresh(window_);
   if (GetCount() < 1) {
     std::string no_score = "No scores yet!";
     mvwprintw(window_, y++, x - (no_score.length() / 2), no_score.c_str());

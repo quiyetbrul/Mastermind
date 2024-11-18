@@ -67,7 +67,7 @@ void GameState::Start() {
 
   while (true) {
     wclear(game_window_);
-    box(game_window_, 0, 0);
+    PrintHL(game_window_, x_max_);
     PrintMenu(game_window_, highlight, choices, "Main Menu");
     choice = wgetch(game_window_);
     switch (choice) {
@@ -154,7 +154,6 @@ void GameState::PlayerMenu() {
 
 void GameState::LoadGameMenu() {
   logger_.Log("Printing saved games");
-  box(game_window_, 0, 0);
   load_.SetWindow(game_window_);
   load_.Start();
 }

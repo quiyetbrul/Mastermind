@@ -25,8 +25,7 @@ void Single::Start() {
                           GetSecretCodeMaxDigit()));
 
   wclear(window_);
-
-  box(window_, 0, 0);
+  PrintHL(window_, getmaxx(window_));
   mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
@@ -43,6 +42,7 @@ void Single::GameLoop() {
 
   int y = 1;
   int x = getmaxx(window_);
+  PrintHL(window_, x);
   x /= 2;
 
   PrintCode(window_, y, x, GetSecretCode());
@@ -51,7 +51,6 @@ void Single::GameLoop() {
 
   while (GetLife() > 0) {
     wrefresh(window_);
-    box(window_, 0, 0);
     mvwprintw(window_, 0, 2, "LIFE: %02d  HINTS: %d  SETTINGS: %d %d %d %d",
               GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
               GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());

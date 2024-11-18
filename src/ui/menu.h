@@ -61,4 +61,12 @@ void UpdateHighlight(int &highlight, const std::vector<T> &choices,
   }
 }
 
+/**
+ * @brief Print a horizontal line with color.
+ *
+ * @param window The window to print the line.
+ * @param x The length of the line.
+ */
+void PrintHL(WINDOW *window, const int &x);
+
 #endif // UI_MENU_H_
