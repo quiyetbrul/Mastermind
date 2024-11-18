@@ -52,6 +52,8 @@ GameState::GameState() {
   game_window_ = newwin(20, x_max_, 10, 0);
 
   start_color();
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
+  init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
 
   curs_set(0);
   scrollok(game_window_, false);
@@ -69,7 +71,7 @@ void GameState::Start() {
 
   while (true) {
     wclear(game_window_);
-    PrintHL(game_window_, x_max_);
+    PrintHL(game_window_);
     PrintMenu(game_window_, highlight, choices, "Main Menu");
     choice = wgetch(game_window_);
     switch (choice) {

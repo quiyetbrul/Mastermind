@@ -21,10 +21,10 @@ void Codemaster::Start() {
   if (highlight == 3) {
     return;
   }
+  PrintHL(window_);
   SetDifficulty(highlight + 1);
   int y = 1;
   int x = getmaxx(window_);
-  PrintHL(window_, x);
   mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
@@ -41,9 +41,10 @@ void Codemaster::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                        GetSecretCodeMaxDigit());
+  PrintHL(window_);
+
   int y = 2;
   int x = getmaxx(window_);
-  PrintHL(window_, x);
   x /= 2;
 
   StartTime();

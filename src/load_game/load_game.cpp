@@ -15,7 +15,7 @@ void LoadGame::Start() {
   int y = 0;
   int x = getmaxx(window_);
   wclear(window_);
-  PrintHL(window_, x);
+  PrintHL(window_);
   x /= 2;
   std::string title = "Saved Games";
   mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());

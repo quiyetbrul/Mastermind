@@ -18,9 +18,10 @@ namespace data_management {
 Game::Game() { limit_ = 3; }
 
 void Game::Save(player::Player &player) {
+  PrintHL(window_);
+
   int y = 0;
   int x = getmaxx(window_);
-  PrintHL(window_, x);
   x /= 2;
   std::string title = "Saving Game";
   mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());

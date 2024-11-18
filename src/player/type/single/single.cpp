@@ -25,7 +25,7 @@ void Single::Start() {
                           GetSecretCodeMaxDigit()));
 
   wclear(window_);
-  PrintHL(window_, getmaxx(window_));
+  PrintHL(window_);
   mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
@@ -40,9 +40,10 @@ void Single::GameLoop() {
   std::string input;
   std::vector<int> guess;
 
+  PrintHL(window_);
+
   int y = 1;
   int x = getmaxx(window_);
-  PrintHL(window_, x);
   x /= 2;
 
   PrintCode(window_, y, x, GetSecretCode());

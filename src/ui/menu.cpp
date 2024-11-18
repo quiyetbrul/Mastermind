@@ -28,7 +28,7 @@ void PrintMenu(WINDOW *window, const int &highlight,
 
   int y = 0;
   int x = getmaxx(window);
-  PrintHL(window, x);
+  PrintHL(window);
   x /= 2;
 
   mvwprintw(window, y++, x - (menu_title.size() / 2), "%s", menu_title.c_str());
@@ -53,7 +53,7 @@ void PrintInstructions(WINDOW *window) {
   wclear(window);
   int y = 0;
   int x = getmaxx(window);
-  PrintHL(window, x);
+  PrintHL(window);
   x /= 2;
 
   // clang-format off
@@ -94,9 +94,8 @@ void EnterToContinue(WINDOW *window, const int &y) {
   wclear(window);
 }
 
-void PrintHL(WINDOW *window, const int &x) {
-  init_pair(2, COLOR_MAGENTA, COLOR_BLACK);
+void PrintHL(WINDOW *window) {
   wattron(window, COLOR_PAIR(2));
-  mvwhline(window, 0, 0, 0, x);
+  mvwhline(window, 0, 0, 0, getmaxx(window));
   wattroff(window, COLOR_PAIR(2));
 }

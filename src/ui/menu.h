@@ -67,6 +67,6 @@ void UpdateHighlight(int &highlight, const std::vector<T> &choices,
  * @param window The window to print the line.
  * @param x The length of the line.
  */
-void PrintHL(WINDOW *window, const int &x);
+void PrintHL(WINDOW *window);
 
 #endif // UI_MENU_H_
