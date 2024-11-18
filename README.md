@@ -48,56 +48,7 @@ Whether you're looking for a quick mental workout or a fun way to pass the time.
 
 ### Activity Diagram
 
-NOTE: If you don't have Mermaid viewer, view the diagram here. TODO: Add link to diagram.
-
-#### TODO: WIP Activity Diagram
-
-```mermaid
-graph TD
-    A[Display Main Menu] --> B[User Chooses Option]
-
-    B -->|Choice == 1| C[Play Game]
-    C --> D[Call Game Menu]
-
-    B -->|Choice == 2| E[Load Game]
-    E --> F[Display Load Game under construction]
-
-    B -->|Choice == 3| G[Scoreboard]
-    G --> H[Display Scoreboard under construction]
-
-    B -->|Choice == 4| I[Instructions]
-    I --> J[Call Instructions]
-
-    B -->|Choice == 5| K[Exit]
-    K --> L[Call Goodbye]
-    L --> M[Call Close Terminal]
-```
-
-### Class Diagram
-
-NOTE: If you don't have Mermaid viewer, view the diagram here. TODO: Add link to diagram.
-
-#### TODO: WIP Class Diagram
-
-```mermaid
-classDiagram
-    class Gameplay {
-        +void Start()
-        +void GameMenu()
-        +void PlayAgain()
-        -static const int kLifeStart
-        -static const int save_limit_
-        -static std::vector~Games~ saved_games_
-    }
-
-    class ComputerPlayer {
-        +void Start()
-        -Player player
-    }
-
-    Gameplay --> ComputerPlayer
-end
-```
+![Activity Diagram](/assets/activity_diagram.png)
 
 ## Development
 
