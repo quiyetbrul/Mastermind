@@ -4,6 +4,7 @@
  */
 
 #include "menu.h"
+#include <ncurses.h>
 
 void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
                  const int &longest_name_length) {
@@ -17,14 +18,23 @@ void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
     mvwprintw(window, y, (temp / 4) + total_width, head.c_str());
   }
   ++y;
+  box(window, 0, 0);
   wrefresh(window);
 }
 
 void PrintMenu(WINDOW *window, const int &highlight,
-               const std::vector<std::string> &choices) {
-  int y = 2;
+               const std::vector<std::string> &choices,
+               const std::string &menu_title) {
+  wclear(window);
+
+  box(window, 0, 0);
+  int y = 0;
   int x = getmaxx(window);
   x /= 2;
+
+  mvwprintw(window, y++, x - (menu_title.size() / 2), "%s", menu_title.c_str());
+
+  // y = 2;
   for (int i = 0; i < choices.size(); ++i) {
     if (highlight == i) {
       wattron(window, A_STANDOUT);
@@ -41,12 +51,16 @@ void PrintMenu(WINDOW *window, const int &highlight,
 }
 
 void PrintInstructions(WINDOW *window) {
-  int y = 1;
+  int y = 0;
   int x = getmaxx(window);
   x /= 2;
+
   wclear(window);
+  box(window, 0, 0);
+
+  // clang-format off
   std::string instructions[] = {
-      "Instructions:",
+      "Instructions",
       "The secret code length and each digit range depend on the difficulty.",
       "The settings are displayed at the top of the screen in the following format: ",
       "[difficulty] [code length] [min digit] [max digit]",
@@ -58,6 +72,7 @@ void PrintInstructions(WINDOW *window) {
       "You have 10 chances to guess the secret code, and you have 3 [h]ints.",
       "You may [s]ave or [e]xit the game at any time.",
       "Good Luck!"};
+  // clang-format on
 
   for (const auto &instruction : instructions) {
     mvwprintw(window, y++, x - (instruction.length() / 2), instruction.c_str());
@@ -71,8 +86,7 @@ void EnterToContinue(WINDOW *window, const int &y) {
   x /= 2;
 
   std::string press_enter = "Press enter to continue...";
-  mvwprintw(window, y, x - (press_enter.length() / 2),
-            press_enter.c_str());
+  mvwprintw(window, y, x - (press_enter.length() / 2), press_enter.c_str());
 
   int c = wgetch(window);
   while (c != '\n') {
@@ -80,5 +94,4 @@ void EnterToContinue(WINDOW *window, const int &y) {
   }
 
   wclear(window);
-  wrefresh(window);
 }

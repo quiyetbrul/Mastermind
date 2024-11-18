@@ -25,7 +25,6 @@ void Single::Start() {
                           GetSecretCodeMaxDigit()));
 
   wclear(window_);
-  wrefresh(window_);
 
   std::string name = InputString(window_, 1, "Enter your name: ");
   SetPlayerName(name);
@@ -48,6 +47,7 @@ void Single::GameLoop() {
 
   while (GetLife() > 0) {
     wrefresh(window_);
+    box(window_, 0, 0);
     mvwprintw(window_, 0, 2, "LIFE: %02d  HINTS: %d  SETTINGS: %d %d %d %d",
               GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
               GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
@@ -58,7 +58,6 @@ void Single::GameLoop() {
 
     if (input == "s") {
       wclear(window_);
-      wrefresh(window_);
       EndTime();
       SaveElapsedTime();
       SetScore(GetLife());
@@ -85,7 +84,6 @@ void Single::GameLoop() {
 
     if (input == "e") {
       wclear(window_);
-      wrefresh(window_);
       init_pair(1, COLOR_CYAN, COLOR_BLACK);
       return;
     }

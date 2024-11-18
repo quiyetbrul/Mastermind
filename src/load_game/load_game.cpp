@@ -6,6 +6,7 @@
 #include "load_game.h"
 
 #include "ui/menu.h"
+#include <ncurses.h>
 
 namespace game_loader {
 LoadGame::LoadGame() {}
@@ -15,6 +16,7 @@ void LoadGame::Start() {
   int x = getmaxx(window_);
   wclear(window_);
 
+  box(window_, 0, 0);
   std::string title = "Saved Games";
   mvwprintw(window_, y++, (x / 2) - (title.length() / 2), title.c_str());
 

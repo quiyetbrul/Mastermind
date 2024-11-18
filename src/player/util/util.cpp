@@ -152,7 +152,7 @@ int InputDifficulty(WINDOW *window) {
   while (loop) {
     wclear(window);
     wrefresh(window);
-    PrintMenu(window, highlight, difficulty_options);
+    PrintMenu(window, highlight, difficulty_options, "Select Difficulty");
     choice = wgetch(window);
     switch (choice) {
     case KEY_UP:

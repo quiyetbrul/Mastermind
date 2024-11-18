@@ -69,8 +69,8 @@ void GameState::Start() {
 
   while (true) {
     wclear(game_window_);
-    wrefresh(game_window_);
-    PrintMenu(game_window_, highlight, choices);
+    box(game_window_, 0, 0);
+    PrintMenu(game_window_, highlight, choices, "Main Menu");
     choice = wgetch(game_window_);
     switch (choice) {
     case KEY_UP:
@@ -109,17 +109,15 @@ void GameState::Start() {
 }
 
 void GameState::PlayerMenu() {
+  wclear(game_window_);
+
   std::vector<std::string> choices = {"Single Player", "Codemaster", "Back"};
 
   int choice = 0;
   int highlight = 0;
 
-  wclear(game_window_);
-  wrefresh(game_window_);
-
   while (true) {
-    wrefresh(game_window_);
-    PrintMenu(game_window_, highlight, choices);
+    PrintMenu(game_window_, highlight, choices, "Select Player Type");
     choice = wgetch(game_window_);
     switch (choice) {
     case KEY_UP:
@@ -150,7 +148,6 @@ void GameState::PlayerMenu() {
       }
       case GameType::BACK:
         wclear(game_window_);
-        wrefresh(game_window_);
         return;
       }
     }
@@ -159,6 +156,7 @@ void GameState::PlayerMenu() {
 
 void GameState::LoadGameMenu() {
   logger_.Log("Printing saved games");
+  box(game_window_, 0, 0);
   game_loader::LoadGame load;
   load.SetWindow(game_window_);
   load.Start();

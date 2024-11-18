@@ -37,13 +37,14 @@ void Codemaster::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                        GetSecretCodeMaxDigit());
-  int y = 0;
+  int y = 2;
   int x = getmaxx(window_);
   x /= 2;
 
   StartTime();
   while (GetLife() > 0) {
     wrefresh(window_);
+    box(window_, 0, 0);
     mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
               GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
               GetSecretCodeMaxDigit());

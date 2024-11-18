@@ -82,16 +82,14 @@ int Game::SelectGame(int &y) {
   }
   saved_games.push_back("Back");
 
-  std::vector<std::string> header = {"Game", "Difficulty"};
-  PrintHeader(window_, y, header, longest_name_length);
+  // std::vector<std::string> header = {"Game", "Difficulty"};
+  // PrintHeader(window_, y, header, longest_name_length);
 
   int choice = 0;
   int highlight = 0;
-  x = 2; // reset
 
   while (true) {
-    PrintMenu(window_, highlight, saved_games);
-    wrefresh(window_);
+    PrintMenu(window_, highlight, saved_games, "Select Game");
     choice = wgetch(window_);
     switch (choice) {
     case KEY_UP:

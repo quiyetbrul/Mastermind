@@ -15,7 +15,8 @@
  * @brief Print a menu.
  */
 void PrintMenu(WINDOW *window, const int &highlight,
-               const std::vector<std::string> &choices);
+               const std::vector<std::string> &choices,
+               const std::string &menu_title);
 
 /**
  * @brief Print the header.
