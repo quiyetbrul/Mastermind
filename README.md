@@ -4,39 +4,34 @@
 
 - [Introduction](#introduction)
 - [What I Used](#what-i-used)
-  - [Technologies](#technologies)
-  - [Others](#others)
 - [Setup and Run](#setup-and-run)
 - [Features](#features)
-- [Development](#development)
-- [Installation](#installation)
+- [Development and Design](#development-and-design)
 
 ## Introduction
 
-Mastermind is a console-based puzzle game where players decipher a secret code.
-
-Whether you're looking for a quick mental workout or a fun way to pass the time... Mastermind provides a unique way to test your deductive skills!
+This Mastermind clone is a console-based puzzle game where players attempt to decipher a secret code within a limited number of guesses. The game tests and hones deductive reasoning skills, making it both a mental workout and a fun pastime.
 
 ## What I Used
 
 ### Operating System
 
 - macOS Sequoia 15.1
-  - it should work on any Linux distribution
-  - it might not work on Windows, given I use Unix/Linux commands
-  - TODO: need to see whether making it cross-platform is feasible
 
-### Technologies
+### Dependencies
 
-- [VS Code](https://code.visualstudio.com/)
-- C++17
 - [CMake](https://cmake.org/)
-- Enet -- soon!
-- [SonarCloud](https://sonarcloud.io/)
 - [cURL](https://curl.se/libcurl/c/)
+- [SQLite](https://www.sqlite.org/index.html)
+- [SQLiteCPP](https://github.com/SRombauts/SQLiteCpp)
+- [NCurses](https://invisible-island.net/ncurses/)
+- [Nlohmann JSON](https://github.com/nlohmann/json)
 
 ### Others
 
+- [VS Code](https://code.visualstudio.com/)
+- [SonarCloud](https://sonarcloud.io/)
+- [Doxygen](https://www.doxygen.nl/index.html)
 - [ASCIIDecorator](https://marketplace.visualstudio.com/items?itemName=helixquar.asciidecorator)
 - [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd)
 - [Google C++ Style Guide](https://google.github.io/styleguide/cppguide.html)
@@ -44,14 +39,62 @@ Whether you're looking for a quick mental workout or a fun way to pass the time.
 
 ## Setup and Run
 
+- Ensure all dependencies are installed.
+
+- Clone the repository.
+
+- Run the following script:
+
+```bash
+sh makerun.sh
+```
+
+- If running the script fails, run the following commands:
+
+  <ul>
+    <li>
+      Create a build directory:
+    </li>
+    <pre><code>cmake -S . -B build/</code></pre>
+    <li>
+      Build the project:
+    </li>
+    <pre><code>cd build && make</code></pre>
+    <li>
+    Run the project:
+    </li>
+    <pre><code>./Mastermind</code></pre>
+  </ul>
+
 ## Features
+
+- Single-player mode.
+- AI Codebreaker using Donald Knuth's 5-guess algorithm.
+- Configurable difficulty levels.
+- Codebreaker hints.
+- Top 10 leaderboard.
+- Save/load game functionality.
+- Random number generation via Random API using cURL.
+- Logging system.
+- Input validation.
+- Interactive terminal UI using ncurses.
 
 ### Activity Diagram
 
 ![Activity Diagram](/assets/activity_diagram.png)
 
-## Development
+## Development and Design
 
-## Design Decisions
+I began by creating an MVP with a basic main menu for starting or exiting the game, featuring a singleton logger for event tracking and initial input validation. Random number generation initially relied on pseudo-random methods but later used an external API integrated via cURL.
 
-## Installation
+To enhance structure with OOP principles, I added a GameState class, an abstract Player class, and a SinglePlayer class, enabling the integration of Donald Knuth's 5-guess algorithm for an AI Codebreaker using a minimax strategy to efficiently solve the code.
+
+Additional features included a Codebreaker Hint system and customizable difficulty settings for improved player engagement. I implemented a leaderboard to track top scores and game progress persistence using SQLiteCpp, employing an MVC architecture to ensure clean separation of concerns.
+
+Finally, I utilized ncurses to create a robust terminal-based UI, enhancing the interactive console experience for players.
+
+## Links
+
+- [Mastermind Game](https://en.wikipedia.org/wiki/Mastermind_(board_game))
+- [MiniMax Algorithm](https://en.wikipedia.org/wiki/Minimax)
+- [RubyConf 2018 - Beating Mastermind: Winning with the help of Donald Knuth by Adam Forsyth](https://www.youtube.com/watch?v=Okm_t5T1PiA&ab_channel=Confreaks)
