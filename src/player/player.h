@@ -1,6 +1,6 @@
 /**
  * @file player.h
- * @brief Declaration of the Player class
+ * @brief Abstract class declaration of the Player class
  */
 
 #ifndef PLAYER_PLAYER_H_

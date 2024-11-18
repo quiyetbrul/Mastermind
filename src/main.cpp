@@ -4,8 +4,6 @@
 /**
  * @brief A Mastermind game clone in C++
  * @author Quiyet Brul
- *
- * @return Returns 0 when execution is successful
  */
 int main() {
   Logger &logger = Logger::GetInstance();
