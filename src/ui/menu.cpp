@@ -4,7 +4,6 @@
  */
 
 #include "menu.h"
-#include <ncurses.h>
 
 void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
                  const int &longest_name_length) {

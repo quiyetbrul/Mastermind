@@ -6,11 +6,10 @@
 #ifndef DATA_MANAGEMENT_SAVED_GAMES_GAME_H_
 #define DATA_MANAGEMENT_SAVED_GAMES_GAME_H_
 
-#include <SQLiteCpp/SQLiteCpp.h>
-#include <ncurses.h>
-
 #include "data_management/saved_games/saved_games.h"
 #include "player/player.h"
+
+#include <ncurses.h>
 
 namespace data_management {
 /**

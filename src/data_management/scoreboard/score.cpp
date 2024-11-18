@@ -6,10 +6,8 @@
 #include "score.h"
 
 #include "ui/menu.h"
-#include "util/util.h"
 
 #include <SQLiteCpp/SQLiteCpp.h>
-#include <ncurses.h>
 
 namespace data_management {
 const int kTopScoreLimit = 10;

@@ -8,6 +8,7 @@
 
 #include "data_management/scoreboard/score.h"
 #include "load_game/load_game.h"
+#include "logger/logger.h"
 
 #include <ncurses.h>
 
@@ -38,7 +39,10 @@ private:
   WINDOW *banner_window_;
   WINDOW *game_window_;
 
-  Logger& logger_ = Logger::GetInstance();
+  game_loader::LoadGame load_;
+  data_management::Score score_;
+
+  Logger &logger_ = Logger::GetInstance();
 
   /**
    * @brief Player's game menu.

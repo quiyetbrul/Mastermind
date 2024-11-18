@@ -14,8 +14,6 @@
 #include "ui/menu.h"
 #include "util/util.h"
 
-#include <ncurses.h>
-
 /**
  * @enum MainMenu
  * @brief Represents the main menu options.
@@ -157,16 +155,14 @@ void GameState::PlayerMenu() {
 void GameState::LoadGameMenu() {
   logger_.Log("Printing saved games");
   box(game_window_, 0, 0);
-  game_loader::LoadGame load;
-  load.SetWindow(game_window_);
-  load.Start();
+  load_.SetWindow(game_window_);
+  load_.Start();
 }
 
 void GameState::Scoreboard() {
   logger_.Log("Printing scoreboard");
-  data_management::Score score;
-  score.SetWindow(game_window_);
-  score.PrintScores();
+  score_.SetWindow(game_window_);
+  score_.PrintScores();
 }
 
 void GameState::Instructions() {

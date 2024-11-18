@@ -9,7 +9,6 @@
 
 #include <SQLiteCpp/Column.h>
 #include <SQLiteCpp/SQLiteCpp.h>
-#include <ncurses.h>
 #include <nlohmann/json.hpp>
 
 #include "ui/menu.h"

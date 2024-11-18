@@ -8,8 +8,6 @@
 
 #include "ui/banner.h"
 
-#include <ncurses.h>
-
 void PrintBanner(WINDOW *window, int &y, int &x,
                  const std::vector<std::string> lines, const int &color_pair) {
   int longest_line = 0;
