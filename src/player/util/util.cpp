@@ -122,9 +122,14 @@ std::string GiveFeedback(const std::vector<int> &guess,
 
 void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
                 const std::string &feedback) {
-  int total_width_needed =
-      guess.size() + (2 * guess.size()) + feedback.length() + guess.size();
-  x -= (total_width_needed / 2);
+  int total_width_needed = guess.size();
+  // space between guess digits
+  total_width_needed += (2 * guess.size());
+  // space between guess and feedback + feedback max length
+  total_width_needed += (4 + guess.size());
+  // center the guess and feedback
+  total_width_needed /= 2;
+  x -= total_width_needed; // "1  2  3  4    BBBB"
   for (const auto &i : guess) {
     mvwprintw(window, y, x, "%d", i);
     x += 2;
