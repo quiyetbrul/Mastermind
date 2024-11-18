@@ -34,8 +34,8 @@ enum class MainMenu : int {
  */
 enum class GameType : int {
   SINGLE_PLAYER = 1, /**< Single player mode */
-  CODEMASTER,     /**< Play as codemaster */
-  BACK            /**< Go back to main menu */
+  CODEMASTER,        /**< Play as codemaster */
+  BACK               /**< Go back to main menu */
 };
 
 namespace mastermind {
@@ -54,10 +54,9 @@ GameState::GameState() {
 
   start_color();
 
-  curs_set(0); // hide the cursor
-  box(banner_window_, 0, 0);
-  box(game_window_, 0, 0);
-  keypad(game_window_, true); // enable function keys, e.g. arrow keys
+  curs_set(0);
+  noecho();
+  keypad(game_window_, true);
 }
 
 void GameState::Start() {
@@ -166,7 +165,7 @@ void GameState::LoadGameMenu() {
 }
 
 void GameState::Scoreboard() {
-  logger_.Log("Printing scoreboardooo");
+  logger_.Log("Printing scoreboard");
   data_management::Score score;
   score.SetWindow(game_window_);
   score.PrintScores();
