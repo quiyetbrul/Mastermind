@@ -18,8 +18,19 @@ void PrintMenu(WINDOW *window, const int &highlight,
                const std::vector<std::string> &choices);
 
 /**
- * @brief Print the instructions.
+ * @brief Print the header.
+ *
+ * @param window
+ * @param y
+ * @param header
+ * @param longest_name_length
  */
-void PrintInstructions(WINDOW *windo);
+void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
+                 const int &longest_name_length);
+
+    /**
+     * @brief Print the instructions.
+     */
+    void PrintInstructions(WINDOW *windo);
 
 #endif // UI_MENU_H_

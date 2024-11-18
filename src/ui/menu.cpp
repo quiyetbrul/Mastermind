@@ -7,25 +7,41 @@
 
 #include "util/util.h"
 
-void PrintMenu(WINDOW *menu_win, const int &highlight,
+void PrintHeader(WINDOW* window, int & y, const std::vector<std::string>& header, const int& longest_name_length) {
+  int _;
+  int x;
+  getmaxyx(window, _, x);
+  x /= 2;
+  int temp = x;
+  int col_width = longest_name_length + x;
+  int total_width = header.size() * longest_name_length;
+  for (const auto &head : header) {
+    temp += col_width;
+    mvwprintw(window, y, (temp / 4) + total_width, head.c_str());
+  }
+  ++y;
+  wrefresh(window);
+}
+
+void PrintMenu(WINDOW *window, const int &highlight,
                const std::vector<std::string> &choices) {
   int x, y;
-  getmaxyx(menu_win, y, x);
-  y = 0;
+  getmaxyx(window, y, x);
+  y = 2;
   x /= 2;
   for (int i = 0; i < choices.size(); ++i) {
     if (highlight == i) {
-      wattron(menu_win, A_STANDOUT);
-      mvwprintw(menu_win, y, x - (choices[i].length() / 2), "%s",
+      wattron(window, A_STANDOUT);
+      mvwprintw(window, y, x - (choices[i].length() / 2), "%s",
                 choices[i].c_str());
-      wattroff(menu_win, A_STANDOUT);
+      wattroff(window, A_STANDOUT);
     } else {
-      mvwprintw(menu_win, y, x - (choices[i].length() / 2), "%s",
+      mvwprintw(window, y, x - (choices[i].length() / 2), "%s",
                 choices[i].c_str());
     }
     ++y;
   }
-  wrefresh(menu_win);
+  wrefresh(window);
 }
 
 void PrintInstructions(WINDOW *window) {
