@@ -39,6 +39,8 @@ This Mastermind clone is a console-based puzzle game where players attempt to de
 
 ## Setup and Run
 
+### Using Repository
+
 - Ensure all dependencies are installed.
 
 - Clone the repository.
@@ -65,6 +67,21 @@ sh makerun.sh
     </li>
     <pre><code>./Mastermind</code></pre>
   </ul>
+
+### Using Docker
+
+- Ensure Docker is installed, and you are logged in.
+- Pull the Docker image using the command.
+
+```bash
+docker pull quiyetbrul/mastermind-game:latest
+```
+
+- Run the Docker container using the command. (Note that you have to run the same container if you want data persistence.)
+
+```bash
+docker run -it -e TERM=xterm-256color quiyetbrul/mastermind-game:latest
+```
 
 ## Features
 
