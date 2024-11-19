@@ -36,11 +36,12 @@ void Score::PrintScores() const {
   int x = getmaxx(window_);
   x /= 2;
   std::string title = "Top Scores";
-  mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());
+  mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
   wrefresh(window_);
   if (GetCount() < 1) {
     std::string no_score = "No scores yet!";
-    mvwprintw(window_, y++, x - (no_score.length() / 2), no_score.c_str());
+    mvwprintw(window_, y++, x - (no_score.length() / 2), "%s",
+              no_score.c_str());
   } else {
     // Determine the maximum length of user names
     SQLite::Statement max_length_query(

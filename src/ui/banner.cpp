@@ -18,7 +18,7 @@ void PrintBanner(WINDOW *window, int &y, int &x,
   }
   wattron(window, COLOR_PAIR(color_pair));
   for (const auto &line : lines) {
-    mvwprintw(window, ++y, x - (longest_line / 2), line.c_str());
+    mvwprintw(window, ++y, x - (longest_line / 2), "%s", line.c_str());
   }
   wattroff(window, COLOR_PAIR(color_pair));
 }
@@ -37,7 +37,7 @@ void Title(WINDOW *window) {
   int x = getmaxx(window);
   x /= 2;
   std::string welcome_in_morse = ".-- . .-.. -.-. --- -- .    - --- ";
-  mvwprintw(window, ++y, x - (welcome_in_morse.length() / 2),
+  mvwprintw(window, ++y, x - (welcome_in_morse.length() / 2), "%s",
             welcome_in_morse.c_str());
 
   init_pair(1, COLOR_CYAN, COLOR_BLACK);
@@ -45,7 +45,7 @@ void Title(WINDOW *window) {
 
   std::string by_in_rot13_morse =
       "--- .-..    -.. .... ...- .-.. .-. --.    --- . .... -.--";
-  mvwprintw(window, ++y, x - (by_in_rot13_morse.length() / 2),
+  mvwprintw(window, ++y, x - (by_in_rot13_morse.length() / 2), "%s",
             by_in_rot13_morse.c_str());
 
   wrefresh(window);

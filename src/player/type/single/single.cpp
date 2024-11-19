@@ -80,11 +80,11 @@ void Single::GameLoop() {
       if (!GetGuesses().empty() && GetHintCount() > 0 &&
           GetLastFeedBack().size() != GetSecretCodeLength()) {
         hint = player::GiveHint(guess, GetSecretCode());
-        mvwprintw(window_, y++, x - (hint.length() / 2), hint.c_str());
+        mvwprintw(window_, y++, x - (hint.length() / 2), "%s", hint.c_str());
         AddToHintHistory(hint);
         DecrementHint();
       } else {
-        mvwprintw(window_, y++, x - (hint.length() / 2), hint.c_str());
+        mvwprintw(window_, y++, x - (hint.length() / 2), "%s", hint.c_str());
       }
       continue;
     }
@@ -111,7 +111,8 @@ void Single::GameLoop() {
       PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
       std::string message = "You made it to the scoreboard!";
       logger_.Log(message);
-      mvwprintw(window_, y++, x - (message.length() / 2), message.c_str());
+      mvwprintw(window_, y++, x - (message.length() / 2), "%s",
+                message.c_str());
       score_.Save(*this);
       break;
     }

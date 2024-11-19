@@ -18,11 +18,11 @@ void LoadGame::Start() {
   PrintHL(window_);
   x /= 2;
   std::string title = "Saved Games";
-  mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());
+  mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
 
   if (GetCount() < 1) {
     std::string no_saved_games = "No saved games yet!";
-    mvwprintw(window_, y++, x - (no_saved_games.length() / 2),
+    mvwprintw(window_, y++, x - (no_saved_games.length() / 2), "%s",
               no_saved_games.c_str());
     EnterToContinue(window_, y);
     return;

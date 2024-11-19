@@ -13,7 +13,7 @@ std::string InputString(WINDOW *window, int y, std::string prompt) {
   std::string input;
 
   while (true) {
-    mvwprintw(window, y, x - (prompt.length() / 2) - 10, prompt.c_str());
+    mvwprintw(window, y, x - (prompt.length() / 2) - 10, "%s", prompt.c_str());
     wmove(window, y, x - (prompt.length() / 2) - 10 + prompt.length() + 1);
     wrefresh(window);
 

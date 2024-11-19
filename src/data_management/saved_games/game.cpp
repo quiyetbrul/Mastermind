@@ -24,7 +24,7 @@ void Game::Save(player::Player &player) {
   int x = getmaxx(window_);
   x /= 2;
   std::string title = "Saving Game";
-  mvwprintw(window_, y++, x - (title.length() / 2), title.c_str());
+  mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
   // Game was saved before, update it
   if (!player.GetGameName().empty() && Exists(player.GetGameName())) {
     SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
@@ -45,7 +45,7 @@ void Game::Save(player::Player &player) {
   // Game was not saved before and limit is reached, ask user to overwrite
   if (GetCount() >= GetSaveLimit()) {
     std::string message = "Overwrite a saved game";
-    mvwprintw(window_, y++, x - (message.length() / 2), message.c_str());
+    mvwprintw(window_, y++, x - (message.length() / 2), "%s", message.c_str());
     int game_to_replace = SelectGame(y);
     Update(game_to_replace, player);
     wclear(window_);

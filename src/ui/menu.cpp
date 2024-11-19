@@ -14,7 +14,7 @@ void PrintHeader(WINDOW *window, int &y, const std::vector<std::string> &header,
   int total_width = header.size() * longest_name_length;
   for (const auto &head : header) {
     temp += col_width;
-    mvwprintw(window, y, (temp / 4) + total_width, head.c_str());
+    mvwprintw(window, y, (temp / 4) + total_width, "%s", head.c_str());
   }
   ++y;
 
@@ -73,7 +73,8 @@ void PrintInstructions(WINDOW *window) {
   // clang-format on
 
   for (const auto &instruction : instructions) {
-    mvwprintw(window, y++, x - (instruction.length() / 2), instruction.c_str());
+    mvwprintw(window, y++, x - (instruction.length() / 2), "%s",
+              instruction.c_str());
   }
   EnterToContinue(window, y);
   return;
@@ -84,7 +85,8 @@ void EnterToContinue(WINDOW *window, const int &y) {
   x /= 2;
 
   std::string press_enter = "Press enter to continue...";
-  mvwprintw(window, y, x - (press_enter.length() / 2), press_enter.c_str());
+  mvwprintw(window, y, x - (press_enter.length() / 2), "%s",
+            press_enter.c_str());
 
   int c = wgetch(window);
   while (c != '\n') {

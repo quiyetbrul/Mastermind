@@ -83,7 +83,7 @@ void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
   std::string summary = "Solved in " + std::to_string(guesses_size) +
                         " guess(es) and " + std::to_string(elapsed_time) +
                         " seconds.";
-  mvwprintw(window, y++, x - (summary.length() / 2), summary.c_str());
+  mvwprintw(window, y++, x - (summary.length() / 2), "%s", summary.c_str());
   wrefresh(window);
 }
 
@@ -134,7 +134,7 @@ void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
     mvwprintw(window, y, x, "%d", i);
     x += 2;
   }
-  mvwprintw(window, y++, x + 4, feedback.c_str());
+  mvwprintw(window, y++, x + 4, "%s", feedback.c_str());
   wrefresh(window);
 }
 
