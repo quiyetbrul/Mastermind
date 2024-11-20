@@ -26,7 +26,16 @@ public:
   Scoreboard();
 
 protected:
+  SQLite::Database db_;
+
   void CreateTable(const std::string &table_name) override;
+
+  /**
+   * @brief Gets the number of records in the scoreboard.
+   *
+   * @return int The number of records in the scoreboard.
+   */
+  int GetCount() const;
 
   /**
    * @brief Gets the lowest score in the scoreboard.

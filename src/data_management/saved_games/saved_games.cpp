@@ -9,7 +9,8 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 
 namespace data_management {
-SavedGames::SavedGames() {
+SavedGames::SavedGames()
+    : db_(MASTERMIND_DB_PATH, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
   logger_.Log("Initializing SavedGames");
   CreateTable("SAVED_GAMES");
 }
@@ -75,6 +76,12 @@ void SavedGames::Update(const int &game_to_replace,
   BindPlayerParameters(update, player);
   update.bind(13, game_to_replace);
   update.exec();
+}
+
+int SavedGames::GetCount() const {
+  SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName());
+  query.executeStep();
+  return query.getColumn(0).getInt();
 }
 
 bool SavedGames::Exists(const std::string &game_name) const {

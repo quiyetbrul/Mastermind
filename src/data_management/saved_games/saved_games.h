@@ -28,7 +28,16 @@ public:
    */
   SavedGames();
 
+  /**
+   * @brief Gets the number of records in the saved games.
+   *
+   * @return int The number of records in the saved games.
+   */
+  int GetCount() const;
+
 protected:
+  SQLite::Database db_;
+
   void CreateTable(const std::string &table_name) override;
 
   /**

@@ -8,7 +8,8 @@
 namespace data_management {
 const int kTopScoreLimit = 10;
 
-Scoreboard::Scoreboard() {
+Scoreboard::Scoreboard()
+    : db_(MASTERMIND_DB_PATH, SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE) {
   logger_.Log("Initializing Scoreboard");
   CreateTable("SCOREBOARD");
 }
@@ -56,9 +57,9 @@ SQLite::Statement Scoreboard::GetLowestScore() const {
   return query;
 }
 
-// int Scoreboard::GetCount() const {
-//   SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName());
-//   query.executeStep();
-//   return query.getColumn(0).getInt();
-// }
+int Scoreboard::GetCount() const {
+  SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName());
+  query.executeStep();
+  return query.getColumn(0).getInt();
+}
 } // namespace data_management
