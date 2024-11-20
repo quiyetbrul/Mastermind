@@ -14,25 +14,30 @@
 namespace player {
 void Codemaster::Start() {
   logger_.Log("Starting computer as codebreaker game");
-  wclear(window_);
-  wrefresh(window_);
 
-  int highlight = InputDifficulty(window_);
+  int highlight = 0;
+  std::vector<std::string> choices = {"Easy", "Medium", "Hard", "Back"};
+  UserChoice(window_, highlight, choices, "Select Player Type");
   if (highlight == 3) {
     return;
   }
-  PrintHL(window_);
+
   SetDifficulty(highlight + 1);
+
   int y = 1;
   int x = getmaxx(window_);
+
+  wclear(window_);
+  PrintHL(window_);
   mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
 
-  std::string input = player::InputGuess(
+  std::string input = player::InputSecretCode(
       window_, y, x, "Enter secret code: ", GetSecretCodeLength(),
       GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
   SetSecretCode(player::ConvertToVector(input));
+
   GameLoop();
 }
 
@@ -43,7 +48,7 @@ void Codemaster::GameLoop() {
                        GetSecretCodeMaxDigit());
   PrintHL(window_);
 
-  int y = 2;
+  int y = 1;
   int x = getmaxx(window_);
   x /= 2;
 

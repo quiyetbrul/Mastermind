@@ -11,11 +11,11 @@
 #include "util/util.h"
 
 namespace player {
-std::string InputGuess(WINDOW *window, int &y, int x, std::string prompt,
-                       const int &secret_code_length,
-                       const int &secret_code_min_digit,
-                       const int &secret_code_max_digit,
-                       const bool &is_single) {
+std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
+                            const int &secret_code_length,
+                            const int &secret_code_min_digit,
+                            const int &secret_code_max_digit,
+                            const bool &is_single) {
   std::string input;
 
   while (true) {
@@ -145,33 +145,5 @@ void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code) {
   }
   y++;
   wrefresh(window);
-}
-
-int InputDifficulty(WINDOW *window) {
-  std::vector<std::string> difficulty_options = {"Easy", "Medium", "Hard",
-                                                 "Back"};
-  int choice = 0;
-  int highlight = 0;
-
-  bool loop = true;
-  while (loop) {
-    wclear(window);
-    wrefresh(window);
-    PrintMenu(window, highlight, difficulty_options, "Select Difficulty");
-    choice = wgetch(window);
-    switch (choice) {
-    case KEY_UP:
-      UpdateHighlight(highlight, difficulty_options, -1);
-      break;
-    case KEY_DOWN:
-      UpdateHighlight(highlight, difficulty_options, 1);
-      break;
-    case 10:
-      wclear(window);
-      wrefresh(window);
-      loop = false;
-    }
-  }
-  return highlight;
 }
 } // namespace player

@@ -15,7 +15,9 @@ namespace player {
 void Single::Start() {
   logger_.Log("Starting single player game");
 
-  int highlight = InputDifficulty(window_);
+  int highlight = 0;
+  std::vector<std::string> choices = {"Easy", "Medium", "Hard", "Back"};
+  UserChoice(window_, highlight, choices, "Select Player Type");
   if (highlight == 3) {
     return;
   }
@@ -56,7 +58,7 @@ void Single::GameLoop() {
               GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
               GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
 
-    input = player::InputGuess(
+    input = player::InputSecretCode(
         window_, y, x, "Enter your guess: ", GetSecretCodeLength(),
         GetSecretCodeMinDigit(), GetSecretCodeMaxDigit(), true);
 

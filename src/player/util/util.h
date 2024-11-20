@@ -64,11 +64,11 @@ void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
  * code.
  * @return std::vector<int> A vector containing the player's guess.
  */
-std::string InputGuess(WINDOW *window, int &y, int x, std::string prompt,
-                       const int &secret_code_length,
-                       const int &secret_code_min_digit,
-                       const int &secret_code_max_digit,
-                       const bool &is_single = false);
+std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
+                            const int &secret_code_length,
+                            const int &secret_code_min_digit,
+                            const int &secret_code_max_digit,
+                            const bool &is_single = false);
 
 /**
  * @brief Converts a string to a vector of integers.
@@ -99,14 +99,5 @@ void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
  * @param code The player's secret code.
  */
 void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code);
-
-/**
- * @brief Prompts the player to select the game difficulty or to go back to the
- * previous screen.
- *
- * @param window The window to display the selection.
- * @return int The player's selection.
- */
-int InputDifficulty(WINDOW *window);
 } // namespace player
 #endif // PLAYER_UTIL_UTIL_H_
