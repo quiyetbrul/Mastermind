@@ -55,4 +55,10 @@ SQLite::Statement Scoreboard::GetLowestScore() const {
   query.executeStep();
   return query;
 }
+
+// int Scoreboard::GetCount() const {
+//   SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName());
+//   query.executeStep();
+//   return query.getColumn(0).getInt();
+// }
 } // namespace data_management
