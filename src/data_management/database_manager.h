@@ -33,6 +33,15 @@ public:
    */
   virtual ~DatabaseManager() = default;
 
+protected:
+  Logger &logger_ = Logger::GetInstance();
+  SQLite::Database db_;
+
+  /**
+   * @brief Creates the table in the database.
+   */
+  virtual void CreateTable(const std::string &table_name) = 0;
+
   // GETTERS
 
   std::string GetTableName() const { return table_name_; }
@@ -47,15 +56,6 @@ public:
     query.executeStep();
     return query.getColumn(0).getInt();
   }
-
-protected:
-  Logger &logger_ = Logger::GetInstance();
-  SQLite::Database db_;
-
-  /**
-   * @brief Creates the table in the database.
-   */
-  virtual void CreateTable(const std::string &table_name) = 0;
 
   // SETTERS
 
