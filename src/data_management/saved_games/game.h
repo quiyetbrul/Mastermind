@@ -45,7 +45,7 @@ public:
    * @param y The y-coordinate of the window.
    * @return int 0 if a game was selected, -1 if the user wants to go back.
    */
-  int SelectGame(int &y);
+  int SelectGame(const std::string &menu_title);
 
   int GetSaveLimit() const;
 

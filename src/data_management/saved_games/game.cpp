@@ -44,9 +44,7 @@ void Game::Save(player::Player &player) {
 
   // Game was not saved before and limit is reached, ask user to overwrite
   if (GetCount() >= GetSaveLimit()) {
-    std::string message = "Overwrite a saved game";
-    mvwprintw(window_, y++, x - (message.length() / 2), "%s", message.c_str());
-    int game_to_replace = SelectGame(y);
+    int game_to_replace = SelectGame("Game limit reached. Overwrite a game?");
     Update(game_to_replace, player);
     wclear(window_);
     wrefresh(window_);
@@ -64,7 +62,7 @@ void Game::Delete(const int &game_id) {
   query.exec();
 }
 
-int Game::SelectGame(int &y) {
+int Game::SelectGame(const std::string &menu_title) {
   int x = 2;
 
   int game_id = 0;
@@ -90,34 +88,23 @@ int Game::SelectGame(int &y) {
   // std::vector<std::string> header = {"Game", "Difficulty"};
   // PrintHeader(window_, y, header, longest_name_length);
 
-  int choice = 0;
   int highlight = 0;
 
   while (true) {
-    PrintMenu(window_, highlight, saved_games, "Select Game");
-    choice = wgetch(window_);
-    switch (choice) {
-    case KEY_UP:
-      UpdateHighlight(highlight, saved_games, -1);
-      break;
-    case KEY_DOWN:
-      UpdateHighlight(highlight, saved_games, 1);
-      break;
-    case 10:
-      if (saved_games[highlight] == "Back") {
-        return -1;
-      }
-      SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
-                                       " WHERE GAME_NAME = ?;");
-      query.bind(1, saved_games[highlight]);
-      if (query.executeStep()) {
-        game_id = query.getColumn("ID").getInt();
-        SetGameId(game_id);
-      } else {
-        throw std::runtime_error("Game ID not found");
-      }
-      return game_id;
+    UserChoice(window_, highlight, saved_games, menu_title);
+    if (saved_games[highlight] == "Back") {
+      return -1;
     }
+    SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
+                                     " WHERE GAME_NAME = ?;");
+    query.bind(1, saved_games[highlight]);
+    if (query.executeStep()) {
+      game_id = query.getColumn("ID").getInt();
+      SetGameId(game_id);
+    } else {
+      throw std::runtime_error("Game ID not found");
+    }
+    return game_id;
   }
 }
 

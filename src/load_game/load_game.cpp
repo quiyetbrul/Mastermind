@@ -28,7 +28,7 @@ void LoadGame::Start() {
     return;
   }
 
-  int selected_game = SelectGame(y);
+  int selected_game = SelectGame("Select Game");
   if (selected_game == -1) {
     return;
   }
