@@ -30,6 +30,7 @@ This Mastermind clone is a console-based puzzle game where players attempt to de
 ### Others
 
 - [VS Code](https://code.visualstudio.com/)
+- [Docker](https://www.docker.com/)
 - [SonarCloud](https://sonarcloud.io/)
 - [Doxygen](https://www.doxygen.nl/index.html)
 - [ASCIIDecorator](https://marketplace.visualstudio.com/items?itemName=helixquar.asciidecorator)
