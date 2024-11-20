@@ -62,6 +62,15 @@ void UpdateHighlight(int &highlight, const std::vector<T> &choices,
 }
 
 /**
+ * @brief Prompts the player to select a choice from a given menu.
+ *
+ * @param window The window to display the selection.
+ * @return int The player's selection.
+ */
+void UserChoice(WINDOW *window, int &highlight, const std::vector<std::string> &choices,
+               const std::string &menu_title);
+
+/**
  * @brief Print a horizontal line with color.
  *
  * @param window The window to print the line.

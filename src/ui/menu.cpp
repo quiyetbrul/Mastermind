@@ -96,6 +96,32 @@ void EnterToContinue(WINDOW *window, const int &y) {
   wclear(window);
 }
 
+void UserChoice(WINDOW *window, int &highlight,
+               const std::vector<std::string> &choices,
+               const std::string &menu_title) {
+  int choice = 0;
+
+  bool loop = true;
+  while (loop) {
+    wclear(window);
+    wrefresh(window);
+    PrintMenu(window, highlight, choices, menu_title);
+    choice = wgetch(window);
+    switch (choice) {
+    case KEY_UP:
+      UpdateHighlight(highlight, choices, -1);
+      break;
+    case KEY_DOWN:
+      UpdateHighlight(highlight, choices, 1);
+      break;
+    case 10:
+      wclear(window);
+      wrefresh(window);
+      loop = false;
+    }
+  }
+}
+
 void PrintHL(WINDOW *window) {
   wattron(window, COLOR_PAIR(2));
   mvwhline(window, 0, 0, 0, getmaxx(window));
