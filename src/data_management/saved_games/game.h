@@ -47,8 +47,6 @@ public:
    */
   int SelectGame(const std::string &menu_title);
 
-  int GetSaveLimit() const;
-
   void SetWindow(WINDOW *window);
 
 protected:

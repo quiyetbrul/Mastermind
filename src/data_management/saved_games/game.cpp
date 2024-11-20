@@ -43,7 +43,7 @@ void Game::Save(player::Player &player) {
   }
 
   // Game was not saved before and limit is reached, ask user to overwrite
-  if (GetCount() >= GetSaveLimit()) {
+  if (GetCount() >= limit_) {
     int game_to_replace = SelectGame("Game limit reached. Overwrite a game?");
     Update(game_to_replace, player);
     wclear(window_);
@@ -107,8 +107,6 @@ int Game::SelectGame(const std::string &menu_title) {
     return game_id;
   }
 }
-
-int Game::GetSaveLimit() const { return limit_; }
 
 int Game::GetGameId() { return game_id_; }
 
