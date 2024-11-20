@@ -30,7 +30,11 @@ public:
    */
   void Start() override;
 
+  void SetWindow(WINDOW *window);
+
 private:
+  WINDOW *window_;
+
   /**
    * @brief Main game loop.
    *

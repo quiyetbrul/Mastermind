@@ -42,11 +42,11 @@ public:
    */
   void GameLoop() override;
 
-  // void SetWindow(WINDOW *window);
+  void SetWindow(WINDOW *window);
 
 private:
   data_management::Score score_;
-  // WINDOW *window_;
+  WINDOW *window_;
 };
 } // namespace player
 
