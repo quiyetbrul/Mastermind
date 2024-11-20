@@ -6,6 +6,7 @@
 #include "load_game.h"
 
 #include "ui/menu.h"
+
 #include <ncurses.h>
 
 namespace game_loader {
