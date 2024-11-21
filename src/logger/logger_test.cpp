@@ -1,8 +1,10 @@
 #include "logger/logger.h"
 
+#include <filesystem>
 #include <fstream>
-#include <gtest/gtest.h>
 #include <string>
+
+#include <gtest/gtest.h>
 
 class LoggerTest : public ::testing::Test {
 protected:
