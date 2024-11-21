@@ -49,11 +49,14 @@ target_link_libraries(${PROJECT_NAME} PUBLIC
 )
 
 # Link 3P libraries
-target_include_directories(${PROJECT_NAME} PRIVATE ${CURL_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${CURL_LIBRARIES})
-include_directories(${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-include_directories(${CURSES_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${CURL_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${CURL_LIBRARIES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
+
+target_link_libraries(${PROJECT_NAME} PUBLIC nlohmann_json::nlohmann_json)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${CURSES_INCLUDE_DIR})
 
 # Using INSTALL_RPATH_USE_LINK_PATH
 set_target_properties(${PROJECT_NAME} PROPERTIES INSTALL_RPATH_USE_LINK_PATH TRUE)

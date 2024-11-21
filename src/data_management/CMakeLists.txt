@@ -11,10 +11,10 @@ target_include_directories(data_management PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..
 
 target_link_libraries(data_management PRIVATE logger)
 
-include_directories(${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
+target_include_directories(data_management PUBLIC ${SQLite3_INCLUDE_DIRS} ${SQLiteCpp_INCLUDE_DIRS})
 target_link_libraries(data_management PUBLIC ${SQLite3_LIBRARIES} SQLiteCpp)
 
 target_link_libraries(data_management PUBLIC nlohmann_json::nlohmann_json)
 
-include_directories(${CURSES_INCLUDE_DIR})
+target_include_directories(data_management PUBLIC ${CURSES_INCLUDE_DIR})
 target_link_libraries(data_management PUBLIC ${CURSES_LIBRARIES})
