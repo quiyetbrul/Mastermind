@@ -27,6 +27,15 @@ RUN git clone https://github.com/SRombauts/SQLiteCpp.git \
     && make \
     && make install
 
+# Clone google test repository and install it
+RUN git clone https://github.com/google/googletest.git \
+    && cd googletest \
+    && mkdir build \
+    && cd build \
+    && cmake .. \
+    && make \
+    && sudo make install \
+
 # Set the working directory
 WORKDIR /app
 
