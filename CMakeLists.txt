@@ -21,6 +21,8 @@ find_package(SQLiteCpp REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(Curses REQUIRED)
 
+enable_testing()
+
 # Definitions
 add_definitions(-DMASTERMIND_DB_PATH=\"${CMAKE_BINARY_DIR}/src/data/mastermind.db\")
 add_definitions(-DLOGGER_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/logger.txt\")

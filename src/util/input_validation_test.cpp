@@ -46,3 +46,8 @@ TEST_F(InputValidationTest, EmptyInput) {
   std::string result = InputString(window_, 1, "Enter your name: ");
   EXPECT_NE(result, expected_input);
 }
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
