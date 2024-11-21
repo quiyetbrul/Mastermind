@@ -15,7 +15,7 @@
 #include "util/util.h"
 
 namespace data_management {
-Game::Game() { limit_ = 3; }
+Game::Game() : save_limit_(3) {}
 
 void Game::Save(player::Player &player) {
   PrintHL(window_);
@@ -43,7 +43,7 @@ void Game::Save(player::Player &player) {
   }
 
   // Game was not saved before and limit is reached, ask user to overwrite
-  if (GetCount() >= GetSaveLimit()) {
+  if (GetCount() >= save_limit_) {
     int game_to_replace = SelectGame("Game limit reached. Overwrite a game?");
     Update(game_to_replace, player);
     wclear(window_);
@@ -107,12 +107,4 @@ int Game::SelectGame(const std::string &menu_title) {
     return game_id;
   }
 }
-
-int Game::GetSaveLimit() const { return limit_; }
-
-int Game::GetGameId() { return game_id_; }
-
-void Game::SetWindow(WINDOW *window) { window_ = window; }
-
-void Game::SetGameId(const int &game_id) { game_id_ = game_id; }
 } // namespace data_management

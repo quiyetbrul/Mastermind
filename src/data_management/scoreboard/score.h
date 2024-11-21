@@ -38,9 +38,6 @@ public:
   void PrintScores() const;
 
   void SetWindow(WINDOW *window);
-
-private:
-  WINDOW *window_;
 };
 } // namespace data_management
 

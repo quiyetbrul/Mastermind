@@ -32,6 +32,7 @@ public:
    */
   void Save(player::Player &player);
 
+protected:
   /**
    * @brief Deletes the player's game from the saved games.
    *
@@ -47,19 +48,12 @@ public:
    */
   int SelectGame(const std::string &menu_title);
 
-  int GetSaveLimit() const;
+  int GetGameId() { return game_id_; }
 
-  void SetWindow(WINDOW *window);
-
-protected:
-  WINDOW *window_;
-
-  int GetGameId();
-
-  void SetGameId(const int &game_id);
+  void SetGameId(const int &game_id) { game_id_ = game_id; }
 
 private:
-  int limit_;
+  int save_limit_;
   int game_id_;
 };
 } // namespace data_management
