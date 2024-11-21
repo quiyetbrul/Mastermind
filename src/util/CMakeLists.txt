@@ -19,14 +19,14 @@ include(GoogleTest)
 add_executable(util_test
     input_validation_test.cpp
 )
-target_include_directories( util_test PUBLIC ${GTEST_INCLUDE_DIRS} ${CURL_INCLUDE_DIRS})
-target_link_libraries( util_test PUBLIC ${GTEST_LIBRARIES} ${CURL_LIBRARIES} util logger)
+target_include_directories(util_test PUBLIC ${GTEST_INCLUDE_DIRS} ${CURL_INCLUDE_DIRS})
+target_link_libraries(util_test PUBLIC ${GTEST_LIBRARIES} ${CURL_LIBRARIES} util logger)
 
 add_executable(util_mock
     random_integers_test.cpp
 )
 target_include_directories(util_mock PUBLIC ${GTEST_INCLUDE_DIRS} ${CURL_INCLUDE_DIRS})
-target_link_libraries(util_mock PUBLIC ${GTEST_LIBRARIES} pthread ${CURL_LIBRARIES} util logger)
+target_link_libraries(util_mock PUBLIC ${GTEST_LIBRARIES} ${CURL_LIBRARIES} util logger)
 
 gtest_discover_tests(util_test)
 gtest_discover_tests(util_mock)
