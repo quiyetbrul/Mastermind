@@ -18,8 +18,7 @@ namespace mastermind {
  * @class GameState
  * @brief Represents the game state.
  *
- * The GameState class manages the game state and transitions between different
- * states of the game.
+ * The GameState class manages transitions between different game states.
  */
 class GameState {
 public:

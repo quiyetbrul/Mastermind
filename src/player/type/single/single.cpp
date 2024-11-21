@@ -23,9 +23,6 @@ void Single::Start() {
   }
   SetDifficulty(highlight + 1);
 
-  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
-                          GetSecretCodeMaxDigit()));
-
   wclear(window_);
   PrintHL(window_);
   mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
@@ -34,6 +31,9 @@ void Single::Start() {
 
   std::string name = InputString(window_, 1, "Enter your name: ");
   SetPlayerName(name);
+
+  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
+                          GetSecretCodeMaxDigit()));
 
   GameLoop();
 }

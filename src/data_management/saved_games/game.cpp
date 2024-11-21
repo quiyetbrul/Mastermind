@@ -25,19 +25,15 @@ void Game::Save(player::Player &player) {
   x /= 2;
   std::string title = "Saving Game";
   mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
+
   // Game was saved before, update it
-  if (!player.GetGameName().empty() && Exists(player.GetGameName())) {
-    SQLite::Statement query(db_, "SELECT ID FROM " + GetTableName() +
-                                     " WHERE GAME_NAME = ?");
-    query.bind(1, player.GetGameName());
-    query.executeStep();
-    int game_id = query.getColumn(0).getInt();
-    Update(game_id, player);
+  if (player.GetGameId() != -1) {
+    Update(player.GetGameId(), player);
     return;
   }
 
   // Game was not saved before, prompt user to enter game name
-  if (player.GetGameName().empty()) {
+  if (player.GetGameId() == -1) {
     std::string game_name = InputString(window_, y, "Enter game name: ");
     player.SetGameName(game_name);
   }
@@ -67,16 +63,6 @@ int Game::SelectGame(const std::string &menu_title) {
 
   int game_id = 0;
 
-  SQLite::Statement max_length_query(
-      db_, "SELECT GAME_NAME FROM " + GetTableName() +
-               " ORDER BY LENGTH(GAME_NAME) DESC LIMIT 1;");
-  int longest_name_length = 5;
-  if (max_length_query.executeStep()) {
-    longest_name_length = std::max(
-        longest_name_length,
-        static_cast<int>(strlen(max_length_query.getColumn(0).getText())));
-  }
-
   SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() + ";");
   std::vector<std::string> saved_games;
 
@@ -84,9 +70,6 @@ int Game::SelectGame(const std::string &menu_title) {
     saved_games.push_back(query.getColumn("GAME_NAME").getText());
   }
   saved_games.push_back("Back");
-
-  // std::vector<std::string> header = {"Game", "Difficulty"};
-  // PrintHeader(window_, y, header, longest_name_length);
 
   int highlight = 0;
 
@@ -100,7 +83,6 @@ int Game::SelectGame(const std::string &menu_title) {
     query.bind(1, saved_games[highlight]);
     if (query.executeStep()) {
       game_id = query.getColumn("ID").getInt();
-      SetGameId(game_id);
     } else {
       throw std::runtime_error("Game ID not found");
     }

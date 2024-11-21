@@ -39,7 +39,7 @@ enum class GameType : int {
 
 namespace mastermind {
 GameState::GameState() {
-  logger_.Log("Initializing game state");
+  logger_.Log("Initializing GameState");
 
   SetTerminalSize(kTerminalWidth, kTerminalHeight);
   SetTerminalTitle("Mastermind Game by Quiyet Brul");

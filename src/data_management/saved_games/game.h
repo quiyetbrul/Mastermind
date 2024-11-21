@@ -48,10 +48,6 @@ protected:
    */
   int SelectGame(const std::string &menu_title);
 
-  int GetGameId() { return game_id_; }
-
-  void SetGameId(const int &game_id) { game_id_ = game_id; }
-
 private:
   int save_limit_;
   int game_id_;

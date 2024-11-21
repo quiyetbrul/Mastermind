@@ -36,7 +36,7 @@ protected:
    *
    * @param player The player to be inserted.
    */
-  void Insert(const player::Player &player);
+  void Insert(player::Player &player);
 
   /**
    * @brief Updates the saved games with the player's score.

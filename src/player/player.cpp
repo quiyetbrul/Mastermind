@@ -13,10 +13,8 @@
 
 namespace player {
 Player::Player()
-    : life_(kLifeStart), score_(kLifeStart), guess_history_(),
-      elapsed_time_(0.0) {
-  SetDifficulty(1);
-}
+    : game_id_(-1), life_(kLifeStart), score_(kLifeStart), elapsed_time_(0.0),
+      difficulty_(1) {}
 
 bool Player::IsGameFinished() const {
   return GetLife() == 0 || (!GetGuesses().empty() &&

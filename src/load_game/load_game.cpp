@@ -33,25 +33,26 @@ void LoadGame::Start() {
   if (selected_game == -1) {
     return;
   }
-  SetGame();
   wclear(window_);
   wrefresh(window_);
+  SetGame(selected_game);
   player_.SetWindow(window_);
   player_.GameLoop();
   if (player_.IsGameFinished()) {
-    Delete(GetGameId());
+    Delete(player_.GetGameId());
   }
 }
 
-void LoadGame::SetGame() {
+void LoadGame::SetGame(const int &game_id) {
   SQLite::Statement query(
       db_, "SELECT GAME_NAME, USER_NAME, LIFE, SECRET_CODE, GUESS_HISTORY, "
            "SCORE, START_TIME, END_TIME, ELAPSED_TIME, HINT_COUNT, "
            "HINT_HISTORY, DIFFICULTY FROM " +
                GetTableName() + " WHERE ID = ?");
-  query.bind(1, GetGameId());
+  query.bind(1, game_id);
 
   if (query.executeStep()) {
+    player_.SetGameId(game_id);
     player_.SetGameName(query.getColumn(0).getText());
     player_.SetPlayerName(query.getColumn(1).getText());
     player_.SetLife(query.getColumn(2).getInt());

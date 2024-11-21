@@ -201,7 +201,7 @@ private:
   const int kHardMaxDigit = 9;
   const int kHardCodeLength = 4;
 
-  int difficulty_ = 1; // Default difficulty is easy
+  int difficulty_;
   int secret_code_min_digit_;
   int secret_code_max_digit_;
   int secret_code_length_;

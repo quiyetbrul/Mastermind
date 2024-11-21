@@ -31,7 +31,7 @@ public:
 private:
   player::Single player_;
 
-  void SetGame();
+  void SetGame(const int &game_id);
 };
 } // namespace game_loader
 #endif // LOAD_GAME_LOAD_GAME_H_
