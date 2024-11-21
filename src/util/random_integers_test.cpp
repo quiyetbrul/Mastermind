@@ -1,10 +1,10 @@
-// #include "util/util.h"
+#include "util/util.h"
 
-// #include <string>
+#include <string>
 
-// #include <curl/curl.h>
-// #include <gmock/gmock.h>
-// #include <gtest/gtest.h>
+#include <curl/curl.h>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
 // #include <ncurses.h>
 
 // const std::string kUserInput = "sim usr input";
@@ -37,49 +37,54 @@
 //   EXPECT_EQ(numbers[0], min);
 // }
 
-// // class CurlMock {
-// // public:
-// //   MOCK_METHOD(CURLcode, curl_easy_perform, (CURL * curl));
-// // };
+class CurlMock {
+public:
+  MOCK_METHOD(CURLcode, curl_easy_perform, (CURL * curl));
+};
 
-// // // Global mock pointer to use in the mocked implementation
-// // extern CurlMock *curl_mock;
+// Global mock pointer to use in the mocked implementation
+extern CurlMock *curl_mock;
 
-// // // Declare a C-compatible function that overrides the real curl_easy_perform
-// // extern "C" {
-// // CURLcode curl_easy_perform(CURL *curl);
-// // }
+// Declare a C-compatible function that overrides the real curl_easy_perform
+extern "C" {
+CURLcode curl_easy_perform(CURL *curl);
+}
 
-// // class RandomIntegersTest : public ::testing::Test {
-// // protected:
-// //   void SetUp() override {
-// //     curl_mock = new CurlMock(); // Instantiate the mock
-// //   }
+class RandomIntegersTest : public ::testing::Test {
+protected:
+  void SetUp() override {
+    curl_mock = new CurlMock(); // Instantiate the mock
+  }
 
-// //   void TearDown() override {
-// //     delete curl_mock; // Clean up
-// //     curl_mock = nullptr;
-// //   }
-// // };
+  void TearDown() override {
+    delete curl_mock; // Clean up
+    curl_mock = nullptr;
+  }
+};
 
-// // TEST_F(RandomIntegersTest, GenRandom_ExternalServiceSuccess) {
-// //   // Mock the behavior of the external service to succeed
-// //   EXPECT_CALL(*curl_mock, curl_easy_perform(testing::_))
-// //       .WillOnce(testing::Return(CURLE_OK));
+TEST_F(RandomIntegersTest, GenRandom_ExternalServiceSuccess) {
+  // Mock the behavior of the external service to succeed
+  EXPECT_CALL(*curl_mock, curl_easy_perform(testing::_))
+      .WillOnce(testing::Return(CURLE_OK));
 
-// //   std::vector<int> random_numbers = GenRandom(5, 1, 10);
+  std::vector<int> random_numbers = GenRandom(5, 1, 10);
 
-// //   // Verify the size of the generated numbers
-// //   EXPECT_EQ(random_numbers.size(), 5);
-// // }
+  // Verify the size of the generated numbers
+  EXPECT_EQ(random_numbers.size(), 5);
+}
 
-// // TEST_F(RandomIntegersTest, GenRandom_ExternalServiceFailure) {
-// //   // Mock the behavior of the external service to fail
-// //   EXPECT_CALL(*curl_mock, curl_easy_perform(testing::_))
-// //       .WillOnce(testing::Return(CURLE_FAILED_INIT));
+TEST_F(RandomIntegersTest, GenRandom_ExternalServiceFailure) {
+  // Mock the behavior of the external service to fail
+  EXPECT_CALL(*curl_mock, curl_easy_perform(testing::_))
+      .WillOnce(testing::Return(CURLE_FAILED_INIT));
 
-// //   std::vector<int> random_numbers = GenRandom(5, 1, 10);
+  std::vector<int> random_numbers = GenRandom(5, 1, 10);
 
-// //   // Verify the size of the generated numbers
-// //   EXPECT_EQ(random_numbers.size(), 5); // Should fall back to pseudo-random
-// // }
+  // Verify the size of the generated numbers
+  EXPECT_EQ(random_numbers.size(), 5); // Should fall back to pseudo-random
+}
+
+int main(int argc, char **argv) {
+  ::testing::InitGoogleMock(&argc, argv);
+  return RUN_ALL_TESTS();
+}
