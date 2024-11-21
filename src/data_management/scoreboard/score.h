@@ -36,8 +36,6 @@ public:
    * @brief Prints the high scores.
    */
   void PrintScores() const;
-
-  void SetWindow(WINDOW *window);
 };
 } // namespace data_management
 

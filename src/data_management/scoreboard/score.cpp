@@ -35,9 +35,10 @@ void Score::PrintScores() const {
   int y = 0;
   int x = getmaxx(window_);
   x /= 2;
+
   std::string title = "Top Scores";
   mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
-  wrefresh(window_);
+
   if (GetCount() < 1) {
     std::string no_score = "No scores yet!";
     mvwprintw(window_, y++, x - (no_score.length() / 2), "%s",
@@ -76,9 +77,7 @@ void Score::PrintScores() const {
       ++y;
     }
   }
-
+  wrefresh(window_);
   EnterToContinue(window_, y);
 }
-
-void Score::SetWindow(WINDOW *window) { window_ = window; }
 } // namespace data_management
