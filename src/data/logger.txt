@@ -1,6 +1,0 @@
-2024-11-18 23:41:46	Starting application
-2024-11-18 23:41:46	Initializing SavedGames
-2024-11-18 23:41:46	Difficulty set to 1
-2024-11-18 23:41:46	Initializing Scoreboard
-2024-11-18 23:41:46	Initializing Scoreboard
-2024-11-18 23:41:46	Initializing game state

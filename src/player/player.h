@@ -30,17 +30,6 @@ public:
   Player();
 
   /**
-   * @brief Parameterized constructor.
-   *
-   * @param life Initial life value.
-   * @param score Initial score value.
-   * @param secret_code The secret code the player needs to guess.
-   * @param guesses The history of guesses made by the player.
-   */
-  Player(int &life, int &score, const std::vector<int> &secret_code,
-         std::vector<std::pair<std::vector<int>, std::string>> &guesses);
-
-  /**
    * @brief Virtual destructor.
    */
   virtual ~Player() = default;

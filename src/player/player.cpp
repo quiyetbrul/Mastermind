@@ -18,13 +18,6 @@ Player::Player()
   SetDifficulty(1);
 }
 
-Player::Player(int &life, int &score, const std::vector<int> &secret_code,
-               std::vector<std::pair<std::vector<int>, std::string>> &guesses)
-    : life_(life), score_(score), secret_code_(secret_code),
-      guess_history_(guesses), elapsed_time_(0.0) {
-  SetDifficulty(1);
-}
-
 bool Player::IsGameFinished() const {
   return GetLife() == 0 || (!GetGuesses().empty() &&
                             GetGuesses().back().first == GetSecretCode());
