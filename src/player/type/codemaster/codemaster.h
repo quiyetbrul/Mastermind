@@ -30,7 +30,7 @@ public:
    */
   void Start() override;
 
-  void SetWindow(WINDOW *window);
+  void SetWindow(WINDOW *window) { window_ = window; }
 
 private:
   WINDOW *window_;

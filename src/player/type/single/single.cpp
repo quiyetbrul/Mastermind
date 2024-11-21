@@ -130,6 +130,4 @@ void Single::GameLoop() {
   EnterToContinue(window_, y);
   init_pair(1, COLOR_CYAN, COLOR_BLACK);
 }
-
-void Single::SetWindow(WINDOW *window) { window_ = window; }
 } // namespace player

@@ -42,7 +42,7 @@ public:
    */
   void GameLoop() override;
 
-  void SetWindow(WINDOW *window);
+  void SetWindow(WINDOW *window) { window_ = window; }
 
 private:
   data_management::Score score_;
