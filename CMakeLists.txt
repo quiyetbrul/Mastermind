@@ -5,6 +5,7 @@ project(Mastermind)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+set(CMAKE_MESSAGE_LOG_LEVEL ERROR)
 
 # Enable debug symbols by default
 if(NOT CMAKE_BUILD_TYPE)
@@ -23,6 +24,7 @@ find_package(Curses REQUIRED)
 # Definitions
 add_definitions(-DMASTERMIND_DB_PATH=\"${CMAKE_BINARY_DIR}/src/data/mastermind.db\")
 add_definitions(-DLOGGER_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/logger.txt\")
+add_definitions(-DLOGGER_TEST_FILE_PATH=\"${CMAKE_BINARY_DIR}/src/data/logger_test_file.txt\")
 
 # Include subdirectories
 add_subdirectory(src/data_management)
