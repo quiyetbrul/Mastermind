@@ -75,6 +75,20 @@ std::vector<int> GenRandom(const int &generate, const int &min, const int &max);
 int RandomNumber(const int &min, const int &max);
 
 /**
+ * @brief Fallback to pseudo-random number generator.
+ *
+ * This function generates random numbers between the minimum and the maximum
+ * values n-times using the pseudo-random number generator.
+ *
+ * @param generate The number of random numbers to generate.
+ * @param min The minimum value of the random number.
+ * @param max The maximum value of the random number.
+ * @return std::vector<int> The generated random numbers.
+ */
+std::vector<int> FallbackRandomNumbers(const int &generate, const int &min,
+                                       const int &max);
+
+/**
  * @brief Get string input from user.
  *
  * This function prompts the user for a string input and validates it.
