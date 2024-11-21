@@ -1,41 +1,41 @@
-// #include "util/util.h"
+#include "util/util.h"
 
-// #include <string>
+#include <string>
 
-// #include <curl/curl.h>
-// #include <gmock/gmock.h>
-// #include <gtest/gtest.h>
-// #include <ncurses.h>
+#include <curl/curl.h>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <ncurses.h>
 
-// const std::string kUserInput = "sim usr input";
+const std::string kUserInput = "sim usr input";
 
-// bool AreNumbersInRange(const std::vector<int> &numbers, int min, int max) {
-//   return std::all_of(numbers.begin(), numbers.end(),
-//                      [min, max](int num) { return num >= min && num <= max; });
-// }
+bool AreNumbersInRange(const std::vector<int> &numbers, int min, int max) {
+  return std::all_of(numbers.begin(), numbers.end(),
+                     [min, max](int num) { return num >= min && num <= max; });
+}
 
-// TEST(FallbackRandomNumbersTest, ValidRange) {
-//   int min = 1, max = 10, count = 5;
-//   std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
+TEST(FallbackRandomNumbersTest, ValidRange) {
+  int min = 1, max = 10, count = 5;
+  std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
 
-//   ASSERT_EQ(numbers.size(), count);
-//   EXPECT_TRUE(AreNumbersInRange(numbers, min, max));
-// }
+  ASSERT_EQ(numbers.size(), count);
+  EXPECT_TRUE(AreNumbersInRange(numbers, min, max));
+}
 
-// TEST(FallbackRandomNumbersTest, EmptyResultOnZeroCount) {
-//   int min = 1, max = 10, count = 0;
-//   std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
+TEST(FallbackRandomNumbersTest, EmptyResultOnZeroCount) {
+  int min = 1, max = 10, count = 0;
+  std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
 
-//   EXPECT_TRUE(numbers.empty());
-// }
+  EXPECT_TRUE(numbers.empty());
+}
 
-// TEST(FallbackRandomNumbersTest, SingleNumberGeneration) {
-//   int min = 5, max = 5, count = 1; // min == max to test edge case
-//   std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
+TEST(FallbackRandomNumbersTest, SingleNumberGeneration) {
+  int min = 5, max = 5, count = 1; // min == max to test edge case
+  std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
 
-//   ASSERT_EQ(numbers.size(), count);
-//   EXPECT_EQ(numbers[0], min);
-// }
+  ASSERT_EQ(numbers.size(), count);
+  EXPECT_EQ(numbers[0], min);
+}
 
 // class CurlMock {
 // public:
