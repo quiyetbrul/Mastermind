@@ -1,5 +1,7 @@
 # Mastermind Game
 
+![Mastermind Main Menu](/assets/main_menu.png)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
