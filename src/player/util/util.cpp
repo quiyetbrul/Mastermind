@@ -6,8 +6,9 @@
 #include "util.h"
 
 #include <algorithm>
+#include <iomanip>
+#include <sstream>
 
-#include "ui/menu.h"
 #include "util/util.h"
 
 namespace player {
@@ -80,9 +81,11 @@ std::string GiveHint(const std::vector<int> &guess,
 
 void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
                         const double &elapsed_time) {
+  std::ostringstream oss;
+  oss << std::fixed << std::setprecision(3) << elapsed_time;
   std::string summary = "Solved in " + std::to_string(guesses_size) +
-                        " guess(es) and " + std::to_string(elapsed_time) +
-                        " seconds.";
+                        (guesses_size == 1 ? " guess" : " guesses") + " and " +
+                        oss.str() + " seconds.";
   mvwprintw(window, y++, x - (summary.length() / 2), "%s", summary.c_str());
   wrefresh(window);
 }
