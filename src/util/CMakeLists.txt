@@ -11,13 +11,13 @@ target_include_directories(util PUBLIC ${CURSES_INCLUDE_DIR})
 target_link_libraries(util PUBLIC ${CURSES_LIBRARIES})
 
 # TESTS
-add_executable(util_test input_validation_test.cpp)
-# add_executable(util_mock random_integers_test.cpp)
+add_executable(input_validation input_validation_test.cpp)
+# add_executable(random_integers random_integers_test.cpp)
 
-target_link_libraries(util_test PUBLIC ${GTEST_LIBRARIES} ${CURL_LIBRARIES} util logger)
-# target_link_libraries(util_mock PUBLIC ${GTEST_LIBRARIES} ${CURL_LIBRARIES} util logger)
+target_link_libraries(input_validation PUBLIC ${GTEST_LIBRARIES} ${CURL_LIBRARIES} util logger)
+# target_link_libraries(random_integers PUBLIC ${GTEST_LIBRARIES} ${CURL_LIBRARIES} util logger)
 
 include(GoogleTest)
-gtest_discover_tests(util_test)
-# gtest_discover_tests(util_mock)
+gtest_discover_tests(input_validation)
+# gtest_discover_tests(random_integers)
 
