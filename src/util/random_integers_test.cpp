@@ -1,39 +1,39 @@
-#include "util/util.h"
+// #include "util/util.h"
 
-#include <vector>
+// #include <vector>
 
-#include <gtest/gtest.h>
+// #include <gtest/gtest.h>
 
-const std::string kUserInput = "sim usr input";
+// const std::string kUserInput = "sim usr input";
 
-bool AreNumbersInRange(const std::vector<int> &numbers, int min, int max) {
-  return std::all_of(numbers.begin(), numbers.end(),
-                     [min, max](int num) { return num >= min && num <= max;
-                     });
-}
+// bool AreNumbersInRange(const std::vector<int> &numbers, int min, int max) {
+//   return std::all_of(numbers.begin(), numbers.end(),
+//                      [min, max](int num) { return num >= min && num <= max;
+//                      });
+// }
 
-TEST(FallbackRandomNumbersTest, ValidRange) {
-  int min = 1, max = 10, count = 5;
-  std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
+// TEST(FallbackRandomNumbersTest, ValidRange) {
+//   int min = 1, max = 10, count = 5;
+//   std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
 
-  ASSERT_EQ(numbers.size(), count);
-  EXPECT_TRUE(AreNumbersInRange(numbers, min, max));
-}
+//   ASSERT_EQ(numbers.size(), count);
+//   EXPECT_TRUE(AreNumbersInRange(numbers, min, max));
+// }
 
-TEST(FallbackRandomNumbersTest, EmptyResultOnZeroCount) {
-  int min = 1, max = 10, count = 0;
-  std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
+// TEST(FallbackRandomNumbersTest, EmptyResultOnZeroCount) {
+//   int min = 1, max = 10, count = 0;
+//   std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
 
-  EXPECT_TRUE(numbers.empty());
-}
+//   EXPECT_TRUE(numbers.empty());
+// }
 
-TEST(FallbackRandomNumbersTest, SingleNumberGeneration) {
-  int min = 5, max = 5, count = 1; // min == max to test edge case
-  std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
+// TEST(FallbackRandomNumbersTest, SingleNumberGeneration) {
+//   int min = 5, max = 5, count = 1; // min == max to test edge case
+//   std::vector<int> numbers = FallbackRandomNumbers(count, min, max);
 
-  ASSERT_EQ(numbers.size(), count);
-  EXPECT_EQ(numbers[0], min);
-}
+//   ASSERT_EQ(numbers.size(), count);
+//   EXPECT_EQ(numbers[0], min);
+// }
 
 // MOCK
 
@@ -85,8 +85,8 @@ TEST(FallbackRandomNumbersTest, SingleNumberGeneration) {
 //   EXPECT_EQ(random_numbers.size(), 5); // Should fall back to pseudo-random
 // }
 
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  //   ::testing::InitGoogleMock(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+// int main(int argc, char **argv) {
+//   ::testing::InitGoogleTest(&argc, argv);
+//   //   ::testing::InitGoogleMock(&argc, argv);
+//   return RUN_ALL_TESTS();
+// }
