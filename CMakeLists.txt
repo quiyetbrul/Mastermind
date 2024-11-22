@@ -20,6 +20,7 @@ find_package(CURL REQUIRED)
 find_package(SQLiteCpp REQUIRED)
 find_package(nlohmann_json REQUIRED)
 find_package(Curses REQUIRED)
+find_package(GTest REQUIRED)
 
 enable_testing()
 
