@@ -30,6 +30,8 @@ RUN git clone https://github.com/SRombauts/SQLiteCpp.git \
 # Set the working directory
 WORKDIR /app
 
+VOLUME /app/build/src/data
+
 # Copy the current directory contents into the container at /app
 COPY src/ ./src/
 COPY makerun.sh .

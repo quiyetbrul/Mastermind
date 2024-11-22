@@ -80,10 +80,13 @@ sh makerun.sh
 docker pull quiyetbrul/mastermind-game:latest
 ```
 
-- Run the Docker container using the command. (Note that you have to run the same container if you want data persistence.)
+- Run the Docker container using the command.
 
 ```bash
-docker run -it -e TERM=xterm-256color quiyetbrul/mastermind-game:latest
+# For temporary data persistent game
+docker run --rm -it -e TERM=xterm-256color quiyetbrul/mastermind-game:latest
+# For data persistent game using volume
+docker run --rm -it -v $(pwd)/data:/app/build/src/data -e TERM=xterm-256color quiyetbrul/mastermind-game:latest
 ```
 
 ## Features

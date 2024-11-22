@@ -77,4 +77,8 @@ _deps
 .history
 .ionide
 
+### Data ###
+# this is where the data is stored during Docker testing
+data/*
+
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudiocode,cmake
