@@ -2,7 +2,6 @@
 
 #include <vector>
 
-#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
 const std::string kUserInput = "sim usr input";
