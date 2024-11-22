@@ -11,5 +11,7 @@ add_executable(logger_test
     logger_test.cpp
 )
 
-target_include_directories(logger_test PUBLIC ${GTEST_INCLUDE_DIRS} ${CURL_INCLUDE_DIRS})
 target_link_libraries(logger_test ${GTEST_LIBRARIES} logger)
+
+include(GoogleTest)
+gtest_discover_tests(logger_test)
