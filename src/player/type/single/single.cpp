@@ -48,6 +48,7 @@ void Single::GameLoop() {
   int x = getmaxx(window_);
   x /= 2;
 
+  // TODO: remove before final release
   PrintCode(window_, y, x, GetSecretCode());
 
   StartTime();
@@ -65,10 +66,13 @@ void Single::GameLoop() {
     if (input == "s") {
       wclear(window_);
       EndTime();
-      int old_time = GetElapsedTime();
+      if (GetGameId() != -1) {
+        double old_time = GetElapsedTime();
+        SaveElapsedTime();
+        double new_time = GetElapsedTime();
+        SetElapsedTime(old_time + new_time);
+      }
       SaveElapsedTime();
-      int new_time = GetElapsedTime();
-      SetElapsedTime(old_time + new_time);
       SetScore(GetLife());
       data_management::Game saved_games;
       saved_games.SetWindow(window_);
@@ -104,10 +108,13 @@ void Single::GameLoop() {
 
     if (guess == GetSecretCode()) {
       EndTime();
-      int old_time = GetElapsedTime();
+      if (GetGameId() != -1) {
+        double old_time = GetElapsedTime();
+        SaveElapsedTime();
+        double new_time = GetElapsedTime();
+        SetElapsedTime(old_time + new_time);
+      }
       SaveElapsedTime();
-      int new_time = GetElapsedTime();
-      SetElapsedTime(old_time + new_time);
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
       PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
