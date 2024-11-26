@@ -57,42 +57,6 @@ std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
   return input;
 }
 
-std::vector<int> ConvertToVector(std::string input) {
-  std::vector<int> result(input.begin(), input.end());
-  std::transform(result.begin(), result.end(), result.begin(),
-                 [](char c) { return c - '0'; });
-
-  return result;
-}
-
-std::string GiveHint(const std::vector<int> &guess,
-                     const std::vector<int> &code) {
-  std::string hint;
-
-  for (int i = 0; i < guess.size(); i++) {
-    if (guess[i] != code[i]) {
-      hint = "Position " + std::to_string(i + 1) + " needs to be " +
-             (guess[i] > code[i] ? "lower" : "higher");
-      break;
-    }
-  }
-
-  return hint;
-}
-
-void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
-                        const double &elapsed_time) {
-  std::ostringstream oss;
-  oss << std::fixed << std::setprecision(3) << elapsed_time;
-  std::string summary = "Solved in " + std::to_string(guesses_size) +
-                        (guesses_size == 1 ? " guess" : " guesses") + " and " +
-                        oss.str() + " seconds.";
-  Logger &logger = Logger::GetInstance();
-  logger.Log(summary);
-  mvwprintw(window, y++, x - (summary.length() / 2), "%s", summary.c_str());
-  wrefresh(window);
-}
-
 std::string GiveFeedback(const std::vector<int> &guess,
                          const std::vector<int> &code,
                          const int &secret_code_length) {
@@ -126,6 +90,47 @@ std::string GiveFeedback(const std::vector<int> &guess,
   return result;
 }
 
+std::string GiveHint(const std::vector<int> &guess,
+                     const std::vector<int> &code) {
+  std::string hint;
+
+  for (int i = 0; i < guess.size(); i++) {
+    if (guess[i] != code[i]) {
+      hint = "Position " + std::to_string(i + 1) + " needs to be " +
+             (guess[i] > code[i] ? "lower" : "higher");
+      break;
+    }
+  }
+
+  return hint;
+}
+
+std::vector<int> ConvertToVector(std::string input) {
+  std::vector<int> result(input.begin(), input.end());
+  std::transform(result.begin(), result.end(), result.begin(),
+                 [](char c) { return c - '0'; });
+
+  return result;
+}
+
+void InterpolateColor(int life, int max_life) {
+  // RGB values for cyan and red
+  int cyan_r = 0, cyan_g = 1000, cyan_b = 1000;
+  int red_r = 1000, red_g = 0, red_b = 0;
+
+  // Calculate the interpolation factor (0.0 to 1.0)
+  float factor = static_cast<float>(max_life - life) / max_life;
+
+  // Interpolate RGB values
+  int r = static_cast<int>(cyan_r + factor * (red_r - cyan_r));
+  int g = static_cast<int>(cyan_g + factor * (red_g - cyan_g));
+  int b = static_cast<int>(cyan_b + factor * (red_b - cyan_b));
+
+  // Update the color in ncurses
+  init_color(COLOR_CYAN, r, g, b);
+  init_pair(1, COLOR_CYAN, COLOR_BLACK);
+}
+
 void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
                 const std::string &feedback) {
   int total_width_needed = guess.size();
@@ -150,6 +155,19 @@ void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code) {
     x += 2;
   }
   y++;
+  wrefresh(window);
+}
+
+void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
+                        const double &elapsed_time) {
+  std::ostringstream oss;
+  oss << std::fixed << std::setprecision(3) << elapsed_time;
+  std::string summary = "Solved in " + std::to_string(guesses_size) +
+                        (guesses_size == 1 ? " guess" : " guesses") + " and " +
+                        oss.str() + " seconds.";
+  Logger &logger = Logger::GetInstance();
+  logger.Log(summary);
+  mvwprintw(window, y++, x - (summary.length() / 2), "%s", summary.c_str());
   wrefresh(window);
 }
 } // namespace player
