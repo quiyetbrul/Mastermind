@@ -51,7 +51,7 @@ void Single::GameLoop() {
   // TODO: remove before final release
   PrintCode(window_, y, x, GetSecretCode());
 
-  StartTime();
+  StartTimeLapse();
 
   while (GetLife() > 0) {
     wrefresh(window_);
@@ -65,7 +65,7 @@ void Single::GameLoop() {
 
     if (input == "s") {
       wclear(window_);
-      EndTime();
+      EndTimeLapse();
       if (GetGameId() != -1) {
         double old_time = GetElapsedTime();
         SaveElapsedTime();
@@ -76,6 +76,7 @@ void Single::GameLoop() {
       SetScore(GetLife());
       data_management::Game saved_games;
       saved_games.SetWindow(window_);
+      logger_.Log("Saving game initiated");
       saved_games.Save(*this);
       init_pair(1, COLOR_CYAN, COLOR_BLACK);
       return;
@@ -86,18 +87,18 @@ void Single::GameLoop() {
       if (!GetGuesses().empty() && GetHintCount() > 0 &&
           GetLastFeedBack().size() != GetSecretCodeLength()) {
         hint = player::GiveHint(guess, GetSecretCode());
-        mvwprintw(window_, y++, x - (hint.length() / 2), "%s", hint.c_str());
         AddToHintHistory(hint);
         DecrementHint();
-      } else {
-        mvwprintw(window_, y++, x - (hint.length() / 2), "%s", hint.c_str());
       }
+      logger_.Log("Hint: " + hint);
+      mvwprintw(window_, y++, x - (hint.length() / 2), "%s", hint.c_str());
       continue;
     }
 
     if (input == "e") {
       wclear(window_);
       init_pair(1, COLOR_CYAN, COLOR_BLACK);
+      logger_.Log("Exiting game");
       return;
     }
 
@@ -107,7 +108,7 @@ void Single::GameLoop() {
     PrintGuess(window_, y, x, guess, GetLastFeedBack());
 
     if (guess == GetSecretCode()) {
-      EndTime();
+      EndTimeLapse();
       if (GetGameId() != -1) {
         double old_time = GetElapsedTime();
         SaveElapsedTime();
@@ -127,6 +128,8 @@ void Single::GameLoop() {
     }
 
     DecrementLife();
+    // update mastermind color based on life
+
     wrefresh(window_);
     if (GetLife() == 0) {
       init_pair(1, COLOR_RED, COLOR_BLACK);
@@ -134,6 +137,7 @@ void Single::GameLoop() {
       break;
     }
   }
+
   EnterToContinue(window_, y);
   init_pair(1, COLOR_CYAN, COLOR_BLACK);
 }

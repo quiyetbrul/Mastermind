@@ -28,6 +28,7 @@ void Game::Save(player::Player &player) {
 
   // Game was saved before, update it
   if (player.GetGameId() != -1) {
+    logger_.Log("Updating game");
     Update(player.GetGameId(), player);
     return;
   }
@@ -41,7 +42,12 @@ void Game::Save(player::Player &player) {
   // Game was not saved before and limit is reached, ask user to overwrite
   if (GetCount() >= save_limit_) {
     int game_to_replace = SelectGame("Game limit reached. Overwrite a game?");
+    if (game_to_replace == -1) {
+      logger_.Log("Game not saved");
+      return;
+    }
     Update(game_to_replace, player);
+    logger_.Log("Game overwritten");
     wclear(window_);
     wrefresh(window_);
     return;
@@ -49,6 +55,7 @@ void Game::Save(player::Player &player) {
 
   // Game was not saved before and limit is not reached, insert it
   Insert(player);
+  logger_.Log("Game saved");
 }
 
 void Game::Delete(const int &game_id) {

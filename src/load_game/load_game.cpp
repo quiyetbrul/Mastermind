@@ -40,6 +40,7 @@ void LoadGame::Start() {
   player_.GameLoop();
   if (player_.IsGameFinished()) {
     Delete(player_.GetGameId());
+    logger_.Log("Game deleted: " + std::to_string(player_.GetGameId()));
   }
 }
 
@@ -60,8 +61,8 @@ void LoadGame::SetGame(const int &game_id) {
     player_.SetGuesses(ConvertToArray<std::pair<std::vector<int>, std::string>>(
         query.getColumn(4).getText()));
     player_.SetScore(query.getColumn(5).getInt());
-    player_.SetStartTime(query.getColumn(6).getDouble());
-    player_.SetEndTime(query.getColumn(7).getDouble());
+    player_.SetStartTimeLapse(query.getColumn(6).getDouble());
+    player_.SetEndTimeLapse(query.getColumn(7).getDouble());
     player_.SetElapsedTime(query.getColumn(8).getDouble());
     player_.SetHintCount(query.getColumn(9).getInt());
     player_.SetHintHistory(

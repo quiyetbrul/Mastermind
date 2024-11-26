@@ -25,28 +25,43 @@ void Player::DecrementLife() { --life_; }
 
 void Player::DecrementHint() { --hint_count_; }
 
-void Player::StartTime() {
-  start_time_ = std::chrono::high_resolution_clock::now();
+void Player::StartTimeLapse() {
+  start_time_lapse_ = std::chrono::high_resolution_clock::now();
 }
 
-void Player::EndTime() {
-  end_time_ = std::chrono::high_resolution_clock::now();
+void Player::EndTimeLapse() {
+  end_time_lapse_ = std::chrono::high_resolution_clock::now();
 }
 
 void Player::SaveElapsedTime() {
-  std::chrono::duration<double> elapsed = end_time_ - start_time_;
+  std::chrono::duration<double> elapsed = end_time_lapse_ - start_time_lapse_;
   elapsed_time_ = std::round(elapsed.count() * 1000.0) / 1000.0;
 }
 
 void Player::AddToGuessHistory(const std::vector<int> &guess) {
-  // if guess is not in history
-  if (std::find_if(guess_history_.begin(), guess_history_.end(),
+  auto it =
+      std::find_if(guess_history_.begin(), guess_history_.end(),
                    [&guess](const std::pair<std::vector<int>, std::string> &p) {
                      return p.first == guess;
-                   }) == guess_history_.end()) {
+                   });
+
+  if (it == guess_history_.end()) {
     last_feedback_ =
         player::GiveFeedback(GetSecretCode(), guess, GetSecretCodeLength());
-    guess_history_.push_back(std::make_pair(guess, last_feedback_));
+  } else {
+    last_feedback_ = it->second;
+  }
+
+  guess_history_.push_back(std::make_pair(guess, last_feedback_));
+
+  logger_.Log("GUESS HISTORY: ");
+  for (const auto &guess : guess_history_) {
+    std::string guess_str;
+    for (const auto &digit : guess.first) {
+      guess_str += std::to_string(digit);
+    }
+    guess_str += " -> " + guess.second;
+    logger_.Log(guess_str);
   }
 }
 

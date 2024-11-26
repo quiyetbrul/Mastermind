@@ -52,7 +52,7 @@ void Codemaster::GameLoop() {
   int x = getmaxx(window_);
   x /= 2;
 
-  StartTime();
+  StartTimeLapse();
   while (GetLife() > 0) {
     wrefresh(window_);
     mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
@@ -62,7 +62,7 @@ void Codemaster::GameLoop() {
     PrintGuess(window_, y, x, guess, GetLastFeedBack());
 
     if (guess == GetSecretCode()) {
-      EndTime();
+      EndTimeLapse();
       SaveElapsedTime();
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);

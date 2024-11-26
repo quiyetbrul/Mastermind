@@ -94,8 +94,8 @@ void SavedGames::BindPlayerParameters(SQLite::Statement &stmt,
   stmt.bind(4, ConvertToJson(player.GetSecretCode()));
   stmt.bind(5, ConvertToJson(player.GetGuesses()));
   stmt.bind(6, player.GetScore());
-  stmt.bind(7, player.GetStartTime());
-  stmt.bind(8, player.GetEndTime());
+  stmt.bind(7, player.GetStartTimeLapse());
+  stmt.bind(8, player.GetEndTimeLapse());
   stmt.bind(9, player.GetElapsedTime());
   stmt.bind(10, player.GetHintCount());
   stmt.bind(11, ConvertToJson(player.GetHintHistory()));

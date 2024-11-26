@@ -69,8 +69,12 @@ public:
   int GetSecretCodeMaxDigit() const { return secret_code_max_digit_; }
   int GetSecretCodeLength() const { return secret_code_length_; }
   int GetDifficulty() const { return difficulty_; }
-  double GetStartTime() const { return start_time_.time_since_epoch().count(); }
-  double GetEndTime() const { return end_time_.time_since_epoch().count(); }
+  double GetStartTimeLapse() const {
+    return start_time_lapse_.time_since_epoch().count();
+  }
+  double GetEndTimeLapse() const {
+    return end_time_lapse_.time_since_epoch().count();
+  }
   double GetElapsedTime() const { return elapsed_time_; }
   std::vector<int> GetSecretCode() const { return secret_code_; }
   std::vector<std::pair<std::vector<int>, std::string>> GetGuesses() const {
@@ -87,13 +91,15 @@ public:
   void SetGameId(const int &id) { game_id_ = id; }
   void SetLife(const int &life) { life_ = life; }
   void SetScore(const int &score) { score_ = score; }
-  void SetStartTime(const double &start_time) {
-    start_time_ = std::chrono::time_point<std::chrono::high_resolution_clock>(
-        std::chrono::nanoseconds(static_cast<long long>(start_time)));
+  void SetStartTimeLapse(const double &start_time) {
+    start_time_lapse_ =
+        std::chrono::time_point<std::chrono::high_resolution_clock>(
+            std::chrono::nanoseconds(static_cast<long long>(start_time)));
   }
-  void SetEndTime(const double &end_time) {
-    end_time_ = std::chrono::time_point<std::chrono::high_resolution_clock>(
-        std::chrono::nanoseconds(static_cast<long long>(end_time)));
+  void SetEndTimeLapse(const double &end_time) {
+    end_time_lapse_ =
+        std::chrono::time_point<std::chrono::high_resolution_clock>(
+            std::chrono::nanoseconds(static_cast<long long>(end_time)));
   }
   void SetElapsedTime(const double &elapsed_time) {
     elapsed_time_ = elapsed_time;
@@ -157,12 +163,12 @@ protected:
   /**
    * @brief Starts the timer.
    */
-  void StartTime();
+  void StartTimeLapse();
 
   /**
    * @brief Ends the timer.
    */
-  void EndTime();
+  void EndTimeLapse();
 
   /**
    * @brief Saves the elapsed time.
@@ -216,8 +222,8 @@ private:
   std::string last_feedback_;
   std::vector<std::pair<std::vector<int>, std::string>> guess_history_;
 
-  std::chrono::time_point<std::chrono::high_resolution_clock> start_time_;
-  std::chrono::time_point<std::chrono::high_resolution_clock> end_time_;
+  std::chrono::time_point<std::chrono::high_resolution_clock> start_time_lapse_;
+  std::chrono::time_point<std::chrono::high_resolution_clock> end_time_lapse_;
   double elapsed_time_;
 
   int hint_count_ = 3;

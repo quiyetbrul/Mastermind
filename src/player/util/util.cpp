@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <sstream>
 
+#include "logger/logger.h"
 #include "util/util.h"
 
 namespace player {
@@ -86,6 +87,8 @@ void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
   std::string summary = "Solved in " + std::to_string(guesses_size) +
                         (guesses_size == 1 ? " guess" : " guesses") + " and " +
                         oss.str() + " seconds.";
+  Logger &logger = Logger::GetInstance();
+  logger.Log(summary);
   mvwprintw(window, y++, x - (summary.length() / 2), "%s", summary.c_str());
   wrefresh(window);
 }
