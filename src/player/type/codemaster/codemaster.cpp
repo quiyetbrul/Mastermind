@@ -71,6 +71,7 @@ void Codemaster::GameLoop() {
     }
 
     DecrementLife();
+    InterpolateColor(GetLife(), GetMaxLife());
 
     if (GetLife() == 0) {
       init_pair(1, COLOR_RED, COLOR_BLACK);

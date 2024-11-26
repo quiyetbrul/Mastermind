@@ -64,6 +64,7 @@ public:
   std::string GetGameName() const { return game_name_; }
   int GetGameId() const { return game_id_; }
   int GetLife() const { return life_; }
+  int GetMaxLife() const { return kMaxLife; }
   int GetScore() const { return score_; }
   int GetSecretCodeMinDigit() const { return secret_code_min_digit_; }
   int GetSecretCodeMaxDigit() const { return secret_code_max_digit_; }
@@ -193,7 +194,7 @@ protected:
   void AddToGuessHistory(const std::vector<int> &guess);
 
 private:
-  const int kLifeStart = 10;
+  const int kMaxLife = 10;
 
   const int kEasyMinDigit = 0;
   const int kEasyMaxDigit = 7;

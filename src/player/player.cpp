@@ -13,7 +13,7 @@
 
 namespace player {
 Player::Player()
-    : game_id_(-1), life_(kLifeStart), score_(kLifeStart), elapsed_time_(0.0),
+    : game_id_(-1), life_(kMaxLife), score_(kMaxLife), elapsed_time_(0.0),
       difficulty_(1) {}
 
 bool Player::IsGameFinished() const {

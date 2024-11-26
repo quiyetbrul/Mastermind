@@ -12,6 +12,9 @@
 #include <ncurses.h>
 
 namespace player {
+
+#define COLOR_MASTERMIND 8
+
 /**
  * @brief Prompts the player to input a guess.
  *

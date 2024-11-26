@@ -13,6 +13,9 @@
 #include "util/util.h"
 
 namespace player {
+
+#define COLOR_MASTERMIND 8
+
 std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
                             const int &secret_code_length,
                             const int &secret_code_min_digit,
@@ -126,9 +129,18 @@ void InterpolateColor(int life, int max_life) {
   int g = static_cast<int>(cyan_g + factor * (red_g - cyan_g));
   int b = static_cast<int>(cyan_b + factor * (red_b - cyan_b));
 
+  // Avoid shades of gray
+  if (r == g && g == b) {
+    if (r > 500) {
+      r -= 100;
+    } else {
+      r += 100;
+    }
+  }
+
   // Update the color in ncurses
-  init_color(COLOR_CYAN, r, g, b);
-  init_pair(1, COLOR_CYAN, COLOR_BLACK);
+  init_color(COLOR_MASTERMIND, r, g, b);
+  init_pair(1, COLOR_MASTERMIND, COLOR_BLACK);
 }
 
 void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,

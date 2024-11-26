@@ -128,11 +128,11 @@ void Single::GameLoop() {
     }
 
     DecrementLife();
-    // update mastermind color based on life
+    InterpolateColor(GetLife(), GetMaxLife());
 
     wrefresh(window_);
     if (GetLife() == 0) {
-      init_pair(1, COLOR_RED, COLOR_BLACK);
+      init_pair(1, COLOR_MASTERMIND, COLOR_BLACK);
       PrintCode(window_, y, x, GetSecretCode());
       break;
     }
