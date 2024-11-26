@@ -66,8 +66,12 @@ std::vector<int> GenRandom(const int &generate, const int &min,
   long http_code = 0;
   curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
   curl_easy_cleanup(curl);
-  if (http_code == 503) {
-    logger.Log("Server is busy (503 Service Unavailable)");
+
+  if (http_code == 503 || http_code == 500 || http_code == 502 ||
+      http_code == 504 || http_code == 429 || http_code == 404 ||
+      http_code == 400 || http_code == 401 || http_code == 403 ||
+      http_code == 408 || http_code == 410) {
+    logger.Log("HTTP error code: " + std::to_string(http_code));
     return FallbackRandomNumbers(generate, min, max);
   }
 

@@ -74,7 +74,7 @@ void Codemaster::GameLoop() {
     InterpolateColor(GetLife(), GetMaxLife());
 
     if (GetLife() == 0) {
-      init_pair(1, COLOR_RED, COLOR_BLACK);
+      init_pair(1, COLOR_MASTERMIND, COLOR_BLACK);
       PrintCode(window_, y, x, GetSecretCode());
       break;
     }
