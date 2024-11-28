@@ -1,3 +1,5 @@
+# TODO: Add a multi-stage build to reduce the size of the image
+
 # Use an official Ubuntu as a parent image
 FROM ubuntu:20.04
 

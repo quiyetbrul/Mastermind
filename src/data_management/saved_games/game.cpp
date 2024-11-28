@@ -5,8 +5,6 @@
 
 #include "game.h"
 
-#include <algorithm>
-
 #include <SQLiteCpp/Column.h>
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <nlohmann/json.hpp>

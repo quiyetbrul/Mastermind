@@ -58,8 +58,9 @@ void Score::PrintScores() const {
 
     int total_width = header.size() * longest_name_length;
 
-    SQLite::Statement query(db_, "SELECT * FROM " + GetTableName() +
-                                     " ORDER BY SCORE DESC, ELAPSED_TIME ASC;");
+    SQLite::Statement query(
+        db_, "SELECT * FROM " + GetTableName() +
+                 " ORDER BY SCORE DESC, DIFFICULTY DESC, ELAPSED_TIME ASC;");
     while (query.executeStep()) {
       temp = x;
       temp += col_width;

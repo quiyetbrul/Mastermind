@@ -39,19 +39,20 @@ void Scoreboard::Update(const SQLite::Statement &lowest_score,
                         const player::Player &player) {
   SQLite::Statement update(
       db_, "UPDATE " + GetTableName() +
-               " SET USER_NAME = ?, SCORE = ?, ELAPSED_TIME = ? WHERE ID = ?;");
+               " SET USER_NAME = ?, SCORE = ?, ELAPSED_TIME = ?, DIFFICULTY = ? WHERE ID = ?;");
   update.bind(1, player.GetPlayerName());
   update.bind(2, player.GetScore());
   update.bind(3, player.GetElapsedTime());
   update.bind(4, player.GetDifficulty());
-  update.bind(4, lowest_score.getColumn("ID").getInt());
+  update.bind(5, lowest_score.getColumn("ID").getInt());
   update.exec();
 }
 
 SQLite::Statement Scoreboard::GetLowestScore() const {
   SQLite::Statement query(
-      db_, "SELECT * FROM " + GetTableName() +
-               " ORDER BY SCORE ASC, ELAPSED_TIME DESC LIMIT 1;");
+      db_,
+      "SELECT * FROM " + GetTableName() +
+          " ORDER BY SCORE ASC, DIFFICULTY ASC, ELAPSED_TIME DESC LIMIT 1;");
   query.executeStep();
   return query;
 }
