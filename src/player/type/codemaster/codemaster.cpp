@@ -10,6 +10,7 @@
 #include "player/type/codemaster/codebreaker/codebreaker.h"
 #include "player/util/util.h"
 #include "ui/menu.h"
+#include "util/util.h"
 
 namespace player {
 void Codemaster::Start() {
@@ -33,10 +34,10 @@ void Codemaster::Start() {
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
 
-  std::string input = player::InputSecretCode(
+  std::string input = InputSecretCode(
       window_, y, x, "Enter secret code: ", GetSecretCodeLength(),
       GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
-  SetSecretCode(player::StringToVector(input));
+  SetSecretCode(StringToVector(input));
 
   GameLoop();
 }

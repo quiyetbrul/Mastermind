@@ -16,50 +16,6 @@ namespace player {
 
 #define COLOR_MASTERMIND 8
 
-std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
-                            const int &secret_code_length,
-                            const int &secret_code_min_digit,
-                            const int &secret_code_max_digit,
-                            const bool &is_single) {
-  std::string input;
-
-  while (true) {
-    wrefresh(window);
-
-    wmove(window, y + 1, x - 2);
-    input = InputString(window, y, prompt);
-
-    if (is_single && (input == "s" || input == "h" || input == "e")) {
-      return input;
-    }
-
-    if (input.length() != secret_code_length) {
-      prompt = "Input must be exactly " + std::to_string(secret_code_length) +
-               " digits long.";
-      continue;
-    }
-
-    if (!std::all_of(input.begin(), input.end(),
-                     [secret_code_min_digit, secret_code_max_digit](char c) {
-                       return c >= '0' + secret_code_min_digit &&
-                              c <= '0' + secret_code_max_digit;
-                     })) {
-      prompt = "Each digit must be between " +
-               std::to_string(secret_code_min_digit) + " and " +
-               std::to_string(secret_code_max_digit) + ".";
-      continue;
-    }
-
-    break;
-  }
-
-  std::vector<int> result(input.begin(), input.end());
-  std::transform(result.begin(), result.end(), result.begin(),
-                 [](char c) { return c - '0'; });
-
-  return input;
-}
-
 std::string GiveFeedback(const std::vector<int> &guess,
                          const std::vector<int> &code,
                          const int &secret_code_length) {
@@ -106,14 +62,6 @@ std::string GiveHint(const std::vector<int> &guess,
   }
 
   return hint;
-}
-
-std::vector<int> StringToVector(std::string input) {
-  std::vector<int> result(input.begin(), input.end());
-  std::transform(result.begin(), result.end(), result.begin(),
-                 [](char c) { return c - '0'; });
-
-  return result;
 }
 
 void InterpolateColor(int life, int max_life) {

@@ -16,24 +16,6 @@ namespace player {
 #define COLOR_MASTERMIND 8
 
 /**
- * @brief Prompts the player to input a guess.
- *
- * @param window The window to display the prompt.
- * @param prompt The prompt to display to the player.
- * @param secret_code_length The length of the secret code.
- * @param secret_code_min_digit The minimum digit allowed in the secret
- * code.
- * @param secret_code_max_digit The maximum digit allowed in the secret
- * code.
- * @return std::vector<int> A vector containing the player's guess.
- */
-std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
-                            const int &secret_code_length,
-                            const int &secret_code_min_digit,
-                            const int &secret_code_max_digit,
-                            const bool &is_single = false);
-
-/**
  * @brief Generates feedback for a guess based on the secret code.
  *
  * @param guess The guess to be evaluated.
@@ -59,14 +41,6 @@ std::string GiveFeedback(const std::vector<int> &guess,
  */
 std::string GiveHint(const std::vector<int> &guess,
                      const std::vector<int> &code);
-
-/**
- * @brief Converts a string to a vector of integers.
- *
- * @param input The string to convert.
- * @return std::vector<int> The vector of integers.
- */
-std::vector<int> StringToVector(std::string input);
 
 /**
  * @brief Interpolates the color of the mastermind based on the player's life.

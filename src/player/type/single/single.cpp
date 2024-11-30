@@ -59,7 +59,7 @@ void Single::GameLoop() {
               GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
               GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
 
-    input = player::InputSecretCode(
+    input = InputSecretCode(
         window_, y, x, "Enter your guess: ", GetSecretCodeLength(),
         GetSecretCodeMinDigit(), GetSecretCodeMaxDigit(), true);
 
@@ -102,7 +102,7 @@ void Single::GameLoop() {
       return;
     }
 
-    guess = player::StringToVector(input);
+    guess = StringToVector(input);
 
     AddToGuessHistory(guess);
     PrintGuess(window_, y, x, guess, GetLastFeedBack());
