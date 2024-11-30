@@ -20,6 +20,14 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb,
   return size * nmemb;
 }
 
+// Generate random number using mt19937
+int RandomNumber(const int &min, const int &max) {
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  std::uniform_int_distribution<> dis(min, max);
+  return dis(gen);
+}
+
 // Fallback to pseudo-random number generator
 std::vector<int> FallbackRandomNumbers(const int &generate, const int &min,
                                        const int &max) {
@@ -67,10 +75,7 @@ std::vector<int> GenRandom(const int &generate, const int &min,
   curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
   curl_easy_cleanup(curl);
 
-  if (http_code == 503 || http_code == 500 || http_code == 502 ||
-      http_code == 504 || http_code == 429 || http_code == 404 ||
-      http_code == 400 || http_code == 401 || http_code == 403 ||
-      http_code == 408 || http_code == 410) {
+  if (http_code != 200) {
     logger.Log("HTTP error code: " + std::to_string(http_code));
     return FallbackRandomNumbers(generate, min, max);
   }
@@ -84,11 +89,4 @@ std::vector<int> GenRandom(const int &generate, const int &min,
   }
 
   return random_number;
-}
-
-int RandomNumber(const int &min, const int &max) {
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dis(min, max);
-  return dis(gen);
 }

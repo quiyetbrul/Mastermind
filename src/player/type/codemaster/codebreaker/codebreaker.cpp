@@ -82,7 +82,6 @@ void Codebreaker::RemoveCode(std::vector<std::vector<int>> &set,
 
 void Codebreaker::FilterSolutions(const std::vector<int> &guess,
                                   const std::string &feedback) {
-  int index;
   for (auto it = candidate_solutions_.begin();
        it != candidate_solutions_.end();) {
     if (feedback != player::GiveFeedback(guess, *it, code_length_)) {

@@ -102,7 +102,7 @@ void Single::GameLoop() {
       return;
     }
 
-    guess = player::ConvertToVector(input);
+    guess = player::StringToVector(input);
 
     AddToGuessHistory(guess);
     PrintGuess(window_, y, x, guess, GetLastFeedBack());

@@ -16,14 +16,6 @@
 #include <unistd.h>
 #endif
 
-void ClearScreen() {
-#ifdef _WIN32
-  (void)system("cls");
-#else
-  (void)system("clear");
-#endif
-}
-
 void CloseTerminal() {
 #ifdef _WIN32
   // Close terminal on Windows

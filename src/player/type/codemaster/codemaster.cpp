@@ -36,7 +36,7 @@ void Codemaster::Start() {
   std::string input = player::InputSecretCode(
       window_, y, x, "Enter secret code: ", GetSecretCodeLength(),
       GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
-  SetSecretCode(player::ConvertToVector(input));
+  SetSecretCode(player::StringToVector(input));
 
   GameLoop();
 }

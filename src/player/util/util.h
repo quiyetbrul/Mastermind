@@ -66,7 +66,7 @@ std::string GiveHint(const std::vector<int> &guess,
  * @param input The string to convert.
  * @return std::vector<int> The vector of integers.
  */
-std::vector<int> ConvertToVector(std::string input);
+std::vector<int> StringToVector(std::string input);
 
 /**
  * @brief Interpolates the color of the mastermind based on the player's life.

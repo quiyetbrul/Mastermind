@@ -15,13 +15,6 @@ const int kTerminalWidth = 100;
 const int kTerminalHeight = 30;
 
 /**
- * @brief Clear the terminal screen.
- *
- * This function clears the terminal screen.
- */
-void ClearScreen();
-
-/**
  * @brief Close the terminal.
  *
  * This function closes the terminal.
@@ -61,18 +54,6 @@ void SetTerminalTitle(const std::string &title);
  * @return std::vector<int> The generated random numbers.
  */
 std::vector<int> GenRandom(const int &generate, const int &min, const int &max);
-
-/**
- * @brief Generate a random number between min and max.
- *
- * This function generates a random number between the specified minimum and
- * maximum values using mt19937.
- *
- * @param min The minimum value of the random number.
- * @param max The maximum value of the random number.
- * @return int The generated random number.
- */
-int RandomNumber(const int &min, const int &max);
 
 /**
  * @brief Get string input from user.

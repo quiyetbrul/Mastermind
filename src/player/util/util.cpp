@@ -76,12 +76,12 @@ std::string GiveFeedback(const std::vector<int> &guess,
     }
   }
 
-  // Second pass: check for white pegs (correct color, wrong position)
+  // Second pass: check for white pegs (correct digit, wrong position)
   for (int i = 0; i < secret_code_length; ++i) {
     if (!code_used[i]) { // Only consider unused code positions
       for (int j = 0; j < secret_code_length; ++j) {
         if (!guess_used[j] &&
-            code[i] == guess[j]) { // Find unused matching color
+            code[i] == guess[j]) { // Find unused matching digit
           result.append("W");
           guess_used[j] = true; // Mark this guess position as used
           break;
@@ -108,7 +108,7 @@ std::string GiveHint(const std::vector<int> &guess,
   return hint;
 }
 
-std::vector<int> ConvertToVector(std::string input) {
+std::vector<int> StringToVector(std::string input) {
   std::vector<int> result(input.begin(), input.end());
   std::transform(result.begin(), result.end(), result.begin(),
                  [](char c) { return c - '0'; });

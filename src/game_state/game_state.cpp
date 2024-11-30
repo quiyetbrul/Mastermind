@@ -48,8 +48,8 @@ GameState::GameState() {
 
   getmaxyx(stdscr, y_max_, x_max_);
 
-  banner_window_ = newwin(10, x_max_, 0, 0);
-  game_window_ = newwin(20, x_max_, 10, 0);
+  banner_window_ = newwin(y_max_ * (1 / 3.0), x_max_, 0, 0);
+  game_window_ = newwin(y_max_ * (2 / 3.0), x_max_, y_max_ * (1 / 3.0), 0);
 
   start_color();
   init_pair(1, COLOR_CYAN, COLOR_BLACK);
@@ -93,10 +93,8 @@ void GameState::Start() {
       delwin(banner_window_);
       delwin(game_window_);
       endwin();
-      ClearScreen();
       CloseTerminal();
       return; // Exit the function to close the program
-      // }
     }
   }
 }
