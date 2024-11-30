@@ -17,41 +17,41 @@ void Logger::SetOutputFile(const std::string &file_name) {
   Init();
   output_file_.open(output_file_name_, std::ios::out | std::ios::app);
   if (!output_file_.is_open()) {
-    std::cerr << "Failed to open log file: " << file_name << std::endl;
+    std::cerr << "Failed to open log file: " << strerror(errno) << std::endl;
   }
 }
 
 void Logger::Init() {
   std::ifstream file(output_file_name_);
-  if (!file.is_open()) {
-    std::cerr << "Logger: Failed to open file: " << output_file_name_
-              << std::endl;
-    std::cerr << "Logger: " << strerror(errno) << std::endl;
-
-    // Create the necessary directories and file
-    std::filesystem::create_directories(
-        std::filesystem::path(output_file_name_).parent_path());
-    std::cerr << "Logger: Creating leaderboard file: " << output_file_name_
-              << std::endl;
-    std::ofstream create_file(output_file_name_);
-    if (!create_file.is_open()) {
-      std::cerr << "Logger: Failed to create file: " << output_file_name_
-                << std::endl;
-      std::cerr << "Error: " << strerror(errno) << std::endl;
-    } else {
-      create_file.close();
-    }
+  if (file.is_open()) {
+    return;
   }
+
+  std::cerr << "Logger: Failed to open file: " << strerror(errno) << std::endl;
+
+  std::filesystem::create_directories(
+      std::filesystem::path(output_file_name_).parent_path());
+  std::cerr << "Logger: Creating file: " << output_file_name_ << std::endl;
+
+  std::ofstream create_file(output_file_name_);
+  if (!create_file.is_open()) {
+    std::cerr << "Logger: Failed to create file: " << output_file_name_
+              << std::endl;
+    std::cerr << "Error: " << strerror(errno) << std::endl;
+    return;
+  }
+
+  create_file.close();
 }
 
 void Logger::Log(const std::string &message) {
-  if (output_file_.is_open() && output_file_.good()) {
-    output_file_ << GetCurrentTime() << "\t" << message << std::endl;
-    output_file_.flush(); // Ensure the data is written to the file
-  } else {
+  if (!output_file_.is_open() || !output_file_.good()) {
     std::cerr << "Log: Failed to write to file: " << output_file_.rdstate()
               << std::endl;
+    return;
   }
+  output_file_ << GetCurrentTime() << "\t" << message << std::endl;
+  output_file_.flush(); // Ensure the data is written to the file
 }
 
 void Logger::CloseOutputFile() {

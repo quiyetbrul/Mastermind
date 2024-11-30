@@ -93,6 +93,7 @@ void GameState::Start() {
       delwin(game_window_);
       endwin();
       CloseTerminal();
+      logger_.CloseOutputFile();
       return; // Exit the function to close the program
     }
   }
