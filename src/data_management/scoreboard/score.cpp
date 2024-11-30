@@ -5,7 +5,7 @@
 
 #include "score.h"
 
-#include "ui/menu.h"
+#include "ui/ui.h"
 
 #include <SQLiteCpp/SQLiteCpp.h>
 

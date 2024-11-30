@@ -6,6 +6,7 @@
 #ifndef UTIL_UTIL_H_
 #define UTIL_UTIL_H_
 
+#include <algorithm>
 #include <string>
 #include <vector>
 

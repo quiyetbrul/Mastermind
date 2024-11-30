@@ -9,7 +9,7 @@
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <nlohmann/json.hpp>
 
-#include "ui/menu.h"
+#include "ui/ui.h"
 #include "util/util.h"
 
 namespace data_management {

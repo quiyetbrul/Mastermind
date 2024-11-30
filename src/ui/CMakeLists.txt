@@ -1,6 +1,5 @@
 set(UI_SOURCES
-    banner.cpp
-    menu.cpp
+    ui.cpp
 )
 
 add_library(ui ${UI_SOURCES})

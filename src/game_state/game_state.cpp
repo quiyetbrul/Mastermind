@@ -11,8 +11,7 @@
 #include "logger/logger.h"
 #include "player/type/codemaster/codemaster.h"
 #include "player/type/single/single.h"
-#include "ui/banner.h"
-#include "ui/menu.h"
+#include "ui/ui.h"
 #include "util/util.h"
 
 /**

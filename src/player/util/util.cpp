@@ -5,13 +5,6 @@
 
 #include "util.h"
 
-#include <algorithm>
-#include <iomanip>
-#include <sstream>
-
-#include "logger/logger.h"
-#include "util/util.h"
-
 namespace player {
 
 #define COLOR_MASTERMIND 8
@@ -62,72 +55,5 @@ std::string GiveHint(const std::vector<int> &guess,
   }
 
   return hint;
-}
-
-void InterpolateColor(int life, int max_life) {
-  // RGB values for cyan and red
-  int cyan_r = 0, cyan_g = 1000, cyan_b = 1000;
-  int red_r = 1000, red_g = 0, red_b = 0;
-
-  // Calculate the interpolation factor (0.0 to 1.0)
-  float factor = static_cast<float>(max_life - life) / max_life;
-
-  // Interpolate RGB values
-  int r = static_cast<int>(cyan_r + factor * (red_r - cyan_r));
-  int g = static_cast<int>(cyan_g + factor * (red_g - cyan_g));
-  int b = static_cast<int>(cyan_b + factor * (red_b - cyan_b));
-
-  // Avoid shades of gray
-  if (r == g && g == b) {
-    if (r > 500) {
-      r -= 100;
-    } else {
-      r += 100;
-    }
-  }
-
-  // Update the color in ncurses
-  init_color(COLOR_MASTERMIND, r, g, b);
-  init_pair(1, COLOR_MASTERMIND, COLOR_BLACK);
-}
-
-void PrintGuess(WINDOW *window, int &y, int x, const std::vector<int> &guess,
-                const std::string &feedback) {
-  int total_width_needed = guess.size();
-  // space between guess digits
-  total_width_needed += (2 * guess.size());
-  // space between guess and feedback + feedback max length
-  total_width_needed += (4 + guess.size());
-  // center the guess and feedback
-  total_width_needed /= 2;
-  x -= total_width_needed; // "1  2  3  4    BBBB"
-  for (const auto &i : guess) {
-    mvwprintw(window, y, x, "%d", i);
-    x += 2;
-  }
-  mvwprintw(window, y++, x + 4, "%s", feedback.c_str());
-  wrefresh(window);
-}
-
-void PrintCode(WINDOW *window, int &y, int x, std::vector<int> code) {
-  for (const auto &i : code) {
-    mvwprintw(window, y, x - 4, "%d ", i);
-    x += 2;
-  }
-  y++;
-  wrefresh(window);
-}
-
-void PrintSolvedSummary(WINDOW *window, int &y, int x, const int &guesses_size,
-                        const double &elapsed_time) {
-  std::ostringstream oss;
-  oss << std::fixed << std::setprecision(3) << elapsed_time;
-  std::string summary = "Solved in " + std::to_string(guesses_size) +
-                        (guesses_size == 1 ? " guess" : " guesses") + " and " +
-                        oss.str() + " seconds.";
-  Logger &logger = Logger::GetInstance();
-  logger.Log(summary);
-  mvwprintw(window, y++, x - (summary.length() / 2), "%s", summary.c_str());
-  wrefresh(window);
 }
 } // namespace player

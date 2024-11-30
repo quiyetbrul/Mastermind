@@ -5,7 +5,7 @@
 
 #include "load_game.h"
 
-#include "ui/menu.h"
+#include "ui/ui.h"
 
 #include <ncurses.h>
 
