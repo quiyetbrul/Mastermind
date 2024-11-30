@@ -8,7 +8,6 @@
 #include <string>
 
 #include "player/type/codemaster/codebreaker/codebreaker.h"
-#include "player/util/util.h"
 #include "ui/ui.h"
 #include "util/util.h"
 
@@ -42,7 +41,6 @@ void Codemaster::Start() {
   GameLoop();
 }
 
-// TODO: stress test; requires is winner in player
 void Codemaster::GameLoop() {
   std::vector<int> guess = {0, 0, 1, 1};
   Codebreaker computer(GetSecretCodeLength(), GetSecretCodeMinDigit(),

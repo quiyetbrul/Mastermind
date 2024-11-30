@@ -7,7 +7,6 @@
 
 #include <iostream>
 
-// TODO: ask whether game needs to be cross-platform
 #ifdef _WIN32
 #include <windows.h>
 #else
