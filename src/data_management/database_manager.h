@@ -42,6 +42,13 @@ public:
     query.executeStep();
     return query.getColumn(0).getInt();
   }
+  int GetCount(const std::string &game_name) const {
+    SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName() +
+                                     " WHERE GAME_NAME = ?");
+    query.bind(1, game_name);
+    query.executeStep();
+    return query.getColumn(0).getInt();
+  }
 
   // SETTERS
 

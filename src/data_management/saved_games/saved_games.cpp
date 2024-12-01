@@ -18,7 +18,7 @@ void SavedGames::CreateTable(const std::string &table_name) {
   SetTableName(table_name);
   db_.exec("CREATE TABLE IF NOT EXISTS " + table_name +
            "(ID INTEGER PRIMARY KEY AUTOINCREMENT, "
-           "GAME_NAME TEXT NOT NULL, "
+           "GAME_NAME TEXT NOT NULL UNIQUE, "
            "USER_NAME TEXT NOT NULL, "
            "LIFE INT NOT NULL, "
            "SECRET_CODE TEXT NOT NULL, "   // ARRAY, JSON

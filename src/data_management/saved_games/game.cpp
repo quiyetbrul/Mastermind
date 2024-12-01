@@ -34,6 +34,10 @@ void Game::Save(player::Player &player) {
   // Game was not saved before, prompt user to enter game name
   if (player.GetGameId() == -1) {
     std::string game_name = InputString(window_, y, "Enter game name: ");
+    while (GetCount(game_name) > 0) {
+      game_name = InputString(window_, y,
+                              "Game name already exists. Enter game name: ");
+    }
     player.SetGameName(game_name);
   }
 
