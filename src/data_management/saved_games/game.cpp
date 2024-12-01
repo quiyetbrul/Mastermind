@@ -13,7 +13,9 @@
 #include "util/util.h"
 
 namespace data_management {
-Game::Game() : save_limit_(3) {}
+const int kSaveGameLimit = 3;
+
+Game::Game() : save_limit_(kSaveGameLimit) {}
 
 void Game::Save(player::Player &player) {
   PrintHL(GetWindow());
