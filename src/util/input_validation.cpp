@@ -40,11 +40,11 @@ std::string InputString(WINDOW *window, int y, std::string prompt) {
   return input;
 }
 
-std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
-                            const int &secret_code_length,
+std::string InputSecretCode(WINDOW *window, int &y, const int &x,
+                            std::string prompt, const int &secret_code_length,
                             const int &secret_code_min_digit,
                             const int &secret_code_max_digit,
-                            const bool &is_single) {
+                            const bool &is_human_player) {
   std::string input;
 
   while (true) {
@@ -53,7 +53,7 @@ std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
     wmove(window, y + 1, x - 2);
     input = InputString(window, y, prompt);
 
-    if (is_single && (input == "s" || input == "h" || input == "e")) {
+    if (is_human_player && (input == "s" || input == "h" || input == "e")) {
       return input;
     }
 

@@ -81,11 +81,11 @@ std::string InputString(WINDOW *window, int y, std::string prompt);
  * code.
  * @return std::vector<int> A vector containing the player's guess.
  */
-std::string InputSecretCode(WINDOW *window, int &y, int x, std::string prompt,
-                            const int &secret_code_length,
+std::string InputSecretCode(WINDOW *window, int &y, const int &x,
+                            std::string prompt, const int &secret_code_length,
                             const int &secret_code_min_digit,
                             const int &secret_code_max_digit,
-                            const bool &is_single = false);
+                            const bool &is_human_player = false);
 
 /**
  * @brief Converts a string to a vector of integers.
