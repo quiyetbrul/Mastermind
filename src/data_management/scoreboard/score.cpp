@@ -30,18 +30,18 @@ void Score::Save(const player::Player &player) {
 }
 
 void Score::PrintScores() const {
-  wclear(window_);
-  PrintHL(window_);
+  wclear(GetWindow());
+  PrintHL(GetWindow());
   int y = 0;
-  int x = getmaxx(window_);
+  int x = getmaxx(GetWindow());
   x /= 2;
 
   std::string title = "Top Scores";
-  mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
+  mvwprintw(GetWindow(), y++, x - (title.length() / 2), "%s", title.c_str());
 
   if (GetCount() < 1) {
     std::string no_score = "No scores yet!";
-    mvwprintw(window_, y++, x - (no_score.length() / 2), "%s",
+    mvwprintw(GetWindow(), y++, x - (no_score.length() / 2), "%s",
               no_score.c_str());
   } else {
     // Determine the maximum length of user names
@@ -54,7 +54,7 @@ void Score::PrintScores() const {
     int temp = x;
 
     std::vector<std::string> header = {"Name", "Score", "Time", "Difficulty"};
-    PrintHeader(window_, y, header, longest_name_length);
+    PrintHeader(GetWindow(), y, header, longest_name_length);
 
     int total_width = header.size() * longest_name_length;
 
@@ -64,21 +64,21 @@ void Score::PrintScores() const {
     while (query.executeStep()) {
       temp = x;
       temp += col_width;
-      mvwprintw(window_, y, (temp / 4) + total_width, "%s",
+      mvwprintw(GetWindow(), y, (temp / 4) + total_width, "%s",
                 query.getColumn("USER_NAME").getText());
       temp += col_width;
-      mvwprintw(window_, y, (temp / 4) + total_width, "%d",
+      mvwprintw(GetWindow(), y, (temp / 4) + total_width, "%d",
                 query.getColumn("SCORE").getInt());
       temp += col_width;
-      mvwprintw(window_, y, (temp / 4) + total_width, "%.2fs",
+      mvwprintw(GetWindow(), y, (temp / 4) + total_width, "%.2fs",
                 query.getColumn("ELAPSED_TIME").getDouble());
       temp += col_width;
-      mvwprintw(window_, y, (temp / 4) + total_width, "%d",
+      mvwprintw(GetWindow(), y, (temp / 4) + total_width, "%d",
                 query.getColumn("DIFFICULTY").getInt());
       ++y;
     }
   }
-  wrefresh(window_);
-  EnterToContinue(window_, y);
+  wrefresh(GetWindow());
+  EnterToContinue(GetWindow(), y);
 }
 } // namespace data_management

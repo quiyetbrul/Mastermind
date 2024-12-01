@@ -36,6 +36,7 @@ public:
 
   // GETTERS
 
+  WINDOW *GetWindow() const { return window_; }
   std::string GetTableName() const { return table_name_; }
   int GetCount() const {
     SQLite::Statement query(db_, "SELECT COUNT(*) FROM " + GetTableName());
@@ -52,13 +53,12 @@ public:
 
   // SETTERS
 
-  void SetTableName(const std::string &table_name) { table_name_ = table_name; }
   void SetWindow(WINDOW *window) { window_ = window; }
+  void SetTableName(const std::string &table_name) { table_name_ = table_name; }
 
 protected:
   Logger &logger_ = Logger::GetInstance();
   SQLite::Database db_;
-  WINDOW *window_;
 
   /**
    * @brief Creates the table in the database.
@@ -66,6 +66,7 @@ protected:
   virtual void CreateTable(const std::string &table_name) = 0;
 
 private:
+  WINDOW *window_;
   std::string table_name_;
 };
 } // namespace data_management

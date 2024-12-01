@@ -14,18 +14,18 @@ LoadGame::LoadGame() {}
 
 void LoadGame::Start() {
   int y = 0;
-  int x = getmaxx(window_);
-  wclear(window_);
-  PrintHL(window_);
+  int x = getmaxx(GetWindow());
+  wclear(GetWindow());
+  PrintHL(GetWindow());
   x /= 2;
   std::string title = "Saved Games";
-  mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
+  mvwprintw(GetWindow(), y++, x - (title.length() / 2), "%s", title.c_str());
 
   if (GetCount() < 1) {
     std::string no_saved_games = "No saved games yet!";
-    mvwprintw(window_, y++, x - (no_saved_games.length() / 2), "%s",
+    mvwprintw(GetWindow(), y++, x - (no_saved_games.length() / 2), "%s",
               no_saved_games.c_str());
-    EnterToContinue(window_, y);
+    EnterToContinue(GetWindow(), y);
     return;
   }
 
@@ -33,10 +33,10 @@ void LoadGame::Start() {
   if (selected_game == -1) {
     return;
   }
-  wclear(window_);
-  wrefresh(window_);
+  wclear(GetWindow());
+  wrefresh(GetWindow());
   SetGame(selected_game);
-  player_.SetWindow(window_);
+  player_.SetWindow(GetWindow());
   player_.GameLoop();
   if (player_.IsGameFinished()) {
     Delete(player_.GetGameId());

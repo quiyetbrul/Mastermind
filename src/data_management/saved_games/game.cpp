@@ -16,13 +16,13 @@ namespace data_management {
 Game::Game() : save_limit_(3) {}
 
 void Game::Save(player::Player &player) {
-  PrintHL(window_);
+  PrintHL(GetWindow());
 
   int y = 0;
-  int x = getmaxx(window_);
+  int x = getmaxx(GetWindow());
   x /= 2;
   std::string title = "Saving Game";
-  mvwprintw(window_, y++, x - (title.length() / 2), "%s", title.c_str());
+  mvwprintw(GetWindow(), y++, x - (title.length() / 2), "%s", title.c_str());
 
   // Game was saved before, update it
   if (player.GetGameId() != -1) {
@@ -33,9 +33,9 @@ void Game::Save(player::Player &player) {
 
   // Game was not saved before, prompt user to enter game name
   if (player.GetGameId() == -1) {
-    std::string game_name = InputString(window_, y, "Enter game name: ");
+    std::string game_name = InputString(GetWindow(), y, "Enter game name: ");
     while (GetCount(game_name) > 0) {
-      game_name = InputString(window_, y,
+      game_name = InputString(GetWindow(), y,
                               "Game name already exists. Enter game name: ");
     }
     player.SetGameName(game_name);
@@ -50,8 +50,8 @@ void Game::Save(player::Player &player) {
     }
     Update(game_to_replace, player);
     logger_.Log("Game overwritten");
-    wclear(window_);
-    wrefresh(window_);
+    wclear(GetWindow());
+    wrefresh(GetWindow());
     return;
   }
 
@@ -83,7 +83,7 @@ int Game::SelectGame(const std::string &menu_title) {
   int highlight = 0;
 
   while (true) {
-    UserChoice(window_, highlight, saved_games, menu_title);
+    UserChoice(GetWindow(), highlight, saved_games, menu_title);
     if (saved_games[highlight] == "Back") {
       return -1;
     }
