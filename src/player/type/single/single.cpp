@@ -17,19 +17,19 @@ void Single::Start() {
 
   int highlight = 0;
   std::vector<std::string> choices = {"Easy", "Medium", "Hard", "Back"};
-  UserChoice(window_, highlight, choices, "Select Player Type");
+  UserChoice(GetWindow(), highlight, choices, "Select Player Type");
   if (highlight == 3) {
     return;
   }
   SetDifficulty(highlight + 1);
 
-  wclear(window_);
-  PrintHL(window_);
-  mvwprintw(window_, 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+  wclear(GetWindow());
+  PrintHL(GetWindow());
+  mvwprintw(GetWindow(), 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
 
-  std::string name = InputString(window_, 1, "Enter your name: ");
+  std::string name = InputString(GetWindow(), 1, "Enter your name: ");
   SetPlayerName(name);
 
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
@@ -42,29 +42,29 @@ void Single::GameLoop() {
   std::string input;
   std::vector<int> guess;
 
-  PrintHL(window_);
+  PrintHL(GetWindow());
 
   int y = 1;
-  int x = getmaxx(window_);
+  int x = getmaxx(GetWindow());
   x /= 2;
 
   // TODO: remove before final release
-  PrintCode(window_, y, x, GetSecretCode());
+  PrintCode(GetWindow(), y, x, GetSecretCode());
 
   StartTimeLapse();
 
   while (GetLife() > 0) {
-    wrefresh(window_);
-    mvwprintw(window_, 0, 2, "LIFE: %02d  HINTS: %d  SETTINGS: %d %d %d %d",
+    wrefresh(GetWindow());
+    mvwprintw(GetWindow(), 0, 2, "LIFE: %02d  HINTS: %d  SETTINGS: %d %d %d %d",
               GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
               GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
 
     input = InputSecretCode(
-        window_, y, x, "Enter your guess: ", GetSecretCodeLength(),
+        GetWindow(), y, x, "Enter your guess: ", GetSecretCodeLength(),
         GetSecretCodeMinDigit(), GetSecretCodeMaxDigit(), true);
 
     if (input == "s") {
-      wclear(window_);
+      wclear(GetWindow());
       EndTimeLapse();
       if (GetGameId() != -1) {
         double old_time = GetElapsedTime();
@@ -75,7 +75,7 @@ void Single::GameLoop() {
       SaveElapsedTime();
       SetScore(GetLife());
       data_management::Game saved_games;
-      saved_games.SetWindow(window_);
+      saved_games.SetWindow(GetWindow());
       logger_.Log("Saving game initiated");
       saved_games.Save(*this);
       init_pair(1, COLOR_CYAN, COLOR_BLACK);
@@ -91,12 +91,12 @@ void Single::GameLoop() {
         DecrementHint();
       }
       logger_.Log("Hint: " + hint);
-      mvwprintw(window_, y++, x - (hint.length() / 2), "%s", hint.c_str());
+      mvwprintw(GetWindow(), y++, x - (hint.length() / 2), "%s", hint.c_str());
       continue;
     }
 
     if (input == "e") {
-      wclear(window_);
+      wclear(GetWindow());
       init_pair(1, COLOR_CYAN, COLOR_BLACK);
       logger_.Log("Exiting game");
       return;
@@ -105,7 +105,7 @@ void Single::GameLoop() {
     guess = StringToVector(input);
 
     AddToGuessHistory(guess);
-    PrintGuess(window_, y, x, guess, GetLastFeedBack());
+    PrintGuess(GetWindow(), y, x, guess, GetLastFeedBack());
 
     if (guess == GetSecretCode()) {
       EndTimeLapse();
@@ -118,10 +118,10 @@ void Single::GameLoop() {
       SaveElapsedTime();
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
-      PrintSolvedSummary(window_, y, x, GetGuesses().size(), GetElapsedTime());
+      PrintSolvedSummary(GetWindow(), y, x, GetGuesses().size(), GetElapsedTime());
       std::string message = "You made it to the scoreboard!";
       logger_.Log(message);
-      mvwprintw(window_, y++, x - (message.length() / 2), "%s",
+      mvwprintw(GetWindow(), y++, x - (message.length() / 2), "%s",
                 message.c_str());
       score_.Save(*this);
       break;
@@ -130,15 +130,15 @@ void Single::GameLoop() {
     DecrementLife();
     InterpolateColor(GetLife(), GetMaxLife());
 
-    wrefresh(window_);
+    wrefresh(GetWindow());
     if (GetLife() == 0) {
       init_pair(1, COLOR_MASTERMIND, COLOR_BLACK);
-      PrintCode(window_, y, x, GetSecretCode());
+      PrintCode(GetWindow(), y, x, GetSecretCode());
       break;
     }
   }
 
-  EnterToContinue(window_, y);
+  EnterToContinue(GetWindow(), y);
   init_pair(1, COLOR_CYAN, COLOR_BLACK);
 }
 } // namespace player

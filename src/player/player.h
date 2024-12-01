@@ -13,6 +13,8 @@
 
 #include "logger/logger.h"
 
+#include <ncurses.h>
+
 namespace player {
 /**
  * @class Player
@@ -60,6 +62,7 @@ public:
 
   // GETTERS
 
+  WINDOW *GetWindow() const { return window_; }
   std::string GetPlayerName() const { return player_name_; }
   std::string GetGameName() const { return game_name_; }
   int GetGameId() const { return game_id_; }
@@ -87,6 +90,7 @@ public:
 
   // SETTERS
 
+  void SetWindow(WINDOW *window) { window_ = window; }
   void SetPlayerName(const std::string &name) { player_name_ = name; }
   void SetGameName(const std::string &name) { game_name_ = name; }
   void SetGameId(const int &id) { game_id_ = id; }
@@ -194,6 +198,8 @@ protected:
   void AddToGuessHistory(const std::vector<int> &guess);
 
 private:
+  WINDOW *window_;
+
   const int kMaxLife = 10;
 
   const int kEasyMinDigit = 0;
