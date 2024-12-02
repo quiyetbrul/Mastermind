@@ -36,6 +36,7 @@ void LoadGame::Start() {
   wclear(GetWindow());
   wrefresh(GetWindow());
   SetGame(selected_game);
+  logger_.Log("Game selected: " + std::to_string(player_.GetGameId()));
   player_.SetWindow(GetWindow());
   player_.GameLoop();
   if (player_.IsGameFinished()) {

@@ -34,8 +34,9 @@ void Player::EndTimeLapse() {
 }
 
 void Player::SaveElapsedTime() {
-  std::chrono::duration<double> elapsed = end_time_lapse_ - start_time_lapse_;
-  elapsed_time_ = std::round(elapsed.count() * 1000.0) / 1000.0;
+  auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+      end_time_lapse_ - start_time_lapse_);
+  elapsed_time_ = elapsed.count() / 1000.0;
 }
 
 void Player::AddToGuessHistory(const std::vector<int> &guess) {
@@ -53,16 +54,6 @@ void Player::AddToGuessHistory(const std::vector<int> &guess) {
   }
 
   guess_history_.push_back(std::make_pair(guess, last_feedback_));
-
-  logger_.Log("GUESS HISTORY: ");
-  for (const auto &guess : guess_history_) {
-    std::string guess_str;
-    for (const auto &digit : guess.first) {
-      guess_str += std::to_string(digit);
-    }
-    guess_str += " -> " + guess.second;
-    logger_.Log(guess_str);
-  }
 }
 
 void Player::AddToHintHistory(const std::string &hint) {
