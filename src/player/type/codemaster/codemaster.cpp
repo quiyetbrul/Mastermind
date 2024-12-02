@@ -39,7 +39,6 @@ void Codemaster::Start() {
   // SetSecretCode(StringToVector(input));
   SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
                           GetSecretCodeMaxDigit()));
-
   GameLoop();
 }
 
@@ -67,7 +66,8 @@ void Codemaster::GameLoop() {
       SaveElapsedTime();
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
-      PrintSolvedSummary(GetWindow(), y, x, GetGuesses().size(), GetElapsedTime());
+      PrintSolvedSummary(GetWindow(), y, x, GetGuesses().size(),
+                         GetElapsedTime());
       break;
     }
 

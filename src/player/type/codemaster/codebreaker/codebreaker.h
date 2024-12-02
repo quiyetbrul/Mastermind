@@ -93,14 +93,6 @@ private:
   std::set<std::vector<int>> candidate_solutions_;
 
   /**
-   * @brief Create a Set object
-   *
-   * This function creates a set of all possible combinations and all possible
-   * solutions of the code.
-   */
-  void Init();
-
-  /**
    * @brief Helper to CreateSet().
    *
    * Generates all possible combinations of the code.
@@ -109,56 +101,60 @@ private:
   void GenerateCombinations();
 
   /**
-   * @brief Helper to RemoveCode(const std::vector<int> &).
-   *
-   * This function removes the code from the set.
-   *
-   * @param set The set to remove the code from.
-   * @param guess The guess to remove.
-   */
-  void RemoveCode(std::set<std::vector<int>> &set,
-                  const std::vector<int> &guess);
-
-  /**
    * @brief Minimax algorithm to find the next guess.
    *
-   * The minimax algorithm is a decision-making algorithm used in game theory
-   * and artificial intelligence to find the optimal move for a player by
-   * minimizing the possible loss for a worst-case scenario. It works by
-   * evaluating the possible moves, assuming that the opponent will
-   * also play optimally, and selecting the move that maximizes the player's
-   * minimum gain.
+   * The Minimax algorithm is used to find the optimal next guess in a
+   * code-breaking game, such as Mastermind. It works by evaluating all possible
+   * guesses to minimize the worst-case number of remaining candidate solutions
+   * after the guess. The algorithm assumes a strategy that seeks to minimize
+   * the worst-case scenario, effectively reducing the search space and
+   * improving the efficiency of finding the solution.
    *
-   * @return std::vector<std::vector<int>>
+   * For each possible guess:
+   * - Simulate feedback for the guess against all remaining candidate
+   * solutions.
+   * - Calculate the size of each feedback group (i.e., the number of solutions
+   * that would produce the same feedback if the guess were made).
+   * - Identify the worst-case group size (the maximum number of remaining
+   * solutions in any feedback group).
+   *
+   * The guess selected is the one that minimizes this worst-case group size,
+   * ensuring steady progress toward solving the code.
+   *
+   * @return std::set<std::vector<int>> The set of potential next guesses,
+   * ranked by their effectiveness in minimizing the search space.
    */
-  std::vector<std::vector<int>> Minimax();
+  std::set<std::vector<int>> Minimax();
 
   /**
-   * @brief Get the maximum score from the score count.
+   * @brief Get the maximum score from the feedback distribution.
    *
-   * Represents the maximum score for a given guess. This score is determined by
-   * evaluating the worst-case scenario for each possible guess, which is the
-   * feedback that would leave the most possible codes remaining. Essentially,
-   * max is used to track the highest number of remaining possibilities for each
-   * guess.
+   * Represents the worst-case scenario for a given guess. The max score is
+   * determined by evaluating the size of each feedback group that would result
+   * from the guess and selecting the largest group. This score quantifies the
+   * most possible solutions that could remain after making the guess and
+   * receiving the least helpful feedback.
    *
-   * @param score_count The score count.
-   * @return int The maximum score.
+   * @param score_count A map where each key is a feedback type (as a string)
+   * and each value is the number of solutions that produce that feedback.
+   * @return int The maximum score, representing the worst-case number of
+   * remaining solutions for the given guess.
    */
   int GetMaxScore(const std::map<std::string, int> &score_count);
 
   /**
-   * @brief Get the minimum score from the score.
+   * @brief Get the minimum score across all possible guesses.
    *
-   * Represents the minimum value among the maximum scores of all possible
-   * guesses. After calculating the max score for each guess, min is used to
-   * find the guess that has the smallest worst-case scenario. This means
-   * selecting the guess that minimizes the maximum number of remaining
-   * possibilities, effectively reducing the search space and improving the
-   * chances of solving the code efficiently.
+   * After calculating the max score for all possible guesses, this function
+   * identifies the guess with the smallest max score. This represents the most
+   * strategic choice: the guess that minimizes the worst-case number of
+   * remaining possibilities, effectively reducing the search space and ensuring
+   * steady progress toward the solution.
    *
-   * @param score The score.
-   * @return int The minimum score.
+   * @param score A map where each key is a possible guess (as a vector) and
+   * each value is the max score for that guess.
+   * @return int The minimum max score, representing the best guess for the
+   * current state.
    */
   int GetMinScore(const std::map<std::vector<int>, int> &score);
 };
