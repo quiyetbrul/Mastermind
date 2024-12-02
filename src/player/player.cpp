@@ -6,7 +6,6 @@
 #include "player.h"
 
 #include <algorithm>
-#include <cmath>
 #include <string>
 
 #include "player/util/util.h"

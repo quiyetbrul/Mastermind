@@ -33,10 +33,12 @@ void Codemaster::Start() {
             GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
 
-  std::string input = InputSecretCode(
-      GetWindow(), y, x, "Enter secret code: ", GetSecretCodeLength(),
-      GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
-  SetSecretCode(StringToVector(input));
+  // std::string input = InputSecretCode(
+  //     GetWindow(), y, x, "Enter secret code: ", GetSecretCodeLength(),
+  //     GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
+  // SetSecretCode(StringToVector(input));
+  SetSecretCode(GenRandom(GetSecretCodeLength(), GetSecretCodeMinDigit(),
+                          GetSecretCodeMaxDigit()));
 
   GameLoop();
 }

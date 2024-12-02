@@ -22,6 +22,7 @@ This Mastermind clone is a console-based puzzle game where players attempt to de
 
 ### Dependencies
 
+- C++ 20 Support
 - [CMake](https://cmake.org/)
 - [cURL](https://curl.se/libcurl/c/)
 - [SQLite](https://www.sqlite.org/index.html)

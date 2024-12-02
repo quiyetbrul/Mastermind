@@ -7,6 +7,7 @@
 #define PLAYER_PLAYER_TYPE_CODEMASTER_CODEBREAKER_H_
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -88,8 +89,8 @@ private:
   const int min_digit_;
   const int max_digit_;
 
-  std::vector<std::vector<int>> combinations_;
-  std::vector<std::vector<int>> candidate_solutions_;
+  std::set<std::vector<int>> combinations_;
+  std::set<std::vector<int>> candidate_solutions_;
 
   /**
    * @brief Create a Set object
@@ -102,12 +103,10 @@ private:
   /**
    * @brief Helper to CreateSet().
    *
-   * Recursive function to generate all possible combinations of the code.
+   * Generates all possible combinations of the code.
    *
-   * @param position The current position in the code.
-   * @param current The current combination of the code.
    */
-  void GenerateCombinations(int position, std::vector<int> &current);
+  void GenerateCombinations();
 
   /**
    * @brief Helper to RemoveCode(const std::vector<int> &).
@@ -117,7 +116,7 @@ private:
    * @param set The set to remove the code from.
    * @param guess The guess to remove.
    */
-  void RemoveCode(std::vector<std::vector<int>> &set,
+  void RemoveCode(std::set<std::vector<int>> &set,
                   const std::vector<int> &guess);
 
   /**
