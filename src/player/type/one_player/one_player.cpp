@@ -1,9 +1,9 @@
 /**
- * @file single.cpp
- * @brief Implementation of the Single class.
+ * @file one_player.cpp
+ * @brief Implementation of the OnePlayer class.
  */
 
-#include "single.h"
+#include "one_player.h"
 
 #include "data_management/saved_games/game.h"
 #include "logger/logger.h"
@@ -12,8 +12,8 @@
 #include "util/util.h"
 
 namespace player {
-void Single::Start() {
-  logger_.Log("Starting single player game");
+void OnePlayer::Start() {
+  logger_.Log("Starting one player game");
 
   int highlight = 0;
   std::vector<std::string> choices = {"Easy", "Medium", "Hard", "Back"};
@@ -38,7 +38,7 @@ void Single::Start() {
   GameLoop();
 }
 
-void Single::GameLoop() {
+void OnePlayer::GameLoop() {
   std::string input;
   std::vector<int> guess;
 
@@ -118,7 +118,8 @@ void Single::GameLoop() {
       SaveElapsedTime();
       SetScore(GetLife());
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
-      PrintSolvedSummary(GetWindow(), y, x, GetGuesses().size(), GetElapsedTime());
+      PrintSolvedSummary(GetWindow(), y, x, GetGuesses().size(),
+                         GetElapsedTime());
       std::string message = "You made it to the scoreboard!";
       logger_.Log(message);
       mvwprintw(GetWindow(), y++, x - (message.length() / 2), "%s",

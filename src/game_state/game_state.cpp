@@ -10,7 +10,7 @@
 
 #include "logger/logger.h"
 #include "player/type/codemaster/codemaster.h"
-#include "player/type/single/single.h"
+#include "player/type/one_player/one_player.h"
 #include "ui/ui.h"
 #include "util/util.h"
 
@@ -31,9 +31,11 @@ enum class MainMenu : int {
  * @brief Represents the types of players.
  */
 enum class GameType : int {
-  SINGLE_PLAYER = 1, /**< Single player mode */
-  CODEMASTER,        /**< Play as codemaster */
-  BACK               /**< Go back to main menu */
+  ONE_PLAYER = 1, /**< One player mode */
+  TWO_PLAYER,     /**< Two player mode */
+  TIMED,          /**< Timed mode */
+  CODEMASTER,     /**< Play as codemaster */
+  BACK            /**< Go back to main menu */
 };
 
 namespace mastermind {
@@ -102,7 +104,8 @@ void GameState::Start() {
 void GameState::PlayerMenu() {
   wclear(game_window_);
 
-  std::vector<std::string> choices = {"Single Players", "Codemaster", "Back"};
+  std::vector<std::string> choices = {"1 Player", "2 Player", "Timed",
+                                      "Codemaster", "Back"};
 
   int choice = 0;
   int highlight = 0;
@@ -110,13 +113,21 @@ void GameState::PlayerMenu() {
   while (true) {
     UserChoice(game_window_, highlight, choices, "Select Player Type");
     switch (static_cast<GameType>(highlight + 1)) {
-    case GameType::SINGLE_PLAYER: {
-      player::Single single_player;
-      single_player.SetWindow(game_window_);
-      single_player.Start();
-      if (single_player.IsGameFinished()) {
+    case GameType::ONE_PLAYER: {
+      player::OnePlayer one_player;
+      one_player.SetWindow(game_window_);
+      one_player.Start();
+      if (one_player.IsGameFinished()) {
         return;
       }
+      break;
+    }
+    case GameType::TWO_PLAYER: {
+      // TODO: "Implement two player mode";
+      break;
+    }
+    case GameType::TIMED: {
+      // TODO: "Implement timed mode";
       break;
     }
     case GameType::CODEMASTER: {

@@ -91,7 +91,7 @@ docker run --rm -it -v $(pwd)/data:/app/build/src/data -e TERM=xterm-256color qu
 
 ## Features
 
-- Single-player mode.
+- One player mode.
 - AI Codebreaker using Donald Knuth's 5-guess algorithm.
 - Configurable difficulty levels.
 - Codebreaker hints.
@@ -110,7 +110,7 @@ docker run --rm -it -v $(pwd)/data:/app/build/src/data -e TERM=xterm-256color qu
 
 I began by creating an MVP with a basic main menu for starting or exiting the game, featuring a singleton logger for event tracking and initial input validation. Random number generation initially relied on pseudo-random methods but later used an external API integrated via cURL.
 
-To enhance structure with OOP principles, I added a GameState class, an abstract Player class, and a SinglePlayer class, enabling the integration of Donald Knuth's 5-guess algorithm for an AI Codebreaker using a minimax strategy to efficiently solve the code.
+To enhance structure with OOP principles, I added a GameState class, an abstract Player class, and a OnePlayer class, enabling the integration of Donald Knuth's 5-guess algorithm for an AI Codebreaker using a minimax strategy to efficiently solve the code.
 
 Additional features included a Codebreaker Hint system and customizable difficulty settings for improved player engagement. I implemented a leaderboard to track top scores and game progress persistence using SQLiteCpp, employing an MVC architecture to ensure clean separation of concerns.
 

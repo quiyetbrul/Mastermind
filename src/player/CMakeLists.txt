@@ -4,8 +4,8 @@ set(PLAYER_SOURCES
 
     type/codemaster/codebreaker/codebreaker.cpp
     type/codemaster/codemaster.cpp
-    type/single/single.cpp
-)
+    type/one_player/one_player.cpp
+    )
 
 add_library(player ${PLAYER_SOURCES})
 target_include_directories(player PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/..)

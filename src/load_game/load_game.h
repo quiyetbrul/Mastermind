@@ -7,7 +7,7 @@
 #define LOAD_GAME_LOAD_GAME_H_
 
 #include "data_management/saved_games/game.h"
-#include "player/type/single/single.h"
+#include "player/type/one_player/one_player.h"
 
 namespace game_loader {
 /**
@@ -29,7 +29,7 @@ public:
   void Start();
 
 private:
-  player::Single player_;
+  player::OnePlayer player_;
 
   void SetGame(const int &game_id);
 };
