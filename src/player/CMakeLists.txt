@@ -5,6 +5,7 @@ set(PLAYER_SOURCES
     type/codemaster/codebreaker/codebreaker.cpp
     type/codemaster/codemaster.cpp
     type/one_player/one_player.cpp
+    type/timed/timed.cpp
     )
 
 add_library(player ${PLAYER_SOURCES})

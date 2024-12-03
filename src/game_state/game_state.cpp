@@ -11,6 +11,7 @@
 #include "logger/logger.h"
 #include "player/type/codemaster/codemaster.h"
 #include "player/type/one_player/one_player.h"
+#include "player/type/timed/timed.h"
 #include "ui/ui.h"
 #include "util/util.h"
 
@@ -127,7 +128,9 @@ void GameState::PlayerMenu() {
       break;
     }
     case GameType::TIMED: {
-      // TODO: "Implement timed mode";
+      player::Timed timed_player;
+      timed_player.SetWindow(game_window_);
+      timed_player.Start();
       break;
     }
     case GameType::CODEMASTER: {
