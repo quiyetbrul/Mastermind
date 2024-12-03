@@ -25,8 +25,8 @@ void OnePlayer::Start() {
 
   wclear(GetWindow());
   PrintHL(GetWindow());
-  mvwprintw(GetWindow(), 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
-            GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+  mvwprintw(GetWindow(), 0, 2, "SETTINGS: %d %d %d %d", GetDifficulty(),
+            GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
 
   std::string name = InputString(GetWindow(), 1, "Enter your name: ");
@@ -55,9 +55,11 @@ void OnePlayer::GameLoop() {
 
   while (GetLife() > 0) {
     wrefresh(GetWindow());
-    mvwprintw(GetWindow(), 0, 2, "LIFE: %02d  HINTS: %d  SETTINGS: %d %d %d %d",
-              GetLife(), GetHintCount(), GetDifficulty(), GetSecretCodeLength(),
-              GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
+    mvwprintw(GetWindow(), 0, 2,
+              "SETTINGS: %d %d %d %d    LIFE: %02d    [H]INTS: %d    [S]AVE    "
+              "[E]XIT",
+              GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+              GetSecretCodeMaxDigit(), GetLife(), GetHintCount());
 
     input = InputSecretCode(
         GetWindow(), y, x, "Enter your guess: ", GetSecretCodeLength(),
