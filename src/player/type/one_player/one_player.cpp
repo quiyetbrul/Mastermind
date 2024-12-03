@@ -120,10 +120,6 @@ void OnePlayer::GameLoop() {
       init_pair(1, COLOR_GREEN, COLOR_BLACK);
       PrintSolvedSummary(GetWindow(), y, x, GetGuesses().size(),
                          GetElapsedTime());
-      std::string message = "You made it to the scoreboard!";
-      logger_.Log(message);
-      mvwprintw(GetWindow(), y++, x - (message.length() / 2), "%s",
-                message.c_str());
       score_.Save(*this);
       break;
     }
