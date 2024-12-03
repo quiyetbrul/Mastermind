@@ -185,7 +185,7 @@ void PrintInstructions(WINDOW *window) {
       "- 'B' represents a correct digit in the correct position",
       "- 'W' represents a correct digit in the wrong position",
       "You have 10 chances to guess the secret code, and you have 3 [h]ints.",
-      "You may [s]ave or [e]xit the game at any time.",
+      "You may [s]ave or [e]xit a single player game at any time.",
       "Good Luck!"};
   // clang-format on
 
