@@ -50,14 +50,30 @@ void Timed::GameLoop() {
   // TODO: remove before final release
   PrintCode(GetWindow(), y, x, GetSecretCode());
 
+  // TODO: add thread to update time in real-time, both in UI and mechanics
+  // (time's up)
   StartTimeLapse();
+  int time_limit = 5; // Time limit in seconds (e.g., 5 minutes)
 
   while (GetLife() > 0) {
+    EndTimeLapse();
+    double elapsed_time = GetEndTimeLapse() - GetStartTimeLapse();
+    int remaining_time = time_limit - elapsed_time;
+    remaining_time = remaining_time < 0 ? 0 : remaining_time;
+
     wrefresh(GetWindow());
     mvwprintw(GetWindow(), 0, 2,
-              "SETTINGS: %d %d %d %d    LIFE: %02d    [H]INTS: %d    [E]XIT",
+              "SETTINGS: %d %d %d %d    LIFE: %02d    [H]INTS: %d    [E]XIT    "
+              "TIME: %02d:%02d",
               GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
-              GetSecretCodeMaxDigit(), GetLife(), GetHintCount());
+              GetSecretCodeMaxDigit(), GetLife(), GetHintCount(),
+              remaining_time / 60, remaining_time % 60);
+
+    if (remaining_time <= 0) {
+      init_pair(1, COLOR_RED, COLOR_BLACK);
+      mvwprintw(GetWindow(), y++, x - 10, "Time's up! You lost.");
+      break;
+    }
 
     input = InputSecretCode(GetWindow(), y, x,
                             "Enter your guess: ", GetSecretCodeLength(),
@@ -89,12 +105,8 @@ void Timed::GameLoop() {
     PrintGuess(GetWindow(), y, x, guess, GetLastFeedBack());
 
     if (guess == GetSecretCode()) {
-      EndTimeLapse();
       if (GetGameId() != -1) {
-        double old_time = GetElapsedTime();
-        SaveElapsedTime();
-        double new_time = GetElapsedTime();
-        SetElapsedTime(old_time + new_time);
+        SetElapsedTime(elapsed_time);
       }
       SaveElapsedTime();
       SetScore(GetLife());
