@@ -53,16 +53,24 @@ std::string InputSecretCode(WINDOW *window, int &y, const int &x,
     wmove(window, y + 1, x - 2);
     input = InputString(window, y, prompt);
 
-    if (is_human_player && (input == "s" || input == "h" || input == "e")) {
-      return input;
+    // Convert input to lowercase if it contains non-digit characters
+    if (!std::all_of(input.begin(), input.end(), ::isdigit)) {
+      std::transform(input.begin(), input.end(), input.begin(), ::tolower);
     }
 
+    // Handle special commands for human players
+    if (input == "e" || input == "h" || (is_human_player && input == "s")) {
+      break;
+    }
+
+    // Check input code validity
     if (input.length() != secret_code_length) {
       prompt = "Input must be exactly " + std::to_string(secret_code_length) +
                " digits long.";
       continue;
     }
 
+    // Validate each digit within the specified range
     if (!std::all_of(input.begin(), input.end(),
                      [secret_code_min_digit, secret_code_max_digit](char c) {
                        return c >= '0' + secret_code_min_digit &&
@@ -76,10 +84,6 @@ std::string InputSecretCode(WINDOW *window, int &y, const int &x,
 
     break;
   }
-
-  std::vector<int> result(input.begin(), input.end());
-  std::transform(result.begin(), result.end(), result.begin(),
-                 [](char c) { return c - '0'; });
 
   return input;
 }
