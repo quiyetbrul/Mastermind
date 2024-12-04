@@ -57,8 +57,8 @@ void Timed::GameLoop() {
 
   while (GetLife() > 0) {
     EndTimeLapse();
-    double elapsed_time = GetEndTimeLapse() - GetStartTimeLapse();
-    int remaining_time = time_limit - elapsed_time;
+    SaveElapsedTime();
+    int remaining_time = time_limit - GetElapsedTime();
     remaining_time = remaining_time < 0 ? 0 : remaining_time;
 
     wrefresh(GetWindow());
@@ -106,7 +106,7 @@ void Timed::GameLoop() {
 
     if (guess == GetSecretCode()) {
       if (GetGameId() != -1) {
-        SetElapsedTime(elapsed_time);
+        SaveElapsedTime();
       }
       SaveElapsedTime();
       SetScore(GetLife());
