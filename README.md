@@ -75,7 +75,7 @@ sh makerun.sh
 ### Using Docker
 
 - Ensure Docker is installed, and you are logged in.
-- Pull the Docker image using the command.
+- Pull the Docker image using the command. (Docker image is currently set to private. Request access to the image.)
 
 ```bash
 docker pull quiyetbrul/mastermind-game:latest
