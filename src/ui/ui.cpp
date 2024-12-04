@@ -154,11 +154,11 @@ void PrintMenu(WINDOW *window, const int &highlight,
   for (int i = 0; i < choices.size(); ++i) {
     if (highlight == i) {
       wattron(window, A_STANDOUT);
-      mvwprintw(window, y, x - (choices[i].length() / 2), "%s",
+      mvwprintw(window, y, x - (choices[i].length() / 2.0), "%s",
                 choices[i].c_str());
       wattroff(window, A_STANDOUT);
     } else {
-      mvwprintw(window, y, x - (choices[i].length() / 2), "%s",
+      mvwprintw(window, y, x - (choices[i].length() / 2.0), "%s",
                 choices[i].c_str());
     }
     ++y;
@@ -185,7 +185,7 @@ void PrintInstructions(WINDOW *window) {
       "- 'B' represents a correct digit in the correct position",
       "- 'W' represents a correct digit in the wrong position",
       "You have 10 chances to guess the secret code, and you have 3 [h]ints.",
-      "You may [s]ave or [e]xit a single player game at any time.",
+      "You may [s]ave or [e]xit any single player game mode at any time.",
       "Good Luck!"};
   // clang-format on
 
