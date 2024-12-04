@@ -105,8 +105,7 @@ void GameState::Start() {
 void GameState::PlayerMenu() {
   wclear(game_window_);
 
-  std::vector<std::string> choices = {"1 Player", "2 Player", "Timed",
-                                      "Codemaster", "Back"};
+  std::vector<std::string> choices = {"1 Player", "Codemaster", "Back"};
 
   int choice = 0;
   int highlight = 0;
@@ -128,6 +127,7 @@ void GameState::PlayerMenu() {
       break;
     }
     case GameType::TIMED: {
+      // TODO: WIP
       player::Timed timed_player;
       timed_player.SetWindow(game_window_);
       timed_player.Start();
