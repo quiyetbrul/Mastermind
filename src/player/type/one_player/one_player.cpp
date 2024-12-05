@@ -17,7 +17,7 @@ void OnePlayer::Start() {
 
   int highlight = 0;
   std::vector<std::string> choices = {"Easy", "Medium", "Hard", "Back"};
-  UserChoice(GetWindow(), highlight, choices, "Select Player Type");
+  UserChoice(GetWindow(), highlight, choices, "Select Game Difficulty");
   if (highlight == 3) {
     return;
   }

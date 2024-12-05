@@ -5,6 +5,7 @@
 
 #include "codemaster.h"
 
+#include <ncurses.h>
 #include <string>
 
 #include "player/type/codemaster/codebreaker/codebreaker.h"
@@ -17,7 +18,7 @@ void Codemaster::Start() {
 
   int highlight = 0;
   std::vector<std::string> choices = {"Easy", "Medium", "Hard", "Back"};
-  UserChoice(GetWindow(), highlight, choices, "Select Player Type");
+  UserChoice(GetWindow(), highlight, choices, "Select Game Difficulty");
   if (highlight == 3) {
     return;
   }
@@ -29,10 +30,11 @@ void Codemaster::Start() {
 
   wclear(GetWindow());
   PrintHL(GetWindow());
-  mvwprintw(GetWindow(), 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
-            GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
+  mvwprintw(GetWindow(), 0, 2, "SETTINGS: %d %d %d %d", GetDifficulty(),
+            GetSecretCodeLength(), GetSecretCodeMinDigit(),
             GetSecretCodeMaxDigit());
 
+  // TODO: switch back to user input
   // std::string input = InputSecretCode(
   //     GetWindow(), y, x, "Enter secret code: ", GetSecretCodeLength(),
   //     GetSecretCodeMinDigit(), GetSecretCodeMaxDigit());
@@ -55,9 +57,9 @@ void Codemaster::GameLoop() {
   StartTimeLapse();
   while (GetLife() > 0) {
     wrefresh(GetWindow());
-    mvwprintw(GetWindow(), 0, 2, "LIFE: %02d  SETTINGS: %d %d %d %d", GetLife(),
+    mvwprintw(GetWindow(), 0, 2, "SETTINGS: %d %d %d %d    LIFE: %02d",
               GetDifficulty(), GetSecretCodeLength(), GetSecretCodeMinDigit(),
-              GetSecretCodeMaxDigit());
+              GetSecretCodeMaxDigit(), GetLife());
     AddToGuessHistory(guess);
     PrintGuess(GetWindow(), y, x, guess, GetLastFeedBack());
 
@@ -73,6 +75,7 @@ void Codemaster::GameLoop() {
 
     DecrementLife();
     InterpolateColor(GetLife(), GetMaxLife());
+    wrefresh(GetWindow());
 
     if (GetLife() == 0) {
       init_pair(1, COLOR_MASTERMIND, COLOR_BLACK);

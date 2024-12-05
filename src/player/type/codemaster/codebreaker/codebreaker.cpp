@@ -104,11 +104,11 @@ std::set<std::vector<int>> Codebreaker::Minimax() {
   return next_guesses;
 }
 
-int Codebreaker::GetMaxScore(const std::map<std::string, int> &inputMap) {
+int Codebreaker::GetMaxScore(const std::map<std::string, int> &input_map) {
   int max = INT_MIN;
 
   // Iterate over the input map to find the max value
-  for (const auto &entry : inputMap) {
+  for (const auto &entry : input_map) {
     if (entry.second > max) {
       max = entry.second;
     }
@@ -116,11 +116,11 @@ int Codebreaker::GetMaxScore(const std::map<std::string, int> &inputMap) {
   return max;
 }
 
-int Codebreaker::GetMinScore(const std::map<std::vector<int>, int> &inputMap) {
+int Codebreaker::GetMinScore(const std::map<std::vector<int>, int> &input_map) {
   int min = INT_MAX;
 
   // Iterate over the input map to find the min value
-  for (const auto &entry : inputMap) {
+  for (const auto &entry : input_map) {
     if (entry.second < min) {
       min = entry.second;
     }
