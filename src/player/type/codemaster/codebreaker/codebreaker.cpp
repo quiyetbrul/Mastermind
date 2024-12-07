@@ -5,9 +5,9 @@
 
 #include "codebreaker.h"
 
+#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <string>
 
 #include "player/util/util.h"
 
