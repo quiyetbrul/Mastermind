@@ -17,3 +17,11 @@
       - win/loss ratio
       - average time to complete a game
       - average guesses per game
+
+- another no log in
+  - player can either create a game, join available games, or game already in progress
+    - available games are displayed if player2.name is empty
+    - player1.name is the name of the player who created the game
+  - player1 goes first
+    - then turns are determined based on player's guess history length
+    - it will show
