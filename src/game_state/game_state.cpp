@@ -33,8 +33,8 @@ enum class MainMenu : int {
  */
 enum class GameType : int {
   ONE_PLAYER = 1, /**< One player mode */
-  TWO_PLAYER,     /**< Two player mode */
-  TIMED,          /**< Timed mode */
+  // TWO_PLAYER,     /**< Two player mode */
+  // TIMED,          /**< Timed mode */
   CODEMASTER,     /**< Play as codemaster */
   BACK            /**< Go back to main menu */
 };
@@ -122,17 +122,17 @@ void GameState::PlayerMenu() {
       }
       break;
     }
-    case GameType::TWO_PLAYER: {
-      // TODO: "Implement two player mode";
-      break;
-    }
-    case GameType::TIMED: {
-      // TODO: WIP
-      player::Timed timed_player;
-      timed_player.SetWindow(game_window_);
-      timed_player.Start();
-      break;
-    }
+    // case GameType::TWO_PLAYER: {
+    //   // TODO: "Implement two player mode";
+    //   break;
+    // }
+    // case GameType::TIMED: {
+    //   // TODO: WIP
+    //   player::Timed timed_player;
+    //   timed_player.SetWindow(game_window_);
+    //   timed_player.Start();
+    //   break;
+    // }
     case GameType::CODEMASTER: {
       player::Codemaster codemaster_player;
       codemaster_player.SetWindow(game_window_);
